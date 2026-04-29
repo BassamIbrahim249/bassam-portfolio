@@ -1,53 +1,100 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bassam Ibrahim | Portfolio</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bassam Ibrahim — Engineering Researcher & Analyst</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #080c12;
+      font-family: 'Cairo', sans-serif;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    .anim-fade-up { animation: fadeUp 0.75s ease both; }
+    .grad-text {
+      background: linear-gradient(135deg, #3B9EFF, #60CFFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .btn-primary { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .btn-primary:hover { transform: scale(1.04); box-shadow: 0 0 40px rgba(59,158,255,0.45); }
+  </style>
 </head>
 <body>
-    <header class="header">
-        <a href="#" class="logo">Bassam.</a>
-        <nav class="navbar">
-            <a href="#home" class="active">الرئيسية</a>
-            <a href="#about">من أنا</a>
-            <a href="#services">المهارات</a>
-            <a href="#portfolio">المشاريع</a>
-            <a href="#contact">تواصل معي</a>
-        </nav>
-    </header>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
 
-    <section class="home" id="home">
-        <div class="home-content">
-            <h3>مرحباً، أنا</h3>
-            <h1>Bassam Ibrahim</h1>
-            <h3>مهندس باحث و <span class="multiple-text">محلل استراتيجي</span></h3>
-            <p>مهندس باحث متخصص في علوم المواد وتطبيقاتها المبتكرة. أمتلك رؤية تحليلية متكاملة تشكلت عبر سنوات من العمل في التحليل الرياضي والسياسي، مما أتاح لي دمج الدقة الهندسية مع عمق التحليل الاستراتيجي.</p>
-            <div class="social-media">
-                <a href="https://github.com/BassamIbrahim249"><i class='bx bxl-github'></i></a>
-                <a href="#"><i class='bx bxl-linkedin'></i></a>
-                <a href="#"><i class='bx bxl-twitter'></i></a>
+    const STATS = [
+      { label: "بحث ومقال", value: 150, suffix: "+" },
+      { label: "مشروع هندسي", value: 80, suffix: "+" },
+      { label: "دورة تدريبية", value: 40, suffix: "+" }
+    ];
+
+    function App() {
+      return (
+        <div style={{ minHeight:"100vh", position:"relative" }}>
+          {/* Header */}
+          <header style={{ position:"fixed", top:0, left:0, right:0, zIndex:100, background: "rgba(8,12,18,0.9)", backdropFilter: "blur(20px)" }}>
+            <div style={{ maxWidth:1100, margin:"0 auto", padding:"14px 24px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+              <div style={{ fontWeight:700, color:"#fff" }}>BASSAM IBRAHIM</div>
+              <button style={{ background:"rgba(59,158,255,0.1)", border:"1px solid #3B9EFF", color:"#3B9EFF", padding:"6px 16px", borderRadius:8 }}>تواصل معي</button>
             </div>
-            <a href="#about" class="btn">تعرف عليّ</a>
-        </div>
-        <div class="home-img">
-            <img src="images/home.png" alt="Bassam">
-        </div>
-    </section>
+          </header>
 
-    <section class="about" id="about">
-        <div class="about-img">
-            <img src="images/about.jpg" alt="">
-        </div>
-        <div class="about-content">
-            <h2 class="heading">About <span>Me</span></h2>
-            <h3>Engineering Researcher & Analyst</h3>
-            <p>مهندس باحث متخصص في علوم المواد وتطبيقاتها المبتكرة. أمتلك رؤية تحليلية متكاملة تشكلت عبر سنوات من العمل في التحليل الرياضي والسياسي، مما أتاح لي دمج الدقة الهندسية مع عمق التحليل الاستراتيجي. أركز في عملي على توظيف التكنولوجيا والبحث العلمي لابتكار حلول مستدامة للمشكلات المعقدة.</p>
-            <a href="https://github.com/BassamIbrahim249" class="btn">الملف الشخصي</a>
-        </div>
-    </section>
+          {/* Hero Section */}
+          <section style={{ paddingTop:120, textAlign:"center", paddingBottom:60 }}>
+            <h1 className="anim-fade-up" style={{ fontSize:"clamp(2.5rem, 8vw, 4rem)", fontWeight:900, marginBottom:20 }}>
+              <span>Bassam </span><span className="grad-text">Ibrahim</span>
+            </h1>
+            <p className="anim-fade-up" style={{ color:"#6677aa", maxWidth:600, margin:"0 auto", lineHeight:1.8, fontSize:18, padding:"0 20px" }}>
+              مهندس باحث متخصص في علوم المواد وتطبيقاتها المبتكرة. أمتلك رؤية تحليلية متكاملة تشكلت عبر سنوات من العمل في التحليل الرياضي والسياسي، مما أتاح لي دمج الدقة الهندسية مع عمق التحليل الاستراتيجي.
+            </p>
+            <div className="anim-fade-up" style={{ marginTop:40, display:"flex", justifyContent:"center", gap:15 }}>
+              <button className="btn-primary" style={{ background:"#3B9EFF", color:"#fff", padding:"12px 30px", borderRadius:10, border:"none", fontWeight:700 }}>استكشف المحتوى</button>
+              <button style={{ border:"1px solid #334455", color:"#8899aa", padding:"12px 30px", borderRadius:10, background:"transparent" }}>تعرف عليّ</button>
+            </div>
+          </section>
 
-    </body>
+          {/* Stats Section */}
+          <section style={{ display:"flex", justifyContent:"center", gap:50, padding:"40px 20px", flexWrap:"wrap" }}>
+            {STATS.map(s => (
+              <div key={s.label} style={{ textAlign:"center" }}>
+                <div style={{ fontSize:35, fontWeight:900, color:"#3B9EFF" }}>{s.value}{s.suffix}</div>
+                <div style={{ fontSize:12, color:"#445566", letterSpacing:2 }}>{s.label}</div>
+              </div>
+            ))}
+          </section>
+
+          {/* Vision Box */}
+          <section style={{ maxWidth:800, margin:"60px auto", padding:"0 20px" }}>
+            <div style={{ background:"rgba(59,158,255,0.05)", border:"1px solid rgba(59,158,255,0.1)", borderRadius:20, padding:40, textAlign:"center" }}>
+              <h3 style={{ fontSize:22, color:"#fff", marginBottom:15 }}>الرؤية والرسالة</h3>
+              <p style={{ color:"#6677aa", fontSize:15, lineHeight:1.8 }}>
+                أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة تعكس مسيرتي في بناء جسور معرفية بين الهندسة والسياسة والإنسان، مع التركيز على الابتكار في مواد البناء والبحث العلمي المستدام.
+              </p>
+            </div>
+          </section>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
 </html>
