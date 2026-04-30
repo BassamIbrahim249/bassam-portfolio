@@ -1,16 +1,22 @@
 {
-  "name": "Bassam Ibrahim Portfolio",
+  "name": "Bassam Ibrahim - Portfolio",
   "short_name": "BassamIbrahim",
-  "description": "الموقع الرسمي للمهندس الباحث بسام إبراهيم",
-  "start_url": "./index.html",
+  "description": "مهندس باحث متخصص في علوم المواد والتحليل الاستراتيجي",
+  "start_url": "/bassam-portfolio/",
   "display": "standalone",
   "background_color": "#080c12",
   "theme_color": "#3B9EFF",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icon.jpg",
+      "src": "icon",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
 }
