@@ -1,174 +1,52 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BassamIbrahim — مهندس باحث · محلل استراتيجي</title>
-
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts: Cairo -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
-
-  <!-- React & Babel CDN -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      background: #080c12;
-      font-family: 'Cairo', sans-serif;
-      color: #ffffff;
-      overflow-x: hidden;
-    }
-
-    /* ── Keyframe Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.4; }
-      50%       { opacity: 1; }
-    }
-    @keyframes scrollLine {
-      0%   { transform: scaleY(0); transform-origin: top; }
-      50%  { transform: scaleY(1); transform-origin: top; }
-      51%  { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
-
+    body { background: #080c12; font-family: 'Cairo', sans-serif; color: #ffffff; overflow-x: hidden; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
     .anim-fade-up { animation: fadeUp 0.75s ease both; }
-    .delay-1 { animation-delay: 0.10s; }
-    .delay-2 { animation-delay: 0.25s; }
-    .delay-3 { animation-delay: 0.40s; }
-    .delay-4 { animation-delay: 0.55s; }
-    .delay-5 { animation-delay: 0.70s; }
-
+    .delay-1 { animation-delay: 0.10s; } .delay-2 { animation-delay: 0.25s; } .delay-3 { animation-delay: 0.40s; } .delay-4 { animation-delay: 0.55s; } .delay-5 { animation-delay: 0.70s; }
     .pulse-dot { animation: pulseGlow 2.2s ease-in-out infinite; }
-
-    .scroll-line {
-      animation: scrollLine 2s ease-in-out infinite;
-    }
-
-    /* ── Gradient text helper ── */
-    .grad-text {
-      background: linear-gradient(135deg, #3B9EFF, #60CFFF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* ── Card hover (JS-driven via inline styles, but base transitions here) ── */
-    .card-wrap {
-      transition: transform 0.45s ease, box-shadow 0.45s ease,
-                  border-color 0.45s ease, background 0.45s ease;
-    }
-    .card-top-line {
-      transition: background 0.45s ease;
-    }
-    .card-icon-box {
-      transition: background 0.35s ease, border-color 0.35s ease;
-    }
-    .card-cta {
-      transition: color 0.3s ease;
-    }
-    .card-cta-arrow {
-      display: inline-block;
-      transition: transform 0.3s ease;
-    }
-    .card-tag {
-      transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
-    }
-
-    /* ── Social icon ── */
-    .social-btn {
-      transition: transform 0.3s ease, box-shadow 0.3s ease,
-                  background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-    }
-    .social-label {
-      transition: color 0.3s ease, opacity 0.3s ease;
-    }
-
-    /* ── Navbar ── */
-    .navbar {
-      transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
-    }
-    .nav-link {
-      transition: color 0.2s ease;
-    }
-    .nav-link:hover { color: #3B9EFF; }
-
-    /* ── Buttons ── */
-    .btn-primary {
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-    .btn-primary:hover {
-      transform: scale(1.04);
-      box-shadow: 0 0 40px rgba(59,158,255,0.45);
-    }
-    .btn-outline {
-      border: 1px solid rgba(59,158,255,0.3);
-      color: #8899bb;
-      transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
-    }
-    .btn-outline:hover {
-      border-color: rgba(59,158,255,0.7);
-      color: #3B9EFF;
-      transform: scale(1.04);
-    }
-
-    /* ── Contact CTA in navbar ── */
-    .nav-cta {
-      background: linear-gradient(135deg, rgba(59,158,255,0.18), rgba(59,158,255,0.08));
-      border: 1px solid rgba(59,158,255,0.45);
-      color: #3B9EFF;
-      transition: background 0.25s ease, box-shadow 0.25s ease;
-    }
-    .nav-cta:hover {
-      background: linear-gradient(135deg, rgba(59,158,255,0.28), rgba(59,158,255,0.16));
-      box-shadow: 0 0 22px rgba(59,158,255,0.3);
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 768px) {
-      .hide-mobile { display: none !important; }
-      .footer-row { flex-direction: column; text-align: center; }
-    }
+    .scroll-line { animation: scrollLine 2s ease-in-out infinite; }
+    .grad-text { background: linear-gradient(135deg, #3B9EFF, #60CFFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .card-wrap { transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease, background 0.45s ease; }
+    .navbar { transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease; }
+    .nav-link { transition: color 0.2s ease; } .nav-link:hover { color: #3B9EFF; }
+    .nav-cta { background: linear-gradient(135deg, rgba(59,158,255,0.18), rgba(59,158,255,0.08)); border: 1px solid rgba(59,158,255,0.45); color: #3B9EFF; transition: background 0.25s ease, box-shadow 0.25s ease; }
+    @media (max-width: 768px) { .hide-mobile { display: none !important; } .footer-row { flex-direction: column; text-align: center; } }
   </style>
 </head>
-
 <body>
   <div id="root"></div>
-
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
-
-    /* ════════════════════════════════
-       DATA
-    ════════════════════════════════ */
     const CARDS = [
       {
         id: "engineering",
         title: "المنصة الهندسية",
-        subtitle: "علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل",
-        desc: "بوابة إلى عالم المواد الإنشائية المتقدمة — من تحليل الخصائص الفيزيائية والكيميائية، إلى أحدث ابتكارات تقنيات البناء، وتجارب المختبر الهندسي بمنهجية علمية صارمة.",
+        subtitle: "علوم المواد، ابتكارات الإنشاء والمختبر الهندسي",
+        desc: "بوابة إلى عالم المواد الإنشائية المتقدمة — من تحليل الخصائص إلى أحدث ابتكارات تقنيات البناء ومنهجية المختبر.",
         tags: ["علوم المواد", "ابتكار إنشائي", "مختبر هندسي"],
         accent: "#3B9EFF",
         icon: (
           <svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}>
             <polygon points="20,4 36,30 4,30" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/>
-            <polygon points="20,10 30,26 10,26" stroke="#3B9EFF" strokeWidth="0.8" fill="none" opacity="0.4"/>
             <line x1="20" y1="4" x2="20" y2="30" stroke="#3B9EFF" strokeWidth="0.5" opacity="0.3"/>
           </svg>
         ),
@@ -176,271 +54,83 @@
       {
         id: "political",
         title: "الأرشيف السياسي",
-        subtitle: "قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية",
-        desc: "بوابة إلى الذاكرة السياسية السودانية — قراءات تاريخية معمّقة، وتحليل استراتيجي للمشهد الراهن، ورؤى فكرية نقدية تُنير المسار وتستشرف الأفق.",
+        subtitle: "تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية",
+        desc: "قراءات تاريخية معمّقة، وتحليل استراتيجي للمشهد الراهن، ورؤى فكرية نقدية تُنير المسار.",
         tags: ["تاريخ السودان", "تحليل استراتيجي", "رؤى فكرية"],
         accent: "#60CFFF",
         icon: (
           <svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}>
             <rect x="6" y="6" width="28" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/>
-            <line x1="6" y1="16" x2="34" y2="16" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/>
-            <line x1="6" y1="24" x2="34" y2="24" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/>
-            <line x1="16" y1="6" x2="16" y2="34" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/>
             <circle cx="20" cy="20" r="4" stroke="#60CFFF" strokeWidth="1.2" fill="none"/>
           </svg>
         ),
       },
       {
         id: "academy",
-        title: "أكاديمية التطوير والمنظمات",
-        subtitle: "كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي المتكامل",
-        desc: "بوابة إلى التميّز المؤسسي — إتقان كتابة المشاريع والمقترحات والمنح الدولية، وتنمية مهارات القيادة الفاعلة، وبرامج تدريبية تنموية متكاملة تصنع الفارق.",
-        tags: ["كتابة مشاريع", "قيادة", "تدريب تنموي"],
+        title: "أكاديمية التطوير",
+        subtitle: "كتابة المشاريع، مهارات القيادة، والتدريب",
+        desc: "إتقان كتابة المشاريع والمنح الدولية، وتنمية مهارات القيادة وبرامج التدريب المؤسسي.",
+        tags: ["كتابة مشاريع", "قيادة", "تدريب"],
         accent: "#A78BFA",
         icon: (
           <svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}>
             <circle cx="20" cy="20" r="14" stroke="#A78BFA" strokeWidth="1.5" fill="none"/>
-            <circle cx="20" cy="20" r="8"  stroke="#A78BFA" strokeWidth="0.8" fill="none" opacity="0.5"/>
-            <circle cx="20" cy="20" r="2"  fill="#A78BFA"/>
-            <line x1="20" y1="6"  x2="20" y2="14" stroke="#A78BFA" strokeWidth="1"/>
-            <line x1="20" y1="26" x2="20" y2="34" stroke="#A78BFA" strokeWidth="1"/>
-            <line x1="6"  y1="20" x2="14" y2="20" stroke="#A78BFA" strokeWidth="1"/>
-            <line x1="26" y1="20" x2="34" y2="20" stroke="#A78BFA" strokeWidth="1"/>
+            <circle cx="20" cy="20" r="2" fill="#A78BFA"/>
           </svg>
         ),
       },
-    
-        {
-                    {
-            id: "nubian",
-            title: "نوبيان (الحضارة النوبية)",
-            subtitle: "توثيق الإرث، التاريخ، والعمارة النوبية العريقة",
-            desc: "نافذة متخصصة في تسليط الضوء على جذورنا التاريخية وهويتنا الحضارية.",
-            tags: ["تاريخ", "آثار", "هوية"],
-            accent: "#EAB308",
-            icon: (
-                <svg viewBox="0 0 40 40" fill="none" style={{ width: '100%', height: '100%' }}>
-                    <path d="M20 5L35 32H5L20 5Z" stroke="#EAB308" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M20 5V32" stroke="#EAB308" strokeWidth="1" strokeDasharray="4 4"/>
-                    <path d="M13 18H27M10 25H30" stroke="#EAB308" strokeWidth="1.5"/>
-                </svg>
-            ),
-        },
-
+      {
+        id: "nubian",
+        title: "نوبيان (الحضارة النوبية)",
+        subtitle: "توثيق الإرث، التاريخ، والعمارة النوبية",
+        desc: "نافذة متخصصة في تسليط الضوء على جذورنا التاريخية وهويتنا الحضارية العريقة.",
+        tags: ["تاريخ", "آثار", "هوية"],
+        accent: "#EAB308",
+        icon: (
+          <svg viewBox="0 0 40 40" fill="none" style={{ width: 40, height: 40 }}>
+            <path d="M20 5L35 32H5L20 5Z" stroke="#EAB308" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M13 18H27M10 25H30" stroke="#EAB308" strokeWidth="1.5"/>
+          </svg>
+        ),
+      },
+      {
         id: "lifestyle",
         title: "نمط الحياة والصحة",
-        subtitle: "الصحة الشاملة، التغذية، والتميز البدني والذهني",
-        desc: "بوابة إلى العافية الكاملة — منهجية متكاملة تجمع الصحة الجسدية والذهنية، وأنظمة تغذية علمية دقيقة، وبروتوكولات للتميز البدني تُعزز الأداء القيادي على المدى البعيد.",
-        tags: ["صحة شاملة", "تغذية علمية", "تميز بدني"],
+        subtitle: "الصحة الشاملة، التغذية، والتميز البدني",
+        desc: "منهجية متكاملة تجمع الصحة الجسدية والذهنية، وأنظمة تغذية علمية دقيقة لتعزيز الأداء.",
+        tags: ["صحة شاملة", "تغذية", "تميز بدني"],
         accent: "#34D399",
         icon: (
           <svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}>
-            <path d="M20 8 C20 8 8 16 8 24 C8 30 13.5 34 20 34 C26.5 34 32 30 32 24 C32 16 20 8 20 8Z"
-                  stroke="#34D399" strokeWidth="1.5" fill="none"/>
-            <path d="M14 22 C16 18 20 20 20 20 C20 20 24 18 26 22"
-                  stroke="#34D399" strokeWidth="1" fill="none" opacity="0.6"/>
-            <line x1="20" y1="8" x2="20" y2="34" stroke="#34D399" strokeWidth="0.5" opacity="0.3"/>
+            <path d="M20 8 C20 8 8 16 8 24 C8 30 13.5 34 20 34 C26.5 34 32 30 32 24 C32 16 20 8 20 8Z" stroke="#34D399" strokeWidth="1.5" fill="none"/>
           </svg>
         ),
       },
     ];
 
     const SOCIALS = [
-      {
-        name: "LinkedIn",
-        href: "https://www.linkedin.com/in/bassam-ibrahim-785a01406",
-        color: "#0A66C2",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}>
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
-        ),
-      },
-      {
-        name: "Facebook",
-        href: "https://www.facebook.com/bassam.ibrahim.ahmed",
-        color: "#1877F2",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}>
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-        ),
-      },
-      {
-        name: "X",
-        href: "https://x.com/BassamIbrahimSD",
-        color: "#ffffff",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" style={{width:18,height:18}}>
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-        ),
-      },
-      {
-        name: "YouTube",
-        href: "https://youtube.com/@bassamibrahimeng?si=YJj1O6QNf1fPAYL_",
-        color: "#FF0000",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}>
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-          </svg>
-        ),
-      },
-      {
-        name: "Instagram",
-        href: "https://www.instagram.com/bassam.ibrahim.ahmed",
-        color: "#E4405F",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}>
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948-.2-4.358-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
-          </svg>
-        ),
-      },
-      {
-        name: "WhatsApp",
-        href: "https://wa.me/249967238251",
-        color: "#25D366",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}>
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.895-5.335 11.898-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
-          </svg>
-        ),
-      },
-      {
-        name: "TikTok",
-        href: "https://www.tiktok.com/@.bassam.ibrahim?_r=1&_t=ZS-95wdTp5TulA",
-        color: "#000000",
-        icon: (
-          <svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}>
-            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/>
-          </svg>
-        ),
-      },
+      { name: "LinkedIn", href: "https://www.linkedin.com/in/bassam-ibrahim-785a01406", color: "#0A66C2" },
+      { name: "Facebook", href: "https://www.facebook.com/bassam.ibrahim.ahmed", color: "#1877F2" },
+      { name: "WhatsApp", href: "https://wa.me/249967238251", color: "#25D366" }
     ];
-
-    const STATS = [
-      { label: "عام من الخبرة", value: 12, suffix: "+" },
-      { label: "مشروع بحثي", value: 45, suffix: "" },
-      { label: "تحليل استراتيجي", value: 120, suffix: "+" },
-    ];
-
-    /* ════════════════════════════════
-       COMPONENTS
-    ════════════════════════════════ */
-
-    function AnimatedNumber({ target }) {
-      const [val, setVal] = useState(0);
-      useEffect(() => {
-        let start = 0;
-        const duration = 1500;
-        const step = (timestamp) => {
-          if (!start) start = timestamp;
-          const progress = Math.min((timestamp - start) / duration, 1);
-          setVal(Math.floor(progress * target));
-          if (progress < 1) window.requestAnimationFrame(step);
-        };
-        window.requestAnimationFrame(step);
-      }, [target]);
-      return <span>{val}</span>;
-    }
 
     function Card({ card }) {
       const [hover, setHover] = useState(false);
       return (
-        <div
-          className="card-wrap"
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
+        <div className="card-wrap" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
           style={{
-            position: "relative",
             background: hover ? "rgba(59,158,255,0.06)" : "rgba(255,255,255,0.02)",
-            border: "1px solid",
-            borderColor: hover ? "rgba(59,158,255,0.3)" : "rgba(255,255,255,0.06)",
-            borderRadius: 20,
-            padding: "32px 28px",
-            overflow: "hidden",
-            cursor: "pointer",
-            transform: hover ? "translateY(-6px)" : "translateY(0)",
-            boxShadow: hover ? "0 20px 40px -15px rgba(0,0,0,0.5), 0 0 20px rgba(59,158,255,0.1)" : "none",
-          }}
-        >
-          {/* Accent Top Line */}
-          <div className="card-top-line" style={{
-            position: "absolute", top: 0, left: 0, right: 0, height: 2,
-            background: hover ? card.accent : "transparent",
-          }} />
-
-          {/* Icon Box */}
-          <div className="card-icon-box" style={{
-            width: 56, height: 56, borderRadius: 14,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            background: hover ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.03)",
-            border: "1px solid",
-            borderColor: hover ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.05)",
-            marginBottom: 24,
+            border: "1px solid", borderColor: hover ? card.accent : "rgba(255,255,255,0.06)",
+            borderRadius: 20, padding: "32px 28px", transform: hover ? "translateY(-6px)" : "none", cursor: "pointer"
           }}>
-            {card.icon}
-          </div>
-
+          <div style={{ marginBottom: 20 }}>{card.icon}</div>
           <h3 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{card.title}</h3>
-          <p style={{ fontSize: 12, fontWeight: 600, color: card.accent, marginBottom: 14, opacity: 0.9 }}>{card.subtitle}</p>
-          <p style={{ fontSize: 13, color: "#8899bb", lineHeight: 1.7, marginBottom: 24 }}>{card.desc}</p>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
-            {card.tags.map(tag => (
-              <span key={tag} className="card-tag" style={{
-                fontSize: 10, padding: "4px 10px", borderRadius: 6,
-                background: hover ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.03)",
-                color: hover ? "#fff" : "#6677aa",
-                border: "1px solid rgba(255,255,255,0.05)",
-              }}>{tag}</span>
-            ))}
-          </div>
-
-          <div className="card-cta" style={{
-            display: "flex", alignItems: "center", gap: 8,
-            fontSize: 12, fontWeight: 700, color: hover ? card.accent : "#445566",
-          }}>
-            <span>اكتشف المزيد</span>
-            <span className="card-cta-arrow" style={{ transform: hover ? "translateX(-4px)" : "none" }}>←</span>
-          </div>
+          <p style={{ fontSize: 12, color: card.accent, marginBottom: 12 }}>{card.subtitle}</p>
+          <p style={{ fontSize: 13, color: "#8899bb", lineHeight: 1.6 }}>{card.desc}</p>
         </div>
       );
     }
 
-    function SocialIcon({ social }) {
-      const [hover, setHover] = useState(false);
-      return (
-        <a
-          href={social.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          className="social-btn"
-          style={{
-            display: "flex", alignItems: "center", gap: 10,
-            padding: "10px 16px", borderRadius: 12,
-            background: hover ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.02)",
-            border: "1px solid",
-            borderColor: hover ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)",
-            color: hover ? social.color : "#6677aa",
-            textDecoration: "none",
-            transform: hover ? "translateY(-3px)" : "none",
-          }}
-        >
-          {social.icon}
-          <span className="social-label" style={{
-            fontSize: 11, fontWeight: 700,
-            opacity: hover ? 1 : 0.7,
-          }}>{social.name}</span>
-        </a>
-      );
-    }
-
-    /* ════════════════════════════════
-       MAIN APP
-    ════════════════════════════════ */
     function App() {
       const [scrolled, setScrolled] = useState(false);
       useEffect(() => {
@@ -450,283 +140,38 @@
       }, []);
 
       return (
-        <div style={{ position: "relative" }}>
-          {/* Background Ambient Glows */}
-          <div style={{
-            position: "fixed", top: "-10%", left: "-10%", width: "50%", height: "50%",
-            background: "radial-gradient(circle, rgba(59,158,255,0.08) 0%, transparent 70%)",
-            pointerEvents: "none", zIndex: 0,
-          }} />
-          <div style={{
-            position: "fixed", bottom: "-10%", right: "-10%", width: "50%", height: "50%",
-            background: "radial-gradient(circle, rgba(96,207,255,0.05) 0%, transparent 70%)",
-            pointerEvents: "none", zIndex: 0,
-          }} />
-
-          {/* ── NAVBAR ── */}
-          <header className="navbar" style={{
-            position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-            padding: scrolled ? "12px 24px" : "24px 24px",
-            background: scrolled ? "rgba(8,12,18,0.85)" : "transparent",
-            backdropFilter: scrolled ? "blur(12px)" : "none",
-            borderBottom: scrolled ? "1px solid rgba(59,158,255,0.1)" : "1px solid transparent",
-          }}>
-            <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: 10,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  background: "linear-gradient(135deg, #3B9EFF, #60CFFF)",
-                  fontSize: 14, fontWeight: 900, color: "#080c12",
-                }}>B.I</div>
-                <span style={{ fontWeight: 900, fontSize: 18, letterSpacing: "-0.02em" }}>
-                  Bassam<span style={{ color: "#3B9EFF" }}>Ibrahim</span>
-                </span>
-              </div>
-
-              {/* Nav links */}
-              <nav className="hide-mobile" style={{ display: "flex", gap: 32 }}>
-                {["هندسة", "سياسة", "أكاديمية", "نمط الحياة"].map(item => (
-                  <a key={item} href="#" className="nav-link"
-                     style={{ fontSize: 13, color: "#6677aa", textDecoration: "none" }}>
-                    {item}
-                  </a>
-                ))}
+        <div>
+          <header className="navbar" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "20px", background: scrolled ? "rgba(8,12,18,0.9)" : "transparent", backdropFilter: "blur(10px)" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontWeight: 900, fontSize: 20 }}>Bassam<span style={{ color: "#3B9EFF" }}>Ibrahim</span></span>
+              <nav className="hide-mobile" style={{ display: "flex", gap: 24 }}>
+                {["هندسة", "سياسة", "نوبيان", "أكاديمية"].map(n => <a key={n} href="#" className="nav-link" style={{ fontSize: 13 }}>{n}</a>)}
               </nav>
-
-              {/* CTA */}
-              <button className="nav-cta" style={{
-                fontSize: 12, padding: "8px 18px", borderRadius: 8, fontWeight: 700,
-                cursor: "pointer", fontFamily: "inherit",
-              }}>
-                تواصل معي
-              </button>
+              <button className="nav-cta" style={{ padding: "8px 16px", borderRadius: 8, fontSize: 12, fontWeight: 700 }}>تواصل معي</button>
             </div>
           </header>
 
-          {/* ── HERO ── */}
-          <section style={{
-            position: "relative", minHeight: "100vh",
-            display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center",
-            padding: "80px 24px 40px",
-            textAlign: "center",
-            zIndex: 1,
-          }}>
-            {/* Horizontal decorative lines */}
-            <div style={{
-              position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none",
-            }}>
-              <div style={{
-                position: "absolute", top: "50%", right: 0,
-                width: "30%", height: 1,
-                background: "linear-gradient(to left, transparent, rgba(59,158,255,0.25))",
-              }} />
-              <div style={{
-                position: "absolute", top: "50%", left: 0,
-                width: "30%", height: 1,
-                background: "linear-gradient(to right, transparent, rgba(59,158,255,0.25))",
-              }} />
-            </div>
-
-            {/* Badge */}
-            <div className="anim-fade-up delay-1"
-                 style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 24 }}>
-              <div className="pulse-dot" style={{
-                width: 6, height: 6, borderRadius: "50%", background: "#3B9EFF",
-              }} />
-              <span style={{
-                fontSize: 11, color: "#3B9EFF",
-                letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 600,
-              }}>
-                مهندس باحث · محلل استراتيجي · خبير تطوير
-              </span>
-              <div className="pulse-dot" style={{
-                width: 6, height: 6, borderRadius: "50%", background: "#3B9EFF",
-              }} />
-            </div>
-
-            {/* Headline */}
-            <h1 className="anim-fade-up delay-2" style={{
-              fontSize: "clamp(2.4rem,7vw,4.8rem)",
-              fontWeight: 900, lineHeight: 1.15, marginBottom: 20,
-              letterSpacing: "-0.02em",
-            }}>
-              <span style={{ color: "#ffffff" }}>Bassam</span>
-              <span className="grad-text">Ibrahim</span>
+          <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "20px" }}>
+            <h1 className="anim-fade-up delay-2" style={{ fontSize: "clamp(2.5rem, 8vw, 5rem)", fontWeight: 900 }}>
+              Bassam <span className="grad-text">Ibrahim</span>
             </h1>
-
-            {/* Sub */}
-            <p className="anim-fade-up delay-3" style={{
-              color: "#6677aa", maxWidth: 650, lineHeight: 1.9,
-              fontSize: 15, marginBottom: 36,
-            }}>
-              مهندس باحث متخصص في علوم المواد وتطبيقاتها المبتكرة. أمتلك رؤية تحليلية متكاملة تشكلت عبر سنوات من العمل في التحليل الرياضي والسياسي، مما أتاح لي دمج الدقة الهندسية مع عمق التحليل الاستراتيجي.
+            <p className="anim-fade-up delay-3" style={{ color: "#6677aa", maxWidth: 600, marginTop: 20, lineHeight: 1.8 }}>
+              مهندس باحث متخصص في علوم المواد والتحليل الاستراتيجي. نجمع بين الدقة الهندسية وعمق التاريخ.
             </p>
+          </section>
 
-            {/* Buttons */}
-            <div className="anim-fade-up delay-4"
-                 style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-              <button className="btn-primary" style={{
-                padding: "12px 32px", borderRadius: 12,
-                background: "linear-gradient(135deg,#3B9EFF,#1a7fe0)",
-                boxShadow: "0 0 30px rgba(59,158,255,0.4)",
-                color: "#fff", fontWeight: 700, fontSize: 13,
-                border: "none", cursor: "pointer", fontFamily: "inherit",
-              }}>
-                استكشف المحتوى
-              </button>
-              <button className="btn-outline" style={{
-                padding: "12px 32px", borderRadius: 12,
-                background: "transparent",
-                fontWeight: 700, fontSize: 13,
-                cursor: "pointer", fontFamily: "inherit",
-              }}>
-                تعرّف عليّ
-              </button>
-            </div>
-
-            {/* Stats */}
-            <div className="anim-fade-up delay-5" style={{
-              marginTop: 72,
-              display: "flex", flexWrap: "wrap", gap: 48, justifyContent: "center",
-            }}>
-              {STATS.map(s => (
-                <div key={s.label} style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: 30, fontWeight: 900, color: "#3B9EFF", marginBottom: 4 }}>
-                    <AnimatedNumber target={s.value} />{s.suffix}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#445566", letterSpacing: "0.15em" }}>
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Scroll indicator */}
-            <div style={{
-              position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)",
-              display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-              opacity: 0.28,
-            }}>
-              <div className="scroll-line" style={{
-                width: 1, height: 44,
-                background: "linear-gradient(to bottom, transparent, #3B9EFF)",
-              }} />
-              <span style={{ fontSize: 9, letterSpacing: "0.25em", color: "#3B9EFF" }}>SCROLL</span>
+          <section style={{ padding: "80px 20px", maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+              {CARDS.map(card => <Card key={card.id} card={card} />)}
             </div>
           </section>
 
-          {/* ── CARDS SECTION ── */}
-          <section style={{ position: "relative", padding: "80px 24px", zIndex: 1 }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-              {/* Section header */}
-              <div style={{ textAlign: "center", marginBottom: 56 }}>
-                <p style={{
-                  fontSize: 10, letterSpacing: "0.4em", color: "#3B9EFF",
-                  textTransform: "uppercase", marginBottom: 10, fontWeight: 600,
-                }}>
-                  المحاور الرئيسية
-                </p>
-                <h2 style={{ fontSize: 28, fontWeight: 900, color: "#fff" }}>
-                  أربعة مجالات. رؤية واحدة.
-                </h2>
-                <div style={{
-                  margin: "14px auto 0", width: 60, height: 2,
-                  background: "linear-gradient(to left, transparent, #3B9EFF, transparent)",
-                }} />
-              </div>
-
-              {/* 2-column grid */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                gap: 22,
-              }}>
-                {CARDS.map(card => <Card key={card.id} card={card} />)}
-              </div>
-            </div>
-          </section>
-
-          {/* ── VISION STRIP ── */}
-          <section style={{ position: "relative", padding: "60px 24px", zIndex: 1 }}>
-            <div style={{ maxWidth: 860, margin: "0 auto" }}>
-              <div style={{
-                borderRadius: 20, padding: "48px 40px",
-                textAlign: "center", position: "relative", overflow: "hidden",
-                background: "linear-gradient(135deg,rgba(59,158,255,0.08),rgba(96,207,255,0.04))",
-                border: "1px solid rgba(59,158,255,0.15)",
-              }}>
-                {/* top glow line */}
-                <div style={{
-                  position: "absolute", top: 0, left: 0, right: 0, height: 1,
-                  background: "linear-gradient(to left, transparent, rgba(59,158,255,0.5), transparent)",
-                }} />
-                <div style={{ fontSize: 44, marginBottom: 14 }}>⬡</div>
-                <h3 style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 14 }}>
-                  الرؤية والرسالة
-                </h3>
-                <p style={{ color: "#6677aa", lineHeight: 1.9, maxWidth: 580, margin: "0 auto", fontSize: 14 }}>
-                  أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.
-                  هذه المنصة تعكس مسيرتي في بناء جسور معرفية بين الهندسة والسياسة والإنسان.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* ── FOOTER ── */}
-          <footer style={{
-            position: "relative", zIndex: 1,
-            padding: "48px 24px 32px",
-            borderTop: "1px solid rgba(59,158,255,0.1)",
-          }}>
-            <div style={{ maxWidth: 860, margin: "0 auto" }}>
-              {/* Social heading */}
-              <div style={{ textAlign: "center", marginBottom: 28 }}>
-                <p style={{
-                  fontSize: 10, letterSpacing: "0.4em", color: "#3B9EFF",
-                  textTransform: "uppercase", marginBottom: 20, fontWeight: 600,
-                }}>
-                  تواصل معي
-                </p>
-                <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
-                  {SOCIALS.map(s => <SocialIcon key={s.name} social={s} />)}
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div style={{
-                width: "100%", height: 1, margin: "28px 0",
-                background: "linear-gradient(to left, transparent, rgba(59,158,255,0.2), transparent)",
-              }} />
-
-              {/* Bottom row */}
-              <div className="footer-row" style={{
-                display: "flex", alignItems: "center",
-                justifyContent: "space-between", gap: 12, flexWrap: "wrap",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                  <div style={{
-                    width: 30, height: 30, borderRadius: 8,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    background: "linear-gradient(135deg,#3B9EFF,#60CFFF)",
-                    fontSize: 10, fontWeight: 900, color: "#080c12",
-                  }}>B.I</div>
-                  <span style={{ fontWeight: 700, color: "#fff", fontSize: 13 }}>BassamIbrahim</span>
-                  <span style={{ color: "#334455", fontSize: 12 }}>·</span>
-                  <span style={{ color: "#445566", fontSize: 12 }}>مهندس باحث · محلل استراتيجي</span>
-                </div>
-                <p style={{ fontSize: 11, color: "#334455" }}>© 2026 · جميع الحقوق محفوظة</p>
-              </div>
-            </div>
+          <footer style={{ padding: "40px", textAlign: "center", borderTop: "1px solid rgba(59,158,255,0.1)" }}>
+            <p style={{ color: "#445566", fontSize: 12 }}>© 2026 Bassam Ibrahim · جميع الحقوق محفوظة</p>
           </footer>
         </div>
       );
     }
-
-    /* ════════════════════════════════
-       MOUNT
-    ════════════════════════════════ */
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
 </body>
