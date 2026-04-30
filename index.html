@@ -52,6 +52,8 @@
     @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
     @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
     @keyframes backToTopPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(59,158,255,0.4); } 50% { box-shadow: 0 0 0 12px rgba(59,158,255,0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateY(-10px); } }
     .anim-fade-up { animation: fadeUp 0.75s ease both; }
     .delay-1 { animation-delay: 0.10s; } .delay-2 { animation-delay: 0.25s; } .delay-3 { animation-delay: 0.40s; } .delay-4 { animation-delay: 0.55s; } .delay-5 { animation-delay: 0.70s; }
     .pulse-dot { animation: pulseGlow 2.2s ease-in-out infinite; }
@@ -71,6 +73,16 @@
     .academic-link { transition: color 0.3s ease, background 0.3s ease; }
     .academic-link:hover { color: #ffffff; background: rgba(59,158,255,0.2); }
     .back-to-top { animation: backToTopPulse 2s infinite; }
+
+    /* ── PWA Install Popup ── */
+    .install-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 999; display: flex; align-items: center; justify-content: center; animation: fadeUp 0.3s ease; padding: 20px; backdrop-filter: blur(4px); }
+    .install-popup { background: rgba(8,12,18,0.98); border: 1px solid rgba(59,158,255,0.25); border-radius: 24px; padding: 36px 28px 28px; text-align: center; max-width: 400px; width: 100%; backdrop-filter: blur(20px); box-shadow: 0 25px 60px rgba(0,0,0,0.7); animation: slideUp 0.4s ease; }
+    .install-icon { width: 68px; height: 68px; border-radius: 18px; background: linear-gradient(135deg, #3B9EFF, #60CFFF); display: flex; align-items: center; justifyContent: center; margin: 0 auto 18px; font-size: 30px; font-weight: 900; color: #080c12; box-shadow: 0 0 25px rgba(59,158,255,0.3); }
+    .install-btn-yes { background: linear-gradient(135deg,#3B9EFF,#2563eb); color: #fff; border: none; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; margin-bottom: 14px; box-shadow: 0 0 30px rgba(59,158,255,0.4); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .install-btn-yes:hover { transform: scale(1.03); box-shadow: 0 0 40px rgba(59,158,255,0.6); }
+    .install-btn-no { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: #6677aa; padding: 12px 32px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; transition: all 0.25s ease; }
+    .install-btn-no:hover { border-color: rgba(255,255,255,0.25); color: #99aacc; }
+
     @media (max-width: 768px) { .hide-mobile { display: none !important; } .footer-row { flex-direction: column; text-align: center; gap: 16px; } .hero-buttons { flex-direction: column; align-items: center; } }
   </style>
 </head>
@@ -79,7 +91,7 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useCallback } = React;
 
     const NAV_ITEMS = [
       { name: "هندسة", href: "#engineering" },
@@ -146,6 +158,63 @@
       return (<button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="back-to-top" style={{ position: "fixed", bottom: 24, left: 24, zIndex: 99, width: 44, height: 44, borderRadius: "50%", background: "rgba(59,158,255,0.15)", border: "1px solid rgba(59,158,255,0.4)", color: "#3B9EFF", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }} aria-label="العودة للأعلى">↑</button>);
     }
 
+    function WelcomeInstallPopup() {
+      const [show, setShow] = useState(false);
+      const [deferredPrompt, setDeferredPrompt] = useState(null);
+      const [dismissed, setDismissed] = useState(false);
+
+      useEffect(() => {
+        const handler = (e) => {
+          e.preventDefault();
+          setDeferredPrompt(e);
+          const wasDismissed = localStorage.getItem("pwa_install_dismissed");
+          if (!wasDismissed && !dismissed) {
+            setTimeout(() => setShow(true), 5000);
+          }
+        };
+        window.addEventListener("beforeinstallprompt", handler);
+        return () => window.removeEventListener("beforeinstallprompt", handler);
+      }, [dismissed]);
+
+      const handleInstall = useCallback(async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          setDeferredPrompt(null);
+          setShow(false);
+          if (outcome === "accepted") {
+            localStorage.removeItem("pwa_install_dismissed");
+          } else {
+            localStorage.setItem("pwa_install_dismissed", "true");
+          }
+        }
+      }, [deferredPrompt]);
+
+      const handleDismiss = useCallback(() => {
+        setShow(false);
+        setDismissed(true);
+        localStorage.setItem("pwa_install_dismissed", "true");
+      }, []);
+
+      if (!show) return null;
+
+      return (
+        <div className="install-overlay" onClick={handleDismiss}>
+          <div className="install-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="install-icon">B.I</div>
+            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 12 }}>
+              مرحباً بك في منصتي الرقمية
+            </h3>
+            <p style={{ fontSize: 13, color: "#8899bb", lineHeight: 1.9, marginBottom: 24, padding: "0 8px" }}>
+              هنا تجتمع الدقة الهندسية مع الرؤية التحليلية. أدعوك لاستكشاف مشاريعي في علوم المواد وقراءاتي في الشأن الاستراتيجي.. أتمنى لك رحلة معرفية ممتعة!
+            </p>
+            <button className="install-btn-yes" onClick={handleInstall}>📲 تثبيت الآن</button>
+            <button className="install-btn-no" onClick={handleDismiss}>ليس الآن</button>
+          </div>
+        </div>
+      );
+    }
+
     function App() {
       const [scrolled, setScrolled] = useState(false);
       useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h); }, []);
@@ -209,6 +278,7 @@
               </div>
             </div>
           </footer>
+          <WelcomeInstallPopup />
           <BackToTop />
         </div>
       );
