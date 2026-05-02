@@ -31,8 +31,9 @@
   <link rel="icon" href="icon" />
   <link rel="apple-touch-icon" href="icon" />
 
-  <!-- ⚡ تحميل بيانات المقالات أولاً -->
-  <script src="articles.js"></script>
+  <!-- ⚡ تحميل بيانات المقالات -->
+  <script src="articles-innovation.js"></script>
+  <script src="articles-materials.js"></script>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -109,19 +110,18 @@
       { name: "WhatsApp", href: "https://wa.me/249967238251", color: "#25D366", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.895-5.335 11.898-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>) },
       { name: "TikTok", href: "https://www.tiktok.com/@.bassam.ibrahim", color: "#ffffff", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/></svg>) },
     ];
-    // ⚠️ مصفوفة ARTICLES تم نقلها إلى ملف articles.js - لا تحذف هذا التعليق
 
-    function InnovationSection({ onBack }) {
+    function ArticleSection({ articles, onBack }) {
       const [currentIndex, setCurrentIndex] = useState(0);
-      const article = ARTICLES[currentIndex];
+      const article = articles[currentIndex];
       const goToArticle = (index) => { setCurrentIndex(index); setTimeout(() => { document.getElementById("article-top")?.scrollIntoView({ behavior: "smooth" }); }, 100); };
-      const goNext = () => { if (currentIndex < ARTICLES.length - 1) goToArticle(currentIndex + 1); };
+      const goNext = () => { if (currentIndex < articles.length - 1) goToArticle(currentIndex + 1); };
       const goPrev = () => { if (currentIndex > 0) goToArticle(currentIndex - 1); };
       return (
         <div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "24px", color: "#ffffff" }}>
           <button onClick={onBack} style={{ marginBottom: "32px", padding: "10px 20px", borderRadius: "12px", background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: "14px", fontWeight: "bold" }}>← العودة للمنصة الهندسية</button>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "40px", justifyContent: "center" }}>
-            {ARTICLES.map((a, idx) => (
+            {articles.map((a, idx) => (
               <button key={idx} onClick={() => goToArticle(idx)} style={{ padding: "8px 16px", borderRadius: "8px", fontSize: "12px", fontWeight: "bold", background: idx === currentIndex ? "linear-gradient(135deg, #3B9EFF, #1a7fe0)" : "rgba(255,255,255,0.03)", border: idx === currentIndex ? "none" : "1px solid rgba(255,255,255,0.08)", color: idx === currentIndex ? "#fff" : "#6677aa", cursor: "pointer", boxShadow: idx === currentIndex ? "0 0 20px rgba(59,158,255,0.3)" : "none" }}>{idx + 1}. {a.title.length > 25 ? a.title.slice(0, 25) + "…" : a.title}</button>
             ))}
           </div>
@@ -145,18 +145,24 @@
             )}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px", marginTop: "40px", paddingTop: "24px", borderTop: "1px solid rgba(59,158,255,0.1)" }}>
               <button onClick={goPrev} disabled={currentIndex === 0} style={{ padding: "10px 20px", borderRadius: "12px", fontSize: "14px", fontWeight: "bold", background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: currentIndex === 0 ? "not-allowed" : "pointer", opacity: currentIndex === 0 ? 0.3 : 1 }}>⬅️ السابق</button>
-              <span style={{ fontSize: "12px", fontWeight: "bold", color: "#445566" }}>{currentIndex + 1} / {ARTICLES.length}</span>
-              <button onClick={goNext} disabled={currentIndex === ARTICLES.length - 1} style={{ padding: "10px 20px", borderRadius: "12px", fontSize: "14px", fontWeight: "bold", background: currentIndex === ARTICLES.length - 1 ? "transparent" : "linear-gradient(135deg, #3B9EFF, #1a7fe0)", border: currentIndex === ARTICLES.length - 1 ? "1px solid rgba(59,158,255,0.3)" : "none", color: currentIndex === ARTICLES.length - 1 ? "#445566" : "#ffffff", cursor: currentIndex === ARTICLES.length - 1 ? "not-allowed" : "pointer", opacity: currentIndex === ARTICLES.length - 1 ? 0.3 : 1 }}>التالي ➡️</button>
+              <span style={{ fontSize: "12px", fontWeight: "bold", color: "#445566" }}>{currentIndex + 1} / {articles.length}</span>
+              <button onClick={goNext} disabled={currentIndex === articles.length - 1} style={{ padding: "10px 20px", borderRadius: "12px", fontSize: "14px", fontWeight: "bold", background: currentIndex === articles.length - 1 ? "transparent" : "linear-gradient(135deg, #3B9EFF, #1a7fe0)", border: currentIndex === articles.length - 1 ? "1px solid rgba(59,158,255,0.3)" : "none", color: currentIndex === articles.length - 1 ? "#445566" : "#ffffff", cursor: currentIndex === articles.length - 1 ? "not-allowed" : "pointer", opacity: currentIndex === articles.length - 1 ? 0.3 : 1 }}>التالي ➡️</button>
             </div>
           </div>
         </div>
       );
     }
-    function Card({ card, onInnovationClick }) {
+
+    function Card({ card, onInnovationClick, onMaterialsClick }) {
       const [hover, setHover] = useState(false);
       const isNubian = card.id === "nubian";
       const hoverBg = isNubian ? "rgba(234,179,8,0.06)" : "rgba(59,158,255,0.06)";
       const hoverBorder = isNubian ? "rgba(234,179,8,0.4)" : "rgba(59,158,255,0.3)";
+      const handleTagClick = (tag, e) => {
+        e.stopPropagation();
+        if (tag === "ابتكار إنشائي" && onInnovationClick) onInnovationClick();
+        if (tag === "علوم المواد" && onMaterialsClick) onMaterialsClick();
+      };
       return (
         <div id={card.id} className="card-wrap" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ position: "relative", background: hover ? hoverBg : "rgba(255,255,255,0.02)", border: "1px solid", borderColor: hover ? hoverBorder : "rgba(255,255,255,0.06)", borderRadius: 20, padding: "32px 28px", overflow: "hidden", cursor: "pointer", transform: hover ? "translateY(-6px)" : "translateY(0)", scrollMarginTop: 100 }}>
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: hover ? card.accent : "transparent" }} />
@@ -166,8 +172,8 @@
           <p style={{ fontSize: 13, color: "#8899bb", lineHeight: 1.7, marginBottom: 24 }}>{card.desc}</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
             {card.tags.map(t => (
-              card.id === "engineering" && t === "ابتكار إنشائي" ? (
-                <button key={t} onClick={(e) => { e.stopPropagation(); if (onInnovationClick) onInnovationClick(); }} className="innovation-tag-btn" style={{ fontSize: 10, padding: "4px 10px", borderRadius: 6, background: "rgba(59,158,255,0.15)", color: "#3B9EFF", border: "1px solid rgba(59,158,255,0.4)", cursor: "pointer", fontWeight: 700, fontFamily: "'Cairo', sans-serif" }}>{t}</button>
+              (t === "ابتكار إنشائي" || t === "علوم المواد") ? (
+                <button key={t} onClick={(e) => handleTagClick(t, e)} className="innovation-tag-btn" style={{ fontSize: 10, padding: "4px 10px", borderRadius: 6, background: "rgba(59,158,255,0.15)", color: "#3B9EFF", border: "1px solid rgba(59,158,255,0.4)", cursor: "pointer", fontWeight: 700, fontFamily: "'Cairo', sans-serif" }}>{t}</button>
               ) : (
                 <span key={t} style={{ fontSize: 10, padding: "4px 10px", borderRadius: 6, background: "rgba(255,255,255,0.03)", color: "#6677aa", border: "1px solid rgba(255,255,255,0.05)" }}>{t}</span>
               )
@@ -180,6 +186,7 @@
         </div>
       );
     }
+
     function SocialIcon({ social }) { const [hover, setHover] = useState(false); return (<a href={social.href} target="_blank" rel="noopener noreferrer" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className="social-btn" style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 16px", borderRadius: 12, background: hover ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.02)", border: "1px solid", borderColor: hover ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)", color: hover ? social.color : "#6677aa", textDecoration: "none", transform: hover ? "translateY(-3px)" : "none" }}>{social.icon}<span style={{ fontSize: 11, fontWeight: 700 }}>{social.name}</span></a>); }
     function BackToTop() { const [visible, setVisible] = useState(false); useEffect(() => { const h = () => setVisible(window.scrollY > 600); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h); }, []); if (!visible) return null; return (<button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="back-to-top" style={{ position: "fixed", bottom: 24, left: 24, zIndex: 99, width: 44, height: 44, borderRadius: "50%", background: "rgba(59,158,255,0.15)", border: "1px solid rgba(59,158,255,0.4)", color: "#3B9EFF", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }} aria-label="العودة للأعلى">↑</button>); }
     function WelcomeInstallPopup() {
@@ -190,14 +197,20 @@
       if (!show) return null;
       return (<div className="install-overlay" onClick={handleDismiss}><div className="install-popup" onClick={(e) => e.stopPropagation()}><div className="install-icon">B.I</div><h3 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 12 }}>مرحباً بك في منصتي الرقمية</h3><p style={{ fontSize: 13, color: "#8899bb", lineHeight: 1.9, marginBottom: 24, padding: "0 8px" }}>هنا تجتمع الدقة الهندسية مع الرؤية التحليلية. أدعوك لاستكشاف مشاريعي في علوم المواد وقراءاتي في الشأن الاستراتيجي.. أتمنى لك رحلة معرفية ممتعة!</p><button className="install-btn-yes" onClick={handleInstall}>📲 ثبّت التطبيق للوصول السريع</button><button className="install-btn-no" onClick={handleDismiss}>استمر بالتصفح</button></div></div>);
     }
+
     function App() {
       const [scrolled, setScrolled] = useState(false);
-      const [showInnovationSection, setShowInnovationSection] = useState(false);
+      const [activeSection, setActiveSection] = useState(null);
       useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h); }, []);
       const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      if (showInnovationSection) {
-        return <InnovationSection onBack={() => setShowInnovationSection(false)} />;
+
+      if (activeSection === 'innovation') {
+        return <ArticleSection articles={ARTICLES} onBack={() => setActiveSection(null)} />;
       }
+      if (activeSection === 'materials') {
+        return <ArticleSection articles={MATERIALS_ARTICLES} onBack={() => setActiveSection(null)} />;
+      }
+
       return (
         <div style={{ position: "relative" }}>
           <div style={{ position: "fixed", top: "-10%", left: "-10%", width: "50%", height: "50%", background: "radial-gradient(circle, rgba(59,158,255,0.08) 0%, transparent 70%)", pointerEvents: "none", zIndex: 0 }} />
@@ -225,7 +238,16 @@
           <section id="cards-section" style={{ padding: "80px 24px", zIndex: 1 }}>
             <div style={{ maxWidth: 1100, margin: "0 auto" }}>
               <div style={{ textAlign: "center", marginBottom: 56 }}><p style={{ fontSize: 10, letterSpacing: "0.4em", color: "#3B9EFF", marginBottom: 10, fontWeight: 600 }}>المحاور الرئيسية</p><h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900 }}>خمسة مجالات. رؤية واحدة.</h2></div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 22 }}>{CARDS.map(card => <Card key={card.id} card={card} onInnovationClick={() => setShowInnovationSection(true)} />)}</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 22 }}>
+                {CARDS.map(card => (
+                  <Card
+                    key={card.id}
+                    card={card}
+                    onInnovationClick={() => setActiveSection('innovation')}
+                    onMaterialsClick={() => setActiveSection('materials')}
+                  />
+                ))}
+              </div>
             </div>
           </section>
           <section id="vision-section" style={{ padding: "60px 24px", zIndex: 1 }}><div style={{ maxWidth: 860, margin: "0 auto", borderRadius: 20, padding: "48px 40px", textAlign: "center", background: "linear-gradient(135deg,rgba(59,158,255,0.08),rgba(96,207,255,0.04))", border: "1px solid rgba(59,158,255,0.15)" }}><div style={{ fontSize: 44, marginBottom: 14 }}>⬡</div><h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 14 }}>الرؤية والرسالة</h3><p style={{ color: "#6677aa", lineHeight: 1.9, maxWidth: 580, margin: "0 auto", fontSize: 14 }}>أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة تعكس مسيرتي في بناء جسور معرفية بين الهندسة والسياسة والإنسان.</p></div></section>
