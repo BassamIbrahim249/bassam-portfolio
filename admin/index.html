@@ -4,17 +4,63 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>لوحة تحكم - بسام إبراهيم</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    window.CMS_MANUAL_INIT = true;
-    window.addEventListener('load', function() {
-      CMS.init();
-    });
-  </script>
+  <!-- الخط -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      background-color: #f5f5f5;
+    }
+    /* تأثير تحميل بسيط أثناء انتظار CMS */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-size: 18px;
+      color: #333;
+    }
   </style>
 </head>
-<body></body>
+<body>
+  <div class="loading">جاري تحميل لوحة التحكم...</div>
+
+  <!-- 1. تحميل Netlify Identity Widget أولاً -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <!-- 2. تحميل Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <script>
+    // تأكد من تحميل كل شيء قبل البدء
+    window.CMS_MANUAL_INIT = true;
+
+    function initCMS() {
+      try {
+        // تهيئة CMS مع تحديد مسار config.yml بشكل صريح
+        CMS.init({
+          config: '/config.yml'
+        });
+        console.log('Decap CMS initialized successfully');
+      } catch (error) {
+        console.error('CMS initialization error:', error);
+        document.body.innerHTML = '<div style="padding:20px;text-align:center;color:red;">حدث خطأ في تحميل لوحة التحكم. تأكد من اتصالك بالإنترنت وأعد تحميل الصفحة.</div>';
+      }
+    }
+
+    // انتظر حتى يتم تحميل Netlify Identity Widget
+    if (window.netlifyIdentity) {
+      // إذا تم تحميله بالفعل
+      initCMS();
+    } else {
+      // انتظر حتى يتم تحميله
+      window.addEventListener('load', function() {
+        // تأخير بسيط للتأكد من تحميل كل شيء
+        setTimeout(initCMS, 500);
+      });
+    }
+  </script>
+</body>
 </html>
