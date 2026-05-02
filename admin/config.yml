@@ -3,6 +3,8 @@ backend:
   repo: bassamibrahim249/bassam-portfolio
   branch: main
   squash_merges: true
+  site_domain: bassamibrahim249.github.io
+  client_id: "Ov23liYAyoJKR9v7CaX4"
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
@@ -21,7 +23,7 @@ collections:
     fields:
       - { label: "عنوان المقال", name: "title", widget: "string", required: true }
       - { label: "الصورة الرئيسية", name: "headerImage", widget: "object", fields: [
-          { label: "مسار الصورة", name: "src", widget: "string", hint: "مثال: myimage.png" },
+          { label: "مسار الصورة", name: "src", widget: "string" },
           { label: "النص البديل", name: "alt", widget: "string" }
         ]}
       - { label: "المقدمة", name: "paragraphs", widget: "list", field: { label: "فقرة", name: "text", widget: "text" } }
