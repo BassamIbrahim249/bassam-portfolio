@@ -4,16 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>لوحة تحكم - بسام إبراهيم</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    CMS.init({
-      config: '/config.yml',
+    window.CMS_MANUAL_INIT = true;
+    window.addEventListener('load', function() {
+      CMS.init();
     });
   </script>
-</head>
-<body>
   <style>
-    body { font-family: 'Cairo', sans-serif; }
+    body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; }
   </style>
-</body>
+</head>
+<body></body>
 </html>
