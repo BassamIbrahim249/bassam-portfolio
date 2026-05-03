@@ -1,0 +1,77 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+locale: "ar"
+
+collections:
+  - name: "articles"
+    label: "📝 المقالات"
+    folder: "content/articles"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    editor:
+      preview: false
+    fields:
+      - label: "عنوان المقال"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "الصورة الرئيسية"
+        name: "headerImage"
+        widget: "object"
+        fields:
+          - label: "مسار الصورة"
+            name: "src"
+            widget: "string"
+          - label: "النص البديل"
+            name: "alt"
+            widget: "string"
+      - label: "المقدمة"
+        name: "paragraphs"
+        widget: "list"
+        field:
+          label: "فقرة"
+          name: "text"
+          widget: "text"
+      - label: "أقسام المقال"
+        name: "sections"
+        widget: "list"
+        fields:
+          - label: "عنوان القسم"
+            name: "heading"
+            widget: "string"
+          - label: "نص القسم"
+            name: "text"
+            widget: "list"
+            field:
+              label: "فقرة"
+              name: "paragraph"
+              widget: "text"
+          - label: "صورة القسم (اختياري)"
+            name: "image"
+            widget: "object"
+            required: false
+            fields:
+              - label: "مسار الصورة"
+                name: "src"
+                widget: "string"
+              - label: "النص البديل"
+                name: "alt"
+                widget: "string"
+      - label: "كلمات مفتاحية"
+        name: "tags"
+        widget: "list"
+        field:
+          label: "كلمة"
+          name: "tag"
+          widget: "string"
+        required: false
+      - label: "تفعيل التعليقات"
+        name: "allowComments"
+        widget: "boolean"
+        default: true
+        required: false
