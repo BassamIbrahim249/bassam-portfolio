@@ -4,6 +4,11 @@ backend:
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
+media_library:
+  name: uploadcare
+  config:
+    publicKey: "demopublickey"
+
 locale: "ar"
 
 collections:
