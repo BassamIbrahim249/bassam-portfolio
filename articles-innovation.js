@@ -16,14 +16,36 @@ function fetchInnovationArticles() {
               if (text.trim().startsWith('{')) {
                 try {
                   const article = JSON.parse(text);
-                  // تحويل sections إلى الشكل الصحيح إذا كان مصفوفة نصوص
+                  // معالجة الأقسام: إذا كانت sections مصفوفة نصوص، نحولها لكائنات
                   if (article.sections && Array.isArray(article.sections)) {
-                    article.sections = article.sections.map(sec => {
-                      if (typeof sec === 'string') {
-                        return { heading: sec, text: [] };
+                    const processedSections = [];
+                    let currentHeading = '';
+                    article.sections.forEach(item => {
+                      if (typeof item === 'string') {
+                        const cleanText = item.trim();
+                        if (cleanText.endsWith('\n') || cleanText.length < 50) {
+                          // ربما عنوان قسم
+                          if (currentHeading) {
+                            processedSections.push({ heading: currentHeading, text: [] });
+                          }
+                          currentHeading = cleanText;
+                        } else {
+                          // نص قسم
+                          if (!currentHeading) currentHeading = '';
+                          const existing = processedSections.find(s => s.heading === currentHeading);
+                          if (existing) {
+                            existing.text.push(cleanText);
+                          } else {
+                            processedSections.push({ heading: currentHeading, text: [cleanText] });
+                            currentHeading = '';
+                          }
+                        }
                       }
-                      return sec;
                     });
+                    if (currentHeading) {
+                      processedSections.push({ heading: currentHeading, text: [] });
+                    }
+                    article.sections = processedSections;
                   }
                   return article;
                 } catch (e) {}
@@ -35,7 +57,7 @@ function fetchInnovationArticles() {
               return {
                 title: title,
                 paragraphs: [],
-                sections: [{ heading: 'المحتوى', text: lines }],
+                sections: [],
                 tags: [],
                 headerImage: null
               };
