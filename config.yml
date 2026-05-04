@@ -1,14 +1,14 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: bassamibrahim249/bassam-portfolio
   branch: main
+  base_url: https://api.decapcms.org
+  auth_endpoint: auth
+  client_id: "0v23liAcVKPmKCESheB0"
+  client_secret: "d70e9658fc65effb1fb5a8a0d9fdf9ae9e360e83"
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
-media_library:
-  name: uploadcare
-  config:
-    publicKey: "demopublickey"
-
 locale: "ar"
 
 collections:
@@ -17,7 +17,7 @@ collections:
     folder: "content/articles"
     create: true
     slug: "{{slug}}"
-    extension: "md"
+    extension: "json"
     editor:
       preview: false
     fields:
