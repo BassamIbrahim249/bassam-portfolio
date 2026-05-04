@@ -13,24 +13,29 @@ function fetchInnovationArticles() {
             .then(text => {
               if (!text) return null;
               
-              // المحاولة الأولى: هل الملف JSON (يبدأ بـ {)؟
               if (text.trim().startsWith('{')) {
                 try {
-                  return JSON.parse(text);
-                } catch (e) {
-                  // إذا فشل JSON، نكمل كـ Markdown
-                }
+                  const article = JSON.parse(text);
+                  // تحويل sections إلى الشكل الصحيح إذا كان مصفوفة نصوص
+                  if (article.sections && Array.isArray(article.sections)) {
+                    article.sections = article.sections.map(sec => {
+                      if (typeof sec === 'string') {
+                        return { heading: sec, text: [] };
+                      }
+                      return sec;
+                    });
+                  }
+                  return article;
+                } catch (e) {}
               }
               
-              // المحاولة الثانية: معالجة كـ Markdown عادي
               const lines = text.split('\n').filter(line => line.trim() !== '');
               const titleLine = lines.find(line => line.trim().startsWith('# '));
               const title = titleLine ? titleLine.trim().replace(/^#\s*/, '') : 'مقال بدون عنوان';
-              const content = lines.slice(lines.indexOf(titleLine || lines[0]) + 1).join('\n').trim();
               return {
                 title: title,
-                paragraphs: content ? [content] : [],
-                sections: [],
+                paragraphs: [],
+                sections: [{ heading: 'المحتوى', text: lines }],
                 tags: [],
                 headerImage: null
               };
