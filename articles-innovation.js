@@ -1,3 +1,4 @@
+// ========== ملف articles-innovation.js ==========
 function fetchInnovationArticles() {
   return fetch("https://api.github.com/repos/bassamibrahim249/bassam-portfolio/contents/content/articles")
     .then(response => {
@@ -13,50 +14,23 @@ function fetchInnovationArticles() {
             .then(text => {
               if (!text) return null;
               
+              // إذا النص يبدأ بـ { فهو JSON حقيقي
               if (text.trim().startsWith('{')) {
                 try {
-                  const article = JSON.parse(text);
-                  // معالجة الأقسام: إذا كانت sections مصفوفة نصوص، نحولها لكائنات
-                  if (article.sections && Array.isArray(article.sections)) {
-                    const processedSections = [];
-                    let currentHeading = '';
-                    article.sections.forEach(item => {
-                      if (typeof item === 'string') {
-                        const cleanText = item.trim();
-                        if (cleanText.endsWith('\n') || cleanText.length < 50) {
-                          // ربما عنوان قسم
-                          if (currentHeading) {
-                            processedSections.push({ heading: currentHeading, text: [] });
-                          }
-                          currentHeading = cleanText;
-                        } else {
-                          // نص قسم
-                          if (!currentHeading) currentHeading = '';
-                          const existing = processedSections.find(s => s.heading === currentHeading);
-                          if (existing) {
-                            existing.text.push(cleanText);
-                          } else {
-                            processedSections.push({ heading: currentHeading, text: [cleanText] });
-                            currentHeading = '';
-                          }
-                        }
-                      }
-                    });
-                    if (currentHeading) {
-                      processedSections.push({ heading: currentHeading, text: [] });
-                    }
-                    article.sections = processedSections;
-                  }
-                  return article;
-                } catch (e) {}
+                  return JSON.parse(text);
+                } catch (e) {
+                  console.error("خطأ في تحليل JSON:", e);
+                }
               }
               
+              // إذا وصلنا هنا، اعتبره نص عادي أو Markdown
               const lines = text.split('\n').filter(line => line.trim() !== '');
               const titleLine = lines.find(line => line.trim().startsWith('# '));
               const title = titleLine ? titleLine.trim().replace(/^#\s*/, '') : 'مقال بدون عنوان';
+              const content = lines.filter(l => l !== titleLine).join('\n').trim();
               return {
                 title: title,
-                paragraphs: [],
+                paragraphs: content ? [content] : [],
                 sections: [],
                 tags: [],
                 headerImage: null
