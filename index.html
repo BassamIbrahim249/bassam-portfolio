@@ -50,6 +50,7 @@
     @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
     @keyframes backToTopPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(59,158,255,0.4); } 50% { box-shadow: 0 0 0 12px rgba(59,158,255,0); } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 3000px; } }
     .anim-fade-up { animation: fadeUp 0.75s ease both; }
     .delay-1 { animation-delay: 0.10s; } .delay-2 { animation-delay: 0.25s; } .delay-3 { animation-delay: 0.40s; } .delay-4 { animation-delay: 0.55s; } .delay-5 { animation-delay: 0.70s; }
     .pulse-dot { animation: pulseGlow 2.2s ease-in-out infinite; }
@@ -78,6 +79,21 @@
     .install-btn-no:hover { border-color: rgba(255,255,255,0.25); color: #99aacc; }
     .innovation-tag-btn { transition: all 0.3s ease; }
     .innovation-tag-btn:hover { background: rgba(59,158,255,0.25) !important; color: #ffffff !important; }
+    
+    /* أنماط الأكورديون */
+    .accordion-item { border: 1px solid rgba(234,179,8,0.15); border-radius: 12px; margin-bottom: 16px; overflow: hidden; background: rgba(255,255,255,0.02); transition: all 0.3s ease; }
+    .accordion-header { padding: 18px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s ease; }
+    .accordion-header:hover { background: rgba(234,179,8,0.05); }
+    .accordion-title { font-size: 18px; font-weight: 700; color: #ffffff; margin: 0; }
+    .accordion-icon { font-size: 20px; color: #EAB308; transition: transform 0.3s ease; }
+    .accordion-icon.open { transform: rotate(180deg); }
+    .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
+    .accordion-content.open { max-height: 3000px; padding: 0 20px 24px; }
+    .accordion-content p { color: #8899bb; line-height: 1.9; margin-bottom: 16px; font-size: 15px; }
+    .accordion-content h3 { color: #EAB308; font-size: 18px; font-weight: 700; margin: 20px 0 12px; }
+    .accordion-content img { width: 100%; border-radius: 12px; margin: 16px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .accordion-tags { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 20px; }
+
     @media (max-width: 768px) { .hide-mobile { display: none !important; } .footer-row { flex-direction: column; text-align: center; gap: 16px; } .hero-buttons { flex-direction: column; align-items: center; } }
   </style>
 </head>
@@ -110,8 +126,14 @@
       { name: "TikTok", href: "https://www.tiktok.com/@.bassam.ibrahim", color: "#ffffff", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/></svg>) },
     ];
 
-    // ================ المكون الديناميكي (يقبل أي قائمة مقالات) ================
+    // ================ مكون الأكورديون (مقالات قابلة للطي) ================
     function ArticleListSection({ title, articles, onBack }) {
+      const [openIndex, setOpenIndex] = useState(null);
+
+      const toggleArticle = (index) => {
+        setOpenIndex(openIndex === index ? null : index);
+      };
+
       return (
         <div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "24px", color: "#fff" }}>
           <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold" }}>← العودة للمنصة الهندسية</button>
@@ -125,53 +147,56 @@
               <p>📝 لا توجد مقالات حالياً. ابدأ بكتابة أول مقال من لوحة التحكم!</p>
             </div>
           ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 22, maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ maxWidth: 900, margin: "0 auto" }}>
               {articles.map((article, idx) => (
-                <div
-                  key={idx}
-                  className="card-wrap"
-                  style={{
-                    background: "rgba(255,255,255,0.02)",
-                    border: "1px solid rgba(234,179,8,0.2)",
-                    borderRadius: 20,
-                    overflow: "hidden",
-                    cursor: "pointer",
-                    transition: "all 0.45s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-6px)";
-                    e.currentTarget.style.borderColor = "#EAB308";
-                    e.currentTarget.style.background = "rgba(234,179,8,0.05)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor = "rgba(234,179,8,0.2)";
-                    e.currentTarget.style.background = "rgba(255,255,255,0.02)";
-                  }}
-                >
-                  {article.headerImage?.src && (
-                    <img
-                      src={article.headerImage.src}
-                      alt={article.headerImage.alt || article.title}
-                      style={{ width: "100%", height: 200, objectFit: "cover" }}
-                      loading="lazy"
-                    />
-                  )}
-                  <div style={{ padding: 20 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{article.title}</h3>
-                    {article.paragraphs?.length > 0 && (
-                      <p style={{ fontSize: 12, color: "#8899bb", lineHeight: 1.6, marginBottom: 12 }}>
-                        {article.paragraphs[0].substring(0, 100)}...
-                      </p>
-                    )}
-                    {article.tags && (
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                        {article.tags.slice(0, 3).map((tag, i) => (
-                          <span key={i} style={{ fontSize: 10, padding: "3px 8px", borderRadius: 6, background: "rgba(234,179,8,0.1)", color: "#EAB308", border: "1px solid rgba(234,179,8,0.3)" }}>{tag}</span>
-                        ))}
-                      </div>
-                    )}
+                <div key={idx} className="accordion-item">
+                  <div 
+                    className="accordion-header"
+                    onClick={() => toggleArticle(idx)}
+                  >
+                    <h3 className="accordion-title">{article.title}</h3>
+                    <span className={`accordion-icon ${openIndex === idx ? 'open' : ''}`}>▼</span>
                   </div>
+                  
+                  <div className={`accordion-content ${openIndex === idx ? 'open' : ''}`}>
+                    {article.headerImage?.src && (
+                      <img 
+                        src={article.headerImage.src} 
+                        alt={article.headerImage.alt || article.title}
+                        style={{ width: "100%", borderRadius: 12, marginBottom: 20, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}
+                        loading="lazy"
+                      />
+                    )}
+                    
+                    {article.paragraphs?.map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                    
+                    {article.sections?.map((section, i) => (
+                      <div key={i} style={{ marginBottom: 20 }}>
+                        <h3>{section.heading}</h3>
+                        {section.text?.map((t, j) => (
+                          <p key={j}>{t}</p>
+                        ))}
+                        {section.image?.src && (
+                          <img 
+                            src={section.image.src} 
+                            alt={section.image.alt || section.heading}
+                            style={{ width: "100%", borderRadius: 12, margin: "16px 0" }}
+                            loading="lazy"
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {article.tags && article.tags.length > 0 && (
+                    <div className="accordion-tags">
+                      {article.tags.map((tag, i) => (
+                        <span key={i} style={{ fontSize: 10, padding: "3px 8px", borderRadius: 6, background: "rgba(234,179,8,0.1)", color: "#EAB308", border: "1px solid rgba(234,179,8,0.3)" }}>{tag}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -272,7 +297,7 @@
             </div>
           </section>
           <section id="vision-section" style={{ padding: "60px 24px", zIndex: 1 }}><div style={{ maxWidth: 860, margin: "0 auto", borderRadius: 20, padding: "48px 40px", textAlign: "center", background: "linear-gradient(135deg,rgba(59,158,255,0.08),rgba(96,207,255,0.04))", border: "1px solid rgba(59,158,255,0.15)" }}><div style={{ fontSize: 44, marginBottom: 14 }}>⬡</div><h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 14 }}>الرؤية والرسالة</h3><p style={{ color: "#6677aa", lineHeight: 1.9, maxWidth: 580, margin: "0 auto", fontSize: 14 }}>أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة تعكس مسيرتي في بناء جسور معرفية بين الهندسة والسياسة والإنسان.</p></div></section>
-          <footer style={{ padding: "48px 24px 32px", borderTop: "1px solid rgba(59,158,255,0.1)", zIndex: 1 }}><div style={{ maxWidth: 860, margin: "0 auto" }}><div style={{ textAlign: "center", marginBottom: 28 }}><p style={{ fontSize: 10, letterSpacing: "0.4em", color: "#3B9EFF", marginBottom: 20, fontWeight: 600 }}>تواصل معي</p><div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>{SOCIALS.map(s => <SocialIcon key={s.name} social={s} />)}</div></div><div className="footer-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", paddingTop: 28, borderTop: "1px solid rgba(59,158,255,0.1)" }}><div style={{ display: "flex", alignItems: "center", gap: 10 }}><div style={{ width: 30, height: 30, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#3B9EFF,#60CFFF)", fontSize: 10, fontWeight: 900, color: "#080c12" }}>B.I</div><span style={{ fontWeight: 700, color: "#fff", fontSize: 13 }}>BassamIbrahim</span></div><p style={{ fontSize: 11, color: "#334455" }}>© {new Date().getFullYear()} · جميع الحقوق محفوظة</p></div></div></footer>
+          <footer style={{ padding: "48px 24px 32px", borderTop: "1px solid rgba(59,158,255,0.1)", zIndex: 1 }}><div style={{ maxWidth: 860, margin: "0 auto" }}><div style={{ textAlign: "center", marginBottom: 28 }}><p style={{ fontSize: 10, letterSpacing: "0.4em", color: "#3B9EFF", marginBottom: 20, fontWeight: 600 }}>تواصل معي</p><div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>{SOCIALS.map(s => <SocialIcon key={s.name} social={s} />)}</div></div><div className="footer-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", paddingTop: 28, borderTop: "1px solid rgba(59,158,255,0.1)" }}><div style={{ display: "flex", alignItems: "center", gap: 10 }}><div style={{ width: 30, height: 30, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#3B9EFF,#60CFFF)", fontSize: 10, fontWeight: 900, color: "#080c12" }}>B.I</div><span style={{ fontWeight: 700, color: "#fff", fontSize: 13 }}>BassamIbrahim</span></div><p style={{ fontSize: 11, color: "#334455" }}>© {new Date().getFullYear()} · جميع الحقوق المحفوظة</p></div></div></footer>
           <WelcomeInstallPopup />
           <BackToTop />
         </div>
