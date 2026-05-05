@@ -1,0 +1,1 @@
+const MATERIALS_ARTICLES = [];
