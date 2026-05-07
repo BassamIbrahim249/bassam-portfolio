@@ -1,0 +1,19 @@
+{
+  "articles": [
+    {
+      "title": "مقال تجريبي",
+      "date": "2024-05-20",
+      "category": "innovation",
+      "body": "مرحباً بك في النظام الجديد.",
+      "headerImage": { "src": "", "alt": "" },
+      "paragraphs": ["هذا مقال تجريبي."],
+      "sections": [{
+        "heading": "القسم الأول",
+        "text": ["نص القسم."],
+        "image": { "src": "", "alt": "" }
+      }],
+      "tags": ["تجربة"],
+      "allowComments": true
+    }
+  ]
+}
