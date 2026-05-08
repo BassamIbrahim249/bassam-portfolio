@@ -1,18 +1,9 @@
 collections:
   articles:
-    type: collection
-    format: json
     output: true
     folder: content/articles
     fields:
       - { name: "title", label: "Title", widget: "string" }
       - { name: "date", label: "Date", widget: "datetime" }
       - { name: "category", label: "Category", widget: "select", options: ["innovation", "materials", "political", "nubian", "lifestyle"] }
-      - { name: "headerImage", label: "Header Image", widget: "image" }
-      - { name: "paragraphs", label: "Paragraphs", widget: "list", field: { name: "text", label: "Text", widget: "text" } }
-      - { name: "sections", label: "Sections", widget: "list", fields: [
-          { name: "heading", label: "Heading", widget: "string" },
-          { name: "text", label: "Text", widget: "markdown" }
-        ] }
-      - { name: "tags", label: "Tags", widget: "list", field: { name: "tag", label: "Tag", widget: "string" } }
       - { name: "body", label: "Body", widget: "markdown" }
