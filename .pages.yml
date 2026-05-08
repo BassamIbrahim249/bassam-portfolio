@@ -3,7 +3,9 @@ collections:
     output: true
     folder: content/articles
     fields:
-      - { name: "title", label: "Title", widget: "string" }
-      - { name: "date", label: "Date", widget: "datetime" }
-      - { name: "category", label: "Category", widget: "select", options: ["innovation", "materials", "political", "nubian", "lifestyle"] }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - { name: "title", label: "Title", type: "string" }
+      - { name: "date", label: "Date", type: "date" }
+      - { name: "category", label: "Category", type: "select", options: ["innovation", "materials", "political", "nubian", "lifestyle"] }
+      - { name: "headerImage", label: "Header Image", type: "image" }
+      - { name: "tags", label: "Tags", type: "list", field: { name: "tag", label: "Tag", type: "string" } }
+      - { name: "body", label: "Body", type: "rich-text" }
