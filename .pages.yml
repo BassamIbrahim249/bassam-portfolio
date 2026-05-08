@@ -4,6 +4,7 @@ content:
     type: collection
     path: content/articles
     format: json
+    extension: md
     fields:
       - name: title
         label: عنوان المقال
@@ -12,6 +13,7 @@ content:
       - name: date
         label: تاريخ النشر
         widget: datetime
+        default: now
       - name: category
         label: القسم
         widget: select
