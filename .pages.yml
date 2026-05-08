@@ -13,15 +13,11 @@ content:
       - name: date
         label: تاريخ النشر
         widget: datetime
+        format: "YYYY-MM-DD"
       - name: category
         label: القسم
         widget: select
-        options:
-          - "ابتكار إنشائي"
-          - "علوم المواد"
-          - "الأرشيف السياسي"
-          - "نوبيان"
-          - "نمط الحياة"
+        options: ["ابتكار إنشائي", "علوم المواد", "الأرشيف السياسي", "نوبيان", "نمط الحياة"]
       - name: headerImage
         label: الصورة الرئيسية
         widget: image
