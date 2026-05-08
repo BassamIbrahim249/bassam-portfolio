@@ -1,46 +1,26 @@
 content:
-  - name: "database"
-    label: "قاعدة البيانات"
+  - name: "articles"
+    label: "المقالات"
     type: "file"
     path: "data.json"
     format: "json"
     fields:
-      - name: "articles"
-        label: "المقالات"
-        type: "list"
-        fields:
-          - {name: "title", label: "العنوان", type: "string"}
-          - {name: "date", label: "التاريخ", type: "date"}
-          - {name: "category", label: "القسم", type: "string"}
-          - {name: "body", label: "المحتوى", type: "rich-text"}
-          - name: "headerImage"
-            label: "الصورة الرئيسية"
-            type: "object"
-            fields:
-              - {name: "src", label: "مسار الصورة", type: "string"}
-              - {name: "alt", label: "النص البديل", type: "string"}
-          - name: "paragraphs"
-            label: "المقدمة (فقرات)"
-            type: "list"
-            field: {name: "text", label: "فقرة", type: "text"}
-          - name: "sections"
-            label: "أقسام المقال"
-            type: "list"
-            fields:
-              - {name: "heading", label: "عنوان القسم", type: "string"}
-              - name: "text"
-                label: "نص القسم"
-                type: "list"
-                field: {name: "paragraph", label: "فقرة", type: "text"}
-              - name: "image"
-                label: "صورة القسم (اختياري)"
-                type: "object"
-                required: false
-                fields:
-                  - {name: "src", label: "مسار الصورة", type: "string"}
-                  - {name: "alt", label: "النص البديل", type: "string"}
-          - name: "tags"
-            label: "كلمات مفتاحية"
-            type: "list"
-            field: {name: "tag", label: "كلمة", type: "string"}
-          - {name: "allowComments", label: "تفعيل التعليقات", type: "boolean", default: true}
+      - name: "title"
+        label: "عنوان المقال"
+        type: "string"
+        required: true
+      - name: "date"
+        label: "تاريخ النشر"
+        type: "date"
+      - name: "category"
+        label: "القسم"
+        type: "select"
+        options:
+          - { label: "ابتكار إنشائي", value: "innovation" }
+          - { label: "علوم المواد", value: "materials" }
+          - { label: "الأرشيف السياسي", value: "political" }
+          - { label: "نوبيان", value: "nubian" }
+          - { label: "نمط الحياة", value: "lifestyle" }
+      - name: "body"
+        label: "المحتوى"
+        type: "rich-text"
