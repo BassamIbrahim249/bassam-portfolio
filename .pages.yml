@@ -13,16 +13,15 @@ content:
       - name: date
         label: تاريخ النشر
         widget: datetime
-        default: now
       - name: category
         label: القسم
         widget: select
         options:
-          - "innovation"
-          - "materials"
-          - "political"
-          - "nubian"
-          - "lifestyle"
+          - "ابتكار إنشائي"
+          - "علوم المواد"
+          - "الأرشيف السياسي"
+          - "نوبيان"
+          - "نمط الحياة"
       - name: headerImage
         label: الصورة الرئيسية
         widget: image
