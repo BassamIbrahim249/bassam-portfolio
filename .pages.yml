@@ -1,46 +1,26 @@
 content:
-  - name: "database"
-    label: "قاعدة البيانات"
+  - name: "articles"
+    label: "المقالات"
     type: "file"
     path: "data.json"
     format: "json"
     fields:
-      - name: "articles"
-        label: "قائمة المقالات"
-        type: "list"
-        fields:
-          - name: "title"
-            label: "العنوان"
-            type: "string"
-          - name: "date"
-            label: "التاريخ"
-            type: "date"
-          - name: "category"
-            label: "القسم"
-            type: "select"
-            options:
-              - { label: "ابتكار إنشائي", value: "innovation" }
-              - { label: "علوم المواد", value: "materials" }
-              - { label: "الأرشيف السياسي", value: "political" }
-              - { label: "نوبيان", value: "nubian" }
-              - { label: "نمط الحياة", value: "lifestyle" }
-          - name: "headerImage"
-            label: "الصورة الرئيسية"
-            type: "object"
-            fields:
-              - name: "src"
-                label: "رابط الصورة"
-                type: "string"
-              - name: "alt"
-                label: "وصف الصورة"
-                type: "string"
-          - name: "body"
-            label: "المحتوى الرئيسي"
-            type: "rich-text"
-          - name: "paragraphs"
-            label: "فقرات إضافية"
-            type: "list"
-            fields:
-              - name: "text"
-                label: "نص الفقرة"
-                type: "text"
+      - name: "title"
+        label: "عنوان المقال"
+        type: "string"
+        required: true
+      - name: "date"
+        label: "تاريخ النشر"
+        type: "date"
+      - name: "category"
+        label: "القسم"
+        type: "select"
+        options:
+          - { label: "ابتكار إنشائي", value: "innovation" }
+          - { label: "علوم المواد", value: "materials" }
+          - { label: "الأرشيف السياسي", value: "political" }
+          - { label: "نوبيان", value: "nubian" }
+          - { label: "نمط الحياة", value: "lifestyle" }
+      - name: "body"
+        label: "المحتوى"
+        type: "rich-text"
