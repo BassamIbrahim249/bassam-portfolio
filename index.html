@@ -125,7 +125,7 @@
       { name: "TikTok", href: "https://www.tiktok.com/@.bassam.ibrahim", color: "#ffffff", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/></svg>) },
     ];
 
-    // ================ مكون الأكورديون (يقرأ من data.json فقط) ================
+    // ================ مكون الأكورديون (يقرأ من مجلد content/articles/) ================
     function ArticleListSection({ title, onBack }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -133,19 +133,35 @@
       const [lastOpenedIndex, setLastOpenedIndex] = useState(null);
 
       useEffect(() => {
-        fetch('./data.json')
+        const repoOwner = "bassamibrahim249";
+        const repoName = "bassam-portfolio";
+        const folderPath = "content/articles";
+
+        fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`)
           .then(res => res.json())
-          .then(data => {
-            if (data && data.articles) {
-              // إذا كان articles نصاً واحداً (كما يحفظه Pages CMS حالياً)، نحوله إلى مصفوفة
-              const parsedArticles = typeof data.articles === 'string' 
-                ? [{ title: 'مقال جديد', body: data.articles }]
-                : data.articles;
-              setArticles(parsedArticles);
-            }
-            setLoading(false);
+          .then(files => {
+            const articleFiles = Array.isArray(files) ? files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.json')) : [];
+            return Promise.all(
+              articleFiles.map(f => 
+                fetch(f.download_url)
+                  .then(res => res.text())
+                  .then(text => {
+                    // محاولة تحليل JSON
+                    try { return JSON.parse(text); } catch(e) {}
+                    // معالجة Markdown
+                    const lines = text.split('\n').filter(l => l.trim());
+                    const titleLine = lines.find(l => l.trim().startsWith('# '));
+                    return {
+                      title: titleLine ? titleLine.trim().replace(/^#\s*/, '') : f.name.replace(/\.(md|json)$/, ''),
+                      body: lines.filter(l => l !== titleLine).join('\n').trim()
+                    };
+                  })
+              )
+            );
           })
-          .catch(() => setLoading(false));
+          .then(data => setArticles(data.reverse()))
+          .catch(() => {})
+          .finally(() => setLoading(false));
       }, []);
 
       return (
