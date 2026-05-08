@@ -12,39 +12,22 @@ content:
         required: true
       - name: date
         label: تاريخ النشر
-        widget: datetime
-        format: "YYYY-MM-DD"
+        widget: string
       - name: category
         label: القسم
-        widget: select
-        options: ["ابتكار إنشائي", "علوم المواد", "الأرشيف السياسي", "نوبيان", "نمط الحياة"]
+        widget: string
       - name: headerImage
         label: الصورة الرئيسية
-        widget: image
+        widget: string
       - name: tags
         label: الكلمات المفتاحية
-        widget: list
-        field:
-          name: tag
-          label: كلمة
-          widget: string
+        widget: string
       - name: paragraphs
         label: الفقرات
-        widget: list
-        field:
-          name: paragraph
-          label: فقرة
-          widget: text
+        widget: text
       - name: sections
         label: الأقسام
-        widget: list
-        fields:
-          - name: subtitle
-            label: عنوان فرعي
-            widget: string
-          - name: content
-            label: نص القسم
-            widget: markdown
+        widget: text
       - name: body
         label: المحتوى
         widget: markdown
