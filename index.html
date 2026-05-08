@@ -159,7 +159,7 @@
               )
             );
           })
-          .then(data => setArticles(data.reverse()))
+          .then(data => setArticles(data))
           .catch(() => {})
           .finally(() => setLoading(false));
       }, []);
