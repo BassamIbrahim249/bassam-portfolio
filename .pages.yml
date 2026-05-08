@@ -31,6 +31,23 @@ content:
           name: tag
           label: كلمة
           widget: string
+      - name: paragraphs
+        label: الفقرات
+        widget: list
+        field:
+          name: paragraph
+          label: فقرة
+          widget: text
+      - name: sections
+        label: الأقسام
+        widget: list
+        fields:
+          - name: subtitle
+            label: عنوان فرعي
+            widget: string
+          - name: content
+            label: نص القسم
+            widget: markdown
       - name: body
         label: المحتوى
         widget: markdown
