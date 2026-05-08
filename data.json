@@ -1,3 +1,10 @@
 {
-  "articles": "[object Object]مرحبا"
+  "articles": [
+    {
+      "title": "مقال تجريبي",
+      "date": "2024-05-20",
+      "category": "innovation",
+      "body": "مرحباً بك في النظام الجديد."
+    }
+  ]
 }
