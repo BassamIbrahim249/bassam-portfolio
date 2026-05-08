@@ -6,28 +6,11 @@ content:
     format: json
     extension: md
     fields:
-      - name: title
-        label: عنوان المقال
-        widget: string
-        required: true
-      - name: date
-        label: تاريخ النشر
-        widget: string
-      - name: category
-        label: القسم
-        widget: string
-      - name: headerImage
-        label: الصورة الرئيسية
-        widget: string
-      - name: tags
-        label: الكلمات المفتاحية
-        widget: string
-      - name: paragraphs
-        label: الفقرات
-        widget: text
-      - name: sections
-        label: الأقسام
-        widget: text
-      - name: body
-        label: المحتوى
-        widget: markdown
+      - { name: title, label: "عنوان المقال", widget: string, required: true }
+      - { name: date, label: "تاريخ النشر", widget: string }
+      - { name: category, label: "القسم", widget: string }
+      - { name: headerImage, label: "الصورة الرئيسية", widget: string }
+      - { name: tags, label: "الكلمات المفتاحية", widget: string }
+      - { name: paragraphs, label: "الفقرات", widget: text }
+      - { name: sections, label: "الأقسام", widget: text }
+      - { name: body, label: "المحتوى", widget: markdown }
