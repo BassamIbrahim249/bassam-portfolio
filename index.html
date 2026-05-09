@@ -68,17 +68,34 @@
     
     .delay-1 { animation-delay: 0.10s; } .delay-2 { animation-delay: 0.25s; } .delay-3 { animation-delay: 0.40s; } .delay-4 { animation-delay: 0.55s; } .delay-5 { animation-delay: 0.70s; }
     .grad-text { background: linear-gradient(135deg, #3B9EFF, #60CFFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .card-wrap { transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease, background 0.45s ease; }
+    
+    /* تحسينات التوهج والإضاءة */
+    .card-wrap { 
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease; 
+    }
+    .card-wrap:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(59, 158, 255, 0.25);
+    }
+    .card-wrap.nubian-card:hover {
+      box-shadow: 0 15px 35px rgba(234, 179, 8, 0.3);
+      border-color: rgba(234, 179, 8, 0.6);
+    }
+    
     .social-btn { transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
     .navbar { transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease; }
-    .btn-primary { transition: transform 0.25s ease, box-shadow 0.25s ease; }
-    .btn-primary:hover { transform: scale(1.04); box-shadow: 0 0 40px rgba(59,158,255,0.45); }
-    .btn-outline { border: 1px solid rgba(59,158,255,0.3); color: #8899bb; transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease; }
-    .btn-outline:hover { border-color: rgba(59,158,255,0.7); color: #3B9EFF; transform: scale(1.04); }
+    
+    .btn-primary { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 45px rgba(59,158,255,0.6); }
+    .btn-outline { border: 1px solid rgba(59,158,255,0.3); color: #8899bb; transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+    .btn-outline:hover { border-color: rgba(59,158,255,0.8); color: #ffffff; transform: scale(1.05); background: rgba(59,158,255,0.1); }
+    
     .nav-cta { background: linear-gradient(135deg, rgba(37,211,102,0.18), rgba(37,211,102,0.08)); border: 1px solid rgba(37,211,102,0.45); color: #25D366; transition: background 0.25s ease, box-shadow 0.25s ease; cursor: pointer; }
-    .nav-cta:hover { background: linear-gradient(135deg, rgba(37,211,102,0.28), rgba(37,211,102,0.16)); box-shadow: 0 0 22px rgba(37,211,102,0.3); }
+    .nav-cta:hover { background: linear-gradient(135deg, rgba(37,211,102,0.28), rgba(37,211,102,0.16)); box-shadow: 0 0 25px rgba(37,211,102,0.4); }
+    
     .innovation-tag-btn { transition: all 0.3s ease; }
-    .innovation-tag-btn:hover { background: rgba(59,158,255,0.25) !important; color: #ffffff !important; }
+    .innovation-tag-btn:hover { background: rgba(59,158,255,0.3) !important; color: #ffffff !important; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    
     .accordion-item { border: 1px solid rgba(234,179,8,0.15); border-radius: 12px; margin-bottom: 16px; overflow: hidden; background: rgba(255,255,255,0.02); transition: all 0.3s ease; }
     .accordion-item.last-opened { border-color: rgba(234,179,8,0.5); }
     .accordion-header { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s ease; gap: 12px; }
@@ -95,6 +112,7 @@
     .accordion-content.open { max-height: 5000px; padding: 0 20px 24px; }
     .accordion-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .accordion-tag { font-size: 10px; padding: 3px 8px; border-radius: 50px; background: rgba(234,179,8,0.1); color: #EAB308; border: 1px solid rgba(234,179,8,0.2); }
+    
     .article-body { color: #8899bb; line-height: 1.9; font-size: 15px; }
     .article-body h2, .article-body h3 { color: #EAB308; font-size: 18px; font-weight: 700; margin: 20px 0 12px; }
     .article-body p { margin-bottom: 14px; }
@@ -104,9 +122,19 @@
     .article-body th, .article-body td { border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; text-align: right; }
     .article-body th { background: rgba(234,179,8,0.1); color: #EAB308; font-weight: 700; }
     .article-body blockquote { border-right: 3px solid #EAB308; padding-right: 16px; margin: 16px 0; color: #8899bb; font-style: italic; }
+    
     .install-btn { background: linear-gradient(135deg,#3B9EFF,#2563eb); color: #fff; border: none; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; margin-bottom: 14px; box-shadow: 0 0 30px rgba(59,158,255,0.4); transition: transform 0.25s ease; }
     .install-btn:hover { transform: scale(1.03); }
     .dismiss-btn { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: #6677aa; padding: 12px 32px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; }
+    
+    /* زر المختبر المرئي */
+    .academic-link {
+      display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; 
+      color: #60CFFF; text-decoration: none; padding: 6px 12px; border-radius: 8px;
+      background: rgba(96,207,255,0.05); border: 1px solid rgba(96,207,255,0.2);
+      transition: all 0.3s ease;
+    }
+    .academic-link:hover { background: rgba(96,207,255,0.2); color: #fff; border-color: #60CFFF; }
     
     @media (max-width: 768px) { .hide-mobile { display: none !important; } }
   </style>
@@ -251,16 +279,40 @@
 
     function Card({ card, onTagClick }) {
       const [hover, setHover] = useState(false);
+      const isNubian = card.id === "nubian";
+      const hoverBg = isNubian ? "rgba(234,179,8,0.08)" : "rgba(59,158,255,0.08)";
+      const hoverBorder = isNubian ? "rgba(234,179,8,0.5)" : "rgba(59,158,255,0.4)";
+      
       return (
-        <div className="card-wrap" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ background: hover ? 'rgba(59,158,255,0.06)' : 'rgba(255,255,255,0.02)', border: '1px solid', borderColor: hover ? 'rgba(59,158,255,0.3)' : 'rgba(255,255,255,0.06)', borderRadius: 20, padding: 32, transform: hover ? 'translateY(-6px)' : 'none', cursor: 'pointer', scrollMarginTop: 100 }}>
-          <div style={{ width: 56, height: 56, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', background: hover ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)', marginBottom: 24 }}>{card.icon}</div>
+        <div className={`card-wrap ${isNubian ? 'nubian-card' : ''}`}
+          onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+          style={{ 
+            background: hover ? hoverBg : 'rgba(255,255,255,0.02)', 
+            border: '1px solid', 
+            borderColor: hover ? hoverBorder : 'rgba(255,255,255,0.06)', 
+            borderRadius: 20, padding: 32, cursor: 'pointer', scrollMarginTop: 100 
+          }}>
+          <div style={{ width: 56, height: 56, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', background: hover ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)', marginBottom: 24, border: '1px solid', borderColor: hover ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)' }}>
+            {card.icon}
+          </div>
           <h3 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{card.title}</h3>
           <p style={{ fontSize: 12, fontWeight: 600, color: card.accent, marginBottom: 14 }}>{card.subtitle}</p>
           <p style={{ fontSize: 13, color: '#8899bb', lineHeight: 1.7, marginBottom: 24 }}>{card.desc}</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
             {card.tags.map(t => <button key={t} onClick={(e) => { e.stopPropagation(); onTagClick(t); }} className="innovation-tag-btn" style={{ fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(59,158,255,0.15)', color: '#3B9EFF', border: '1px solid rgba(59,158,255,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif" }}>{t}</button>)}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, color: hover ? card.accent : '#445566' }}><span>اكتشف المزيد</span><span style={{ transform: hover ? 'translateX(-4px)' : 'none', display: 'inline-block' }}>←</span></div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, color: hover ? card.accent : '#445566' }}>
+              <span>اكتشف المزيد</span>
+              <span style={{ transform: hover ? 'translateX(-4px)' : 'none', display: 'inline-block' }}>←</span>
+            </div>
+            {card.academic && (
+              <a href={card.academic.url} target="_blank" rel="noopener noreferrer" className="academic-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                {card.academic.label}
+              </a>
+            )}
+          </div>
         </div>
       );
     }
@@ -303,11 +355,37 @@
       if (activeSection === 'articles') return <ArticleListSection title={activeCategory || "المقالات"} category={activeCategory} onBack={() => { setActiveSection(null); setActiveCategory(null); }} />;
 
       const CARDS = [
-        { id: "engineering", title: "المنصة الهندسية", subtitle: "علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل", desc: "بوابة إلى عالم المواد الإنشائية المتقدمة.", tags: ["علوم المواد", "ابتكار إنشائي", "مختبر هندسي"], accent: "#3B9EFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><polygon points="20,4 36,30 4,30" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/></svg>) },
-        { id: "political", title: "الأرشيف السياسي", subtitle: "قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية", desc: "بوابة إلى الذاكرة السياسية السودانية.", tags: ["تاريخ السودان", "تحليل استراتيجي", "رؤى فكرية"], accent: "#60CFFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><rect x="6" y="6" width="28" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/></svg>) },
-        { id: "nubian", title: "نوبيان (الحضارة النوبية)", subtitle: "توثيق الإرث، التاريخ، والعمارة النوبية العريقة", desc: "نافذة متخصصة في تسليط الضوء على جذورنا التاريخية.", tags: ["تاريخ", "آثار", "هوية"], accent: "#EAB308", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 5L35 32H5L20 5Z" stroke="#EAB308" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>) },
-        { id: "academy", title: "أكاديمية التطوير والمنظمات", subtitle: "كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي", desc: "بوابة إلى التميّز المؤسسي.", tags: ["كتابة مشاريع", "قيادة", "تدريب تنموي"], accent: "#A78BFA", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><circle cx="20" cy="20" r="14" stroke="#A78BFA" strokeWidth="1.5" fill="none"/></svg>) },
-        { id: "lifestyle", title: "نمط الحياة والصحة", subtitle: "الصحة الشاملة، التغذية، والتميز البدني والذهني", desc: "بوابة إلى العافية الكاملة.", tags: ["صحة شاملة", "تغذية علمية", "تميز بدني"], accent: "#34D399", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 8 C20 8 8 16 8 24 C8 30 13.5 34 20 34 C26.5 34 32 30 32 24 C32 16 20 8 20 8Z" stroke="#34D399" strokeWidth="1.5" fill="none"/></svg>) },
+        { 
+          id: "engineering", title: "المنصة الهندسية", subtitle: "علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل", 
+          desc: "بوابة إلى عالم المواد الإنشائية المتقدمة — من تحليل الخصائص الفيزيائية والكيميائية، إلى أحدث ابتكارات تقنيات البناء، وتجارب المختبر الهندسي بمنهجية علمية صارمة.", 
+          tags: ["علوم المواد", "ابتكار إنشائي", "مختبر هندسي"], accent: "#3B9EFF", 
+          icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><polygon points="20,4 36,30 4,30" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/><polygon points="20,10 30,26 10,26" stroke="#3B9EFF" strokeWidth="0.8" fill="none" opacity="0.4"/><line x1="20" y1="4" x2="20" y2="30" stroke="#3B9EFF" strokeWidth="0.5" opacity="0.3"/></svg>),
+          academic: { label: "المختبر المرئي", url: "https://youtube.com/@bassamibrahimeng" } 
+        },
+        { 
+          id: "political", title: "الأرشيف السياسي", subtitle: "قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية", 
+          desc: "بوابة إلى الذاكرة السياسية السودانية — قراءات تاريخية معمّقة، وتحليل استراتيجي للمشهد الراهن، ورؤى فكرية نقدية تُنير المسار وتستشرف الأفق.", 
+          tags: ["تاريخ السودان", "تحليل استراتيجي", "رؤى فكرية"], accent: "#60CFFF", 
+          icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><rect x="6" y="6" width="28" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/><line x1="6" y1="16" x2="34" y2="16" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/><line x1="6" y1="24" x2="34" y2="24" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/><line x1="16" y1="6" x2="16" y2="34" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/><circle cx="20" cy="20" r="4" stroke="#60CFFF" strokeWidth="1.2" fill="none"/></svg>),
+        },
+        { 
+          id: "nubian", title: "نوبيان (الحضارة النوبية)", subtitle: "توثيق الإرث، التاريخ، والعمارة النوبية العريقة", 
+          desc: "نافذة متخصصة في تسليط الضوء على جذورنا التاريخية وهويتنا الحضارية العريقة، وهندسة الحضارة النوبية الخالدة عبر العصور.", 
+          tags: ["تاريخ", "آثار", "هوية"], accent: "#EAB308", 
+          icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 5L35 32H5L20 5Z" stroke="#EAB308" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/><path d="M13 18H27M10 25H30" stroke="#EAB308" strokeWidth="1.5"/></svg>),
+        },
+        { 
+          id: "academy", title: "أكاديمية التطوير والمنظمات", subtitle: "كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي المتكامل", 
+          desc: "بوابة إلى التميّز المؤسسي — إتقان كتابة المشاريع والمقترحات والمنح الدولية، وتنمية مهارات القيادة الفاعلة، وبرامج تدريبية تنموية متكاملة تصنع الفارق.", 
+          tags: ["كتابة مشاريع", "قيادة", "تدريب تنموي"], accent: "#A78BFA", 
+          icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><circle cx="20" cy="20" r="14" stroke="#A78BFA" strokeWidth="1.5" fill="none"/><circle cx="20" cy="20" r="8" stroke="#A78BFA" strokeWidth="0.8" fill="none" opacity="0.5"/><circle cx="20" cy="20" r="2" fill="#A78BFA"/><line x1="20" y1="6" x2="20" y2="14" stroke="#A78BFA" strokeWidth="1"/><line x1="20" y1="26" x2="20" y2="34" stroke="#A78BFA" strokeWidth="1"/></svg>),
+        },
+        { 
+          id: "lifestyle", title: "نمط الحياة والصحة", subtitle: "الصحة الشاملة، التغذية، والتميز البدني والذهني", 
+          desc: "بوابة إلى العافية الكاملة — منهجية متكاملة تجمع الصحة الجسدية والذهنية، وأنظمة تغذية علمية دقيقة. ندمج الانضباط البدني مع الحدة الذهنية لتعزيز الأداء القيادي المستدام.", 
+          tags: ["صحة شاملة", "تغذية علمية", "تميز بدني"], accent: "#34D399", 
+          icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 8 C20 8 8 16 8 24 C8 30 13.5 34 20 34 C26.5 34 32 30 32 24 C32 16 20 8 20 8Z" stroke="#34D399" strokeWidth="1.5" fill="none"/><path d="M14 22 C16 18 20 20 20 20 C20 20 24 18 26 22" stroke="#34D399" strokeWidth="1" fill="none" opacity="0.6"/></svg>),
+        },
       ];
 
       const STATS = [
@@ -346,7 +424,7 @@
           <section style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px 40px", textAlign: "center", zIndex: 1 }}>
             <div className="anim-fade-up delay-1" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 24 }}><div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: "50%", background: "#3B9EFF" }} /><span style={{ fontSize: 11, color: "#3B9EFF", letterSpacing: "0.3em", fontWeight: 600 }}>مهندس باحث · محلل استراتيجي · خبير تطوير</span><div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: "50%", background: "#3B9EFF" }} /></div>
             <h1 className="anim-fade-up delay-2" style={{ fontSize: "clamp(2.4rem,7vw,4.8rem)", fontWeight: 900, lineHeight: 1.15, marginBottom: 20 }}><span>Bassam</span><span className="grad-text">Ibrahim</span></h1>
-            <p className="anim-fade-up delay-3" style={{ color: "#6677aa", maxWidth: 650, lineHeight: 1.9, fontSize: "clamp(0.9rem, 2vw, 1rem)", marginBottom: 36 }}>مهندس باحث متخصص في علوم المواد وتطبيقاتها المبتكرة. أمتلك رؤية تحليلية متكاملة تشكلت عبر سنوات من العمل في التحليل الرياضي والسياسي.</p>
+            <p className="anim-fade-up delay-3" style={{ color: "#6677aa", maxWidth: 650, lineHeight: 1.9, fontSize: "clamp(0.9rem, 2vw, 1rem)", marginBottom: 36 }}>مهندس باحث متخصص في علوم المواد وتطبيقاتها المبتكرة. أمتلك رؤية تحليلية متكاملة تشكلت عبر سنوات من العمل في التحليل الرياضي والسياسي، مما أتاح لي دمج الدقة الهندسية مع عمق التحليل الاستراتيجي.</p>
             <div className="anim-fade-up delay-4" style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center", marginBottom: 60 }}>
               <button className="btn-primary" onClick={() => scrollTo("vision-section")} style={{ padding: "12px 32px", borderRadius: 12, background: "linear-gradient(135deg,#3B9EFF,#1a7fe0)", boxShadow: "0 0 30px rgba(59,158,255,0.4)", color: "#fff", fontWeight: 700, fontSize: 13, border: "none", cursor: "pointer", fontFamily: "inherit" }}>تعرّف عليّ</button>
               <button className="btn-outline" onClick={() => scrollTo("cards-section")} style={{ padding: "12px 32px", borderRadius: 12, background: "transparent", fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: "inherit" }}>استكشف المحتوى</button>
