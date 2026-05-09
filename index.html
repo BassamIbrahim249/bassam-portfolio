@@ -12,6 +12,10 @@
   <meta property="og:url" content="https://bassamibrahim249.github.io/bassam-portfolio/" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' rx='10' fill='%23080c12'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%233B9EFF' font-size='20' font-weight='900' font-family='Cairo'>B.I</text></svg>" />
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' rx='10' fill='%23080c12'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%233B9EFF' font-size='20' font-weight='900' font-family='Cairo'>B.I</text></svg>" />
+  
+  <!-- ============ التحسين رقم 1: إضافة DOMPurify للأمان ============ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,19 +23,38 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { background: #080c12; font-family: 'Cairo', sans-serif; color: #ffffff; overflow-x: hidden; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+    
+    /* ============ التحسين رقم 3: دعم تقليل الحركة ============ */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
     @keyframes goldenPulse { 0%, 100% { box-shadow: 0 0 5px rgba(234,179,8,0.3); } 50% { box-shadow: 0 0 20px rgba(234,179,8,0.7); } }
     @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
     @keyframes backToTopPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(59,158,255,0.4); } 50% { box-shadow: 0 0 0 12px rgba(59,158,255,0); } }
-    .anim-fade-up { animation: fadeUp 0.75s ease both; }
+    
+    /* تفعيل الأنيميشن فقط إذا لم يطلب المستخدم تقليل الحركة */
+    @media (prefers-reduced-motion: no-preference) {
+      .anim-fade-up { animation: fadeUp 0.75s ease both; }
+      .pulse-dot { animation: pulseGlow 2.2s ease-in-out infinite; }
+      .scroll-line { animation: scrollLine 2s ease-in-out infinite; }
+      .back-to-top { animation: backToTopPulse 2s infinite; }
+      .accordion-item.last-opened { animation: goldenPulse 2s ease-in-out infinite; }
+    }
+    
+    /* عند طلب تقليل الحركة - تعطيل كل الأنيميشن */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      html { scroll-behavior: auto; }
+      .anim-fade-up { opacity: 1; transform: none; }
+      .pulse-dot { opacity: 0.6; }
+      .accordion-item.last-opened { border-color: rgba(234,179,8,0.5); box-shadow: 0 0 5px rgba(234,179,8,0.3); }
+    }
+    
     .delay-1 { animation-delay: 0.10s; } .delay-2 { animation-delay: 0.25s; } .delay-3 { animation-delay: 0.40s; } .delay-4 { animation-delay: 0.55s; } .delay-5 { animation-delay: 0.70s; }
-    .pulse-dot { animation: pulseGlow 2.2s ease-in-out infinite; }
-    .scroll-line { animation: scrollLine 2s ease-in-out infinite; }
     .grad-text { background: linear-gradient(135deg, #3B9EFF, #60CFFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .card-wrap { transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease, background 0.45s ease; }
     .social-btn { transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
@@ -42,11 +65,10 @@
     .btn-outline:hover { border-color: rgba(59,158,255,0.7); color: #3B9EFF; transform: scale(1.04); }
     .nav-cta { background: linear-gradient(135deg, rgba(37,211,102,0.18), rgba(37,211,102,0.08)); border: 1px solid rgba(37,211,102,0.45); color: #25D366; transition: background 0.25s ease, box-shadow 0.25s ease; cursor: pointer; }
     .nav-cta:hover { background: linear-gradient(135deg, rgba(37,211,102,0.28), rgba(37,211,102,0.16)); box-shadow: 0 0 22px rgba(37,211,102,0.3); }
-    .back-to-top { animation: backToTopPulse 2s infinite; }
     .innovation-tag-btn { transition: all 0.3s ease; }
     .innovation-tag-btn:hover { background: rgba(59,158,255,0.25) !important; color: #ffffff !important; }
     .accordion-item { border: 1px solid rgba(234,179,8,0.15); border-radius: 12px; margin-bottom: 16px; overflow: hidden; background: rgba(255,255,255,0.02); transition: all 0.3s ease; }
-    .accordion-item.last-opened { border-color: rgba(234,179,8,0.5); animation: goldenPulse 2s ease-in-out infinite; }
+    .accordion-item.last-opened { border-color: rgba(234,179,8,0.5); }
     .accordion-header { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s ease; gap: 12px; }
     .accordion-header:hover { background: rgba(234,179,8,0.05); }
     .accordion-title { font-size: 18px; font-weight: 700; color: #ffffff; margin: 0; flex: 1; }
@@ -60,83 +82,129 @@
     .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
     .accordion-content.open { max-height: 5000px; padding: 0 20px 24px; }
     .accordion-content p { color: #8899bb; line-height: 1.9; margin-bottom: 16px; font-size: 15px; }
-    .accordion-content h2, .accordion-content h3 { color: #EAB308; font-size: 18px; font-weight: 700; margin: 20px 0 12px; }
-    .accordion-content img { width: 100%; border-radius: 12px; margin: 16px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     .accordion-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .accordion-tag { font-size: 10px; padding: 3px 8px; border-radius: 50px; background: rgba(234,179,8,0.1); color: #EAB308; border: 1px solid rgba(234,179,8,0.2); }
+    
+    /* أنماط محتوى المقال */
     .article-body { color: #8899bb; line-height: 1.9; font-size: 15px; }
     .article-body h2, .article-body h3 { color: #EAB308; font-size: 18px; font-weight: 700; margin: 20px 0 12px; }
     .article-body p { margin-bottom: 14px; }
     .article-body a { color: #3B9EFF; text-decoration: underline; }
-    .article-body img { max-width: 100%; border-radius: 12px; margin: 16px 0; }
+    .article-body img { max-width: 100%; border-radius: 12px; margin: 16px 0; height: auto; }
     .article-body ul, .article-body ol { color: #8899bb; margin: 12px 20px; }
+    .article-body li { margin-bottom: 6px; }
     .article-body code { background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
-    .article-body pre { background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; border: 1px solid rgba(255,255,255,0.06); }
+    .article-body pre { background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; border: 1px solid rgba(255,255,255,0.06); direction: ltr; text-align: left; white-space: pre-wrap; }
     .article-body blockquote { border-right: 3px solid #EAB308; padding-right: 16px; margin: 16px 0; color: #8899bb; font-style: italic; }
+    .article-body table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    .article-body th, .article-body td { border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; text-align: right; }
+    .article-body th { background: rgba(234,179,8,0.1); color: #EAB308; font-weight: 700; }
+    .article-body td { background: rgba(255,255,255,0.02); }
+    .article-body hr { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 24px 0; }
+    
+    /* زر التثبيت */
+    .install-btn { background: linear-gradient(135deg,#3B9EFF,#2563eb); color: #fff; border: none; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; margin-bottom: 14px; box-shadow: 0 0 30px rgba(59,158,255,0.4); transition: transform 0.25s ease; }
+    .install-btn:hover { transform: scale(1.03); }
+    .dismiss-btn { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: #6677aa; padding: 12px 32px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; }
+    
     @media (max-width: 768px) { .hide-mobile { display: none !important; } .accordion-header { flex-wrap: wrap; } .accordion-title { flex: 1 1 100%; } }
   </style>
 </head>
 <body>
   <div id="root"></div>
+  
   <script type="text/babel">
     const { useState, useEffect, useCallback, useRef } = React;
 
-    // ================ CONFIG ================
-    const GITHUB_USERNAME = "bassamibrahim249";
-    const REPO_NAME = "bassam-portfolio";
-    const ARTICLES_PATH = "content/articles";
+    // ============ التحسين رقم 4: كائن CONFIG موحد ============
+    const CONFIG = {
+      github: {
+        username: "bassamibrahim249",
+        repo: "bassam-portfolio",
+        articlesPath: "content/articles",
+      },
+      site: {
+        url: "https://bassamibrahim249.github.io/bassam-portfolio/",
+      },
+      contact: {
+        whatsapp: "249967238251",
+      },
+      cache: {
+        key: "bassam_articles_cache",
+        ttl: 24 * 60 * 60 * 1000, // 24 ساعة
+      },
+    };
 
-    // ================ ثوابت ================
-    const NAV_ITEMS = [
-      { name: "هندسة", href: "#engineering" },
-      { name: "سياسة", href: "#political" },
-      { name: "نوبيان", href: "#nubian" },
-      { name: "أكاديمية", href: "#academy" },
-      { name: "نمط الحياة", href: "#lifestyle" }
-    ];
-
-    const CARDS = [
-      { id: "engineering", title: "المنصة الهندسية", subtitle: "علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل", desc: "بوابة إلى عالم المواد الإنشائية المتقدمة — من تحليل الخصائص الفيزيائية والكيميائية، إلى أحدث ابتكارات تقنيات البناء، وتجارب المختبر الهندسي بمنهجية علمية صارمة.", tags: ["علوم المواد", "ابتكار إنشائي", "مختبر هندسي"], accent: "#3B9EFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><polygon points="20,4 36,30 4,30" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/><polygon points="20,10 30,26 10,26" stroke="#3B9EFF" strokeWidth="0.8" fill="none" opacity="0.4"/></svg>), academic: null },
-      { id: "political", title: "الأرشيف السياسي", subtitle: "قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية", desc: "بوابة إلى الذاكرة السياسية السودانية — قراءات تاريخية معمّقة، وتحليل استراتيجي للمشهد الراهن، ورؤى فكرية نقدية تُنير المسار وتستشرف الأفق.", tags: ["تاريخ السودان", "تحليل استراتيجي", "رؤى فكرية"], accent: "#60CFFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><rect x="6" y="6" width="28" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/><line x1="6" y1="16" x2="34" y2="16" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/><line x1="16" y1="6" x2="16" y2="34" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/></svg>), academic: null },
-      { id: "nubian", title: "نوبيان (الحضارة النوبية)", subtitle: "توثيق الإرث، التاريخ، والعمارة النوبية العريقة", desc: "نافذة متخصصة في تسليط الضوء على جذورنا التاريخية وهويتنا الحضارية العريقة، وهندسة الحضارة النوبية الخالدة عبر العصور.", tags: ["تاريخ", "آثار", "هوية"], accent: "#EAB308", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 5L35 32H5L20 5Z" stroke="#EAB308" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/><path d="M13 18H27M10 25H30" stroke="#EAB308" strokeWidth="1.5"/></svg>), academic: null },
-      { id: "academy", title: "أكاديمية التطوير والمنظمات", subtitle: "كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي المتكامل", desc: "بوابة إلى التميّز المؤسسي — إتقان كتابة المشاريع والمقترحات والمنح الدولية، وتنمية مهارات القيادة الفاعلة، وبرامج تدريبية تنموية متكاملة تصنع الفارق.", tags: ["كتابة مشاريع", "قيادة", "تدريب تنموي"], accent: "#A78BFA", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><circle cx="20" cy="20" r="14" stroke="#A78BFA" strokeWidth="1.5" fill="none"/><circle cx="20" cy="20" r="8" stroke="#A78BFA" strokeWidth="0.8" fill="none" opacity="0.5"/></svg>), academic: null },
-      { id: "lifestyle", title: "نمط الحياة والصحة", subtitle: "الصحة الشاملة، التغذية، والتميز البدني والذهني", desc: "بوابة إلى العافية الكاملة — منهجية متكاملة تجمع الصحة الجسدية والذهنية، وأنظمة تغذية علمية دقيقة.", tags: ["صحة شاملة", "تغذية علمية", "تميز بدني"], accent: "#34D399", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 8 C20 8 8 16 8 24 C8 30 13.5 34 20 34 C26.5 34 32 30 32 24 C32 16 20 8 20 8Z" stroke="#34D399" strokeWidth="1.5" fill="none"/></svg>), academic: null },
-    ];
-
-    const STATS = [
-      { label: "خبرة عملية", sublabel: "متجددة باستمرار", color: "#3B9EFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><circle cx="20" cy="20" r="14" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/><path d="M20 12V20L26 26" stroke="#3B9EFF" strokeWidth="1.5" strokeLinecap="round"/></svg>) },
-      { label: "بحوث ودراسات", sublabel: "منشورة ومحكّمة", color: "#60CFFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><rect x="8" y="6" width="24" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/><line x1="14" y1="14" x2="26" y2="14" stroke="#60CFFF" strokeWidth="1"/></svg>) },
-      { label: "تحليل استراتيجي", sublabel: "مستمر ومتواصل", color: "#A78BFA", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><polyline points="8,30 16,20 22,24 32,10" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>) },
-    ];
-
-    const SOCIALS = [
-      { name: "LinkedIn", href: "https://www.linkedin.com/in/bassam-ibrahim-785a01406", color: "#0A66C2", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>) },
-      { name: "YouTube", href: "https://youtube.com/@bassamibrahimeng", color: "#FF0000", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>) },
-      { name: "WhatsApp", href: "https://wa.me/249967238251", color: "#25D366", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>) },
-    ];
-
-    // ================ دالة تحويل Markdown إلى HTML ================
+    // ============ التحسين رقم 5: دالة Markdown محسنة ============
     function parseMarkdownToHTML(md) {
-      if (!md) return "";
-      let html = md
-        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" loading="lazy" />')
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-        .replace(/^\- (.*$)/gim, '<li>$1</li>')
-        .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-        .replace(/`([^`]+)`/g, '<code>$1</code>')
-        .replace(/\n\n/g, '</p><p>')
-        .replace(/\n/g, '<br />');
+      if (!md || typeof md !== 'string') return "";
+      let html = md;
+      
+      // حماية: تحويل أحرف HTML الخاصة
+      html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      
+      // الكود المضمن (يجب أن يكون قبل التنسيقات الأخرى)
+      html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+      
+      // العناوين
+      html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+      html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+      html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+      html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+      
+      // تنسيق النص
+      html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+      
+      // الروابط والصور
+      html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" loading="lazy" />');
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+      
+      // الخط الأفقي
+      html = html.replace(/^---$/gim, '<hr />');
+      
+      // الجداول
+      html = html.replace(/^\|(.+)\|\s*$\n^\|[-| :]+\|\s*$\n((?:^\|.+\|\s*$\n?)*)/gm, (match, header, rows) => {
+        const headerCells = header.split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+        const rowHTML = rows.trim().split('\n').map(row => {
+          const cells = row.split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
+          return `<tr>${cells}</tr>`;
+        }).join('');
+        return `<table><thead><tr>${headerCells}</tr></thead><tbody>${rowHTML}</tbody></table>`;
+      });
+      
+      // القوائم غير المرتبة (مع تداخل)
+      html = html.replace(/^(\s*)[-*]\s+(.*$)/gim, (match, indent, content) => {
+        const level = Math.floor(indent.length / 2);
+        const marginLeft = level * 20;
+        return `<li style="margin-right:${marginLeft}px">${content}</li>`;
+      });
+      
+      // القوائم المرتبة
+      html = html.replace(/^\d+\.\s+(.*$)/gim, '<li>$1</li>');
+      
+      // الاقتباسات
+      html = html.replace(/^&gt;\s?(.*$)/gim, '<blockquote>$1</blockquote>');
+      
+      // تجميع فقرات
+      html = html.replace(/\n\n/g, '</p><p>');
+      html = html.replace(/\n/g, '<br />');
       html = '<p>' + html + '</p>';
-      html = html.replace(/<li>.*?<\/li>/gs, (match) => `<ul>${match}</ul>`);
+      
+      // تجميع عناصر القائمة المتجاورة
+      html = html.replace(/(<li[^>]*>.*?<\/li>)\s*(?=<li)/gs, '$1');
+      html = html.replace(/((?:<li[^>]*>.*?<\/li>\s*)+)/gs, '<ul>$1</ul>');
+      
+      // إصلاح الفقرات الفارغة
+      html = html.replace(/<p><\/p>/g, '');
+      html = html.replace(/<p>\s*<br\s*\/?>\s*<\/p>/g, '');
+      
       return html;
     }
 
-    // ================ مكون قائمة المقالات ================
+    // ============ مكون قائمة المقالات ============
     function ArticleListSection({ title, category, onBack }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -148,7 +216,25 @@
       useEffect(() => {
         setLoading(true);
         setError(null);
-        const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${ARTICLES_PATH}`;
+        
+        const cacheKey = `${CONFIG.cache.key}_${category || 'all'}`;
+        
+        // ============ التحسين رقم 2: Cache باستخدام localStorage ============
+        const cachedData = localStorage.getItem(cacheKey);
+        if (cachedData) {
+          try {
+            const parsed = JSON.parse(cachedData);
+            if (parsed.timestamp && (Date.now() - parsed.timestamp) < CONFIG.cache.ttl) {
+              setArticles(parsed.data);
+              setLoading(false);
+              return;
+            }
+          } catch(e) {
+            localStorage.removeItem(cacheKey);
+          }
+        }
+        
+        const apiUrl = `https://api.github.com/repos/${CONFIG.github.username}/${CONFIG.github.repo}/contents/${CONFIG.github.articlesPath}`;
 
         fetch(apiUrl)
           .then(res => {
@@ -157,20 +243,22 @@
           })
           .then(files => {
             const articleFiles = Array.isArray(files) ? files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.json')) : [];
-            if (articleFiles.length === 0) { setArticles([]); setLoading(false); return; }
+            if (articleFiles.length === 0) { 
+              setArticles([]); 
+              setLoading(false); 
+              return; 
+            }
 
             return Promise.all(
               articleFiles.map(f =>
                 fetch(f.download_url)
                   .then(res => res.text())
                   .then(text => {
-                    // محاولة تحليل JSON أولاً
                     try {
                       const json = JSON.parse(text);
                       return { title: json.title, date: json.date, category: json.category, tags: json.tags, body: json.body || json.content || '', headerImage: json.headerImage };
                     } catch(e) {}
 
-                    // محاولة قراءة Front Matter
                     const fmMatch = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)/);
                     if (fmMatch) {
                       const fm = fmMatch[1];
@@ -178,7 +266,7 @@
                       const result = { body };
                       const titleMatch = fm.match(/title:\s*["']?(.+?)["']?\s*$/m);
                       const dateMatch = fm.match(/date:\s*["']?(.+?)["']?\s*$/m);
-                      const categoryMatch = fm.match(/categor(?:y|ies):\s*\[?"'?]?(.+?)["']?\s*$/m);
+                      const categoryMatch = fm.match(/categor(?:y|ies):\s*\[?"' ]?(.+?)["']?\s*$/m);
                       const tagsMatch = fm.match(/tags:\s*\[(.+?)\]\s*$/m);
                       if (titleMatch) result.title = titleMatch[1].trim();
                       if (dateMatch) result.date = dateMatch[1].trim();
@@ -187,7 +275,6 @@
                       return result;
                     }
 
-                    // Markdown عادي
                     const lines = text.split('\n').filter(l => l.trim());
                     const titleLine = lines.find(l => l.trim().startsWith('# '));
                     return {
@@ -208,6 +295,16 @@
             const filtered = category ? valid.filter(a => a.category === category) : valid;
             const sorted = filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             setArticles(sorted);
+            
+            // ============ التحسين رقم 2: تخزين في cache ============
+            try {
+              localStorage.setItem(cacheKey, JSON.stringify({
+                timestamp: Date.now(),
+                data: sorted
+              }));
+            } catch(e) {
+              // localStorage ممتلئ - تجاهل
+            }
           })
           .catch(err => { setError(err.message); })
           .finally(() => setLoading(false));
@@ -223,20 +320,40 @@
         <div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "100px 24px 60px", color: "#fff", maxWidth: 900, margin: "0 auto" }}>
           <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", fontFamily: "'Cairo', sans-serif" }}>← العودة للرئيسية</button>
           <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, marginBottom: 30, textAlign: "center", color: "#EAB308" }}>{title} 🔬</h2>
+          
           {loading ? (
-            <div style={{ textAlign: "center", marginTop: 40, color: "#667788" }}><div className="pulse-dot" style={{ width: 8, height: 8, borderRadius: "50%", background: "#EAB308", margin: "0 auto 20px" }} /><p>جاري تحميل المقالات...</p></div>
+            <div style={{ textAlign: "center", marginTop: 40, color: "#667788" }}>
+              <div className="pulse-dot" style={{ width: 8, height: 8, borderRadius: "50%", background: "#EAB308", margin: "0 auto 20px" }} />
+              <p>جاري تحميل المقالات...</p>
+            </div>
           ) : error ? (
-            <div style={{ textAlign: "center", marginTop: 40, color: "#ff6b6b" }}><p>⚠️ خطأ في تحميل المقالات: {error}</p></div>
+            <div style={{ textAlign: "center", marginTop: 40, color: "#ff6b6b" }}>
+              <p>⚠️ خطأ في تحميل المقالات: {error}</p>
+              <button onClick={() => window.location.reload()} style={{ marginTop: 16, padding: "8px 20px", borderRadius: 8, background: "rgba(255,107,107,0.1)", border: "1px solid rgba(255,107,107,0.3)", color: "#ff6b6b", cursor: "pointer", fontFamily: "'Cairo', sans-serif" }}>إعادة المحاولة</button>
+            </div>
           ) : articles.length === 0 ? (
-            <div style={{ textAlign: "center", marginTop: 40, color: "#667788" }}><p style={{ fontSize: 48, marginBottom: 16 }}>📝</p><p>لا توجد مقالات في هذا القسم بعد.</p></div>
+            <div style={{ textAlign: "center", marginTop: 40, color: "#667788" }}>
+              <p style={{ fontSize: 48, marginBottom: 16 }}>📝</p>
+              <p>لا توجد مقالات في هذا القسم بعد.</p>
+            </div>
           ) : (
             <div>
               {articles.map((article, idx) => {
                 const isOpen = openIndex === idx;
                 const isLast = lastOpenedIndex === idx;
+                
+                // ============ التحسين رقم 1: DOMPurify لتنقية المحتوى ============
+                const rawHTML = parseMarkdownToHTML(article.body);
+                const cleanHTML = typeof DOMPurify !== 'undefined' 
+                  ? DOMPurify.sanitize(rawHTML, { 
+                      ALLOWED_TAGS: ['h1','h2','h3','h4','p','br','strong','em','del','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'],
+                      ALLOWED_ATTR: ['href','target','rel','src','alt','loading','style','class']
+                    }) 
+                  : rawHTML;
+                
                 return (
                   <div key={idx} className={`accordion-item ${isLast ? 'last-opened' : ''}`}>
-                    <div className="accordion-header" onClick={() => handleToggle(idx)}>
+                    <div className="accordion-header" onClick={() => handleToggle(idx)} role="button" tabIndex={0} aria-expanded={isOpen} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleToggle(idx); } }}>
                       <div style={{ flex: 1 }}>
                         <h3 className="accordion-title">{article.title || 'بدون عنوان'}</h3>
                         <div className="accordion-meta">
@@ -248,13 +365,13 @@
                           )}
                         </div>
                       </div>
-                      <button className={`accordion-toggle-btn ${isOpen ? 'close' : 'read'}`} onClick={(e) => { e.stopPropagation(); handleToggle(idx); }}>
+                      <button className={`accordion-toggle-btn ${isOpen ? 'close' : 'read'}`} onClick={(e) => { e.stopPropagation(); handleToggle(idx); }} aria-label={isOpen ? 'إغلاق المقال' : 'قراءة المقال'}>
                         {isOpen ? '✕ إغلاق' : '📖 اقرأ'}
                       </button>
                     </div>
                     <div className={`accordion-content ${isOpen ? 'open' : ''}`} ref={el => contentRefs.current[idx] = el}>
                       {article.headerImage && <img src={article.headerImage} alt={article.title} style={{ width: "100%", borderRadius: 12, marginBottom: 20, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }} loading="lazy" />}
-                      <div className="article-body" dangerouslySetInnerHTML={{ __html: parseMarkdownToHTML(article.body) }} />
+                      <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
                     </div>
                   </div>
                 );
@@ -265,7 +382,7 @@
       );
     }
 
-    // ================ مكون البطاقة ================
+    // ============ مكون البطاقة ============
     function Card({ card, onTagClick }) {
       const [hover, setHover] = useState(false);
       const isNubian = card.id === "nubian";
@@ -308,10 +425,39 @@
       const handleInstall = useCallback(async () => { if (deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; setDeferredPrompt(null); setShow(false); if (outcome === "accepted") { localStorage.removeItem("pwa_welcome_dismissed"); } else { localStorage.setItem("pwa_welcome_dismissed", "true"); } } else { alert("للتثبيت السريع:\n• أندرويد: اضغط ⁝ (القائمة) ← 'إضافة إلى الشاشة الرئيسية'\n• آيفون: اضغط ↑ (مشاركة) ← 'إضافة إلى الشاشة الرئيسية'"); } }, [deferredPrompt]);
       const handleDismiss = useCallback(() => { setShow(false); localStorage.setItem("pwa_welcome_dismissed", "true"); }, []);
       if (!show) return null;
-      return (<div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20, backdropFilter: "blur(4px)" }} onClick={handleDismiss}><div style={{ background: "rgba(8,12,18,0.98)", border: "1px solid rgba(59,158,255,0.25)", borderRadius: 24, padding: "36px 28px 28px", textAlign: "center", maxWidth: 400, width: "100%", backdropFilter: "blur(20px)", boxShadow: "0 25px 60px rgba(0,0,0,0.7)" }} onClick={(e) => e.stopPropagation()}><div style={{ width: 68, height: 68, borderRadius: 18, background: "linear-gradient(135deg, #3B9EFF, #60CFFF)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px", fontSize: 30, fontWeight: 900, color: "#080c12", boxShadow: "0 0 25px rgba(59,158,255,0.3)" }}>B.I</div><h3 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 12 }}>مرحباً بك في منصتي الرقمية</h3><p style={{ fontSize: 13, color: "#8899bb", lineHeight: 1.9, marginBottom: 24, padding: "0 8px" }}>هنا تجتمع الدقة الهندسية مع الرؤية التحليلية. أدعوك لاستكشاف مشاريعي في علوم المواد وقراءاتي في الشأن الاستراتيجي.. أتمنى لك رحلة معرفية ممتعة!</p><button onClick={handleInstall} style={{ background: "linear-gradient(135deg,#3B9EFF,#2563eb)", color: "#fff", border: "none", padding: "14px 32px", borderRadius: 12, fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: "'Cairo', sans-serif", width: "100%", marginBottom: 14, boxShadow: "0 0 30px rgba(59,158,255,0.4)" }}>📲 ثبّت التطبيق للوصول السريع</button><button onClick={handleDismiss} style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.12)", color: "#6677aa", padding: "12px 32px", borderRadius: 12, fontWeight: 600, fontSize: 13, cursor: "pointer", fontFamily: "'Cairo', sans-serif", width: "100%" }}>استمر بالتصفح</button></div></div>);
+      return (<div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20, backdropFilter: "blur(4px)" }} onClick={handleDismiss}><div style={{ background: "rgba(8,12,18,0.98)", border: "1px solid rgba(59,158,255,0.25)", borderRadius: 24, padding: "36px 28px 28px", textAlign: "center", maxWidth: 400, width: "100%", backdropFilter: "blur(20px)", boxShadow: "0 25px 60px rgba(0,0,0,0.7)" }} onClick={(e) => e.stopPropagation()}><div style={{ width: 68, height: 68, borderRadius: 18, background: "linear-gradient(135deg, #3B9EFF, #60CFFF)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px", fontSize: 30, fontWeight: 900, color: "#080c12", boxShadow: "0 0 25px rgba(59,158,255,0.3)" }}>B.I</div><h3 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 12 }}>مرحباً بك في منصتي الرقمية</h3><p style={{ fontSize: 13, color: "#8899bb", lineHeight: 1.9, marginBottom: 24, padding: "0 8px" }}>هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.</p><button onClick={handleInstall} className="install-btn">📲 ثبّت التطبيق للوصول السريع</button><button onClick={handleDismiss} className="dismiss-btn">استمر بالتصفح</button></div></div>);
     }
 
-    // ================ التطبيق الرئيسي ================
+    // ============ الثوابت ============
+    const NAV_ITEMS = [
+      { name: "هندسة", href: "#engineering" },
+      { name: "سياسة", href: "#political" },
+      { name: "نوبيان", href: "#nubian" },
+      { name: "أكاديمية", href: "#academy" },
+      { name: "نمط الحياة", href: "#lifestyle" }
+    ];
+
+    const CARDS = [
+      { id: "engineering", title: "المنصة الهندسية", subtitle: "علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل", desc: "بوابة إلى عالم المواد الإنشائية المتقدمة — تحليل الخصائص الفيزيائية والكيميائية، أحدث ابتكارات تقنيات البناء، وتجارب المختبر الهندسي.", tags: ["علوم المواد", "ابتكار إنشائي", "مختبر هندسي"], accent: "#3B9EFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><polygon points="20,4 36,30 4,30" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/><polygon points="20,10 30,26 10,26" stroke="#3B9EFF" strokeWidth="0.8" fill="none" opacity="0.4"/></svg>) },
+      { id: "political", title: "الأرشيف السياسي", subtitle: "قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية", desc: "بوابة إلى الذاكرة السياسية السودانية — قراءات تاريخية معمّقة، وتحليل استراتيجي للمشهد الراهن، ورؤى فكرية نقدية.", tags: ["تاريخ السودان", "تحليل استراتيجي", "رؤى فكرية"], accent: "#60CFFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><rect x="6" y="6" width="28" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/><line x1="6" y1="16" x2="34" y2="16" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/></svg>) },
+      { id: "nubian", title: "نوبيان (الحضارة النوبية)", subtitle: "توثيق الإرث، التاريخ، والعمارة النوبية العريقة", desc: "نافذة متخصصة في تسليط الضوء على جذورنا التاريخية وهويتنا الحضارية العريقة.", tags: ["تاريخ", "آثار", "هوية"], accent: "#EAB308", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 5L35 32H5L20 5Z" stroke="#EAB308" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>) },
+      { id: "academy", title: "أكاديمية التطوير والمنظمات", subtitle: "كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي", desc: "بوابة إلى التميّز المؤسسي — إتقان كتابة المشاريع والمقترحات والمنح الدولية.", tags: ["كتابة مشاريع", "قيادة", "تدريب تنموي"], accent: "#A78BFA", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><circle cx="20" cy="20" r="14" stroke="#A78BFA" strokeWidth="1.5" fill="none"/><circle cx="20" cy="20" r="8" stroke="#A78BFA" strokeWidth="0.8" fill="none" opacity="0.5"/></svg>) },
+      { id: "lifestyle", title: "نمط الحياة والصحة", subtitle: "الصحة الشاملة، التغذية، والتميز البدني والذهني", desc: "بوابة إلى العافية الكاملة — منهجية متكاملة تجمع الصحة الجسدية والذهنية.", tags: ["صحة شاملة", "تغذية علمية", "تميز بدني"], accent: "#34D399", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 8 C20 8 8 16 8 24 C8 30 13.5 34 20 34 C26.5 34 32 30 32 24 C32 16 20 8 20 8Z" stroke="#34D399" strokeWidth="1.5" fill="none"/></svg>) },
+    ];
+
+    const STATS = [
+      { label: "خبرة عملية", sublabel: "متجددة باستمرار", color: "#3B9EFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><circle cx="20" cy="20" r="14" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/><path d="M20 12V20L26 26" stroke="#3B9EFF" strokeWidth="1.5" strokeLinecap="round"/></svg>) },
+      { label: "بحوث ودراسات", sublabel: "منشورة ومحكّمة", color: "#60CFFF", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><rect x="8" y="6" width="24" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/><line x1="14" y1="14" x2="26" y2="14" stroke="#60CFFF" strokeWidth="1"/></svg>) },
+      { label: "تحليل استراتيجي", sublabel: "مستمر ومتواصل", color: "#A78BFA", icon: (<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><polyline points="8,30 16,20 22,24 32,10" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>) },
+    ];
+
+    const SOCIALS = [
+      { name: "LinkedIn", href: "https://www.linkedin.com/in/bassam-ibrahim-785a01406", color: "#0A66C2", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>) },
+      { name: "YouTube", href: "https://youtube.com/@bassamibrahimeng", color: "#FF0000", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>) },
+      { name: "WhatsApp", href: `https://wa.me/${CONFIG.contact.whatsapp}`, color: "#25D366", icon: (<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>) },
+    ];
+
+    // ============ التطبيق الرئيسي ============
     function App() {
       const [scrolled, setScrolled] = useState(false);
       const [activeSection, setActiveSection] = useState(null);
@@ -345,7 +491,7 @@
             <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}><div style={{ width: 36, height: 36, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, #3B9EFF, #60CFFF)", fontSize: 14, fontWeight: 900, color: "#080c12" }}>B.I</div><span style={{ fontWeight: 900, fontSize: 18 }}>Bassam<span style={{ color: "#3B9EFF" }}>Ibrahim</span></span></div>
               <nav className="hide-mobile" style={{ display: "flex", gap: 28 }}>{NAV_ITEMS.map(item => (<a key={item.name} href={item.href} className="nav-link" onClick={(e) => { e.preventDefault(); scrollTo(item.href.slice(1)); }} style={{ fontSize: 12, color: "#8899bb", textDecoration: "none", fontWeight: 600 }}>{item.name}</a>))}</nav>
-              <button className="nav-cta" onClick={() => window.open("https://wa.me/249967238251", "_blank")} style={{ fontSize: 12, padding: "8px 18px", borderRadius: 8, fontWeight: 700, fontFamily: "inherit" }}>تواصل معي</button>
+              <button className="nav-cta" onClick={() => window.open(`https://wa.me/${CONFIG.contact.whatsapp}`, "_blank")} style={{ fontSize: 12, padding: "8px 18px", borderRadius: 8, fontWeight: 700, fontFamily: "inherit" }}>تواصل معي</button>
             </div>
           </header>
 
