@@ -31,7 +31,7 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         photo = update.message.photo[-1]
         caption = update.message.caption or "مقال بدون عنوان"
         await update.message.reply_text("جاري النشر على GitHub... ⏳")
-        
+            
         file = await context.bot.get_file(photo.file_id)
         photo_bytes = await file.download_as_bytearray()
         img = Image.open(BytesIO(photo_bytes))
@@ -65,11 +65,11 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def main():
     # تشغيل الموقع الوهمي في خيط منفصل
     Thread(target=run_web).start()
-    
+        
     application = ApplicationBuilder().token(TOKEN).build()
     application.add_handler(CommandHandler('start', start))
     application.add_handler(MessageHandler(filters.PHOTO, handle_photo))
-    
+        
     # استخدام polling بطريقة صحيحة مع asyncio
     async with application:
         await application.initialize()
