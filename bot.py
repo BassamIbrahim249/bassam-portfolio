@@ -4,105 +4,82 @@ import asyncio
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 from github import Github
-import requests
-from io import BytesIO
 from PIL import Image
+from io import BytesIO
+from flask import Flask
+from threading import Thread
 
-# إعداد السجلات (Logs)
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+# إعداد السجلات
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# الحصول على المتغيرات من البيئة (Environment Variables)
+# --- جزء الموقع الوهمي لإرضاء Render ---
+app = Flask(__name__)
+@app.route('/')
+def home(): return "Bot is alive!"
+def run_web(): app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+# ---------------------------------------
+
 TOKEN = os.getenv("BOT_TOKEN")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-REPO_NAME = "bassamibrahim249/bassam-portfolio" # تأكد من اسم المستودع
+REPO_NAME = "bassamibrahim249/bassam-portfolio"
 
-# دالة الترحيب
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "أهلاً بك يا بسام! 🚀\n"
-        "أنا بوت النشر الخاص بموقعك.\n"
-        "أرسل لي أي صورة مع وصف (Caption) وسأقوم بنشرها كمقال فوراً."
-    )
+    await update.message.reply_text("أهلاً بك يا بسام! 🚀 أرسل لي صورة مع وصف للنشر.")
 
-# دالة معالجة الصور والنشر
 async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        # 1. الحصول على الصورة والوصف
         photo = update.message.photo[-1]
         caption = update.message.caption or "مقال بدون عنوان"
+        await update.message.reply_text("جاري النشر على GitHub... ⏳")
         
-        await update.message.reply_text("جاري معالجة الصورة والنشر على GitHub... ⏳")
-
-        # 2. تحميل الصورة
         file = await context.bot.get_file(photo.file_id)
         photo_bytes = await file.download_as_bytearray()
-        
-        # التأكد من صيغة الصورة باستخدام Pillow بدلاً من imghdr
         img = Image.open(BytesIO(photo_bytes))
-        img_format = img.format.lower() # سيعطيك 'jpeg' أو 'png'
+        img_format = img.format.lower()
 
-        # 3. إعداد الاتصال بـ GitHub
         g = Github(GITHUB_TOKEN)
         repo = g.get_repo(REPO_NAME)
-
-        # 4. رفع الصورة إلى مجلد assets/images
         image_path = f"assets/images/{photo.file_id}.{img_format}"
-        repo.create_file(
-            path=image_path,
-            message=f"Upload image for: {caption}",
-            content=bytes(photo_bytes),
-            branch="main"
-        )
+        repo.create_file(path=image_path, message=f"Upload: {caption}", content=bytes(photo_bytes), branch="main")
 
-        # 5. إعداد بيانات المقال (JSON)
         import json
         from datetime import datetime
-        
         new_article = {
             "title": caption,
             "date": datetime.now().strftime("%Y-%m-%d"),
-            "category": "innovation", # يمكنك تعديلها لتكون ديناميكية لاحقاً
+            "category": "innovation",
             "headerImage": f"./{image_path}",
             "body": f"<p>{caption}</p>"
         }
 
-        # 6. تحديث ملف data.json
         file_content = repo.get_contents("data.json", ref="main")
         current_data = json.loads(file_content.decoded_content.decode())
-        
-        if "articles" not in current_data:
-            current_data["articles"] = []
-            
-        current_data["articles"].insert(0, new_article) # إضافة المقال في البداية
+        if "articles" not in current_data: current_data["articles"] = []
+        current_data["articles"].insert(0, new_article)
 
-        repo.update_file(
-            path="data.json",
-            message=f"Add new article: {caption}",
-            content=json.dumps(current_data, indent=2, ensure_ascii=False),
-            sha=file_content.sha,
-            branch="main"
-        )
-
-        await update.message.reply_text("✅ تم النشر بنجاح! سيظهر المقال على موقعك خلال دقيقتين.")
-
+        repo.update_file(path="data.json", message=f"Add: {caption}", content=json.dumps(current_data, indent=2, ensure_ascii=False), sha=file_content.sha, branch="main")
+        await update.message.reply_text("✅ تم النشر بنجاح!")
     except Exception as e:
-        logging.error(f"Error: {e}")
-        await update.message.reply_text(f"❌ حدث خطأ أثناء النشر: {str(e)}")
+        await update.message.reply_text(f"❌ خطأ: {str(e)}")
+
+async def main():
+    # تشغيل الموقع الوهمي في خيط منفصل
+    Thread(target=run_web).start()
+    
+    application = ApplicationBuilder().token(TOKEN).build()
+    application.add_handler(CommandHandler('start', start))
+    application.add_handler(MessageHandler(filters.PHOTO, handle_photo))
+    
+    # استخدام polling بطريقة صحيحة مع asyncio
+    async with application:
+        await application.initialize()
+        await application.start()
+        await application.updater.start_polling()
+        # إبقاء البوت يعمل للأبد
+        while True: await asyncio.sleep(3600)
 
 if __name__ == '__main__':
-    if not TOKEN or not GITHUB_TOKEN:
-        print("Error: BOT_TOKEN or GITHUB_TOKEN not found in environment variables.")
-    else:
-        application = ApplicationBuilder().token(TOKEN).build()
-        
-        start_handler = CommandHandler('start', start)
-        photo_handler = MessageHandler(filters.PHOTO, handle_photo)
-        
-        application.add_handler(start_handler)
-        application.add_handler(photo_handler)
-        
-        print("Bot is running...")
-        application.run_polling()
+    try:
+        asyncio.run(main())
+    except (KeyboardInterrupt, SystemExit):
+        pass
