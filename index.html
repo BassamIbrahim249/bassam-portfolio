@@ -69,7 +69,6 @@
     .delay-1 { animation-delay: 0.10s; } .delay-2 { animation-delay: 0.25s; } .delay-3 { animation-delay: 0.40s; } .delay-4 { animation-delay: 0.55s; } .delay-5 { animation-delay: 0.70s; }
     .grad-text { background: linear-gradient(135deg, #3B9EFF, #60CFFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     
-    /* تحسينات التوهج والإضاءة */
     .card-wrap { 
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease; 
     }
@@ -128,7 +127,6 @@
     .install-btn:hover { transform: scale(1.03); }
     .dismiss-btn { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: #6677aa; padding: 12px 32px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; }
     
-    /* زر المختبر المرئي */
     .academic-link {
       display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; 
       color: #60CFFF; text-decoration: none; padding: 6px 12px; border-radius: 8px;
@@ -197,12 +195,16 @@
           } catch(e) {}
         }
 
-        // 🔄 قراءة من data.json مباشرة بدل GitHub API
         fetch('data.json')
           .then(res => res.json())
           .then(data => {
             const articles = Array.isArray(data) ? data : [];
-            const filtered = category ? articles.filter(a => a.tab === category || a.button === category || a.category === category) : articles;
+            // 🎯 فلترة ذكية: أي حقل يطابق الزر أو التبويب
+            const filtered = category ? articles.filter(a => 
+              a.tab === category || 
+              a.button === category || 
+              a.category === category
+            ) : articles;
             const sorted = filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             setArticles(sorted);
             try { localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data: sorted })); } catch(e) {}
