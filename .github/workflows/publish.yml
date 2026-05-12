@@ -65,13 +65,19 @@ jobs:
           with open(data_path, "w", encoding="utf-8") as f:
               json.dump(data, f, ensure_ascii=False, indent=2)
 
-          # حفظ الصورة إن وجدت
+          # حفظ الصورة إن وجدت (أو إنشاء مجلد فاضي)
+          os.makedirs("assets/images", exist_ok=True)
           if image_b64 and image_name:
-              os.makedirs("assets/images", exist_ok=True)
               img_path = os.path.join("assets/images", image_name)
               with open(img_path, "wb") as f:
                   f.write(base64.b64decode(image_b64))
               print(f"✅ تم حفظ الصورة: {image_name}")
+          else:
+              gitkeep_path = "assets/images/.gitkeep"
+              if not os.path.exists(gitkeep_path):
+                  with open(gitkeep_path, "w") as f:
+                      f.write("# Keep this directory in git")
+              print("⚠️ لا توجد صورة - تم تخطي رفع الصورة")
 
           print("✅ تم تحديث data.json بنجاح")
           PYTHON_SCRIPT
@@ -83,3 +89,4 @@ jobs:
           file_pattern: "data.json assets/images/*"
           commit_user_name: "Telegram Bot"
           commit_user_email: "bot@bassam-portfolio.local"
+          skip_dirty_check: false
