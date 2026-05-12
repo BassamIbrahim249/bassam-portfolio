@@ -1,0 +1,85 @@
+name: 📝 نشر مقال من تيليجرام
+
+on:
+  repository_dispatch:
+    types: [new_article]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 📥 استنساخ المستودع
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 إعداد Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: ⚙️ معالجة البيانات وحفظ الملفات
+        env:
+          PAYLOAD: ${{ toJson(github.event.client_payload) }}
+        run: |
+          python - << 'PYTHON_SCRIPT'
+          import json, base64, os, datetime, sys
+
+          payload = json.loads(os.environ["PAYLOAD"])
+          title = payload.get("title", "بدون عنوان")
+          content = payload.get("content", "")
+          tab = payload.get("tab", "general")
+          button = payload.get("button", "general")
+          author = payload.get("author", "بسام إبراهيم أحمد")
+          image_b64 = payload.get("image_base64", "")
+          image_name = payload.get("image_name", "")
+          tags = payload.get("tags", [])
+          link = payload.get("link", "")
+
+          # تجهيز بيانات المقال
+          article = {
+              "id": f"{int(datetime.datetime.now().timestamp())}",
+              "title": title,
+              "content": content,
+              "tab": tab,
+              "button": button,
+              "tags": tags,
+              "link": link,
+              "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+              "image": f"assets/images/{image_name}" if image_name else None,
+              "author": author
+          }
+
+          # تحديث data.json
+          data_path = "data.json"
+          if os.path.exists(data_path):
+              with open(data_path, "r", encoding="utf-8") as f:
+                  data = json.load(f)
+          else:
+              data = []
+
+          data.append(article)
+          with open(data_path, "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+
+          # حفظ الصورة إن وجدت
+          if image_b64 and image_name:
+              os.makedirs("assets/images", exist_ok=True)
+              img_path = os.path.join("assets/images", image_name)
+              with open(img_path, "wb") as f:
+                  f.write(base64.b64decode(image_b64))
+              print(f"✅ تم حفظ الصورة: {image_name}")
+
+          print("✅ تم تحديث data.json بنجاح")
+          PYTHON_SCRIPT
+
+      - name: 🚀 رفع التغييرات
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "📝 [بوت] إضافة مقال: ${{ github.event.client_payload.title }}"
+          file_pattern: "data.json assets/images/*"
+          commit_user_name: "Telegram Bot"
+          commit_user_email: "bot@bassam-portfolio.local"
