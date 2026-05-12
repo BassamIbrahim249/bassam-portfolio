@@ -150,6 +150,25 @@
       cache: { key: "bassam_articles_cache", ttl: 24 * 60 * 60 * 1000 },
     };
 
+    // 🗺️ خريطة الأزرار للـ slugs (نفس اللي في bot.py)
+    const BUTTON_SLUGS = {
+      "علوم المواد": "materials_science",
+      "ابتكار إنشائي": "construction_innovation",
+      "مختبر هندسي": "engineering_lab",
+      "تاريخ السودان": "sudan_history",
+      "تحليل استراتيجي": "strategic_analysis",
+      "رؤى فكرية": "intellectual_visions",
+      "تاريخ": "history",
+      "آثار": "archaeology",
+      "هوية": "identity",
+      "كتابة مشاريع": "project_writing",
+      "قيادة": "leadership",
+      "تدريب تنموي": "developmental_training",
+      "صحة شاملة": "holistic_health",
+      "تغذية علمية": "scientific_nutrition",
+      "تميز بدني": "physical_excellence"
+    };
+
     function parseMarkdownToHTML(md) {
       if (!md || typeof md !== 'string') return "";
       let html = md;
@@ -195,16 +214,22 @@
           } catch(e) {}
         }
 
-        fetch('data.json')
+        // جلب البيانات مع كسر الكاش
+        fetch('data.json?' + Date.now())
           .then(res => res.json())
           .then(data => {
             const articles = Array.isArray(data) ? data : [];
-            // 🎯 فلترة ذكية: أي حقل يطابق الزر أو التبويب
+            
+            // 🎯 الفلترة الصحيحة: البحث عن الزر باستخدام slug
+            const btnSlug = BUTTON_SLUGS[category] || category;
+            
             const filtered = category ? articles.filter(a => 
-              a.tab === category || 
-              a.button === category || 
-              a.category === category
+              a.button === btnSlug || 
+              a.button === category ||
+              a.category === category ||
+              a.tab === category
             ) : articles;
+            
             const sorted = filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             setArticles(sorted);
             try { localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data: sorted })); } catch(e) {}
