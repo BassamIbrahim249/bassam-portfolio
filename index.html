@@ -83,6 +83,7 @@
     }
     
     .social-btn { transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+    .social-btn:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(59,158,255,0.25); background: rgba(255,255,255,0.06); }
     .navbar { transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease; }
     
     .btn-primary { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -166,21 +167,9 @@
       html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" loading="lazy" />');
       html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
       html = html.replace(/^---$/gim, '<hr />');
-      html = html.replace(/^\|(.+)\|\s*$\n^\|[-| :]+\|\s*$\n((?:^\|.+\|\s*$\n?)*)/gm, (match, header, rows) => {
-        const headerCells = header.split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
-        const rowHTML = rows.trim().split('\n').map(row => {
-          const cells = row.split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
-          return `<tr>${cells}</tr>`;
-        }).join('');
-        return `<table><thead><tr>${headerCells}</tr></thead><tbody>${rowHTML}</tbody></table>`;
-      });
-      html = html.replace(/^\d+\.\s+(.*$)/gim, '<li>$1</li>');
-      html = html.replace(/^&gt;\s?(.*$)/gim, '<blockquote>$1</blockquote>');
       html = html.replace(/\n\n/g, '</p><p>');
       html = html.replace(/\n/g, '<br />');
       html = '<p>' + html + '</p>';
-      html = html.replace(/(<li[^>]*>.*?<\/li>)\s*(?=<li)/gs, '$1');
-      html = html.replace(/((?:<li[^>]*>.*?<\/li>\s*)+)/gs, '<ul>$1</ul>');
       html = html.replace(/<p><\/p>/g, '');
       return html;
     }
@@ -194,6 +183,7 @@
 
       useEffect(() => {
         setLoading(true);
+        setError(null);
         const cacheKey = `${CONFIG.cache.key}_${category || 'all'}`;
         const cachedData = localStorage.getItem(cacheKey);
         if (cachedData) {
@@ -206,28 +196,13 @@
             }
           } catch(e) {}
         }
-        fetch(`https://api.github.com/repos/${CONFIG.github.username}/${CONFIG.github.repo}/contents/${CONFIG.github.articlesPath}`)
+
+        // 🔄 قراءة من data.json مباشرة بدل GitHub API
+        fetch('data.json')
           .then(res => res.json())
-          .then(files => {
-            const articleFiles = Array.isArray(files) ? files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.json')) : [];
-            if (!articleFiles.length) return [];
-            return Promise.all(articleFiles.map(f => fetch(f.download_url).then(r => r.text()).then(text => {
-              try { const j = JSON.parse(text); return { ...j, body: j.body || j.content || '' }; } catch(e) {}
-              const fmMatch = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)/);
-              if (fmMatch) {
-                const fm = fmMatch[1]; const body = fmMatch[2].trim(); const r = { body };
-                const t = fm.match(/title:\s*["']?(.+?)["']?\s*$/m); if (t) r.title = t[1].trim();
-                const d = fm.match(/date:\s*["']?(.+?)["']?\s*$/m); if (d) r.date = d[1].trim();
-                const c = fm.match(/categor(?:y|ies):\s*\[?"' ]?(.+?)["']?\s*$/m); if (c) r.category = c[1].trim();
-                const tg = fm.match(/tags:\s*\[(.+?)\]\s*$/m); if (tg) r.tags = tg[1].split(',').map(t => t.trim().replace(/["']/g, ''));
-                return r;
-              }
-              return { title: f.name.replace(/\.(md|json)$/, ''), body: text, date: '', category: category || '', tags: [] };
-            })));
-          })
           .then(data => {
-            const valid = (data || []).filter(a => a);
-            const filtered = category ? valid.filter(a => a.category === category) : valid;
+            const articles = Array.isArray(data) ? data : [];
+            const filtered = category ? articles.filter(a => a.tab === category || a.button === category || a.category === category) : articles;
             const sorted = filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             setArticles(sorted);
             try { localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data: sorted })); } catch(e) {}
@@ -251,7 +226,7 @@
            articles.length === 0 ? <div style={{ textAlign: "center", marginTop: 40, color: "#667788" }}><p style={{ fontSize: 48, marginBottom: 16 }}>📝</p><p>لا توجد مقالات بعد.</p></div> :
             <div>{articles.map((article, idx) => {
               const isOpen = openIndex === idx;
-              const rawHTML = parseMarkdownToHTML(article.body);
+              const rawHTML = parseMarkdownToHTML(article.content || article.body || '');
               const cleanHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHTML, { ALLOWED_TAGS: ['h1','h2','h3','h4','p','br','strong','em','del','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'], ALLOWED_ATTR: ['href','target','rel','src','alt','loading','style','class'] }) : rawHTML;
               return (
                 <div key={idx} className={`accordion-item ${lastOpenedIndex === idx ? 'last-opened' : ''}`}>
@@ -266,7 +241,7 @@
                     <button className={`accordion-toggle-btn ${isOpen ? 'close' : 'read'}`} onClick={(e) => { e.stopPropagation(); handleToggle(idx); }}>{isOpen ? '✕ إغلاق' : '📖 اقرأ'}</button>
                   </div>
                   <div className={`accordion-content ${isOpen ? 'open' : ''}`}>
-                    {article.headerImage && <img src={article.headerImage} alt={article.title} style={{ width: "100%", borderRadius: 12, marginBottom: 20, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }} loading="lazy" />}
+                    {article.image && <img src={article.image} alt={article.title} style={{ width: "100%", borderRadius: 12, marginBottom: 20, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }} loading="lazy" />}
                     <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
                   </div>
                 </div>
@@ -440,7 +415,7 @@
             </div>
           </section>
 
-          <section id="vision-section" style={{ padding: "60px 24px", zIndex: 1 }}><div style={{ maxWidth: 860, margin: "0 auto", borderRadius: 20, padding: "48px 40px", textAlign: "center", background: "linear-gradient(135deg,rgba(59,158,255,0.08),rgba(96,207,255,0.04))", border: "1px solid rgba(59,158,255,0.15)" }}><div style={{ fontSize: 44, marginBottom: 14 }}>⬡</div><h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 14 }}>الرؤية والرسالة</h3><p style={{ color: "#6677aa", lineHeight: 1.9, maxWidth: 580, margin: "0 auto", fontSize: 14 }}>أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة تعكس مسيرتي في بناء جسور معرفية بين الهندسة والسياسة والإنسان.</p></div></section>
+          <section id="vision-section" style={{ padding: "60px 24px", zIndex: 1 }}><div style={{ maxWidth: 860, margin: "0 auto", borderRadius: 20, padding: "48px 40px", textAlign: "center", background: "linear-gradient(135deg,rgba(59,158,255,0.08),rgba(96,207,255,0.04))", border: "1px solid rgba(59,158,255,0.15)", boxShadow: "0 0 40px rgba(59,158,255,0.1)", transition: "box-shadow 0.4s ease" }}><div style={{ fontSize: 44, marginBottom: 14 }}>⬡</div><h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 14 }}>الرؤية والرسالة</h3><p style={{ color: "#6677aa", lineHeight: 1.9, maxWidth: 580, margin: "0 auto", fontSize: 14 }}>أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة تعكس مسيرتي في بناء جسور معرفية بين الهندسة والسياسة والإنسان.</p></div></section>
 
           <footer style={{ padding: "48px 24px 32px", borderTop: "1px solid rgba(59,158,255,0.1)", zIndex: 1 }}>
             <div style={{ maxWidth: 860, margin: "0 auto" }}>
