@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bassamibrahim249.github.io/bassam-portfolio/sitemap.xml
