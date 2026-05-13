@@ -127,6 +127,60 @@
     .article-body th { background: rgba(234,179,8,0.1); color: #EAB308; font-weight: 700; }
     .article-body blockquote { border-right: 3px solid #EAB308; padding-right: 16px; margin: 16px 0; color: #8899bb; font-style: italic; }
     
+    /* 🆕 شريط البحث */
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(59,158,255,0.2);
+      color: #ffffff;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      margin-bottom: 20px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: rgba(59,158,255,0.5);
+      box-shadow: 0 0 15px rgba(59,158,255,0.15);
+    }
+    .search-input::placeholder { color: #6677aa; }
+    
+    /* 🆕 أزرار المشاركة */
+    .share-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'Cairo', sans-serif;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      color: #8899bb;
+      transition: all 0.3s ease;
+    }
+    .share-btn:hover { background: rgba(59,158,255,0.1); border-color: rgba(59,158,255,0.3); color: #ffffff; }
+    .share-btn.copied { background: rgba(37,211,102,0.1); border-color: rgba(37,211,102,0.3); color: #25D366; }
+    
+    /* 🆕 قسم التعليقات */
+    .comments-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    
     .install-btn { background: linear-gradient(135deg,#3B9EFF,#2563eb); color: #fff; border: none; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; margin-bottom: 14px; box-shadow: 0 0 30px rgba(59,158,255,0.4); transition: transform 0.25s ease; }
     .install-btn:hover { transform: scale(1.03); }
     .dismiss-btn { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: #6677aa; padding: 12px 32px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; }
@@ -194,12 +248,65 @@
       return html;
     }
 
+    // 🆕 مكون أزرار المشاركة تحت كل مقال
+    function ShareButtons({ article }) {
+      const [copied, setCopied] = useState(false);
+      const articleUrl = window.location.href;
+      
+      const handleShare = async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: article.title,
+              text: (article.content || '').substring(0, 100) + '...',
+              url: articleUrl,
+            });
+          } catch (err) {
+            // تجاهل
+          }
+        } else {
+          // Fallback: فتح واتساب
+          window.open(`https://wa.me/?text=${encodeURIComponent(article.title + '\n' + articleUrl)}`, '_blank');
+        }
+      };
+      
+      const handleCopyLink = async () => {
+        try {
+          await navigator.clipboard.writeText(articleUrl);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+          // Fallback
+          const input = document.createElement('input');
+          input.value = articleUrl;
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand('copy');
+          document.body.removeChild(input);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        }
+      };
+      
+      return (
+        <div className="share-buttons">
+          <button className="share-btn" onClick={handleShare} title="مشاركة المقال">
+            📤 مشاركة
+          </button>
+          <button className={`share-btn ${copied ? 'copied' : ''}`} onClick={handleCopyLink} title="نسخ الرابط">
+            {copied ? '✅ تم النسخ!' : '📋 نسخ الرابط'}
+          </button>
+        </div>
+      );
+    }
+
     function ArticleListSection({ title, category, onBack }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
       const [error, setError] = useState(null);
       const [openIndex, setOpenIndex] = useState(null);
       const [lastOpenedIndex, setLastOpenedIndex] = useState(null);
+      const [searchQuery, setSearchQuery] = useState("");
 
       useEffect(() => {
         setLoading(true);
@@ -217,19 +324,16 @@
           } catch(e) {}
         }
 
-        fetch('data.json?' + Date.now())
+        // تحسين الكاش: تاريخ اليوم فقط
+        fetch('data.json?v=' + new Date().toISOString().slice(0,10))
           .then(res => res.json())
           .then(data => {
             const articles = Array.isArray(data) ? data : [];
             
             const btnSlug = BUTTON_SLUGS[category] || category;
             
-            const filtered = category ? articles.filter(a => 
-              a.button === btnSlug || 
-              a.button === category ||
-              a.category === category ||
-              a.tab === category
-            ) : articles;
+            // تبسيط الفلترة: شرط واحد فقط
+            const filtered = category ? articles.filter(a => a.button === btnSlug) : articles;
             
             const sorted = filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             setArticles(sorted);
@@ -245,14 +349,32 @@
         if (newOpen !== null) setLastOpenedIndex(idx);
       };
 
+      // فلترة البحث
+      const searchedArticles = searchQuery.trim() === '' 
+        ? articles 
+        : articles.filter(a => 
+            a.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            a.tags?.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
+          );
+
       return (
         <div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "100px 24px 60px", color: "#fff", maxWidth: 900, margin: "0 auto" }}>
           <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", fontFamily: "'Cairo', sans-serif" }}>← العودة للرئيسية</button>
           <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, marginBottom: 30, textAlign: "center", color: "#EAB308" }}>{title} 🔬</h2>
+          
+          {/* شريط البحث */}
+          <input
+            type="text"
+            className="search-input"
+            placeholder="🔍 بحث في المقالات..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          
           {loading ? <div style={{ textAlign: "center", marginTop: 40, color: "#667788" }}><div className="pulse-dot" style={{ width: 8, height: 8, borderRadius: "50%", background: "#EAB308", margin: "0 auto 20px" }} /><p>جاري تحميل المقالات...</p></div> :
            error ? <div style={{ textAlign: "center", marginTop: 40, color: "#ff6b6b" }}><p>⚠️ خطأ: {error}</p><button onClick={() => window.location.reload()} style={{ marginTop: 16, padding: "8px 20px", borderRadius: 8, background: "rgba(255,107,107,0.1)", border: "1px solid rgba(255,107,107,0.3)", color: "#ff6b6b", cursor: "pointer", fontFamily: "'Cairo', sans-serif" }}>إعادة المحاولة</button></div> :
-           articles.length === 0 ? <div style={{ textAlign: "center", marginTop: 40, color: "#667788" }}><p style={{ fontSize: 48, marginBottom: 16 }}>📝</p><p>لا توجد مقالات بعد.</p></div> :
-            <div>{articles.map((article, idx) => {
+           searchedArticles.length === 0 ? <div style={{ textAlign: "center", marginTop: 40, color: "#667788" }}><p style={{ fontSize: 48, marginBottom: 16 }}>📝</p><p>{searchQuery ? 'لا توجد نتائج مطابقة' : 'لا توجد مقالات بعد.'}</p></div> :
+            <div>{searchedArticles.map((article, idx) => {
               const isOpen = openIndex === idx;
               const rawHTML = parseMarkdownToHTML(article.content || article.body || '');
               const cleanHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHTML, { ALLOWED_TAGS: ['h1','h2','h3','h4','p','br','strong','em','del','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'], ALLOWED_ATTR: ['href','target','rel','src','alt','loading','style','class'] }) : rawHTML;
@@ -268,8 +390,25 @@
                     <button className={`accordion-toggle-btn ${isOpen ? 'close' : 'read'}`} onClick={(e) => { e.stopPropagation(); handleToggle(idx); }}>{isOpen ? '✕ إغلاق' : '📖 اقرأ'}</button>
                   </div>
                   <div className={`accordion-content ${isOpen ? 'open' : ''}`}>
-                    {article.image && <img src={article.image} alt={article.title} style={{ width: "100%", borderRadius: 12, marginBottom: 20, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }} loading="lazy" />}
+                    {/* 🆕 عرض الصورة إذا وجدت */}
+                    {article.image && (
+                      <img 
+                        src={article.image} 
+                        alt={article.title} 
+                        style={{ width: "100%", borderRadius: 12, marginBottom: 20, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }} 
+                        loading="lazy"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    )}
                     <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
+                    {/* أزرار المشاركة */}
+                    {isOpen && <ShareButtons article={article} />}
+                    {/* 🆕 قسم التعليقات - utterances */}
+                    {isOpen && (
+                      <div className="comments-section">
+                        <div id="utterances-comments"></div>
+                      </div>
+                    )}
                   </div>
                 </div>
               );
@@ -462,6 +601,39 @@
       );
     }
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+  
+  <!-- 📊 GoatCounter Analytics (تتبع خفي للزوار - لا يظهر أي عداد للزائر) -->
+  <script data-goatcounter="https://bassam-portfolio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  
+  <!-- 💬 Utterances Comments (نظام تعليقات عبر GitHub Issues) -->
+  <script>
+    // تحميل utterances بعد فتح الأكورديون
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.target.classList.contains('open')) {
+          const commentsDiv = document.getElementById('utterances-comments');
+          if (commentsDiv && !commentsDiv.hasChildNodes()) {
+            const script = document.createElement('script');
+            script.src = 'https://utteranc.es/client.js';
+            script.setAttribute('repo', 'bassamibrahim249/bassam-portfolio');
+            script.setAttribute('issue-term', 'pathname');
+            script.setAttribute('theme', 'github-dark');
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            commentsDiv.appendChild(script);
+          }
+        }
+      });
+    });
+    
+    // مراقبة تغييرات الأكورديون
+    setTimeout(function() {
+      const accordionContents = document.querySelectorAll('.accordion-content');
+      accordionContents.forEach(function(content) {
+        observer.observe(content, { attributes: true, attributeFilter: ['class'] });
+      });
+    }, 1000);
   </script>
 </body>
 </html>
