@@ -6,6 +6,9 @@
   <title>BassamIbrahim — مهندس باحث · محلل استراتيجي</title>
   <meta name="description" content="Bassam Ibrahim — مهندس باحث متخصص في علوم المواد والتحليل الاستراتيجي." />
   
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="P9voyOGI2h7PeafHVLoxowMugTDrFaZaPE6ukX7l0UU" />
+  
   <!-- PWA Support -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#080c12" />
@@ -111,7 +114,6 @@
     .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
     .accordion-content.open { max-height: 5000px; padding: 0 20px 24px; }
     
-    /* إخفاء الكلمات المفتاحية من العرض - موجودة للـ SEO فقط */
     .accordion-tags { display: none; }
     .accordion-tag { display: none; }
     
@@ -261,7 +263,6 @@
                       <h3 className="accordion-title">{article.title || 'بدون عنوان'}</h3>
                       <div className="accordion-meta">
                         {article.date && <span className="accordion-date">📅 {article.date}</span>}
-                        {/* الكلمات المفتاحية مخفية عن العرض - موجودة في data.json للـ SEO */}
                       </div>
                     </div>
                     <button className={`accordion-toggle-btn ${isOpen ? 'close' : 'read'}`} onClick={(e) => { e.stopPropagation(); handleToggle(idx); }}>{isOpen ? '✕ إغلاق' : '📖 اقرأ'}</button>
