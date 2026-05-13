@@ -110,8 +110,10 @@
     .accordion-toggle-btn.close:hover { background: rgba(255,255,255,0.1); color: #fff; }
     .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
     .accordion-content.open { max-height: 5000px; padding: 0 20px 24px; }
-    .accordion-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .accordion-tag { font-size: 10px; padding: 3px 8px; border-radius: 50px; background: rgba(234,179,8,0.1); color: #EAB308; border: 1px solid rgba(234,179,8,0.2); }
+    
+    /* إخفاء الكلمات المفتاحية من العرض - موجودة للـ SEO فقط */
+    .accordion-tags { display: none; }
+    .accordion-tag { display: none; }
     
     .article-body { color: #8899bb; line-height: 1.9; font-size: 15px; }
     .article-body h2, .article-body h3 { color: #EAB308; font-size: 18px; font-weight: 700; margin: 20px 0 12px; }
@@ -150,7 +152,6 @@
       cache: { key: "bassam_articles_cache", ttl: 24 * 60 * 60 * 1000 },
     };
 
-    // 🗺️ خريطة الأزرار للـ slugs (نفس اللي في bot.py)
     const BUTTON_SLUGS = {
       "علوم المواد": "materials_science",
       "ابتكار إنشائي": "construction_innovation",
@@ -214,13 +215,11 @@
           } catch(e) {}
         }
 
-        // جلب البيانات مع كسر الكاش
         fetch('data.json?' + Date.now())
           .then(res => res.json())
           .then(data => {
             const articles = Array.isArray(data) ? data : [];
             
-            // 🎯 الفلترة الصحيحة: البحث عن الزر باستخدام slug
             const btnSlug = BUTTON_SLUGS[category] || category;
             
             const filtered = category ? articles.filter(a => 
@@ -262,7 +261,7 @@
                       <h3 className="accordion-title">{article.title || 'بدون عنوان'}</h3>
                       <div className="accordion-meta">
                         {article.date && <span className="accordion-date">📅 {article.date}</span>}
-                        {article.tags && article.tags.length > 0 && <div className="accordion-tags">{article.tags.map((tag, ti) => <span key={ti} className="accordion-tag">{tag}</span>)}</div>}
+                        {/* الكلمات المفتاحية مخفية عن العرض - موجودة في data.json للـ SEO */}
                       </div>
                     </div>
                     <button className={`accordion-toggle-btn ${isOpen ? 'close' : 'read'}`} onClick={(e) => { e.stopPropagation(); handleToggle(idx); }}>{isOpen ? '✕ إغلاق' : '📖 اقرأ'}</button>
