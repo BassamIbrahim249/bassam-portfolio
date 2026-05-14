@@ -86,7 +86,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "📝 [بوت] إضافة مقال: ${{ github.event.client_payload.title }}"
-          file_pattern: "data.json assets/images/*"
+          file_pattern: "data.json assets/images/"
           commit_user_name: "Telegram Bot"
           commit_user_email: "bot@bassam-portfolio.local"
           skip_dirty_check: false
