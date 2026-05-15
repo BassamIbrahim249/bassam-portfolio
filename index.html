@@ -172,12 +172,6 @@
     .share-btn:hover { background: rgba(59,158,255,0.1); border-color: rgba(59,158,255,0.3); color: #ffffff; }
     .share-btn.copied { background: rgba(37,211,102,0.1); border-color: rgba(37,211,102,0.3); color: #25D366; }
     
-    .comments-section {
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    
     .install-btn { background: linear-gradient(135deg,#3B9EFF,#2563eb); color: #fff; border: none; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; margin-bottom: 14px; box-shadow: 0 0 30px rgba(59,158,255,0.4); transition: transform 0.25s ease; }
     .install-btn:hover { transform: scale(1.03); }
     .dismiss-btn { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: #6677aa; padding: 12px 32px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; }
@@ -292,6 +286,30 @@
       );
     }
 
+    // 🆕 مكون التعليقات
+    function CommentsSection({ articleId }) {
+      useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'bassamibrahim249/bassam-portfolio');
+        script.setAttribute('issue-term', articleId || 'pathname');
+        script.setAttribute('theme', 'github-dark');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        
+        const container = document.getElementById(`comments-${articleId}`);
+        if (container && !container.hasChildNodes()) {
+          container.appendChild(script);
+        }
+      }, [articleId]);
+      
+      return (
+        <div className="comments-section">
+          <div id={`comments-${articleId}`}></div>
+        </div>
+      );
+    }
+
     function ArticleListSection({ title, category, onBack }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -363,7 +381,6 @@
               const isOpen = openIndex === idx;
               const rawHTML = parseMarkdownToHTML(article.content || article.body || '');
               const cleanHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHTML, { ALLOWED_TAGS: ['h1','h2','h3','h4','p','br','strong','em','del','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'], ALLOWED_ATTR: ['href','target','rel','src','alt','loading','style','class'] }) : rawHTML;
-              const commentId = `utterances-${idx}`;
               return (
                 <div key={idx} className={`accordion-item ${lastOpenedIndex === idx ? 'last-opened' : ''}`}>
                   <div className="accordion-header" onClick={() => handleToggle(idx)} role="button" tabIndex={0} aria-expanded={isOpen}>
@@ -387,18 +404,8 @@
                     )}
                     <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
                     {isOpen && <ShareButtons article={article} />}
-                    {/* 🆕 utterances تعمل فوراً */}
-                    {isOpen && (
-                      <div className="comments-section">
-                        <script src="https://utteranc.es/client.js"
-                                repo="bassamibrahim249/bassam-portfolio"
-                                issue-term="pathname"
-                                theme="github-dark"
-                                crossorigin="anonymous"
-                                async>
-                        </script>
-                      </div>
-                    )}
+                    {/* 🆕 التعليقات - كل مقال له id مختلف */}
+                    {isOpen && <CommentsSection articleId={article.id || idx} />}
                   </div>
                 </div>
               );
