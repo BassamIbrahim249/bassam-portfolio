@@ -36,10 +36,13 @@ jobs:
           author = payload.get("author", "بسام إبراهيم أحمد")
           image_b64 = payload.get("image_base64", "")
           image_name = payload.get("image_name", "")
+          cover_path = payload.get("cover_path", "")
           tags = payload.get("tags", [])
           link = payload.get("link", "")
 
-          # تجهيز بيانات المقال
+          # ✅ استخدام cover_path لو موجود
+          final_image = cover_path if cover_path else (f"assets/images/{image_name}" if image_name else None)
+
           article = {
               "id": f"{int(datetime.datetime.now().timestamp())}",
               "title": title,
@@ -49,11 +52,10 @@ jobs:
               "tags": tags,
               "link": link,
               "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-              "image": f"assets/images/{image_name}" if image_name else None,
+              "image": final_image,
               "author": author
           }
 
-          # تحديث data.json
           data_path = "data.json"
           if os.path.exists(data_path):
               with open(data_path, "r", encoding="utf-8") as f:
@@ -65,7 +67,6 @@ jobs:
           with open(data_path, "w", encoding="utf-8") as f:
               json.dump(data, f, ensure_ascii=False, indent=2)
 
-          # حفظ الصورة إن وجدت (أو إنشاء مجلد فاضي)
           os.makedirs("assets/images", exist_ok=True)
           if image_b64 and image_name:
               img_path = os.path.join("assets/images", image_name)
@@ -77,7 +78,7 @@ jobs:
               if not os.path.exists(gitkeep_path):
                   with open(gitkeep_path, "w") as f:
                       f.write("# Keep this directory in git")
-              print("⚠️ لا توجد صورة - تم تخطي رفع الصورة")
+              print("⚠️ لا توجد صورة")
 
           print("✅ تم تحديث data.json بنجاح")
           PYTHON_SCRIPT
@@ -89,4 +90,4 @@ jobs:
           file_pattern: "data.json assets/images/"
           commit_user_name: "Telegram Bot"
           commit_user_email: "bot@bassam-portfolio.local"
-          skip_dirty_check: false
+          skip_dirty_check: true
