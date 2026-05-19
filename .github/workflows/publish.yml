@@ -1,8 +1,8 @@
-name: 📝 نشر مقال من تيليجرام
+name: 📝 نشر وتحديث الموقع من تيليجرام
 
 on:
   repository_dispatch:
-    types: [new_article]
+    types: [new_article, update_site]
 
 jobs:
   publish:
@@ -21,7 +21,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: ⚙️ معالجة البيانات وحفظ الملفات
+      - name: ⚙️ معالجة البيانات وحفظ الملفات (للمقال الجديد فقط)
+        if: github.event.action == 'new_article'
         env:
           PAYLOAD: ${{ toJson(github.event.client_payload) }}
         run: |
@@ -40,7 +41,6 @@ jobs:
           tags = payload.get("tags", [])
           link = payload.get("link", "")
 
-          # ✅ استخدام cover_path لو موجود
           final_image = cover_path if cover_path else (f"assets/images/{image_name}" if image_name else None)
 
           article = {
@@ -83,10 +83,16 @@ jobs:
           print("✅ تم تحديث data.json بنجاح")
           PYTHON_SCRIPT
 
+      - name: 🔄 إعادة بناء الموقع (للتحديثات فقط)
+        if: github.event.action == 'update_site'
+        run: |
+          echo "✅ تحديث الموقع فقط - data.json تم تعديله مسبقاً بواسطة البوت"
+          echo "🔄 جاري إعادة بناء الموقع..."
+
       - name: 🚀 رفع التغييرات
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "📝 [بوت] إضافة مقال: ${{ github.event.client_payload.title }}"
+          commit_message: "${{ github.event.action == 'new_article' && '📝 [بوت] إضافة مقال' || '🔄 [بوت] تحديث الموقع' }}: ${{ github.event.client_payload.title }}"
           file_pattern: "data.json assets/images/"
           commit_user_name: "Telegram Bot"
           commit_user_email: "bot@bassam-portfolio.local"
