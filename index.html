@@ -3,24 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <!-- 1️⃣ تحديث الهوية النصية -->
   <title>BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني</title>
   <meta name="description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
-  
-  <!-- 5️⃣ تحسينات SEO: روابط اكتشاف التبويبات -->
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  
-  <!-- 3️⃣ نظام الكاش الذكي: ميتا تاجز -->
-  <meta name="app-version" content="1.0.0" />
+  <meta name="app-version" content="1.0.2" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  
   <meta name="google-site-verification" content="P9voyOGI2h7PeafHVLoxowMugTDrFaZaPE6ukX7l0UU" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#080c12" />
@@ -29,8 +22,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Bassam Ibrahim" />
   <link rel="apple-touch-icon" href="icon.jpg" />
-  
-  <!-- 5️⃣ SEO: Open Graph + Twitter -->
   <meta property="og:title" content="BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني" />
   <meta property="og:description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <meta property="og:type" content="website" />
@@ -42,10 +33,8 @@
   <meta name="twitter:title" content="BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني" />
   <meta name="twitter:description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <meta name="twitter:image" content="https://bassamibrahim249.github.io/bassam-portfolio/preview.jpg" />
-  
   <link rel="icon" type="image/jpeg" href="icon.jpg" />
   <link rel="canonical" href="https://bassamibrahim249.github.io/bassam-portfolio/" />
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,19 +43,16 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { background: #080c12; font-family: 'Cairo', sans-serif; color: #ffffff; overflow-x: hidden; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
-    
     @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
     @keyframes goldenPulse { 0%, 100% { box-shadow: 0 0 5px rgba(234,179,8,0.3); } 50% { box-shadow: 0 0 20px rgba(234,179,8,0.7); } }
     @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
     @keyframes backToTopPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(59,158,255,0.4); } 50% { box-shadow: 0 0 0 12px rgba(59,158,255,0); } }
     @keyframes skeletonShimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-    
     @media (prefers-reduced-motion: no-preference) {
       .anim-fade-up { animation: fadeUp 0.75s ease both; }
       .pulse-dot { animation: pulseGlow 2.2s ease-in-out infinite; }
@@ -79,7 +65,6 @@
       *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
       html { scroll-behavior: auto; }
     }
-    
     .delay-1 { animation-delay: 0.10s; } .delay-2 { animation-delay: 0.25s; } .delay-3 { animation-delay: 0.40s; } .delay-4 { animation-delay: 0.55s; } .delay-5 { animation-delay: 0.70s; }
     .grad-text { background: linear-gradient(135deg, #3B9EFF, #60CFFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .card-wrap { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease; }
@@ -146,17 +131,13 @@
 </head>
 <body>
   <div class="progress-bar" id="readProgress"></div>
-  
   <div id="root"></div>
-  
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
-  
   <script>
     (function() {
-      const CURRENT_VERSION = "1.0.0";
+      const CURRENT_VERSION = "1.0.2";
       const STORED_VERSION = localStorage.getItem('site_version');
       const ARTICLE_CACHE_KEY = 'bassam_articles_cache_all';
-      
       if (STORED_VERSION !== CURRENT_VERSION) {
         console.log(`🔄 Update: ${STORED_VERSION} → ${CURRENT_VERSION}`);
         if ('caches' in window) {
@@ -175,7 +156,6 @@
       }
     })();
   </script>
-  
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -185,27 +165,24 @@
       });
     }
   </script>
-  
   <script type="text/babel">
     const { useState, useEffect, useCallback, useRef } = React;
     const CONFIG = { github: { username: "bassamibrahim249", repo: "bassam-portfolio", articlesPath: "content/articles" }, contact: { whatsapp: "249967238251" }, cache: { key: "bassam_articles_cache", ttl: 24 * 60 * 60 * 1000 } };
     const BUTTON_SLUGS = { "علوم المواد": "materials_science", "ابتكار إنشائي": "construction_innovation", "مختبر هندسي": "engineering_lab", "تاريخ السودان": "sudan_history", "تحليل استراتيجي": "strategic_analysis", "رؤى فكرية": "intellectual_visions", "تاريخ": "history", "آثار": "archaeology", "هوية": "identity", "كتابة مشاريع": "project_writing", "قيادة": "leadership", "تدريب تنموي": "developmental_training", "صحة شاملة": "holistic_health", "تغذية علمية": "scientific_nutrition", "تميز بدني": "physical_excellence" };
     const GLOBAL_CACHE_KEY = CONFIG.cache.key + "_all";
-    const APP_VERSION = "1.0.0";
+    const APP_VERSION = "1.0.2";
 
-    // 🛠️ إصلاح أزرار العودة: دالة ذكية تربط أي تصنيف بالتبويب الصحيح
-    const getTabFromCategory = (cat) => {
-      if (!cat) return 'cards-section';
-      if (['engineering','political','nubian','academy','lifestyle'].includes(cat)) return cat;
-      if (cat.startsWith('library_')) return cat.replace('library_', '');
-      const rev = {
+    const getTabFromButton = (btn) => {
+      if (!btn) return 'cards-section';
+      if (btn.startsWith('library_')) return btn.replace('library_', '');
+      const map = {
         materials_science:'engineering', construction_innovation:'engineering', engineering_lab:'engineering',
         sudan_history:'political', strategic_analysis:'political', intellectual_visions:'political',
         history:'nubian', archaeology:'nubian', identity:'nubian',
         project_writing:'academy', leadership:'academy', developmental_training:'academy',
         holistic_health:'lifestyle', scientific_nutrition:'lifestyle', physical_excellence:'lifestyle'
       };
-      return rev[cat] || 'cards-section';
+      return map[btn] || 'cards-section';
     };
 
     const scrollToElement = (elementId) => {
@@ -249,7 +226,6 @@
       const articleUrl = window.location.href;
       const title = encodeURIComponent(article.title);
       const url = encodeURIComponent(articleUrl);
-      
       const handleShare = async () => {
         if (navigator.share) {
           try { await navigator.share({ title: article.title, text: (article.content || '').substring(0, 100), url: articleUrl }); }
@@ -270,7 +246,6 @@
         };
         window.open(urls[platform], '_blank');
       };
-      
       return (
         <div className="share-buttons">
           <button className="share-btn" onClick={handleShare} aria-label="مشاركة المقال">📤 مشاركة</button>
@@ -305,7 +280,6 @@
       const [files, setFiles] = useState([]);
       const [loading, setLoading] = useState(true);
       const librarySlug = category?.replace('library_', '');
-      
       useEffect(() => {
         setLoading(true);
         fetch(`https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/library_index.json?v=${APP_VERSION}`)
@@ -317,47 +291,25 @@
           .catch(() => setFiles([]))
           .finally(() => setLoading(false));
       }, [librarySlug]);
-      
-      if (loading) return (
-        <div style={{ padding: 40, textAlign: 'center' }}>
-          <div className="skeleton" style={{ width: '60%', height: '24px', margin: '0 auto 16px', borderRadius: '8px' }}></div>
-          <div className="skeleton" style={{ width: '100%', height: '120px', margin: '0 auto', borderRadius: '12px' }}></div>
+      if (loading) return (<div style={{ padding: 40, textAlign: 'center' }}><div className="skeleton" style={{ width: '60%', height: '24px', margin: '0 auto 16px', borderRadius: '8px' }}></div><div className="skeleton" style={{ width: '100%', height: '120px', margin: '0 auto', borderRadius: '12px' }}></div></div>);
+      if (files.length === 0) return (<div style={{ padding: 40, textAlign: 'center', color: '#8899bb' }}><p style={{ fontSize: 48, marginBottom: 16 }}>📚</p><p>لا توجد ملفات في هذه المكتبة بعد.</p><button onClick={onBack} style={{ marginTop: 20, padding: '8px 20px', borderRadius: 8, background: 'rgba(59,158,255,0.1)', border: '1px solid rgba(59,158,255,0.3)', color: '#3B9EFF', cursor: 'pointer', minHeight: '44px' }}>← العودة للقسم</button></div>);
+      const getLibraryName = (slug) => ({ 'engineering': 'الهندسة', 'political': 'السياسة', 'nubian': 'نوبيان', 'academy': 'الأكاديمية', 'lifestyle': 'نمط الحياة' }[slug] || '');
+      return (<div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "100px 24px 60px", color: "#fff", maxWidth: 900, margin: "0 auto" }}>
+        <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", minHeight: '44px' }} aria-label="العودة للقسم">← العودة للقسم</button>
+        <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, marginBottom: 30, textAlign: "center", color: "#A78BFA" }}>📚 مكتبة {getLibraryName(librarySlug)}</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
+          {files.map(file => (<div key={file.id} className="library-card">
+            <div style={{ fontSize: 24, marginBottom: 8 }}>{file.fileType === 'pdf' ? '📕' : file.fileType === 'pptx' ? '📊' : '📄'}</div>
+            <h4 style={{ fontSize: 14, marginBottom: 8 }}>{file.title}</h4>
+            <p style={{ fontSize: 12, color: '#8899bb', marginBottom: 12 }}>{file.description || ''}</p>
+            <div style={{ fontSize: 11, color: '#8899bb', marginBottom: 12 }}>📦 {file.fileSize} • 📅 {new Date(file.uploadDate).toLocaleDateString('ar-SD')}</div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${file.filePath}`} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: '8px', background: 'rgba(59,158,255,0.2)', color: '#3B9EFF', borderRadius: 6, textAlign: 'center', textDecoration: 'none', fontSize: 12, fontWeight: 600, minHeight: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label={`تحميل ${file.title}`}>📥 تحميل</a>
+              {file.fileType === 'pdf' && (<a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${file.filePath}`} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: '8px', background: 'rgba(167,139,250,0.2)', color: '#A78BFA', borderRadius: 6, textAlign: 'center', textDecoration: 'none', fontSize: 12, fontWeight: 600, minHeight: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label={`معاينة ${file.title}`}>👁️ معاينة</a>)}
+            </div>
+          </div>))}
         </div>
-      );
-      
-      if (files.length === 0) return (
-        <div style={{ padding: 40, textAlign: 'center', color: '#8899bb' }}>
-          <p style={{ fontSize: 48, marginBottom: 16 }}>📚</p>
-          <p>لا توجد ملفات في هذه المكتبة بعد.</p>
-          {/* 🛠️ إصلاح: زر العودة للمكتبة يرجع للتبويب الصحيح */}
-          <button onClick={() => { onBack(); setTimeout(() => scrollToElement(getTabFromCategory(category)), 100); }} style={{ marginTop: 20, padding: '8px 20px', borderRadius: 8, background: 'rgba(59,158,255,0.1)', border: '1px solid rgba(59,158,255,0.3)', color: '#3B9EFF', cursor: 'pointer', minHeight: '44px' }}>← العودة للقسم</button>
-        </div>
-      );
-      
-      const getLibraryName = (slug) => ({
-        'engineering': 'الهندسة', 'political': 'السياسة', 'nubian': 'نوبيان', 'academy': 'الأكاديمية', 'lifestyle': 'نمط الحياة'
-      }[slug] || '');
-      
-      return (
-        <div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "100px 24px 60px", color: "#fff", maxWidth: 900, margin: "0 auto" }}>
-          <button onClick={() => { onBack(); setTimeout(() => scrollToElement(getTabFromCategory(category)), 100); }} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", minHeight: '44px' }} aria-label="العودة للقسم">← العودة للقسم</button>
-          <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, marginBottom: 30, textAlign: "center", color: "#A78BFA" }}>📚 مكتبة {getLibraryName(librarySlug)}</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
-            {files.map(file => (
-              <div key={file.id} className="library-card">
-                <div style={{ fontSize: 24, marginBottom: 8 }}>{file.fileType === 'pdf' ? '📕' : file.fileType === 'pptx' ? '📊' : '📄'}</div>
-                <h4 style={{ fontSize: 14, marginBottom: 8 }}>{file.title}</h4>
-                <p style={{ fontSize: 12, color: '#8899bb', marginBottom: 12 }}>{file.description || ''}</p>
-                <div style={{ fontSize: 11, color: '#8899bb', marginBottom: 12 }}>📦 {file.fileSize} • 📅 {new Date(file.uploadDate).toLocaleDateString('ar-SD')}</div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${file.filePath}`} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: '8px', background: 'rgba(59,158,255,0.2)', color: '#3B9EFF', borderRadius: 6, textAlign: 'center', textDecoration: 'none', fontSize: 12, fontWeight: 600, minHeight: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label={`تحميل ${file.title}`}>📥 تحميل</a>
-                  {file.fileType === 'pdf' && (<a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${file.filePath}`} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: '8px', background: 'rgba(167,139,250,0.2)', color: '#A78BFA', borderRadius: 6, textAlign: 'center', textDecoration: 'none', fontSize: 12, fontWeight: 600, minHeight: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label={`معاينة ${file.title}`}>👁️ معاينة</a>)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
+      </div>);
     }
 
     function ArticleListSection({ title, category, onBack }) {
@@ -381,22 +333,15 @@
           } catch(e) {}
         }
         fetch(`data.json?v=${APP_VERSION}`)
-          .then(res => {
-            if (!res.ok) throw new Error('فشل التحميل');
-            return res.json();
-          })
+          .then(res => { if (!res.ok) throw new Error('فشل التحميل'); return res.json(); })
           .then(data => {
             const allArticles = Array.isArray(data) ? data : [];
             try { localStorage.setItem(GLOBAL_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: allArticles })); } catch(e) {}
             setArticles(allArticles);
           })
           .catch(err => {
-            if (!navigator.onLine) {
-              setError('أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.');
-              document.getElementById('offlineBanner')?.classList.add('show');
-            } else {
-              setError('تعذر تحميل المقالات. حاول مجدداً لاحقاً.');
-            }
+            if (!navigator.onLine) { setError('أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.'); document.getElementById('offlineBanner')?.classList.add('show'); }
+            else { setError('تعذر تحميل المقالات. حاول مجدداً لاحقاً.'); }
           })
           .finally(() => setLoading(false));
       }, [category]);
@@ -426,16 +371,7 @@
       useEffect(() => {
         if (openIndex !== null && articles[openIndex]) {
           const article = articles[openIndex];
-          const schema = {
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": article.title,
-            "author": {"@type": "Person", "name": article.author},
-            "datePublished": article.date,
-            "image": article.image ? `https://bassamibrahim249.github.io/bassam-portfolio/${article.image}` : undefined,
-            "articleBody": (article.content || '').substring(0, 200),
-            "keywords": (article.tags || []).join(", ")
-          };
+          const schema = { "@context": "https://schema.org", "@type": "Article", "headline": article.title, "author": {"@type": "Person", "name": article.author}, "datePublished": article.date, "image": article.image ? `https://bassamibrahim249.github.io/bassam-portfolio/${article.image}` : undefined, "articleBody": (article.content || '').substring(0, 200), "keywords": (article.tags || []).join(", ") };
           const script = document.createElement('script');
           script.type = 'application/ld+json';
           script.text = JSON.stringify(schema);
@@ -444,7 +380,16 @@
         }
       }, [openIndex, articles]);
       
-      const handleToggle = (idx) => { const newOpen = openIndex === idx ? null : idx; setOpenIndex(newOpen); if (newOpen !== null) setLastOpenedIndex(idx); };
+      // 🛠️ إصلاح: فتح المقال من البداية + إغلاق المقال السابق
+      const handleToggle = (idx) => {
+        if (openIndex === idx) {
+          setOpenIndex(null);
+        } else {
+          setOpenIndex(idx);
+          setLastOpenedIndex(idx);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      };
       
       const btnSlug = BUTTON_SLUGS[category] || category;
       const isLibrary = category?.startsWith('library_');
@@ -455,78 +400,37 @@
       }) : articles;
       const sortedArticles = filteredArticles.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
       const searchedArticles = debouncedQuery.trim() === '' ? sortedArticles : sortedArticles.filter(a => a.title?.toLowerCase().includes(debouncedQuery.toLowerCase()) || a.tags?.some(t => t.toLowerCase().includes(debouncedQuery.toLowerCase())));
-      
-      // 🛠️ إصلاح: handleBack يستخدم getTabFromCategory بدل getCategoryElementId
-      const handleBack = () => {
-        const targetId = getTabFromCategory(category);
-        onBack();
-        setTimeout(() => scrollToElement(targetId), 100);
-      };
-      
       const getReadingTime = (content) => Math.ceil((content || '').split(' ').length / 200);
       
-      return (
-        <div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "100px 24px 60px", color: "#fff", maxWidth: 900, margin: "0 auto" }}>
-          <button onClick={handleBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", minHeight: '44px' }} aria-label="العودة للرئيسية">← العودة للرئيسية</button>
-          <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, marginBottom: 30, textAlign: "center", color: "#EAB308" }}>{title} 🔬</h2>
-          <input type="text" className="search-input" placeholder="🔍 بحث في المقالات..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} aria-label="بحث في المقالات" />
-          
-          {loading ? (
-            <div style={{ textAlign: "center", marginTop: 40 }}>
-              {[1,2,3].map(i => (<div key={i} className="skeleton" style={{ width: '100%', height: '120px', marginBottom: '16px', borderRadius: '12px' }}></div>))}
-            </div>
-          ) : error ? (
-            <div style={{ textAlign: "center", marginTop: 40, color: "#ff6b6b" }}>
-              <p>⚠️ {error}</p>
-              <button onClick={() => window.location.reload()} style={{ marginTop: 16, padding: "8px 20px", borderRadius: 8, background: "rgba(255,107,107,0.1)", border: "1px solid rgba(255,107,107,0.3)", color: "#ff6b6b", cursor: "pointer", fontFamily: "'Cairo', sans-serif", minHeight: '44px' }}>إعادة المحاولة</button>
-            </div>
-          ) : searchedArticles.length === 0 ? (
-            <div style={{ textAlign: "center", marginTop: 40, color: "#8899bb" }}>
-              <p style={{ fontSize: 48, marginBottom: 16 }}>📝</p>
-              <p>{debouncedQuery ? 'لا توجد نتائج مطابقة' : 'لا توجد مقالات بعد.'}</p>
-            </div>
-          ) : (
-            <div>
-              {searchedArticles.map((article, idx) => {
-                const isOpen = openIndex === idx;
-                const rawHTML = parseMarkdownToHTML(article.content || article.body || '');
-                const cleanHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHTML, { ALLOWED_TAGS: ['h1','h2','h3','h4','p','br','strong','em','del','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'], ALLOWED_ATTR: ['href','target','rel','src','alt','loading','style','class'] }) : rawHTML;
-                const commentId = article.id || article.title?.replace(/\s+/g, '-').substring(0, 50) || String(idx);
-                const readingTime = getReadingTime(article.content);
-                
-                return (
-                  <div key={idx} className={`accordion-item ${lastOpenedIndex === idx ? 'last-opened' : ''}`}>
-                    <div className="accordion-header" onClick={() => handleToggle(idx)} role="button" tabIndex={0} aria-expanded={isOpen} aria-label={`مقال: ${article.title}`}>
-                      <div style={{ flex: 1 }}><h3 className="accordion-title">{article.title || 'بدون عنوان'}</h3><div className="accordion-meta">{article.date && <span className="accordion-date">📅 {article.date}</span>}</div></div>
-                      <button className={`accordion-toggle-btn ${isOpen ? 'close' : 'read'}`} onClick={(e) => { e.stopPropagation(); handleToggle(idx); }} aria-label={isOpen ? `إغلاق: ${article.title}` : `اقرأ: ${article.title}`}>{isOpen ? '✕ إغلاق' : '📖 اقرأ'}</button>
-                    </div>
-                    <div className={`accordion-content ${isOpen ? 'open' : ''}`}>
-                      {article.image && <img src={article.image} alt={article.title} style={{ width: "100%", borderRadius: 12, marginBottom: 20, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }} loading="lazy" onError={(e) => { e.target.style.display = 'none'; }} />}
-                      <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
-                      
-                      <div className="author-meta">✍️ {article.author || 'بسام إبراهيم أحمد'} · 📅 {article.date} · ⏱️ {readingTime} دقائق قراءة</div>
-                      
-                      {isOpen && <ShareButtons article={article} />}
-                      {isOpen && <CommentsSection articleId={commentId} />}
-                      
-                      {isOpen && (
-                        <div className="related-articles">
-                          <h4 style={{ fontSize: 14, color: '#EAB308', marginBottom: 12 }}>📌 مقالات ذات صلة</h4>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                            {articles.filter(a => a.id !== article.id && (a.button === article.button || a.tags?.some(t => article.tags?.includes(t)))).slice(0, 3).map(related => (
-                              <button key={related.id} className="related-btn" onClick={() => { const i = articles.findIndex(x => x.id === related.id); if (i !== -1) { setOpenIndex(i); setLastOpenedIndex(i); window.scrollTo({ top: 0, behavior: 'smooth' }); } }} aria-label={`اقرأ: ${related.title}`}>{related.title?.substring(0, 25)}...</button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      );
+      return (<div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "100px 24px 60px", color: "#fff", maxWidth: 900, margin: "0 auto" }}>
+        <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", minHeight: '44px' }} aria-label="العودة للرئيسية">← العودة للرئيسية</button>
+        <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, marginBottom: 30, textAlign: "center", color: "#EAB308" }}>{title} 🔬</h2>
+        <input type="text" className="search-input" placeholder="🔍 بحث في المقالات..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} aria-label="بحث في المقالات" />
+        {loading ? (<div style={{ textAlign: "center", marginTop: 40 }}>{[1,2,3].map(i => (<div key={i} className="skeleton" style={{ width: '100%', height: '120px', marginBottom: '16px', borderRadius: '12px' }}></div>))}</div>) :
+         error ? (<div style={{ textAlign: "center", marginTop: 40, color: "#ff6b6b" }}><p>⚠️ {error}</p><button onClick={() => window.location.reload()} style={{ marginTop: 16, padding: "8px 20px", borderRadius: 8, background: "rgba(255,107,107,0.1)", border: "1px solid rgba(255,107,107,0.3)", color: "#ff6b6b", cursor: "pointer", fontFamily: "'Cairo', sans-serif", minHeight: '44px' }}>إعادة المحاولة</button></div>) :
+         searchedArticles.length === 0 ? (<div style={{ textAlign: "center", marginTop: 40, color: "#8899bb" }}><p style={{ fontSize: 48, marginBottom: 16 }}>📝</p><p>{debouncedQuery ? 'لا توجد نتائج مطابقة' : 'لا توجد مقالات بعد.'}</p></div>) :
+         (<div>{searchedArticles.map((article, idx) => {
+           const isOpen = openIndex === idx;
+           const rawHTML = parseMarkdownToHTML(article.content || article.body || '');
+           const cleanHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHTML, { ALLOWED_TAGS: ['h1','h2','h3','h4','p','br','strong','em','del','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'], ALLOWED_ATTR: ['href','target','rel','src','alt','loading','style','class'] }) : rawHTML;
+           const commentId = article.id || article.title?.replace(/\s+/g, '-').substring(0, 50) || String(idx);
+           const readingTime = getReadingTime(article.content);
+           return (<div key={idx} className={`accordion-item ${lastOpenedIndex === idx ? 'last-opened' : ''}`}>
+             <div className="accordion-header" onClick={() => handleToggle(idx)} role="button" tabIndex={0} aria-expanded={isOpen} aria-label={`مقال: ${article.title}`}>
+               <div style={{ flex: 1 }}><h3 className="accordion-title">{article.title || 'بدون عنوان'}</h3><div className="accordion-meta">{article.date && <span className="accordion-date">📅 {article.date}</span>}</div></div>
+               <button className={`accordion-toggle-btn ${isOpen ? 'close' : 'read'}`} onClick={(e) => { e.stopPropagation(); handleToggle(idx); }} aria-label={isOpen ? `إغلاق: ${article.title}` : `اقرأ: ${article.title}`}>{isOpen ? '✕ إغلاق' : '📖 اقرأ'}</button>
+             </div>
+             <div className={`accordion-content ${isOpen ? 'open' : ''}`}>
+               {article.image && <img src={article.image} alt={article.title} style={{ width: "100%", borderRadius: 12, marginBottom: 20, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }} loading="lazy" onError={(e) => { e.target.style.display = 'none'; }} />}
+               <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
+               <div className="author-meta">✍️ {article.author || 'بسام إبراهيم أحمد'} · 📅 {article.date} · ⏱️ {readingTime} دقائق قراءة</div>
+               {isOpen && <ShareButtons article={article} />}
+               {isOpen && <CommentsSection articleId={commentId} />}
+               {isOpen && (<div className="related-articles"><h4 style={{ fontSize: 14, color: '#EAB308', marginBottom: 12 }}>📌 مقالات ذات صلة</h4><div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>{articles.filter(a => a.id !== article.id && (a.button === article.button || a.tags?.some(t => article.tags?.includes(t)))).slice(0, 3).map(related => (<button key={related.id} className="related-btn" onClick={() => { const i = articles.findIndex(x => x.id === related.id); if (i !== -1) { setOpenIndex(i); setLastOpenedIndex(i); window.scrollTo({ top: 0, behavior: 'smooth' }); } }} aria-label={`اقرأ: ${related.title}`}>{related.title?.substring(0, 25)}...</button>))}</div></div>)}
+             </div>
+           </div>);
+         })}</div>)}
+      </div>);
     }
 
     function Card({ card, onTagClick, onLibraryClick }) {
@@ -539,12 +443,9 @@
         <h3 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{card.title}</h3>
         <p style={{ fontSize: 12, fontWeight: 600, color: card.accent, marginBottom: 14 }}>{card.subtitle}</p>
         <p style={{ fontSize: 13, color: '#8899bb', lineHeight: 1.7, marginBottom: 24 }}>{card.desc}</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>{card.tags.map(t => <button key={t} onClick={(e) => { e.stopPropagation(); onTagClick(t); }} className="innovation-tag-btn" style={{ fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(59,158,255,0.15)', color: '#3B9EFF', border: '1px solid rgba(59,158,255,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif", minHeight: '32px' }}>{t}</button>)}</div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, color: hover ? card.accent : '#445566' }}><span>اكتشف المزيد</span><span style={{ transform: hover ? 'translateX(-4px)' : 'none', display: 'inline-block' }}>←</span></div>
-          {card.academic && <a href={card.academic.url} target="_blank" rel="noopener noreferrer" className="academic-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>{card.academic.label}</a>}
-        </div>
-        {card.librarySlug && (<button onClick={(e) => { e.stopPropagation(); onLibraryClick(card.librarySlug); }} style={{ marginTop: 16, fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(167,139,250,0.15)', color: '#A78BFA', border: '1px solid rgba(167,139,250,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif", minHeight: '32px', width: '100%' }}>📚 المكتبة</button>)}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>{card.tags.map(t => <button key={t} onClick={(e) => { e.stopPropagation(); onTagClick(t, card.id); }} className="innovation-tag-btn" style={{ fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(59,158,255,0.15)', color: '#3B9EFF', border: '1px solid rgba(59,158,255,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif", minHeight: '32px' }}>{t}</button>)}</div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}><div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, color: hover ? card.accent : '#445566' }}><span>اكتشف المزيد</span><span style={{ transform: hover ? 'translateX(-4px)' : 'none', display: 'inline-block' }}>←</span></div>{card.academic && <a href={card.academic.url} target="_blank" rel="noopener noreferrer" className="academic-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>{card.academic.label}</a>}</div>
+        {card.librarySlug && (<button onClick={(e) => { e.stopPropagation(); onLibraryClick(card.librarySlug, card.id); }} style={{ marginTop: 16, fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(167,139,250,0.15)', color: '#A78BFA', border: '1px solid rgba(167,139,250,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif", minHeight: '32px', width: '100%' }}>📚 المكتبة</button>)}
       </div>);
     }
 
@@ -575,11 +476,18 @@
       const [activeCategory, setActiveCategory] = useState(null);
       useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h); }, []);
       const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      const handleTagClick = (tag) => { setActiveCategory(tag); setActiveSection('articles'); window.scrollTo({ top: 0, behavior: "smooth" }); };
       
-      const handleLibraryClick = (slug) => {
+      const handleTagClick = (tag, tab) => {
+        setActiveCategory(BUTTON_SLUGS[tag]);
+        setActiveSection('articles');
+        sessionStorage.setItem('lastTab', tab);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+      
+      const handleLibraryClick = (slug, tab) => {
         setActiveCategory(`library_${slug}`);
         setActiveSection('articles');
+        sessionStorage.setItem('lastTab', tab);
         window.scrollTo({ top: 0, behavior: "smooth" });
       };
       
@@ -592,10 +500,17 @@
       }, [activeCategory]);
       
       if (activeSection === 'articles') {
+        const backTab = getTabFromButton(activeCategory);
+        const handleBack = () => {
+          setActiveSection(null);
+          setActiveCategory(null);
+          setTimeout(() => scrollToElement(backTab), 100);
+        };
+        
         if (activeCategory?.startsWith('library_')) {
-          return <LibrarySection category={activeCategory} onBack={() => { setActiveSection(null); setActiveCategory(null); }} />;
+          return <LibrarySection category={activeCategory} onBack={handleBack} />;
         }
-        return <ArticleListSection title={activeCategory || "المقالات"} category={activeCategory} onBack={() => { setActiveSection(null); setActiveCategory(null); }} />;
+        return <ArticleListSection title={activeCategory || "المقالات"} category={activeCategory} onBack={handleBack} />;
       }
 
       const CARDS = [
