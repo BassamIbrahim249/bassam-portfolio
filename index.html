@@ -6,11 +6,11 @@
   <title>BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني</title>
   <meta name="description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering" hreflang="ar" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political" hreflang="ar" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <meta name="app-version" content="1.0.20" />
+  <meta name="app-version" content="1.0.22" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -44,7 +44,6 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    /* ===== CSS Variables ===== */
     :root {
       --bg-primary: #05080f;
       --bg-secondary: #0a0f1a;
@@ -80,7 +79,6 @@
       transition: background 0.4s ease, color 0.3s ease;
     }
 
-    /* ===== Glass ===== */
     .glass-card {
       background: var(--glass-bg);
       backdrop-filter: blur(var(--blur-amount));
@@ -99,12 +97,10 @@
       box-shadow: 0 20px 50px rgba(234,179,8,0.2), 0 0 60px rgba(59,158,255,0.15);
     }
 
-    /* ===== Animations ===== */
     @keyframes fadeUp { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
     @keyframes pulseGlow { 0%,100%{opacity:0.6}50%{opacity:1} }
     @keyframes goldenPulse { 0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)} }
     @keyframes skeletonShimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
-    @keyframes backToTopPulse { 0%,100%{box-shadow:0 0 0 0 rgba(59,158,255,0.4)}50%{box-shadow:0 0 0 12px rgba(59,158,255,0)} }
     @keyframes floatStar {
       0%,100%{transform:translateY(0) scale(1);opacity:0.25}
       50%{transform:translateY(-28px) scale(1.6);opacity:0.8}
@@ -117,7 +113,6 @@
       .pulse-dot { animation: pulseGlow 2.2s ease-in-out infinite; }
       .accordion-item.last-opened { animation: goldenPulse 2s ease-in-out infinite; }
       .skeleton { animation: skeletonShimmer 1.5s infinite linear; background:linear-gradient(90deg,rgba(128,128,128,0.05) 25%,rgba(128,128,128,0.15) 50%,rgba(128,128,128,0.05) 75%);background-size:200% 100%;border-radius:12px; }
-      .back-to-top { animation: backToTopPulse 2s infinite; }
     }
     @media (prefers-reduced-motion: reduce) {
       *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
@@ -125,7 +120,6 @@
 
     .delay-1{animation-delay:0.10s}.delay-2{animation-delay:0.25s}.delay-3{animation-delay:0.40s}.delay-4{animation-delay:0.55s}.delay-5{animation-delay:0.70s}
 
-    /* ===== Article Body ===== */
     .article-body { color: var(--text-secondary); line-height: 1.9; font-size: 15px; }
     .article-body h1,.article-body h2,.article-body h3,.article-body h4 { color: var(--accent-gold); font-weight: 700; margin: 20px 0 12px; }
     .article-body p { margin-bottom: 14px; color: var(--text-secondary); }
@@ -137,7 +131,6 @@
     .article-body code { background:rgba(59,158,255,0.1);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--accent-blue); }
     .article-body strong { color: var(--text-primary); }
 
-    /* ===== Spotlight Card ===== */
     .spotlight-card {
       position: relative;
       overflow: hidden;
@@ -155,14 +148,12 @@
     }
     .spotlight-card:hover::after { opacity: 1; }
     .spotlight-card > * { position: relative; z-index: 1; }
-
     .card-engineering.spotlight-card:hover::after { background: radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(59,158,255,0.12),transparent 60%); }
     .card-political.spotlight-card:hover::after   { background: radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(96,207,255,0.12),transparent 60%); }
     .card-nubian.spotlight-card:hover::after       { background: radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(234,179,8,0.12),transparent 60%); }
     .card-academy.spotlight-card:hover::after      { background: radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(167,139,250,0.12),transparent 60%); }
     .card-lifestyle.spotlight-card:hover::after    { background: radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(52,211,153,0.12),transparent 60%); }
 
-    /* ===== Misc ===== */
     .lib-btn { transition: all 0.3s ease; }
     .lib-btn:hover { filter: brightness(1.2); transform: scale(1.02); }
     .offline-banner { position:fixed;bottom:0;left:0;right:0;background:rgba(234,179,8,0.2);border-top:1px solid rgba(234,179,8,0.4);color:var(--accent-gold);padding:12px 24px;text-align:center;font-size:12px;z-index:1001;display:none;backdrop-filter:blur(8px); }
@@ -174,6 +165,23 @@
     .section-title { font-size:12px;letter-spacing:0.25em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px;color:var(--accent-blue); }
     .section-title::before,.section-title::after { content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,currentColor,transparent); }
     .tw-cursor { animation: blink 0.9s ease-in-out infinite; }
+
+    .article-list { counter-reset: article-counter; }
+    .accordion-item { position: relative; padding-right: 40px; }
+    .accordion-item::before {
+      counter-increment: article-counter;
+      content: counter(article-counter, decimal-leading-zero) ".";
+      position: absolute;
+      right: 0;
+      top: 22px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent-blue);
+      opacity: 0.45;
+      z-index: 1;
+      pointer-events: none;
+    }
+
     @media (max-width:768px) { .hide-mobile{display:none!important} }
   </style>
 </head>
@@ -183,7 +191,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.20",S=localStorage.getItem('site_version');
+      const V="1.0.22",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -201,12 +209,11 @@
     }
   </script>
   <script type="text/babel">
-    const { useState, useEffect, useCallback, useRef, useMemo } = React;
+    const { useState, useEffect, useRef } = React;
 
-    // ===== Config =====
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION = "1.0.20";
+    const APP_VERSION = "1.0.22";
     const ITEMS_PER_PAGE = 10;
 
     const SLUG_TO_FILE = {
@@ -225,13 +232,37 @@
       return file ? `data/${file}.json` : null;
     };
 
-    // ===== i18n =====
     const I18N = {
-      ar:{ back:'العودة للتبويب', library:'📚 المكتبة', read:'📖 اقرأ', close:'✕ إغلاق', search:'🔍 بحث في المقالات...', noArticles:'لا توجد مقالات بعد.', loadMore:'📄 عرض المزيد', remaining:'مقال متبقي', minRead:'دقائق قراءة', related:'📌 مقالات ذات صلة', contact:'تواصل معي', visionTitle:'الرؤية والرسالة', visionText:'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.', identity:'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي', heroDesc:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.', mainTitle:'خمسة مجالات. رؤية واحدة.', about:'تعرّف عليّ', exploreContent:'استكشف المحتوى', lab:'المختبر المرئي', explore:'اكتشف المزيد', browse:'📂 تصفح المحتوى', retry:'إعادة المحاولة', footerCopy:'جميع الحقوق محفوظة' },
-      en:{ back:'Back to Section', library:'📚 Library', read:'📖 Read', close:'✕ Close', search:'🔍 Search articles...', noArticles:'No articles yet.', loadMore:'📄 Load More', remaining:'remaining', minRead:'min read', related:'📌 Related Articles', contact:'Contact Me', visionTitle:'Vision & Mission', visionText:'I believe true specialization gives you keys to understand the world in multiple ways.', identity:'Civil Engineer · Sudan Affairs · Community Activist', heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.', mainTitle:'Five Fields. One Vision.', about:'About Me', exploreContent:'Explore Content', lab:'Visual Lab', explore:'Explore', browse:'📂 Browse Content', retry:'Retry', footerCopy:'All rights reserved' }
+      ar:{
+        back:'العودة للتبويب', library:'📚 المكتبة', read:'📖 اقرأ', close:'✕ إغلاق', search:'🔍 بحث في المقالات...', noArticles:'لا توجد مقالات بعد.', loadMore:'📄 عرض المزيد', remaining:'مقال متبقي', minRead:'دقائق قراءة', related:'📌 مقالات ذات صلة', contact:'تواصل معي', visionTitle:'الرؤية والرسالة', visionText:'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.', identity:'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي', heroDesc:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.', mainTitle:'خمسة مجالات. رؤية واحدة.', about:'تعرّف عليّ', exploreContent:'استكشف المحتوى', lab:'المختبر المرئي', explore:'اكتشف المزيد', browse:'📂 تصفح المحتوى', retry:'إعادة المحاولة', footerCopy:'جميع الحقوق محفوظة',
+        tab_eng:'المنصة الهندسية', tab_eng_sub:'علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل', tab_eng_desc:'بوابة إلى عالم المواد الإنشائية المتقدمة.',
+        tab_pol:'الأرشيف السياسي', tab_pol_sub:'قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية', tab_pol_desc:'بوابة إلى الذاكرة السياسية السودانية.',
+        tab_nub:'نوبيان (الحضارة النوبية)', tab_nub_sub:'توثيق الإرث، التاريخ، والعمارة النوبية العريقة', tab_nub_desc:'نافذة متخصصة في الحضارة النوبية.',
+        tab_aca:'أكاديمية التطوير والمنظمات', tab_aca_sub:'كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي', tab_aca_desc:'بوابة إلى التميّز المؤسسي.',
+        tab_life:'نمط الحياة والصحة', tab_life_sub:'الصحة الشاملة، التغذية، والتميز البدني والذهني', tab_life_desc:'بوابة إلى العافية الكاملة.',
+        stat1:'خبرة عملية', stat1_sub:'متجددة باستمرار',
+        stat2:'بحوث ودراسات', stat2_sub:'منشورة ومحكّمة',
+        stat3:'تحليل استراتيجي', stat3_sub:'مستمر ومتواصل',
+        hero_btn1:'تعرّف عليّ', hero_btn2:'استكشف المحتوى',
+        nav_contact:'تواصل معي',
+        share:'📤 مشاركة', facebook:'📘 فيسبوك', whatsapp:'📲 واتساب', twitter:'𝕏 تويتر', telegram:'💬 تيليجرام', copyLink:'📋 نسخ الرابط', copied:'✅ تم النسخ!'
+      },
+      en:{
+        back:'Back to Section', library:'📚 Library', read:'📖 Read', close:'✕ Close', search:'🔍 Search articles...', noArticles:'No articles yet.', loadMore:'📄 Load More', remaining:'remaining', minRead:'min read', related:'📌 Related Articles', contact:'Contact Me', visionTitle:'Vision & Mission', visionText:'I believe true specialization gives you keys to understand the world in multiple ways.', identity:'Civil Engineer · Sudan Affairs · Community Activist', heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.', mainTitle:'Five Fields. One Vision.', about:'About Me', exploreContent:'Explore Content', lab:'Visual Lab', explore:'Explore', browse:'📂 Browse Content', retry:'Retry', footerCopy:'All rights reserved',
+        tab_eng:'Engineering Platform', tab_eng_sub:'Materials Science, Construction Innovation & Engineering Lab', tab_eng_desc:'Gateway to advanced structural materials.',
+        tab_pol:'Political Archive', tab_pol_sub:'Readings in Sudan History, Strategic Analysis & Intellectual Visions', tab_pol_desc:'Gateway to Sudanese political memory.',
+        tab_nub:'Nubian Civilization', tab_nub_sub:'Documenting Nubian Heritage, History & Architecture', tab_nub_desc:'A specialized window into Nubian civilization.',
+        tab_aca:'Development Academy', tab_aca_sub:'Project Writing, Leadership & Developmental Training', tab_aca_desc:'Gateway to institutional excellence.',
+        tab_life:'Lifestyle & Health', tab_life_sub:'Holistic Health, Scientific Nutrition & Physical Excellence', tab_life_desc:'Gateway to complete wellness.',
+        stat1:'Practical Experience', stat1_sub:'Continuously updated',
+        stat2:'Published Research', stat2_sub:'Peer-reviewed studies',
+        stat3:'Strategic Analysis', stat3_sub:'Ongoing & continuous',
+        hero_btn1:'About Me', hero_btn2:'Explore Content',
+        nav_contact:'Contact Me',
+        share:'📤 Share', facebook:'📘 Facebook', whatsapp:'📲 WhatsApp', twitter:'𝕏 Twitter', telegram:'💬 Telegram', copyLink:'📋 Copy Link', copied:'✅ Copied!'
+      }
     };
 
-    // ===== Helpers =====
     const useDebounce = (value, delay) => {
       const [d, setD] = useState(value);
       useEffect(()=>{const h=setTimeout(()=>setD(value),delay);return()=>clearTimeout(h);},[value,delay]);
@@ -263,7 +294,6 @@
       return rawHTML.replace(/<script[^>]*>.*?<\/script>/gi, '').replace(/<[^>]*>/g, '');
     }
 
-    // ===== StarField =====
     const STARS = Array.from({length:45}, (_,i) => ({
       id: i,
       size: Math.random()*2.5+0.8,
@@ -289,14 +319,15 @@
               opacity:s.opacity,
               boxShadow:`0 0 ${s.size*3}px ${s.color}`,
               animation:`floatStar ${s.duration}s ease-in-out infinite`,
-              animationDelay:`${s.delay}s`
+              animationDelay:`${s.delay}s`,
+              willChange:'transform, opacity',
+              transform:'translateZ(0)'
             }}/>
           ))}
         </div>
       );
     }
 
-    // ===== Typewriter =====
     function TypeWriter({ texts, color='#3B9EFF' }) {
       const [display, setDisplay] = useState('');
       const [idx, setIdx] = useState(0);
@@ -326,7 +357,6 @@
       );
     }
 
-    // ===== Progress Ring =====
     function ProgressRing() {
       const [progress, setProgress] = useState(0);
       const [visible, setVisible] = useState(false);
@@ -361,7 +391,7 @@
       );
     }
 
-    // ===== Share Buttons =====
+    // ✅ أزرار المشاركة ثنائية اللغة بالكامل
     function ShareButtons({ article, lang }) {
       const [copied, setCopied] = useState(false);
       const t = k => I18N[lang]?.[k]||k;
@@ -376,24 +406,23 @@
         catch(e){const i=document.createElement('input');i.value=window.location.href;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}
       };
       const open = p => window.open({whatsapp:`https://wa.me/?text=${title}%0A${url}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,twitter:`https://twitter.com/intent/tweet?text=${title}&url=${url}`,telegram:`https://t.me/share/url?url=${url}&text=${title}`}[p],'_blank');
-      const btn = (label,color,bgAlpha,onClick) => (
-        <button onClick={onClick} style={{padding:'8px 14px',borderRadius:8,background:`rgba(${color},${bgAlpha})`,border:`1px solid rgba(${color},0.4)`,color:`rgb(${color})`,cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600,transition:'all 0.2s'}}>{label}</button>
+      const btn = (labelKey,color,bgAlpha,onClick) => (
+        <button onClick={onClick} style={{padding:'8px 14px',borderRadius:8,background:`rgba(${color},${bgAlpha})`,border:`1px solid rgba(${color},0.4)`,color:`rgb(${color})`,cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600,transition:'all 0.2s'}}>{t(labelKey)}</button>
       );
       return (
         <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:16,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
-          {btn('📤 مشاركة','59,158,255',0.1,handleShare)}
-          {btn('📘 فيسبوك','24,119,242',0.1,()=>open('facebook'))}
-          {btn('📲 واتساب','37,211,102',0.1,()=>open('whatsapp'))}
-          {btn('𝕏 تويتر','200,200,200',0.05,()=>open('twitter'))}
-          {btn('💬 تيليجرام','0,136,204',0.1,()=>open('telegram'))}
+          {btn('share','59,158,255',0.1,handleShare)}
+          {btn('facebook','24,119,242',0.1,()=>open('facebook'))}
+          {btn('whatsapp','37,211,102',0.1,()=>open('whatsapp'))}
+          {btn('twitter','200,200,200',0.05,()=>open('twitter'))}
+          {btn('telegram','0,136,204',0.1,()=>open('telegram'))}
           <button onClick={handleCopy} style={{padding:'8px 14px',borderRadius:8,background:copied?'rgba(37,211,102,0.2)':'rgba(200,200,200,0.05)',border:copied?'1px solid rgba(37,211,102,0.5)':'1px solid rgba(200,200,200,0.2)',color:copied?'#25D366':'var(--text-secondary)',cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600}}>
-            {copied?'✅ تم النسخ!':'📋 نسخ الرابط'}
+            {copied ? t('copied') : t('copyLink')}
           </button>
         </div>
       );
     }
 
-    // ===== Comments =====
     function CommentsSection({ articleId }) {
       useEffect(()=>{
         const id=`comments-${articleId}`;
@@ -412,7 +441,6 @@
       return <div style={{marginTop:20}}><div id={`comments-${articleId}`}></div></div>;
     }
 
-    // ===== Library =====
     function LibrarySection({ category, onBack, lang }) {
       const [files, setFiles] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -448,7 +476,6 @@
       );
     }
 
-    // ===== Articles =====
     function ArticleListSection({ title, category, onBack, lang }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -460,12 +487,11 @@
       const debouncedQuery = useDebounce(searchQuery, 300);
       const t = k => I18N[lang]?.[k]||k;
 
-      const btnSlug = BUTTON_SLUGS[category] || category;
-      const cacheKey = `bassam_articles_cache_${btnSlug}`;
+      const dataFile = getDataFile(category);
+      const cacheKey = dataFile ? `bassam_articles_cache_${dataFile.replace('data/','').replace('.json','')}` : null;
 
       useEffect(()=>{
         setLoading(true); setError(null); setVisibleCount(ITEMS_PER_PAGE);
-        const dataFile = getDataFile(category);
         if(!dataFile){ setArticles([]); setLoading(false); return; }
 
         const cached = localStorage.getItem(cacheKey);
@@ -505,6 +531,7 @@
         else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>document.getElementById(`article-${idx}`)?.scrollIntoView({behavior:'smooth',block:'start'}),150);}
       };
 
+      const btnSlug = BUTTON_SLUGS[category] || category;
       const filtered = category ? articles.filter(a=>a.button===btnSlug||a.category===category) : articles;
       const sorted = [...filtered].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
       const searched = debouncedQuery.trim()===''?sorted:sorted.filter(a=>a.title?.toLowerCase().includes(debouncedQuery.toLowerCase())||a.tags?.some(tag=>tag.toLowerCase().includes(debouncedQuery.toLowerCase())));
@@ -524,7 +551,7 @@
               ? <div style={{textAlign:'center',color:'#ff6b6b',padding:40}}><p style={{fontSize:48,marginBottom:12}}>⚠️</p><p>{error}</p><button onClick={()=>window.location.reload()} className="glass-card" style={{marginTop:20,padding:'10px 24px',borderRadius:12,color:'#ff6b6b',cursor:'pointer',fontWeight:700}}>{t('retry')}</button></div>
               : displayed.length===0
                 ? <div style={{textAlign:'center',color:'var(--text-secondary)',padding:60}}><p style={{fontSize:56,marginBottom:16}}>📝</p><p style={{fontSize:16}}>{t('noArticles')}</p></div>
-                : (<div>
+                : (<div className="article-list">
                     {displayed.map((article,idx)=>{
                       const isOpen = openIndex===idx;
                       const rawHTML = parseMarkdownToHTML(article.content||'');
@@ -535,17 +562,17 @@
                           className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`}
                           style={{marginBottom:14,borderRadius:16,overflow:'hidden'}}>
                           <div onClick={()=>handleToggle(idx)}
-                            style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}} role="button" aria-expanded={isOpen}>
+                            style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}} role="button" aria-expanded={isOpen} aria-controls={`article-body-${idx}`}>
                             <div style={{flex:1}}>
                               <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{article.title||'بدون عنوان'}</h3>
                               <span style={{fontSize:11,color:'var(--text-secondary)'}}>{article.date}</span>
                             </div>
-                            <button style={{padding:'8px 18px',borderRadius:10,background:isOpen?'rgba(200,200,200,0.06)':'rgba(234,179,8,0.15)',color:isOpen?'var(--text-secondary)':'var(--accent-gold)',border:'none',cursor:'pointer',fontWeight:700,fontSize:12,fontFamily:'Cairo',whiteSpace:'nowrap',transition:'all 0.2s'}}>
+                            <button aria-label={isOpen ? t('close') : t('read')} style={{padding:'8px 18px',borderRadius:10,background:isOpen?'rgba(200,200,200,0.06)':'rgba(234,179,8,0.15)',color:isOpen?'var(--text-secondary)':'var(--accent-gold)',border:'none',cursor:'pointer',fontWeight:700,fontSize:12,fontFamily:'Cairo',whiteSpace:'nowrap',transition:'all 0.2s'}}>
                               {isOpen?t('close'):t('read')}
                             </button>
                           </div>
                           {isOpen&&(
-                            <div style={{padding:'0 20px 24px'}}>
+                            <div id={`article-body-${idx}`} style={{padding:'0 20px 24px'}}>
                               {article.image&&<img src={article.image} alt={article.title} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'} />}
                               <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}} />
                               <div className="author-meta">✍️ {article.author||'بسام إبراهيم أحمد'} · 📅 {article.date} · ⏱️ {Math.ceil((article.content||'').split(' ').length/200)} {t('minRead')}</div>
@@ -578,7 +605,6 @@
       );
     }
 
-    // ===== Card with Spotlight =====
     function Card({ card, onTagClick, onLibraryClick, lang }) {
       const [hover, setHover] = useState(false);
       const cardRef = useRef(null);
@@ -664,7 +690,6 @@
       );
     }
 
-    // ===== App =====
     function App() {
       const [lang, setLang] = useState('ar');
       const [theme, setTheme] = useState(() => localStorage.getItem('theme')||'dark');
@@ -699,22 +724,22 @@
         : ['Civil Engineer','Sudan Researcher','Community Activist','Engineering Innovator'];
 
       const CARDS = [
-        {id:"engineering",title:"المنصة الهندسية",subtitle:"علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل",desc:"بوابة إلى عالم المواد الإنشائية المتقدمة.",tags:["علوم المواد","ابتكار إنشائي","مختبر هندسي"],librarySlug:"engineering",academic:{label:"المختبر المرئي",url:"https://youtube.com/@bassamibrahimeng"},
+        {id:"engineering",title:t('tab_eng'),subtitle:t('tab_eng_sub'),desc:t('tab_eng_desc'),tags:["علوم المواد","ابتكار إنشائي","مختبر هندسي"],librarySlug:"engineering",academic:{label:t('lab'),url:"https://youtube.com/@bassamibrahimeng"},
           icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><polygon points="20,4 36,30 4,30" stroke="currentColor" strokeWidth="1.8" fill="none"/><polygon points="20,11 29,27 11,27" stroke="currentColor" strokeWidth="0.8" fill="none" opacity="0.4"/></svg>},
-        {id:"political",title:"الأرشيف السياسي",subtitle:"قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية",desc:"بوابة إلى الذاكرة السياسية السودانية.",tags:["تاريخ السودان","تحليل استراتيجي","رؤى فكرية"],librarySlug:"political",
+        {id:"political",title:t('tab_pol'),subtitle:t('tab_pol_sub'),desc:t('tab_pol_desc'),tags:["تاريخ السودان","تحليل استراتيجي","رؤى فكرية"],librarySlug:"political",
           icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><rect x="6" y="6" width="28" height="28" rx="3" stroke="currentColor" strokeWidth="1.8" fill="none"/><line x1="6" y1="16" x2="34" y2="16" stroke="currentColor" strokeWidth="0.8" opacity="0.5"/><circle cx="20" cy="25" r="4" stroke="currentColor" strokeWidth="1.2" fill="none"/></svg>},
-        {id:"nubian",title:"نوبيان (الحضارة النوبية)",subtitle:"توثيق الإرث، التاريخ، والعمارة النوبية العريقة",desc:"نافذة متخصصة في الحضارة النوبية.",tags:["تاريخ","آثار","هوية"],librarySlug:"nubian",
+        {id:"nubian",title:t('tab_nub'),subtitle:t('tab_nub_sub'),desc:t('tab_nub_desc'),tags:["تاريخ","آثار","هوية"],librarySlug:"nubian",
           icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><path d="M20 5L35 32H5L20 5Z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/><path d="M13 20H27M10 27H30" stroke="currentColor" strokeWidth="1.4"/></svg>},
-        {id:"academy",title:"أكاديمية التطوير والمنظمات",subtitle:"كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي",desc:"بوابة إلى التميّز المؤسسي.",tags:["كتابة مشاريع","قيادة","تدريب تنموي"],librarySlug:"academy",
+        {id:"academy",title:t('tab_aca'),subtitle:t('tab_aca_sub'),desc:t('tab_aca_desc'),tags:["كتابة مشاريع","قيادة","تدريب تنموي"],librarySlug:"academy",
           icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1.8" fill="none"/><circle cx="20" cy="20" r="7" stroke="currentColor" strokeWidth="0.9" fill="none" opacity="0.5"/><circle cx="20" cy="20" r="2" fill="currentColor"/></svg>},
-        {id:"lifestyle",title:"نمط الحياة والصحة",subtitle:"الصحة الشاملة، التغذية، والتميز البدني والذهني",desc:"بوابة إلى العافية الكاملة.",tags:["صحة شاملة","تغذية علمية","تميز بدني"],librarySlug:"lifestyle",
+        {id:"lifestyle",title:t('tab_life'),subtitle:t('tab_life_sub'),desc:t('tab_life_desc'),tags:["صحة شاملة","تغذية علمية","تميز بدني"],librarySlug:"lifestyle",
           icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><path d="M20 7C20 7 8 15 8 24C8 30 13.5 34 20 34C26.5 34 32 30 32 24C32 15 20 7 20 7Z" stroke="currentColor" strokeWidth="1.8" fill="none"/><path d="M14 22C16 18 20 20 20 20C20 20 24 18 26 22" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.6"/></svg>},
       ];
 
       const STATS = [
-        {label:'خبرة عملية',sublabel:'متجددة باستمرار',color:'#3B9EFF',icon:'⚙️'},
-        {label:'بحوث ودراسات',sublabel:'منشورة ومحكّمة',color:'#60CFFF',icon:'📚'},
-        {label:'تحليل استراتيجي',sublabel:'مستمر ومتواصل',color:'#A78BFA',icon:'📊'},
+        {label:t('stat1'),sublabel:t('stat1_sub'),color:'#3B9EFF',icon:'⚙️'},
+        {label:t('stat2'),sublabel:t('stat2_sub'),color:'#60CFFF',icon:'📚'},
+        {label:t('stat3'),sublabel:t('stat3_sub'),color:'#A78BFA',icon:'📊'},
       ];
 
       const SOCIALS = [
@@ -730,9 +755,8 @@
       return (
         <div style={{position:'relative',minHeight:'100vh'}}>
           <StarField theme={theme} />
-          <header style={{position:'fixed',top:0,left:0,right:0,zIndex:100,padding:'14px 28px',
-            background: theme==='dark' ? 'rgba(5,8,15,0.82)' : 'rgba(232,236,244,0.88)',
-            backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
+          <header role="navigation" aria-label={lang==='ar'?'القائمة الرئيسية':'Main navigation'} style={{position:'fixed',top:0,left:0,right:0,zIndex:100,padding:'14px 28px',
+            background:'var(--glass-bg)', backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
             borderBottom:'1px solid var(--glass-border)'}}>
             <div style={{maxWidth:1200,margin:'0 auto',display:'flex',flexDirection:'column',gap:10}}>
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
@@ -740,17 +764,17 @@
                   <div style={{width:40,height:40,borderRadius:12,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:900,color:'#080c12',boxShadow:'0 0 20px rgba(59,158,255,0.3)'}}>B.I</div>
                   <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
                 </div>
-                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
+                <button aria-label={t('nav_contact')} onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
                   style={{fontSize:12,padding:'10px 22px',borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
-                  {t('contact')}
+                  {t('nav_contact')}
                 </button>
               </div>
               <div style={{display:'flex',alignItems:'center',justifyContent:'flex-end',gap:12}}>
-                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
+                <button aria-label={lang==='ar'?'تبديل اللغة':'Switch language'} onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
                   style={{padding:'6px 16px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
                   {lang==='ar'?'English':'عربي'}
                 </button>
-                <button onClick={()=>setTheme(t=>t==='dark'?'light':'dark')} className="glass-card"
+                <button aria-label={theme==='dark'?'تفعيل الوضع النهاري':'Enable dark mode'} onClick={()=>setTheme(t=>t==='dark'?'light':'dark')} className="glass-card"
                   style={{width:38,height:38,borderRadius:10,color:'var(--text-primary)',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
                   {theme==='dark'?'🌙':'☀️'}
                 </button>
@@ -772,11 +796,11 @@
                 style={{padding:'14px 34px',borderRadius:14,background:'linear-gradient(135deg,#3B9EFF,#1a7fe0)',color:'#fff',fontWeight:700,fontSize:14,border:'none',cursor:'pointer',fontFamily:'Cairo',boxShadow:'0 0 30px rgba(59,158,255,0.5)',transition:'all 0.2s'}}
                 onMouseEnter={e=>{e.target.style.transform='scale(1.05)';e.target.style.boxShadow='0 0 45px rgba(59,158,255,0.7)';}}
                 onMouseLeave={e=>{e.target.style.transform='scale(1)';e.target.style.boxShadow='0 0 30px rgba(59,158,255,0.5)';}}>
-                {t('about')}
+                {t('hero_btn1')}
               </button>
               <button onClick={()=>scrollTo('cards-section')} className="glass-card"
                 style={{padding:'14px 34px',borderRadius:14,color:'var(--text-secondary)',fontWeight:700,fontSize:14,cursor:'pointer',fontFamily:'Cairo'}}>
-                {t('exploreContent')}
+                {t('hero_btn2')}
               </button>
             </div>
             <div className="anim-fade-up delay-5" style={{display:'flex',gap:18,justifyContent:'center',flexWrap:'wrap'}}>
