@@ -10,13 +10,13 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <meta name="app-version" content="1.0.15" />
+  <meta name="app-version" content="1.0.16" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="google-site-verification" content="P9voyOGI2h7PeafHVLoxowMugTDrFaZaPE6ukX7l0UU" />
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#080c12" />
+  <meta name="theme-color" content="#05080f" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -46,8 +46,8 @@
   <style>
     /* ========== متغيرات الوضع الليلي والنهاري ========== */
     :root {
-      --bg-primary: #080c12;
-      --bg-secondary: rgba(255, 255, 255, 0.02);
+      --bg-primary: #05080f;
+      --bg-secondary: #0a0f1a;
       --text-primary: #ffffff;
       --text-secondary: #8899bb;
       --border-color: rgba(255, 255, 255, 0.06);
@@ -93,6 +93,11 @@
       border-color: rgba(59, 158, 255, 0.3);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(59, 158, 255, 0.08);
     }
+    .vision-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(234, 179, 8, 0.5);
+      box-shadow: 0 20px 50px rgba(234, 179, 8, 0.2), 0 0 60px rgba(59, 158, 255, 0.15);
+    }
 
     /* ========== حركات أساسية ========== */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
@@ -131,7 +136,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function() {
-      const CURRENT_VERSION = "1.0.15";
+      const CURRENT_VERSION = "1.0.16";
       const STORED_VERSION = localStorage.getItem('site_version');
       const ARTICLE_CACHE_KEY = 'bassam_articles_cache_all';
       if (STORED_VERSION !== CURRENT_VERSION) {
@@ -158,7 +163,7 @@
     // ========== إعدادات ==========
     const CONFIG = { github: { username: "bassamibrahim249", repo: "bassam-portfolio" }, contact: { whatsapp: "249967238251" }, cache: { ttl: 86400000 } };
     const BUTTON_SLUGS = { "علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence" };
-    const APP_VERSION = "1.0.15";
+    const APP_VERSION = "1.0.16";
     const ITEMS_PER_PAGE = 10;
 
     // ========== نصوص اللغات (جاهزية الترجمة - i18n Ready) ==========
@@ -343,6 +348,15 @@
                         <div className="author-meta">{t('author')} · {article.date} · ⏱️ {Math.ceil((article.content||'').split(' ').length/200)} {t('minRead')}</div>
                         <ShareButtons article={article} lang={lang} />
                         <CommentsSection articleId={article.id || article.title?.replace(/\s+/g, '-').substring(0, 50) || String(idx)} />
+                        {/* ✅ تمت إعادة قسم "مقالات ذات صلة" */}
+                        <div className="related-articles" style={{marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--border-color)'}}>
+                          <h4 style={{fontSize: 14, color: 'var(--accent-gold)', marginBottom: 12}}>{t('related')}</h4>
+                          <div style={{display:'flex', flexWrap:'wrap', gap: 8}}>
+                            {articles.filter(a => a.id !== article.id && (a.button === article.button || a.tags?.some(t => article.tags?.includes(t)))).slice(0, 3).map(related => (
+                              <button key={related.id} className="glass-card" onClick={() => { const i = articles.findIndex(x => x.id === related.id); if (i !== -1) { setOpenIndex(i); setLastOpenedIndex(i); window.scrollTo({ top: 0, behavior: 'smooth' }); } }} style={{fontSize: 11, padding: '6px 12px', borderRadius: 8, background: 'rgba(59,158,255,0.1)', color: 'var(--accent-blue)', border: '1px solid rgba(59,158,255,0.3)', cursor: 'pointer', fontWeight: 600, fontFamily: 'Cairo'}}>{related.title?.substring(0, 25)}...</button>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -476,8 +490,9 @@
           </section>
 
           <section id="vision-section" style={{padding:"60px 24px 80px"}}>
-            <div className="glass-card glow-hover" style={{maxWidth:860,margin:"0 auto",borderRadius:24,padding:"52px 44px",textAlign:"center",background:'var(--glass-bg)',border:'1px solid var(--glass-border)',boxShadow:'0 0 40px rgba(59,158,255,0.06)',transition:'all 0.4s'}}>
-              <div style={{fontSize:44,marginBottom:14}}>⬡</div>
+            {/* ✅ كرت الرؤية بتأثير توهج قوي وتفاعل حيوي */}
+            <div className="glass-card vision-card" style={{maxWidth:860,margin:"0 auto",borderRadius:24,padding:"52px 44px",textAlign:"center",background:'var(--glass-bg)',border:'1px solid var(--glass-border)',boxShadow:'0 0 40px rgba(59,158,255,0.06)',cursor:'pointer'}}>
+              <div style={{width:64,height:64,borderRadius:20,background:'rgba(234,179,8,0.15)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 18px',fontSize:28,color:'#EAB308',border:'1px solid rgba(234,179,8,0.3)'}}>⬡</div>
               <h3 style={{fontSize:24,fontWeight:700,marginBottom:14,color:'var(--text-primary)'}}>{t('visionTitle')}</h3>
               <p style={{color:'var(--text-secondary)',lineHeight:1.9,fontSize:14}}>{t('visionText')}</p>
             </div>
