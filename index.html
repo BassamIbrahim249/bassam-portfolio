@@ -10,7 +10,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <meta name="app-version" content="1.0.10" />
+  <meta name="app-version" content="1.0.11" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -184,7 +184,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function() {
-      const CURRENT_VERSION = "1.0.10";
+      const CURRENT_VERSION = "1.0.11";
       const STORED_VERSION = localStorage.getItem('site_version');
       const ARTICLE_CACHE_KEY = 'bassam_articles_cache_all';
       if (STORED_VERSION !== CURRENT_VERSION) {
@@ -220,7 +220,7 @@
       "صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"
     };
     const GLOBAL_CACHE_KEY = CONFIG.cache.key + "_all";
-    const APP_VERSION = "1.0.10";
+    const APP_VERSION = "1.0.11";
 
     function useDebounce(value, delay) {
       const [debounced, setDebounced] = useState(value);
@@ -317,6 +317,7 @@
       );
     }
 
+    // ✅ تحديث ArticleListSection لسحب البيانات من الملفات المنفصلة
     function ArticleListSection({ title, category, onBack }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -326,17 +327,63 @@
       const [searchQuery, setSearchQuery] = useState("");
       const debouncedQuery = useDebounce(searchQuery, 300);
 
+      // ✅ دالة مساعدة: تحدد اسم الملف المناسب لكل قسم
+      const getDataFile = (cat) => {
+        if (!cat) return 'data.json'; // fallback
+        const map = {
+          materials_science:'engineering', construction_innovation:'engineering', engineering_lab:'engineering',
+          sudan_history:'political', strategic_analysis:'political', intellectual_visions:'political',
+          history:'nubian', archaeology:'nubian', identity:'nubian',
+          project_writing:'academy', leadership:'academy', developmental_training:'academy',
+          holistic_health:'lifestyle', scientific_nutrition:'lifestyle', physical_excellence:'lifestyle'
+        };
+        const section = map[cat] || cat;
+        return `data/${section}.json`;
+      };
+
+      // ✅ مفتاح كاش فريد لكل قسم
+      const getCacheKey = (cat) => {
+        const section = getDataFile(cat).replace('data/','').replace('.json','');
+        return `bassam_articles_cache_${section}`;
+      };
+
       useEffect(() => {
         setLoading(true); setError(null);
-        const cached = localStorage.getItem(GLOBAL_CACHE_KEY);
-        if (cached) {
-          try { const p=JSON.parse(cached); if(p.timestamp&&(Date.now()-p.timestamp)<CONFIG.cache.ttl){setArticles(p.data);setLoading(false);return;} } catch(e){}
+        
+        const cacheKey = getCacheKey(category);
+        const cachedData = localStorage.getItem(cacheKey);
+        
+        if (cachedData) {
+          try {
+            const parsed = JSON.parse(cachedData);
+            if (parsed.timestamp && (Date.now() - parsed.timestamp) < CONFIG.cache.ttl) {
+              setArticles(parsed.data); setLoading(false); return;
+            }
+          } catch(e) {}
         }
-        fetch(`data.json?v=${APP_VERSION}`)
-          .then(r=>{if(!r.ok)throw new Error();return r.json();})
-          .then(d=>{const a=Array.isArray(d)?d:[];try{localStorage.setItem(GLOBAL_CACHE_KEY,JSON.stringify({timestamp:Date.now(),data:a}));}catch(e){}setArticles(a);})
-          .catch(()=>{if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');document.getElementById('offlineBanner')?.classList.add('show');}else{setError('تعذر تحميل المقالات.');}})
-          .finally(()=>setLoading(false));
+
+        const dataUrl = `${getDataFile(category)}?v=${APP_VERSION}`;
+        
+        fetch(dataUrl)
+          .then(res => {
+            if (!res.ok) throw new Error('فشل التحميل');
+            return res.json();
+          })
+          .then(data => {
+            const allArticles = Array.isArray(data) ? data : [];
+            try { localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data: allArticles })); } catch(e) {}
+            setArticles(allArticles);
+          })
+          .catch(err => {
+            if (!navigator.onLine) {
+              setError('أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.');
+              document.getElementById('offlineBanner')?.classList.add('show');
+            } else {
+              console.warn(`⚠️ لم يتم العثور على ${dataUrl}`);
+              setArticles([]);
+            }
+          })
+          .finally(() => setLoading(false));
       }, [category]);
 
       useEffect(() => {
