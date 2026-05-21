@@ -16,17 +16,16 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🔄 إعادة بناء الموقع
+      - name: 🔄 جاهز للنشر
         run: |
-          echo "✅ البوت قام بحفظ المقالات مسبقاً في data/{tab}.json"
-          echo "🔄 لا حاجة لمعالجة إضافية - جاري إعادة بناء الموقع فقط..."
-          echo "📂 التبويب المستهدف: ${{ github.event.client_payload.tab }}"
-          echo "📝 العنوان: ${{ github.event.client_payload.title }}"
+          echo "✅ البوت حفظ المقالات في data/${{ github.event.client_payload.tab }}.json"
+          echo "🔄 جاري تأكيد الملفات وإعادة بناء الموقع..."
+          echo "📝 المقال: ${{ github.event.client_payload.title }}"
 
-      - name: 🚀 رفع التغييرات
+      - name: 🚀 رفع التغييرات وتشغيل البناء
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "🔄 [بوت] تحديث الموقع: ${{ github.event.client_payload.title }}"
+          commit_message: "🔄 [بوت] تحديث: ${{ github.event.client_payload.title }}"
           file_pattern: "data/ assets/images/"
           commit_user_name: "Telegram Bot"
           commit_user_email: "bot@bassam-portfolio.local"
