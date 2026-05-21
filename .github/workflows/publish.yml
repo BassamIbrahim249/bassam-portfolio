@@ -16,84 +16,18 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🐍 إعداد Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: ⚙️ معالجة البيانات وحفظ الملفات (للمقال الجديد فقط)
-        if: github.event.action == 'new_article'
-        env:
-          PAYLOAD: ${{ toJson(github.event.client_payload) }}
+      - name: 🔄 إعادة بناء الموقع
         run: |
-          python - << 'PYTHON_SCRIPT'
-          import json, base64, os, datetime, sys
-
-          payload = json.loads(os.environ["PAYLOAD"])
-          title = payload.get("title", "بدون عنوان")
-          content = payload.get("content", "")
-          tab = payload.get("tab", "general")
-          button = payload.get("button", "general")
-          author = payload.get("author", "بسام إبراهيم أحمد")
-          image_b64 = payload.get("image_base64", "")
-          image_name = payload.get("image_name", "")
-          cover_path = payload.get("cover_path", "")
-          tags = payload.get("tags", [])
-          link = payload.get("link", "")
-
-          final_image = cover_path if cover_path else (f"assets/images/{image_name}" if image_name else None)
-
-          article = {
-              "id": f"{int(datetime.datetime.now().timestamp())}",
-              "title": title,
-              "content": content,
-              "tab": tab,
-              "button": button,
-              "tags": tags,
-              "link": link,
-              "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-              "image": final_image,
-              "author": author
-          }
-
-          data_path = "data.json"
-          if os.path.exists(data_path):
-              with open(data_path, "r", encoding="utf-8") as f:
-                  data = json.load(f)
-          else:
-              data = []
-
-          data.append(article)
-          with open(data_path, "w", encoding="utf-8") as f:
-              json.dump(data, f, ensure_ascii=False, indent=2)
-
-          os.makedirs("assets/images", exist_ok=True)
-          if image_b64 and image_name:
-              img_path = os.path.join("assets/images", image_name)
-              with open(img_path, "wb") as f:
-                  f.write(base64.b64decode(image_b64))
-              print(f"✅ تم حفظ الصورة: {image_name}")
-          else:
-              gitkeep_path = "assets/images/.gitkeep"
-              if not os.path.exists(gitkeep_path):
-                  with open(gitkeep_path, "w") as f:
-                      f.write("# Keep this directory in git")
-              print("⚠️ لا توجد صورة")
-
-          print("✅ تم تحديث data.json بنجاح")
-          PYTHON_SCRIPT
-
-      - name: 🔄 إعادة بناء الموقع (للتحديثات فقط)
-        if: github.event.action == 'update_site'
-        run: |
-          echo "✅ تحديث الموقع فقط - data.json تم تعديله مسبقاً بواسطة البوت"
-          echo "🔄 جاري إعادة بناء الموقع..."
+          echo "✅ البوت قام بحفظ المقالات مسبقاً في data/{tab}.json"
+          echo "🔄 لا حاجة لمعالجة إضافية - جاري إعادة بناء الموقع فقط..."
+          echo "📂 التبويب المستهدف: ${{ github.event.client_payload.tab }}"
+          echo "📝 العنوان: ${{ github.event.client_payload.title }}"
 
       - name: 🚀 رفع التغييرات
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "${{ github.event.action == 'new_article' && '📝 [بوت] إضافة مقال' || '🔄 [بوت] تحديث الموقع' }}: ${{ github.event.client_payload.title }}"
-          file_pattern: "data.json assets/images/"
+          commit_message: "🔄 [بوت] تحديث الموقع: ${{ github.event.client_payload.title }}"
+          file_pattern: "data/ assets/images/"
           commit_user_name: "Telegram Bot"
           commit_user_email: "bot@bassam-portfolio.local"
           skip_dirty_check: true
