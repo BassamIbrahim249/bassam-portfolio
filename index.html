@@ -10,7 +10,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <meta name="app-version" content="1.0.6" />
+  <meta name="app-version" content="1.0.7" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -135,7 +135,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function() {
-      const CURRENT_VERSION = "1.0.6";
+      const CURRENT_VERSION = "1.0.7";
       const STORED_VERSION = localStorage.getItem('site_version');
       const ARTICLE_CACHE_KEY = 'bassam_articles_cache_all';
       if (STORED_VERSION !== CURRENT_VERSION) {
@@ -170,8 +170,9 @@
     const CONFIG = { github: { username: "bassamibrahim249", repo: "bassam-portfolio", articlesPath: "content/articles" }, contact: { whatsapp: "249967238251" }, cache: { key: "bassam_articles_cache", ttl: 24 * 60 * 60 * 1000 } };
     const BUTTON_SLUGS = { "علوم المواد": "materials_science", "ابتكار إنشائي": "construction_innovation", "مختبر هندسي": "engineering_lab", "تاريخ السودان": "sudan_history", "تحليل استراتيجي": "strategic_analysis", "رؤى فكرية": "intellectual_visions", "تاريخ": "history", "آثار": "archaeology", "هوية": "identity", "كتابة مشاريع": "project_writing", "قيادة": "leadership", "تدريب تنموي": "developmental_training", "صحة شاملة": "holistic_health", "تغذية علمية": "scientific_nutrition", "تميز بدني": "physical_excellence" };
     const GLOBAL_CACHE_KEY = CONFIG.cache.key + "_all";
-    const APP_VERSION = "1.0.6";
+    const APP_VERSION = "1.0.7";
 
+    // 📌 دوال مساعدة للتمرير
     const scrollToElement = (elementId) => {
       const el = document.getElementById(elementId);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -263,7 +264,7 @@
       return (<div className="comments-section"><div id={`comments-${articleId}`}></div></div>);
     }
 
-    function LibrarySection({ category, onBack, tabName }) {
+    function LibrarySection({ category, onBack }) {
       const [files, setFiles] = useState([]);
       const [loading, setLoading] = useState(true);
       const librarySlug = category?.replace('library_', '');
@@ -279,10 +280,10 @@
           .finally(() => setLoading(false));
       }, [librarySlug]);
       if (loading) return (<div style={{ padding: 40, textAlign: 'center' }}><div className="skeleton" style={{ width: '60%', height: '24px', margin: '0 auto 16px', borderRadius: '8px' }}></div><div className="skeleton" style={{ width: '100%', height: '120px', margin: '0 auto', borderRadius: '12px' }}></div></div>);
-      if (files.length === 0) return (<div style={{ padding: 40, textAlign: 'center', color: '#8899bb' }}><p style={{ fontSize: 48, marginBottom: 16 }}>📚</p><p>لا توجد ملفات في هذه المكتبة بعد.</p><button onClick={onBack} style={{ marginTop: 20, padding: '8px 20px', borderRadius: 8, background: 'rgba(59,158,255,0.1)', border: '1px solid rgba(59,158,255,0.3)', color: '#3B9EFF', cursor: 'pointer', minHeight: '44px' }}>← العودة لـ {tabName}</button></div>);
+      if (files.length === 0) return (<div style={{ padding: 40, textAlign: 'center', color: '#8899bb' }}><p style={{ fontSize: 48, marginBottom: 16 }}>📚</p><p>لا توجد ملفات في هذه المكتبة بعد.</p><button onClick={onBack} style={{ marginTop: 20, padding: '8px 20px', borderRadius: 8, background: 'rgba(59,158,255,0.1)', border: '1px solid rgba(59,158,255,0.3)', color: '#3B9EFF', cursor: 'pointer', minHeight: '44px' }}>← العودة للقسم</button></div>);
       const getLibraryName = (slug) => ({ 'engineering': 'الهندسة', 'political': 'السياسة', 'nubian': 'نوبيان', 'academy': 'الأكاديمية', 'lifestyle': 'نمط الحياة' }[slug] || '');
       return (<div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "100px 24px 60px", color: "#fff", maxWidth: 900, margin: "0 auto" }}>
-        <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", minHeight: '44px' }} aria-label={`العودة لـ ${tabName}`}>← العودة لـ {tabName}</button>
+        <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", minHeight: '44px' }} aria-label="العودة للقسم">← العودة للقسم</button>
         <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, marginBottom: 30, textAlign: "center", color: "#A78BFA" }}>📚 مكتبة {getLibraryName(librarySlug)}</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
           {files.map(file => (<div key={file.id} className="library-card">
@@ -299,7 +300,7 @@
       </div>);
     }
 
-    function ArticleListSection({ title, category, onBack, tabName }) {
+    function ArticleListSection({ title, category, onBack }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
       const [error, setError] = useState(null);
@@ -392,7 +393,7 @@
       const getReadingTime = (content) => Math.ceil((content || '').split(' ').length / 200);
       
       return (<div style={{ fontFamily: "'Cairo', sans-serif", minHeight: "100vh", padding: "100px 24px 60px", color: "#fff", maxWidth: 900, margin: "0 auto" }}>
-        <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", minHeight: '44px' }} aria-label={`العودة لـ ${tabName}`}>← العودة لـ {tabName}</button>
+        <button onClick={onBack} style={{ marginBottom: 32, padding: "10px 20px", borderRadius: 12, background: "transparent", border: "1px solid rgba(59,158,255,0.3)", color: "#8899bb", cursor: "pointer", fontSize: 14, fontWeight: "bold", minHeight: '44px' }} aria-label="العودة للتبويب">← العودة للتبويب</button>
         <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, marginBottom: 30, textAlign: "center", color: "#EAB308" }}>{title} 🔬</h2>
         <input type="text" className="search-input" placeholder="🔍 بحث في المقالات..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} aria-label="بحث في المقالات" />
         {loading ? (<div style={{ textAlign: "center", marginTop: 40 }}>{[1,2,3].map(i => (<div key={i} className="skeleton" style={{ width: '100%', height: '120px', marginBottom: '16px', borderRadius: '12px' }}></div>))}</div>) :
@@ -432,9 +433,9 @@
         <h3 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{card.title}</h3>
         <p style={{ fontSize: 12, fontWeight: 600, color: card.accent, marginBottom: 14 }}>{card.subtitle}</p>
         <p style={{ fontSize: 13, color: '#8899bb', lineHeight: 1.7, marginBottom: 24 }}>{card.desc}</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>{card.tags.map(t => <button key={t} onClick={(e) => { e.stopPropagation(); onTagClick(t); }} className="innovation-tag-btn" style={{ fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(59,158,255,0.15)', color: '#3B9EFF', border: '1px solid rgba(59,158,255,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif", minHeight: '32px' }}>{t}</button>)}</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>{card.tags.map(t => <button key={t} onClick={(e) => { e.stopPropagation(); onTagClick(t, card.id); }} className="innovation-tag-btn" style={{ fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(59,158,255,0.15)', color: '#3B9EFF', border: '1px solid rgba(59,158,255,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif", minHeight: '32px' }}>{t}</button>)}</div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}><div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, color: hover ? card.accent : '#445566' }}><span>اكتشف المزيد</span><span style={{ transform: hover ? 'translateX(-4px)' : 'none', display: 'inline-block' }}>←</span></div>{card.academic && <a href={card.academic.url} target="_blank" rel="noopener noreferrer" className="academic-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>{card.academic.label}</a>}</div>
-        {card.librarySlug && (<button onClick={(e) => { e.stopPropagation(); onLibraryClick(card.librarySlug); }} style={{ marginTop: 16, fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(167,139,250,0.15)', color: '#A78BFA', border: '1px solid rgba(167,139,250,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif", minHeight: '32px', width: '100%' }}>📚 المكتبة</button>)}
+        {card.librarySlug && (<button onClick={(e) => { e.stopPropagation(); onLibraryClick(card.librarySlug, card.id); }} style={{ marginTop: 16, fontSize: 10, padding: '4px 10px', borderRadius: 6, background: 'rgba(167,139,250,0.15)', color: '#A78BFA', border: '1px solid rgba(167,139,250,0.4)', cursor: 'pointer', fontWeight: 700, fontFamily: "'Cairo', sans-serif", minHeight: '32px', width: '100%' }}>📚 المكتبة</button>)}
       </div>);
     }
 
@@ -463,22 +464,23 @@
       const [scrolled, setScrolled] = useState(false);
       const [activeSection, setActiveSection] = useState(null);
       const [activeCategory, setActiveCategory] = useState(null);
-      const [currentTabName, setCurrentTabName] = useState('الرئيسية');
+      // ✨ المتغير السحري: يحفظ التبويب الذي كنا فيه قبل فتح المقالات
+      const [lastOpenedTab, setLastOpenedTab] = useState(null);
+      
       useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h); }, []);
       const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
       
-      const handleTagClick = (tag) => {
+      const handleTagClick = (tag, tabId) => {
+        setLastOpenedTab(tabId); // تذكر التبويب الأصلي
         setActiveCategory(tag);
         setActiveSection('articles');
-        setCurrentTabName(tag);
         window.scrollTo({ top: 0, behavior: "smooth" });
       };
       
-      const handleLibraryClick = (slug) => {
+      const handleLibraryClick = (slug, tabId) => {
+        setLastOpenedTab(tabId); // تذكر التبويب الأصلي
         setActiveCategory(`library_${slug}`);
         setActiveSection('articles');
-        const tabNames = { engineering: 'المنصة الهندسية', political: 'الأرشيف السياسي', nubian: 'نوبيان', academy: 'أكاديمية التطوير', lifestyle: 'نمط الحياة والصحة' };
-        setCurrentTabName(tabNames[slug] || slug);
         window.scrollTo({ top: 0, behavior: "smooth" });
       };
       
@@ -494,13 +496,21 @@
         const handleBack = () => {
           setActiveSection(null);
           setActiveCategory(null);
-          setTimeout(() => scrollToElement('cards-section'), 100);
+          // نستخدم lastOpenedTab للتمرير لاحقاً إذا أردنا
+          setTimeout(() => {
+            const element = document.getElementById(lastOpenedTab); // التمرير للتبويب المحفوظ
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                document.getElementById('cards-section').scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
         };
         
         if (activeCategory?.startsWith('library_')) {
-          return <LibrarySection category={activeCategory} onBack={handleBack} tabName={currentTabName} />;
+          return <LibrarySection category={activeCategory} onBack={handleBack} />;
         }
-        return <ArticleListSection title={activeCategory || "المقالات"} category={activeCategory} onBack={handleBack} tabName={currentTabName} />;
+        return <ArticleListSection title={activeCategory || "المقالات"} category={activeCategory} onBack={handleBack} />;
       }
 
       const CARDS = [
