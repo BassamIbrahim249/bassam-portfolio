@@ -1,5 +1,5 @@
 // service-worker.js — BassamIbrahim Portfolio
-const CACHE_NAME = 'bassam-portfolio-v1';
+const CACHE_NAME = 'bassam-portfolio-v2'; // <-- تم تغيير اسم الكاش لمسح القديم تلقائياً
 const ASSETS_TO_CACHE = [
   '/bassam-portfolio/',
   '/bassam-portfolio/index.html',
@@ -11,7 +11,14 @@ const ASSETS_TO_CACHE = [
   'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap',
   'https://unpkg.com/react@18/umd/react.production.min.js',
   'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
-  'https://unpkg.com/@babel/standalone/babel.min.js'
+  'https://unpkg.com/@babel/standalone/babel.min.js',
+  // ✅ دعم الملفات المنفصلة الجديدة
+  '/bassam-portfolio/data/engineering.json',
+  '/bassam-portfolio/data/political.json',
+  '/bassam-portfolio/data/nubian.json',
+  '/bassam-portfolio/data/academy.json',
+  '/bassam-portfolio/data/lifestyle.json',
+  '/bassam-portfolio/library_index.json'
 ];
 
 // التثبيت: تخزين الموارد الأساسية في الكاش
