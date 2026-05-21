@@ -10,7 +10,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <meta name="app-version" content="1.0.11" />
+  <meta name="app-version" content="1.0.12" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -184,12 +184,16 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function() {
-      const CURRENT_VERSION = "1.0.11";
+      const CURRENT_VERSION = "1.0.12";
       const STORED_VERSION = localStorage.getItem('site_version');
       const ARTICLE_CACHE_KEY = 'bassam_articles_cache_all';
       if (STORED_VERSION !== CURRENT_VERSION) {
         if ('caches' in window) { caches.keys().then(names => names.forEach(name => caches.delete(name))); }
         try { if (localStorage.getItem(ARTICLE_CACHE_KEY)) localStorage.removeItem(ARTICLE_CACHE_KEY); } catch (e) {}
+        // مسح كافة كشوفات الأقسام المنفصلة أيضاً
+        ['engineering', 'political', 'nubian', 'academy', 'lifestyle'].forEach(section => {
+          try { localStorage.removeItem(`bassam_articles_cache_${section}`); } catch (e) {}
+        });
         localStorage.setItem('site_version', CURRENT_VERSION);
         if (STORED_VERSION !== null) setTimeout(() => location.reload(true), 150);
       }
@@ -220,7 +224,7 @@
       "صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"
     };
     const GLOBAL_CACHE_KEY = CONFIG.cache.key + "_all";
-    const APP_VERSION = "1.0.11";
+    const APP_VERSION = "1.0.12";
 
     function useDebounce(value, delay) {
       const [debounced, setDebounced] = useState(value);
@@ -317,7 +321,6 @@
       );
     }
 
-    // ✅ تحديث ArticleListSection لسحب البيانات من الملفات المنفصلة
     function ArticleListSection({ title, category, onBack }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -327,30 +330,24 @@
       const [searchQuery, setSearchQuery] = useState("");
       const debouncedQuery = useDebounce(searchQuery, 300);
 
-      // ✅ دالة مساعدة: تحدد اسم الملف المناسب لكل قسم
       const getDataFile = (cat) => {
-        if (!cat) return 'data.json'; // fallback
+        if (!cat) return 'data/all.json';
         const map = {
           materials_science:'engineering', construction_innovation:'engineering', engineering_lab:'engineering',
           sudan_history:'political', strategic_analysis:'political', intellectual_visions:'political',
           history:'nubian', archaeology:'nubian', identity:'nubian',
           project_writing:'academy', leadership:'academy', developmental_training:'academy',
-          holistic_health:'lifestyle', scientific_nutrition:'lifestyle', physical_excellence:'lifestyle'
+          holistic_health:'lifestyle', scientific_nutrition:'lifestyle', physical_excellence:'lifestyle',
+          engineering:'engineering', political:'political', nubian:'nubian', academy:'academy', lifestyle:'lifestyle'
         };
         const section = map[cat] || cat;
         return `data/${section}.json`;
       };
 
-      // ✅ مفتاح كاش فريد لكل قسم
-      const getCacheKey = (cat) => {
-        const section = getDataFile(cat).replace('data/','').replace('.json','');
-        return `bassam_articles_cache_${section}`;
-      };
-
       useEffect(() => {
         setLoading(true); setError(null);
         
-        const cacheKey = getCacheKey(category);
+        const cacheKey = `bassam_articles_cache_${getDataFile(category).replace('data/','').replace('.json','')}`;
         const cachedData = localStorage.getItem(cacheKey);
         
         if (cachedData) {
