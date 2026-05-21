@@ -10,7 +10,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <meta name="app-version" content="1.0.19" />
+  <meta name="app-version" content="1.0.20" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -105,18 +105,11 @@
     @keyframes goldenPulse { 0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)} }
     @keyframes skeletonShimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
     @keyframes backToTopPulse { 0%,100%{box-shadow:0 0 0 0 rgba(59,158,255,0.4)}50%{box-shadow:0 0 0 12px rgba(59,158,255,0)} }
-
-    /* ✨ StarField */
     @keyframes floatStar {
       0%,100%{transform:translateY(0) scale(1);opacity:0.25}
       50%{transform:translateY(-28px) scale(1.6);opacity:0.8}
     }
-
-    /* ✨ Typewriter cursor blink */
     @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
-    .tw-cursor { animation: blink 0.9s ease-in-out infinite; }
-
-    /* ✨ Progress Ring */
     @keyframes ringFadeIn { from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)} }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -132,7 +125,7 @@
 
     .delay-1{animation-delay:0.10s}.delay-2{animation-delay:0.25s}.delay-3{animation-delay:0.40s}.delay-4{animation-delay:0.55s}.delay-5{animation-delay:0.70s}
 
-    /* ===== Article Body — يرث الألوان في كلا الوضعين ===== */
+    /* ===== Article Body ===== */
     .article-body { color: var(--text-secondary); line-height: 1.9; font-size: 15px; }
     .article-body h1,.article-body h2,.article-body h3,.article-body h4 { color: var(--accent-gold); font-weight: 700; margin: 20px 0 12px; }
     .article-body p { margin-bottom: 14px; color: var(--text-secondary); }
@@ -154,11 +147,7 @@
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      background: radial-gradient(
-        500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(59,158,255,0.10),
-        transparent 60%
-      );
+      background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),rgba(59,158,255,0.10),transparent 60%);
       opacity: 0;
       transition: opacity 0.4s ease;
       pointer-events: none;
@@ -167,7 +156,6 @@
     .spotlight-card:hover::after { opacity: 1; }
     .spotlight-card > * { position: relative; z-index: 1; }
 
-    /* Card per-color spotlight */
     .card-engineering.spotlight-card:hover::after { background: radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(59,158,255,0.12),transparent 60%); }
     .card-political.spotlight-card:hover::after   { background: radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(96,207,255,0.12),transparent 60%); }
     .card-nubian.spotlight-card:hover::after       { background: radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(234,179,8,0.12),transparent 60%); }
@@ -177,7 +165,6 @@
     /* ===== Misc ===== */
     .lib-btn { transition: all 0.3s ease; }
     .lib-btn:hover { filter: brightness(1.2); transform: scale(1.02); }
-    .progress-bar { position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent-blue),#60CFFF);width:0%;z-index:1001;transition:width 0.1s ease;border-radius:0 3px 3px 0; }
     .offline-banner { position:fixed;bottom:0;left:0;right:0;background:rgba(234,179,8,0.2);border-top:1px solid rgba(234,179,8,0.4);color:var(--accent-gold);padding:12px 24px;text-align:center;font-size:12px;z-index:1001;display:none;backdrop-filter:blur(8px); }
     .offline-banner.show { display:block; }
     .search-input { background:var(--glass-bg);border:1px solid var(--border-color);transition:all 0.3s;color:var(--text-primary); }
@@ -186,17 +173,17 @@
     .author-meta { font-size:12px;color:var(--text-secondary);margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap; }
     .section-title { font-size:12px;letter-spacing:0.25em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px;color:var(--accent-blue); }
     .section-title::before,.section-title::after { content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,currentColor,transparent); }
+    .tw-cursor { animation: blink 0.9s ease-in-out infinite; }
     @media (max-width:768px) { .hide-mobile{display:none!important} }
   </style>
 </head>
 <body>
   <script>if(localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
-  <div class="progress-bar" id="readProgress"></div>
   <div id="root"></div>
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.19",S=localStorage.getItem('site_version');
+      const V="1.0.20",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -209,7 +196,7 @@
     if('serviceWorker' in navigator){
       window.addEventListener('load',()=>{
         navigator.serviceWorker.register('/bassam-portfolio/service-worker.js')
-          .then(r=>console.log('✅ SW:',r.scope)).catch(e=>console.log('❌ SW:',e));
+          .then(r=>console.log('✅ SW:',r.scope)).catch(e=>console.log('ℹ️ SW offline'));
       });
     }
   </script>
@@ -219,10 +206,9 @@
     // ===== Config =====
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION = "1.0.19";
+    const APP_VERSION = "1.0.20";
     const ITEMS_PER_PAGE = 10;
 
-    // ✅ إصلاح: خريطة صحيحة لملفات البيانات
     const SLUG_TO_FILE = {
       materials_science:'engineering', construction_innovation:'engineering', engineering_lab:'engineering',
       sudan_history:'political', strategic_analysis:'political', intellectual_visions:'political',
@@ -233,7 +219,7 @@
     };
 
     const getDataFile = (cat) => {
-      if (!cat) return null; // ✅ إصلاح: لا نحاول تحميل all.json
+      if (!cat) return null;
       const slug = BUTTON_SLUGS[cat] || cat;
       const file = SLUG_TO_FILE[slug];
       return file ? `data/${file}.json` : null;
@@ -267,7 +253,17 @@
       return h;
     }
 
-    // ===== ✨ StarField =====
+    function sanitizeHTML(rawHTML) {
+      if (typeof DOMPurify !== 'undefined') {
+        return DOMPurify.sanitize(rawHTML, {
+          ALLOWED_TAGS: ['h1','h2','h3','h4','p','br','strong','em','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'],
+          ALLOWED_ATTR: ['href','target','rel','src','alt','loading','style','class']
+        });
+      }
+      return rawHTML.replace(/<script[^>]*>.*?<\/script>/gi, '').replace(/<[^>]*>/g, '');
+    }
+
+    // ===== StarField =====
     const STARS = Array.from({length:45}, (_,i) => ({
       id: i,
       size: Math.random()*2.5+0.8,
@@ -300,7 +296,7 @@
       );
     }
 
-    // ===== ✨ Typewriter =====
+    // ===== Typewriter =====
     function TypeWriter({ texts, color='#3B9EFF' }) {
       const [display, setDisplay] = useState('');
       const [idx, setIdx] = useState(0);
@@ -330,7 +326,7 @@
       );
     }
 
-    // ===== ✨ Progress Ring =====
+    // ===== Progress Ring =====
     function ProgressRing() {
       const [progress, setProgress] = useState(0);
       const [visible, setVisible] = useState(false);
@@ -340,8 +336,6 @@
           const pct = total > 0 ? (window.scrollY/total)*100 : 0;
           setProgress(pct);
           setVisible(window.scrollY > 300);
-          // شريط القراءة أيضاً
-          document.getElementById('readProgress')?.style.setProperty('width',`${pct}%`);
         };
         window.addEventListener('scroll',h,{passive:true});
         return ()=>window.removeEventListener('scroll',h);
@@ -466,26 +460,51 @@
       const debouncedQuery = useDebounce(searchQuery, 300);
       const t = k => I18N[lang]?.[k]||k;
 
+      const btnSlug = BUTTON_SLUGS[category] || category;
+      const cacheKey = `bassam_articles_cache_${btnSlug}`;
+
       useEffect(()=>{
         setLoading(true); setError(null); setVisibleCount(ITEMS_PER_PAGE);
         const dataFile = getDataFile(category);
         if(!dataFile){ setArticles([]); setLoading(false); return; }
-        const cacheKey = `bassam_articles_cache_${dataFile.replace('data/','').replace('.json','')}`;
+
         const cached = localStorage.getItem(cacheKey);
-        if(cached){try{const p=JSON.parse(cached);if(p.timestamp&&(Date.now()-p.timestamp)<CONFIG.cache.ttl){setArticles(p.data);setLoading(false);return;}}catch(e){}}
+        if(cached){
+          try{
+            const p=JSON.parse(cached);
+            if(p.timestamp&&(Date.now()-p.timestamp)<CONFIG.cache.ttl){
+              setArticles(p.data); setLoading(false); return;
+            }
+          }catch(e){}
+        }
+
         fetch(`${dataFile}?v=${APP_VERSION}`)
           .then(r=>{if(!r.ok)throw new Error();return r.json();})
-          .then(d=>{const a=Array.isArray(d)?d:[];try{localStorage.setItem(cacheKey,JSON.stringify({timestamp:Date.now(),data:a}));}catch(e){}setArticles(a);})
-          .catch(()=>{if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');document.getElementById('offlineBanner')?.classList.add('show');}else{setArticles([]);}})
+          .then(d=>{
+            const a=Array.isArray(d)?d:[];
+            try{localStorage.setItem(cacheKey,JSON.stringify({timestamp:Date.now(),data:a}));}catch(e){}
+            setArticles(a);
+          })
+          .catch(()=>{
+            const oldCache = localStorage.getItem(cacheKey);
+            if(oldCache && !navigator.onLine){
+              try{ setArticles(JSON.parse(oldCache).data||[]); setError(null); }
+              catch(e){ setError('تعذر تحميل المقالات.'); }
+            } else {
+              if(!navigator.onLine){
+                setError('أنت غير متصل بالإنترنت.');
+                document.getElementById('offlineBanner')?.classList.add('show');
+              } else { setArticles([]); }
+            }
+          })
           .finally(()=>setLoading(false));
-      },[category]);
+      },[category, cacheKey]);
 
       const handleToggle = idx => {
         if(openIndex===idx){setOpenIndex(null);}
         else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>document.getElementById(`article-${idx}`)?.scrollIntoView({behavior:'smooth',block:'start'}),150);}
       };
 
-      const btnSlug = BUTTON_SLUGS[category]||category;
       const filtered = category ? articles.filter(a=>a.button===btnSlug||a.category===category) : articles;
       const sorted = [...filtered].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
       const searched = debouncedQuery.trim()===''?sorted:sorted.filter(a=>a.title?.toLowerCase().includes(debouncedQuery.toLowerCase())||a.tags?.some(tag=>tag.toLowerCase().includes(debouncedQuery.toLowerCase())));
@@ -509,16 +528,14 @@
                     {displayed.map((article,idx)=>{
                       const isOpen = openIndex===idx;
                       const rawHTML = parseMarkdownToHTML(article.content||'');
-                      const cleanHTML = typeof DOMPurify!=='undefined'
-                        ? DOMPurify.sanitize(rawHTML,{ALLOWED_TAGS:['h1','h2','h3','h4','p','br','strong','em','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'],ALLOWED_ATTR:['href','target','rel','src','alt','loading','style','class']})
-                        : rawHTML;
+                      const cleanHTML = sanitizeHTML(rawHTML);
                       const commentId = article.id||article.title?.replace(/\s+/g,'-').substring(0,50)||String(idx);
                       return (
                         <div key={article.id||idx} id={`article-${idx}`}
                           className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`}
                           style={{marginBottom:14,borderRadius:16,overflow:'hidden'}}>
                           <div onClick={()=>handleToggle(idx)}
-                            style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}}>
+                            style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}} role="button" aria-expanded={isOpen}>
                             <div style={{flex:1}}>
                               <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{article.title||'بدون عنوان'}</h3>
                               <span style={{fontSize:11,color:'var(--text-secondary)'}}>{article.date}</span>
@@ -561,7 +578,7 @@
       );
     }
 
-    // ===== ✨ Card with Spotlight =====
+    // ===== Card with Spotlight =====
     function Card({ card, onTagClick, onLibraryClick, lang }) {
       const [hover, setHover] = useState(false);
       const cardRef = useRef(null);
@@ -596,8 +613,6 @@
             transform: hover ? 'translateY(-10px)' : 'translateY(0)',
             transition: 'all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)',
           }}>
-
-          {/* أيقونة */}
           <div style={{
             width:58,height:58,borderRadius:16,
             display:'flex',alignItems:'center',justifyContent:'center',
@@ -609,12 +624,9 @@
             transition:'all 0.4s ease',
             boxShadow: hover ? `0 0 20px ${th.glow}` : 'none',
           }}>{card.icon}</div>
-
           <h3 style={{fontSize:19,fontWeight:700,marginBottom:8,color:'var(--text-primary)'}}>{card.title}</h3>
           <p style={{fontSize:12,fontWeight:600,color:th.color,marginBottom:14}}>{card.subtitle}</p>
           <p style={{fontSize:13,color:'var(--text-secondary)',lineHeight:1.75,marginBottom:24}}>{card.desc}</p>
-
-          {/* تاقات */}
           <div style={{display:'flex',flexWrap:'wrap',gap:8,marginBottom:24}}>
             {card.tags.map(tag=>(
               <button key={tag} onClick={e=>{e.stopPropagation();onTagClick(tag,card.id);}}
@@ -627,7 +639,6 @@
               >{tag}</button>
             ))}
           </div>
-
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
             <span style={{fontSize:12,fontWeight:700,color:hover?th.color:'var(--text-secondary)',transition:'color 0.3s'}}>{t('explore')} ←</span>
             <div style={{display:'flex',alignItems:'center',gap:8}}>
@@ -670,28 +681,14 @@
       },[theme,lang]);
 
       const scrollTo = id => document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
-
-      // ✅ originTabId يُحفظ مباشرة من card.id
-      const handleTagClick = (tag, tabId) => {
-        setOriginTabId(tabId);
-        setActiveCategory(tag);
-        setActiveSection('articles');
-        window.scrollTo({top:0,behavior:'smooth'});
-      };
-      const handleLibraryClick = (slug, tabId) => {
-        setOriginTabId(tabId);
-        setActiveCategory(`library_${slug}`);
-        setActiveSection('articles');
-        window.scrollTo({top:0,behavior:'smooth'});
-      };
+      const handleTagClick = (tag, tabId) => { setOriginTabId(tabId); setActiveCategory(tag); setActiveSection('articles'); window.scrollTo({top:0,behavior:'smooth'}); };
+      const handleLibraryClick = (slug, tabId) => { setOriginTabId(tabId); setActiveCategory(`library_${slug}`); setActiveSection('articles'); window.scrollTo({top:0,behavior:'smooth'}); };
 
       if(activeSection==='articles'){
         const handleBack = () => {
           setActiveSection(null);
           setActiveCategory(null);
-          setTimeout(()=>{
-            if(originTabId) document.getElementById(originTabId)?.scrollIntoView({behavior:'smooth',block:'start'});
-          },100);
+          setTimeout(()=>{ if(originTabId) document.getElementById(originTabId)?.scrollIntoView({behavior:'smooth',block:'start'}); },100);
         };
         if(activeCategory?.startsWith('library_')) return <LibrarySection category={activeCategory} onBack={handleBack} lang={lang}/>;
         return <ArticleListSection title={activeCategory||t('articles')} category={activeCategory} onBack={handleBack} lang={lang}/>;
@@ -732,10 +729,7 @@
 
       return (
         <div style={{position:'relative',minHeight:'100vh'}}>
-          {/* ✨ StarField */}
           <StarField theme={theme} />
-
-          {/* Navbar */}
           <header style={{position:'fixed',top:0,left:0,right:0,zIndex:100,padding:'14px 28px',
             background: theme==='dark' ? 'rgba(5,8,15,0.82)' : 'rgba(232,236,244,0.88)',
             backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
@@ -764,13 +758,11 @@
             </div>
           </header>
 
-          {/* Hero */}
           <section style={{padding:'148px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
             <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2.6rem,8vw,5rem)',fontWeight:900,marginBottom:18,lineHeight:1.1,color:'var(--text-primary)'}}>
               Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
             </h1>
-            {/* ✨ Typewriter */}
             <div className="anim-fade-up delay-3" style={{fontSize:'clamp(1rem,3vw,1.35rem)',marginBottom:16,minHeight:'2rem'}}>
               <TypeWriter texts={TW_TEXTS} color="#3B9EFF" />
             </div>
@@ -787,7 +779,6 @@
                 {t('exploreContent')}
               </button>
             </div>
-            {/* Stats */}
             <div className="anim-fade-up delay-5" style={{display:'flex',gap:18,justifyContent:'center',flexWrap:'wrap'}}>
               {STATS.map(s=>(
                 <div key={s.label} className="glass-card"
@@ -802,7 +793,6 @@
             </div>
           </section>
 
-          {/* Cards */}
           <section id="cards-section" style={{padding:'60px 24px 80px',position:'relative',zIndex:1}}>
             <div style={{maxWidth:1100,margin:'0 auto'}}>
               <div style={{textAlign:'center',marginBottom:52}}>
@@ -815,7 +805,6 @@
             </div>
           </section>
 
-          {/* Vision */}
           <section id="vision-section" style={{padding:'40px 24px 80px',position:'relative',zIndex:1}}>
             <div className="glass-card vision-card"
               style={{maxWidth:820,margin:'0 auto',borderRadius:26,padding:'52px 44px',textAlign:'center'}}>
@@ -825,7 +814,6 @@
             </div>
           </section>
 
-          {/* Footer */}
           <footer style={{padding:'40px 24px 32px',borderTop:'1px solid var(--glass-border)',position:'relative',zIndex:1}}>
             <div style={{maxWidth:860,margin:'0 auto',textAlign:'center'}}>
               <p style={{fontSize:12,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:22,fontWeight:700}}>{t('contact')}</p>
@@ -846,7 +834,6 @@
             </div>
           </footer>
 
-          {/* ✨ Progress Ring */}
           <ProgressRing />
         </div>
       );
