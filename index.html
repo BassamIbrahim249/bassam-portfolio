@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +10,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <meta name="app-version" content="1.0.13" />
+  <meta name="app-version" content="1.0.14" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -44,155 +44,100 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
+    /* ========== متغيرات الوضع الليلي والنهاري ========== */
+    :root {
+      --bg-primary: #080c12;
+      --bg-secondary: rgba(255, 255, 255, 0.02);
+      --text-primary: #ffffff;
+      --text-secondary: #8899bb;
+      --border-color: rgba(255, 255, 255, 0.06);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --card-shadow: none;
+      --accent-blue: #3B9EFF;
+      --accent-gold: #EAB308;
+    }
+    .light {
+      --bg-primary: #f0f2f5;
+      --bg-secondary: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --border-color: rgba(0, 0, 0, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-border: rgba(0, 0, 0, 0.08);
+      --card-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: #080c12; font-family: 'Cairo', sans-serif; color: #ffffff; overflow-x: hidden; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg-primary);
+      font-family: 'Cairo', sans-serif;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.4s ease, color 0.3s ease;
+    }
 
+    /* ========== تأثيرات زجاجية فاخرة ========== */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .glass-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(59, 158, 255, 0.3);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(59, 158, 255, 0.08);
+    }
+
+    /* ========== حركات أساسية ========== */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-    @keyframes goldenPulse { 0%, 100% { box-shadow: 0 0 5px rgba(234,179,8,0.3); } 50% { box-shadow: 0 0 20px rgba(234,179,8,0.7); } }
-    @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
-    @keyframes backToTopPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(59,158,255,0.4); } 50% { box-shadow: 0 0 0 12px rgba(59,158,255,0); } }
+    @keyframes pulseGlow { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+    @keyframes goldenPulse { 0%, 100% { box-shadow: 0 0 8px rgba(234,179,8,0.2); } 50% { box-shadow: 0 0 30px rgba(234,179,8,0.5); } }
     @keyframes skeletonShimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-    @keyframes tagShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-    @keyframes visionGlow { 0%, 100% { box-shadow: 0 0 10px rgba(234,179,8,0.15); } 50% { box-shadow: 0 0 25px rgba(234,179,8,0.3), 0 0 50px rgba(59,158,255,0.1); } }
 
     @media (prefers-reduced-motion: no-preference) {
       .anim-fade-up { animation: fadeUp 0.75s ease both; }
       .pulse-dot { animation: pulseGlow 2.2s ease-in-out infinite; }
-      .scroll-line { animation: scrollLine 2s ease-in-out infinite; }
-      .back-to-top { animation: backToTopPulse 2s infinite; }
       .accordion-item.last-opened { animation: goldenPulse 2s ease-in-out infinite; }
-      .skeleton { animation: skeletonShimmer 1.5s infinite linear; background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; }
-      .vision-card { animation: visionGlow 3s ease-in-out infinite; }
+      .skeleton { animation: skeletonShimmer 1.5s infinite linear; background: linear-gradient(90deg, rgba(128,128,128,0.05) 25%, rgba(128,128,128,0.15) 50%, rgba(128,128,128,0.05) 75%); background-size: 200% 100%; border-radius: 12px; }
     }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-      html { scroll-behavior: auto; }
-    }
-
     .delay-1 { animation-delay: 0.10s; } .delay-2 { animation-delay: 0.25s; } .delay-3 { animation-delay: 0.40s; } .delay-4 { animation-delay: 0.55s; } .delay-5 { animation-delay: 0.70s; }
-    .grad-text { background: linear-gradient(135deg, #3B9EFF, #60CFFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-    .card-wrap {
-      transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.45s ease, border-color 0.45s ease, background 0.45s ease;
-      position: relative; overflow: hidden;
-    }
-    .card-wrap::before {
-      content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
-      transform: skewX(-20deg); transition: left 0.7s ease; pointer-events: none; z-index: 1;
-    }
-    .card-wrap:hover::before { left: 150%; }
-    .card-wrap::after {
-      content: ''; position: absolute; top: -1px; right: -1px;
-      width: 60px; height: 60px; border-radius: 0 20px 0 60px;
-      opacity: 0; transition: opacity 0.4s ease; pointer-events: none; z-index: 1;
-    }
-    .card-wrap:hover::after { opacity: 1; }
-    .card-wrap:hover { transform: translateY(-10px); }
+    /* ========== تحسينات زر المكتبة الديناميكي ========== */
+    .lib-btn { transition: all 0.3s ease; }
+    .lib-btn:hover { filter: brightness(1.2); transform: scale(1.02); }
 
-    .card-wrap.card-engineering:hover { box-shadow: 0 20px 50px rgba(59,158,255,0.3), 0 0 80px rgba(59,158,255,0.08), inset 0 1px 0 rgba(59,158,255,0.2); }
-    .card-wrap.card-engineering:hover::after { background: radial-gradient(circle at top right, rgba(59,158,255,0.25), transparent 70%); }
-    .card-wrap.card-political:hover { box-shadow: 0 20px 50px rgba(96,207,255,0.3), 0 0 80px rgba(96,207,255,0.08), inset 0 1px 0 rgba(96,207,255,0.2); }
-    .card-wrap.card-political:hover::after { background: radial-gradient(circle at top right, rgba(96,207,255,0.25), transparent 70%); }
-    .card-wrap.card-nubian:hover { box-shadow: 0 20px 50px rgba(234,179,8,0.35), 0 0 80px rgba(234,179,8,0.1), inset 0 1px 0 rgba(234,179,8,0.25); }
-    .card-wrap.card-nubian:hover::after { background: radial-gradient(circle at top right, rgba(234,179,8,0.3), transparent 70%); }
-    .card-wrap.card-academy:hover { box-shadow: 0 20px 50px rgba(167,139,250,0.3), 0 0 80px rgba(167,139,250,0.08), inset 0 1px 0 rgba(167,139,250,0.2); }
-    .card-wrap.card-academy:hover::after { background: radial-gradient(circle at top right, rgba(167,139,250,0.25), transparent 70%); }
-    .card-wrap.card-lifestyle:hover { box-shadow: 0 20px 50px rgba(52,211,153,0.3), 0 0 80px rgba(52,211,153,0.08), inset 0 1px 0 rgba(52,211,153,0.2); }
-    .card-wrap.card-lifestyle:hover::after { background: radial-gradient(circle at top right, rgba(52,211,153,0.25), transparent 70%); }
-
-    .card-icon-wrap { transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease, border-color 0.4s ease; }
-    .card-wrap:hover .card-icon-wrap { transform: scale(1.12) rotate(3deg); }
-    .card-engineering:hover .card-icon-wrap { box-shadow: 0 0 25px rgba(59,158,255,0.5); background: rgba(59,158,255,0.12) !important; border-color: rgba(59,158,255,0.4) !important; }
-    .card-political:hover .card-icon-wrap   { box-shadow: 0 0 25px rgba(96,207,255,0.5); background: rgba(96,207,255,0.12) !important; border-color: rgba(96,207,255,0.4) !important; }
-    .card-nubian:hover .card-icon-wrap      { box-shadow: 0 0 25px rgba(234,179,8,0.5);  background: rgba(234,179,8,0.12) !important;  border-color: rgba(234,179,8,0.4) !important; }
-    .card-academy:hover .card-icon-wrap     { box-shadow: 0 0 25px rgba(167,139,250,0.5);background: rgba(167,139,250,0.12) !important;border-color: rgba(167,139,250,0.4) !important; }
-    .card-lifestyle:hover .card-icon-wrap   { box-shadow: 0 0 25px rgba(52,211,153,0.5); background: rgba(52,211,153,0.12) !important; border-color: rgba(52,211,153,0.4) !important; }
-
-    .innovation-tag-btn { transition: all 0.3s ease; min-height: 32px; position: relative; overflow: hidden; }
-    .innovation-tag-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%); background-size: 200% 100%; opacity: 0; transition: opacity 0.3s ease; }
-    .innovation-tag-btn:hover::after { opacity: 1; animation: tagShimmer 0.8s ease forwards; }
-    .innovation-tag-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-    .card-engineering .innovation-tag-btn:hover { background: rgba(59,158,255,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(59,158,255,0.3); border-color: rgba(59,158,255,0.7) !important; }
-    .card-political .innovation-tag-btn:hover   { background: rgba(96,207,255,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(96,207,255,0.3); border-color: rgba(96,207,255,0.7) !important; }
-    .card-nubian .innovation-tag-btn:hover      { background: rgba(234,179,8,0.35) !important;  color: #fff !important; box-shadow: 0 6px 20px rgba(234,179,8,0.3);  border-color: rgba(234,179,8,0.7) !important; }
-    .card-academy .innovation-tag-btn:hover     { background: rgba(167,139,250,0.35) !important;color: #fff !important; box-shadow: 0 6px 20px rgba(167,139,250,0.3);border-color: rgba(167,139,250,0.7) !important; }
-    .card-lifestyle .innovation-tag-btn:hover   { background: rgba(52,211,153,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(52,211,153,0.3); border-color: rgba(52,211,153,0.7) !important; }
-
-    .social-btn { transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease; min-height: 44px; display: flex; align-items: center; }
-    .social-btn:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(59,158,255,0.25); background: rgba(255,255,255,0.06); }
-    .navbar { transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease; }
-    .btn-primary { transition: transform 0.2s ease, box-shadow 0.2s ease; min-height: 44px; }
-    .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 45px rgba(59,158,255,0.6); }
-    .btn-outline { border: 1px solid rgba(59,158,255,0.3); color: #8899bb; transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; min-height: 44px; }
-    .btn-outline:hover { border-color: rgba(59,158,255,0.8); color: #ffffff; transform: scale(1.05); background: rgba(59,158,255,0.1); }
-    .nav-cta { background: linear-gradient(135deg, rgba(37,211,102,0.18), rgba(37,211,102,0.08)); border: 1px solid rgba(37,211,102,0.45); color: #25D366; transition: background 0.25s ease, box-shadow 0.25s ease; cursor: pointer; min-height: 44px; }
-    .nav-cta:hover { background: linear-gradient(135deg, rgba(37,211,102,0.28), rgba(37,211,102,0.16)); box-shadow: 0 0 25px rgba(37,211,102,0.4); }
-    .accordion-item { border: 1px solid rgba(234,179,8,0.15); border-radius: 12px; margin-bottom: 16px; overflow: hidden; background: rgba(255,255,255,0.02); transition: all 0.3s ease; }
-    .accordion-item.last-opened { border-color: rgba(234,179,8,0.5); }
-    .accordion-header { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s ease; gap: 12px; min-height: 44px; }
-    .accordion-header:hover { background: rgba(234,179,8,0.05); }
-    .accordion-title { font-size: 18px; font-weight: 700; color: #ffffff; margin: 0; flex: 1; }
-    .accordion-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .accordion-date { font-size: 11px; color: #8899bb; }
-    .accordion-toggle-btn { padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-family: 'Cairo', sans-serif; white-space: nowrap; min-height: 36px; }
-    .accordion-toggle-btn.read { background: rgba(234,179,8,0.15); color: #EAB308; border: 1px solid rgba(234,179,8,0.4); }
-    .accordion-toggle-btn.close { background: rgba(255,255,255,0.05); color: #8899bb; border: 1px solid rgba(255,255,255,0.1); }
-    .accordion-toggle-btn.read:hover { background: rgba(234,179,8,0.25); color: #fff; }
-    .accordion-toggle-btn.close:hover { background: rgba(255,255,255,0.1); color: #fff; }
-    .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
-    .accordion-content.open { max-height: 5000px; padding: 0 20px 24px; }
-    .accordion-tags, .accordion-tag { display: none; }
-    .article-body { color: #8899bb; line-height: 1.9; font-size: 15px; }
-    .article-body h2, .article-body h3 { color: #EAB308; font-size: 18px; font-weight: 700; margin: 20px 0 12px; }
-    .article-body p { margin-bottom: 14px; }
-    .article-body a { color: #3B9EFF; text-decoration: underline; }
-    .article-body img { max-width: 100%; border-radius: 12px; margin: 16px 0; height: auto; }
-    .article-body th, .article-body td { border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; text-align: right; }
-    .article-body th { background: rgba(234,179,8,0.1); color: #EAB308; font-weight: 700; }
-    .article-body blockquote { border-right: 3px solid #EAB308; padding-right: 16px; margin: 16px 0; color: #8899bb; font-style: italic; }
-    .search-input { width: 100%; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(59,158,255,0.2); color: #ffffff; font-family: 'Cairo', sans-serif; font-size: 14px; margin-bottom: 20px; transition: border-color 0.3s ease, box-shadow 0.3s ease; min-height: 44px; }
-    .search-input:focus { outline: none; border-color: rgba(59,158,255,0.5); box-shadow: 0 0 15px rgba(59,158,255,0.15); }
-    .search-input::placeholder { color: #8899bb; }
-    .share-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
-    .share-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 11px; font-weight: 600; font-family: 'Cairo', sans-serif; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: #8899bb; transition: all 0.3s ease; min-height: 36px; }
-    .share-btn:hover { background: rgba(59,158,255,0.1); border-color: rgba(59,158,255,0.3); color: #ffffff; }
-    .share-btn.copied { background: rgba(37,211,102,0.1); border-color: rgba(37,211,102,0.3); color: #25D366; }
-    .comments-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08); }
-    .install-btn { background: linear-gradient(135deg,#3B9EFF,#2563eb); color: #fff; border: none; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; margin-bottom: 14px; box-shadow: 0 0 30px rgba(59,158,255,0.4); transition: transform 0.25s ease; min-height: 44px; }
-    .install-btn:hover { transform: scale(1.03); }
-    .dismiss-btn { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: #6677aa; padding: 12px 32px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Cairo', sans-serif; width: 100%; min-height: 44px; }
-    .academic-link { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; color: #60CFFF; text-decoration: none; padding: 6px 12px; border-radius: 8px; background: rgba(96,207,255,0.05); border: 1px solid rgba(96,207,255,0.2); transition: all 0.3s ease; min-height: 32px; }
-    .academic-link:hover { background: rgba(96,207,255,0.2); color: #fff; border-color: #60CFFF; }
-    .library-card { padding: 16px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(167,139,250,0.2); transition: transform 0.2s ease; }
-    .library-card:hover { transform: translateY(-4px); border-color: rgba(167,139,250,0.4); }
-    .related-articles { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
-    .related-btn { font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(59,158,255,0.1); color: #3B9EFF; border: 1px solid rgba(59,158,255,0.3); cursor: pointer; min-height: 32px; }
-    .related-btn:hover { background: rgba(59,158,255,0.2); }
-    .author-meta { font-size: 11px; color: #556677; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
-    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, #3B9EFF, #60CFFF); width: 0%; z-index: 1000; transition: width 0.1s ease; }
-    .offline-banner { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(234,179,8,0.15); border-top: 1px solid rgba(234,179,8,0.3); color: #EAB308; padding: 12px 24px; text-align: center; font-size: 12px; z-index: 999; display: none; }
+    /* ========== شريط التقدم و باقي العناصر ========== */
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent-blue), #60CFFF); width: 0%; z-index: 1001; transition: width 0.1s ease; border-radius: 0 3px 3px 0; }
+    .offline-banner { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(234,179,8,0.2); border-top: 1px solid rgba(234,179,8,0.4); color: var(--accent-gold); padding: 12px 24px; text-align: center; font-size: 12px; z-index: 1001; display: none; backdrop-filter: blur(8px); }
     .offline-banner.show { display: block; }
+    .search-input { background: rgba(128,128,128,0.05); border: 1px solid var(--border-color); transition: all 0.3s; }
+    .search-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 20px rgba(59,158,255,0.15); }
+    .author-meta { font-size: 12px; color: var(--text-secondary); margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; gap: 16px; flex-wrap: wrap; }
+    .section-title { font-size: 12px; letter-spacing: 0.25em; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--accent-blue); }
+    .section-title::before, .section-title::after { content: ''; width: 40px; height: 1px; background: linear-gradient(90deg, transparent, currentColor, transparent); }
+
     @media (max-width: 768px) { .hide-mobile { display: none !important; } }
   </style>
 </head>
-<body>
+<body class="dark">
   <div class="progress-bar" id="readProgress"></div>
   <div id="root"></div>
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function() {
-      const CURRENT_VERSION = "1.0.13";
+      const CURRENT_VERSION = "1.0.14";
       const STORED_VERSION = localStorage.getItem('site_version');
       const ARTICLE_CACHE_KEY = 'bassam_articles_cache_all';
       if (STORED_VERSION !== CURRENT_VERSION) {
         if ('caches' in window) { caches.keys().then(names => names.forEach(name => caches.delete(name))); }
         try { if (localStorage.getItem(ARTICLE_CACHE_KEY)) localStorage.removeItem(ARTICLE_CACHE_KEY); } catch (e) {}
-        ['engineering', 'political', 'nubian', 'academy', 'lifestyle'].forEach(section => {
-          try { localStorage.removeItem(`bassam_articles_cache_${section}`); } catch (e) {}
-        });
+        ['engineering', 'political', 'nubian', 'academy', 'lifestyle'].forEach(s => { try { localStorage.removeItem(`bassam_articles_cache_${s}`); } catch (e) {} });
         localStorage.setItem('site_version', CURRENT_VERSION);
         if (STORED_VERSION !== null) setTimeout(() => location.reload(true), 150);
       }
@@ -210,27 +155,24 @@
   <script type="text/babel">
     const { useState, useEffect, useCallback, useRef } = React;
 
-    const CONFIG = {
-      github: { username: "bassamibrahim249", repo: "bassam-portfolio", articlesPath: "content/articles" },
-      contact: { whatsapp: "249967238251" },
-      cache: { key: "bassam_articles_cache", ttl: 24 * 60 * 60 * 1000 }
-    };
-    const BUTTON_SLUGS = {
-      "علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab",
-      "تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions",
-      "تاريخ":"history","آثار":"archaeology","هوية":"identity",
-      "كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training",
-      "صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"
-    };
-    const GLOBAL_CACHE_KEY = CONFIG.cache.key + "_all";
-    const APP_VERSION = "1.0.13";
-    const ITEMS_PER_PAGE = 10; // ✅ عدد المقالات المعروضة في البداية
+    // ========== إعدادات ==========
+    const CONFIG = { github: { username: "bassamibrahim249", repo: "bassam-portfolio" }, contact: { whatsapp: "249967238251" }, cache: { ttl: 86400000 } };
+    const BUTTON_SLUGS = { "علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence" };
+    const APP_VERSION = "1.0.14";
+    const ITEMS_PER_PAGE = 10;
 
-    function useDebounce(value, delay) {
+    // ========== نصوص اللغات (جاهزية الترجمة - i18n Ready) ==========
+    const I18N = {
+      ar: { home: 'الرئيسية', explore: 'اكتشف المزيد', back: 'العودة للتبويب', library: '📚 المكتبة', read: '📖 اقرأ', close: '✕ إغلاق', search: '🔍 بحث في المقالات...', noArticles: 'لا توجد مقالات بعد.', loadMore: '📄 عرض المزيد', remaining: 'مقال متبقي', author: '✍️ بسام إبراهيم أحمد', minRead: 'دقائق قراءة', related: '📌 مقالات ذات صلة', footerText: 'BassamIbrahim', footerCopy: 'جميع الحقوق محفوظة', contact: 'تواصل معي', visionTitle: 'الرؤية والرسالة', visionText: 'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.', identity: 'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي', heroDesc: 'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.', browse: '📂 تصفح المحتوى', mainTitle: 'خمسة مجالات. رؤية واحدة.', articles: 'المقالات' },
+      en: { home: 'Home', explore: 'Explore', back: 'Back to Section', library: '📚 Library', read: '📖 Read', close: '✕ Close', search: '🔍 Search articles...', noArticles: 'No articles yet.', loadMore: '📄 Load More', remaining: 'remaining', author: '✍️ Bassam Ibrahim Ahmed', minRead: 'min read', related: '📌 Related Articles', footerText: 'BassamIbrahim', footerCopy: 'All rights reserved', contact: 'Contact Me', visionTitle: 'Vision & Mission', visionText: 'I believe that true specialization does not confine its owner, but rather gives him keys to understand the world in multiple ways.', identity: 'Civil Engineer · Sudan Affairs · Community Activist', heroDesc: 'A civil engineer passionate about innovative engineering, a researcher in Sudanese affairs, and an activist in community development.', browse: '📂 Browse Content', mainTitle: 'Five Fields. One Vision.', articles: 'Articles' }
+    };
+
+    // ========== أدوات ==========
+    const useDebounce = (value, delay) => {
       const [debounced, setDebounced] = useState(value);
       useEffect(() => { const h = setTimeout(() => setDebounced(value), delay); return () => clearTimeout(h); }, [value, delay]);
       return debounced;
-    }
+    };
 
     function parseMarkdownToHTML(md) {
       if (!md || typeof md !== 'string') return "";
@@ -247,8 +189,10 @@
       return html;
     }
 
-    function ShareButtons({ article }) {
+    // ========== مكونات ==========
+    function ShareButtons({ article, lang }) {
       const [copied, setCopied] = useState(false);
+      const t = (k) => I18N[lang]?.[k] || k;
       const articleUrl = window.location.href;
       const title = encodeURIComponent(article.title);
       const url = encodeURIComponent(articleUrl);
@@ -262,12 +206,12 @@
       };
       const openInApp = (p) => { const u={whatsapp:`https://wa.me/?text=${title}%0A${url}`,twitter:`https://twitter.com/intent/tweet?text=${title}&url=${url}`,telegram:`https://t.me/share/url?url=${url}&text=${title}`}; window.open(u[p],'_blank'); };
       return (
-        <div className="share-buttons">
-          <button className="share-btn" onClick={handleShare}>📤 مشاركة</button>
-          <button className="share-btn" onClick={()=>openInApp('whatsapp')}>📲 واتساب</button>
-          <button className="share-btn" onClick={()=>openInApp('twitter')}>𝕏 تويتر</button>
-          <button className="share-btn" onClick={()=>openInApp('telegram')}>💬 تيليجرام</button>
-          <button className={`share-btn ${copied?'copied':''}`} onClick={handleCopyLink}>{copied?'✅ تم النسخ!':'📋 نسخ الرابط'}</button>
+        <div className="share-buttons" style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:16,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
+          <button className="share-btn" onClick={handleShare} style={{padding:'8px 14px',borderRadius:8,background:'rgba(59,158,255,0.1)',border:'1px solid rgba(59,158,255,0.3)',color:'var(--accent-blue)',cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600}}>📤 {lang==='ar'?'مشاركة':'Share'}</button>
+          <button className="share-btn" onClick={()=>openInApp('whatsapp')} style={{padding:'8px 14px',borderRadius:8,background:'rgba(37,211,102,0.1)',border:'1px solid rgba(37,211,102,0.3)',color:'#25D366',cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600}}>📲 واتساب</button>
+          <button className="share-btn" onClick={()=>openInApp('twitter')} style={{padding:'8px 14px',borderRadius:8,background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.2)',color:'#ccc',cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600}}>𝕏 تويتر</button>
+          <button className="share-btn" onClick={()=>openInApp('telegram')} style={{padding:'8px 14px',borderRadius:8,background:'rgba(0,136,204,0.1)',border:'1px solid rgba(0,136,204,0.3)',color:'#08c',cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600}}>💬 تيليجرام</button>
+          <button className={`share-btn ${copied?'copied':''}`} onClick={handleCopyLink} style={{padding:'8px 14px',borderRadius:8,background:copied?'rgba(37,211,102,0.2)':'rgba(255,255,255,0.05)',border:copied?'1px solid rgba(37,211,102,0.5)':'1px solid rgba(255,255,255,0.2)',color:copied?'#25D366':'var(--text-secondary)',cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600}}>{copied?'✅ تم النسخ!':'📋 نسخ الرابط'}</button>
         </div>
       );
     }
@@ -287,10 +231,11 @@
       return <div className="comments-section"><div id={`comments-${articleId}`}></div></div>;
     }
 
-    function LibrarySection({ category, onBack }) {
+    function LibrarySection({ category, onBack, lang }) {
       const [files, setFiles] = useState([]);
       const [loading, setLoading] = useState(true);
       const librarySlug = category?.replace('library_','');
+      const t = (k) => I18N[lang]?.[k] || k;
       useEffect(() => {
         setLoading(true);
         fetch(`https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/library_index.json?v=${APP_VERSION}`)
@@ -298,20 +243,20 @@
       }, [librarySlug]);
       const getName = s => ({'engineering':'الهندسة','political':'السياسة','nubian':'نوبيان','academy':'الأكاديمية','lifestyle':'نمط الحياة'}[s]||'');
       if (loading) return <div style={{padding:40,textAlign:'center'}}><div className="skeleton" style={{width:'60%',height:'24px',margin:'0 auto 16px',borderRadius:'8px'}}></div><div className="skeleton" style={{width:'100%',height:'120px',borderRadius:'12px'}}></div></div>;
-      if (!files.length) return <div style={{padding:40,textAlign:'center',color:'#8899bb'}}><p style={{fontSize:48,marginBottom:16}}>📚</p><p>لا توجد ملفات بعد.</p><button onClick={onBack} style={{marginTop:20,padding:'8px 20px',borderRadius:8,background:'rgba(59,158,255,0.1)',border:'1px solid rgba(59,158,255,0.3)',color:'#3B9EFF',cursor:'pointer',minHeight:'44px'}}>← العودة</button></div>;
+      if (!files.length) return <div style={{padding:40,textAlign:'center',color:'var(--text-secondary)'}}><p style={{fontSize:48,marginBottom:16}}>📚</p><p>{t('noArticles')}</p><button onClick={onBack} className="glass-card" style={{marginTop:20,padding:'8px 20px',borderRadius:8,color:'var(--accent-blue)',cursor:'pointer'}}>← {t('back')}</button></div>;
       return (
-        <div style={{fontFamily:"'Cairo',sans-serif",minHeight:"100vh",padding:"100px 24px 60px",color:"#fff",maxWidth:900,margin:"0 auto"}}>
-          <button onClick={onBack} style={{marginBottom:32,padding:"10px 20px",borderRadius:12,background:"transparent",border:"1px solid rgba(59,158,255,0.3)",color:"#8899bb",cursor:"pointer",fontSize:14,fontWeight:"bold",minHeight:'44px'}}>← العودة للقسم</button>
-          <h2 style={{fontSize:"clamp(1.5rem,4vw,2rem)",fontWeight:900,marginBottom:30,textAlign:"center",color:"#A78BFA"}}>📚 مكتبة {getName(librarySlug)}</h2>
+        <div style={{fontFamily:"'Cairo',sans-serif",minHeight:"100vh",padding:"100px 24px 60px",color:"var(--text-primary)",maxWidth:900,margin:"0 auto"}}>
+          <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:"10px 20px",borderRadius:12,color:'var(--text-secondary)',cursor:'pointer',fontSize:14,fontWeight:'bold'}}>← {t('back')}</button>
+          <h2 style={{fontSize:"clamp(1.5rem,4vw,2rem)",fontWeight:900,marginBottom:30,textAlign:"center",color:"#A78BFA"}}>📚 {t('library')} {getName(librarySlug)}</h2>
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))',gap:16}}>
             {files.map(f=>(
-              <div key={f.id} className="library-card">
+              <div key={f.id} className="glass-card" style={{padding:16,borderRadius:12,background:'var(--glass-bg)',border:'1px solid var(--glass-border)'}}>
                 <div style={{fontSize:24,marginBottom:8}}>{f.fileType==='pdf'?'📕':f.fileType==='pptx'?'📊':'📄'}</div>
                 <h4 style={{fontSize:14,marginBottom:8}}>{f.title}</h4>
-                <p style={{fontSize:12,color:'#8899bb',marginBottom:12}}>{f.description||''}</p>
-                <div style={{fontSize:11,color:'#8899bb',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
+                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{f.description||''}</p>
+                <div style={{fontSize:11,color:'var(--text-secondary)',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
                 <div style={{display:'flex',gap:8}}>
-                  <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'8px',background:'rgba(59,158,255,0.2)',color:'#3B9EFF',borderRadius:6,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:600,minHeight:'36px',display:'flex',alignItems:'center',justifyContent:'center'}}>📥 تحميل</a>
+                  <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'8px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:6,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:600,minHeight:'36px',display:'flex',alignItems:'center',justifyContent:'center'}}>📥 تحميل</a>
                   {f.fileType==='pdf'&&<a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'8px',background:'rgba(167,139,250,0.2)',color:'#A78BFA',borderRadius:6,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:600,minHeight:'36px',display:'flex',alignItems:'center',justifyContent:'center'}}>👁️ معاينة</a>}
                 </div>
               </div>
@@ -321,24 +266,19 @@
       );
     }
 
-    function ArticleListSection({ title, category, onBack }) {
+    function ArticleListSection({ title, category, onBack, lang }) {
       const [articles, setArticles] = useState([]);
       const [loading, setLoading] = useState(true);
       const [error, setError] = useState(null);
       const [openIndex, setOpenIndex] = useState(null);
       const [lastOpenedIndex, setLastOpenedIndex] = useState(null);
       const [searchQuery, setSearchQuery] = useState("");
-      const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE); // ✅ للتحكم في عدد المقالات المعروضة
+      const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
       const debouncedQuery = useDebounce(searchQuery, 300);
+      const t = (k) => I18N[lang]?.[k] || k;
 
       const getDataFile = (cat) => {
         if (!cat) return 'data/all.json';
-        // ✅ الخطوة ١: تحويل اسم الزر العربي إلى slug إنجليزي
-        const buttonToSlug = BUTTON_SLUGS[cat];
-        if (buttonToSlug) {
-          cat = buttonToSlug;
-        }
-        // ✅ الخطوة ٢: تحديد الملف بناءً على الـ slug
         const map = {
           materials_science:'engineering', construction_innovation:'engineering', engineering_lab:'engineering',
           sudan_history:'political', strategic_analysis:'political', intellectual_visions:'political',
@@ -347,144 +287,70 @@
           holistic_health:'lifestyle', scientific_nutrition:'lifestyle', physical_excellence:'lifestyle',
           engineering:'engineering', political:'political', nubian:'nubian', academy:'academy', lifestyle:'lifestyle'
         };
-        const section = map[cat] || cat;
-        return `data/${section}.json`;
+        return `data/${map[cat] || cat}.json`;
       };
 
       useEffect(() => {
-        setLoading(true); setError(null); setVisibleCount(ITEMS_PER_PAGE); // ✅ يعيد تعيين العداد عند تغيير القسم
+        setLoading(true); setError(null); setVisibleCount(ITEMS_PER_PAGE);
         const cacheKey = `bassam_articles_cache_${getDataFile(category).replace('data/','').replace('.json','')}`;
-        const cachedData = localStorage.getItem(cacheKey);
-        
-        if (cachedData) {
-          try {
-            const parsed = JSON.parse(cachedData);
-            if (parsed.timestamp && (Date.now() - parsed.timestamp) < CONFIG.cache.ttl) {
-              setArticles(parsed.data); setLoading(false); return;
-            }
-          } catch(e) {}
-        }
-
-        const dataUrl = `${getDataFile(category)}?v=${APP_VERSION}`;
-        
-        fetch(dataUrl)
-          .then(res => {
-            if (!res.ok) throw new Error('فشل التحميل');
-            return res.json();
-          })
-          .then(data => {
-            const allArticles = Array.isArray(data) ? data : [];
-            try { localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data: allArticles })); } catch(e) {}
-            setArticles(allArticles);
-          })
-          .catch(err => {
-            if (!navigator.onLine) {
-              setError('أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.');
-              document.getElementById('offlineBanner')?.classList.add('show');
-            } else {
-              console.warn(`⚠️ لم يتم العثور على ${dataUrl}`);
-              setArticles([]);
-            }
-          })
-          .finally(() => setLoading(false));
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) { try { const p=JSON.parse(cached); if(p.timestamp&&(Date.now()-p.timestamp)<CONFIG.cache.ttl){setArticles(p.data);setLoading(false);return;} } catch(e){} }
+        fetch(`${getDataFile(category)}?v=${APP_VERSION}`)
+          .then(r=>{if(!r.ok)throw new Error();return r.json();})
+          .then(d=>{const a=Array.isArray(d)?d:[];try{localStorage.setItem(cacheKey,JSON.stringify({timestamp:Date.now(),data:a}));}catch(e){}setArticles(a);})
+          .catch(()=>{if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');document.getElementById('offlineBanner')?.classList.add('show');}else{setArticles([]);}})
+          .finally(()=>setLoading(false));
       }, [category]);
 
-      useEffect(() => {
-        const h=()=>{const t=document.documentElement.scrollTop,s=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('readProgress')?.style.setProperty('width',`${(t/s)*100}%`);};
-        window.addEventListener('scroll',h,{passive:true});return()=>window.removeEventListener('scroll',h);
-      }, []);
-
-      useEffect(() => {
-        if(openIndex!==null&&articles[openIndex]){const a=articles[openIndex];const m=document.querySelector('meta[name="description"]');if(m){const s=(a.content||'').replace(/[#*`]/g,'').substring(0,160);m.setAttribute('content',`${a.title} — ${s}...`);}}
-      }, [openIndex,articles]);
-
-      useEffect(() => {
-        if(openIndex!==null&&articles[openIndex]){
-          const a=articles[openIndex];
-          const schema={"@context":"https://schema.org","@type":"Article","headline":a.title,"author":{"@type":"Person","name":a.author},"datePublished":a.date,"articleBody":(a.content||'').substring(0,200),"keywords":(a.tags||[]).join(", ")};
-          const s=document.createElement('script');s.type='application/ld+json';s.text=JSON.stringify(schema);document.head.appendChild(s);
-          return()=>{if(s.parentNode)s.parentNode.removeChild(s);};
-        }
-      }, [openIndex,articles]);
-
-      const handleToggle=(idx)=>{
-        if(openIndex===idx){setOpenIndex(null);}
-        else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>{document.getElementById(`article-${idx}`)?.scrollIntoView({behavior:'smooth',block:'start'});},150);}
+      const handleToggle = (idx) => {
+        if(openIndex===idx) setOpenIndex(null);
+        else { setOpenIndex(idx); setLastOpenedIndex(idx); setTimeout(()=>{document.getElementById(`article-${idx}`)?.scrollIntoView({behavior:'smooth',block:'start'});},150); }
       };
 
-      // ✅ دالة عرض المزيد
-      const handleShowMore = () => {
-        setVisibleCount(prev => prev + ITEMS_PER_PAGE);
-      };
-
-      const btnSlug=BUTTON_SLUGS[category]||category;
-      const isLibrary=category?.startsWith('library_');
-      const filtered=isLibrary?[]:category?articles.filter(a=>a.button===btnSlug||a.category===category):articles;
-      const sorted=filtered.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-      const searched=debouncedQuery.trim()===''?sorted:sorted.filter(a=>a.title?.toLowerCase().includes(debouncedQuery.toLowerCase())||a.tags?.some(t=>t.toLowerCase().includes(debouncedQuery.toLowerCase())));
-      const displayed = searched.slice(0, visibleCount); // ✅ يعرض فقط المقالات المطلوبة
-      const hasMore = searched.length > visibleCount; // ✅ هل يوجد المزيد للعرض؟
-      const readTime=c=>Math.ceil((c||'').split(' ').length/200);
+      const btnSlug = BUTTON_SLUGS[category] || category;
+      const isLibrary = category?.startsWith('library_');
+      const filtered = isLibrary ? [] : category ? articles.filter(a => a.button === btnSlug || a.category === category) : articles;
+      const sorted = filtered.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      const searched = debouncedQuery.trim()===''?sorted:sorted.filter(a=>a.title?.toLowerCase().includes(debouncedQuery.toLowerCase())||a.tags?.some(tag=>tag.toLowerCase().includes(debouncedQuery.toLowerCase())));
+      const displayed = searched.slice(0, visibleCount);
+      const hasMore = searched.length > visibleCount;
 
       return (
-        <div style={{fontFamily:"'Cairo',sans-serif",minHeight:"100vh",padding:"100px 24px 60px",color:"#fff",maxWidth:900,margin:"0 auto"}}>
-          <button onClick={onBack} style={{marginBottom:32,padding:"10px 20px",borderRadius:12,background:"transparent",border:"1px solid rgba(59,158,255,0.3)",color:"#8899bb",cursor:"pointer",fontSize:14,fontWeight:"bold",minHeight:'44px'}}>← العودة للتبويب</button>
-          <h2 style={{fontSize:"clamp(1.5rem,4vw,2rem)",fontWeight:900,marginBottom:30,textAlign:"center",color:"#EAB308"}}>{title} 🔬</h2>
-          <input type="text" className="search-input" placeholder="🔍 بحث في المقالات..." value={searchQuery} onChange={e=>{setSearchQuery(e.target.value); setVisibleCount(ITEMS_PER_PAGE);}} />
-          {loading?(<div style={{textAlign:"center",marginTop:40}}>{[1,2,3].map(i=><div key={i} className="skeleton" style={{width:'100%',height:'120px',marginBottom:'16px',borderRadius:'12px'}}></div>)}</div>)
-          :error?(<div style={{textAlign:"center",marginTop:40,color:"#ff6b6b"}}><p>⚠️ {error}</p><button onClick={()=>window.location.reload()} style={{marginTop:16,padding:"8px 20px",borderRadius:8,background:"rgba(255,107,107,0.1)",border:"1px solid rgba(255,107,107,0.3)",color:"#ff6b6b",cursor:"pointer",fontFamily:"'Cairo',sans-serif",minHeight:'44px'}}>إعادة المحاولة</button></div>)
-          :displayed.length===0?(<div style={{textAlign:"center",marginTop:40,color:"#8899bb"}}><p style={{fontSize:48,marginBottom:16}}>📝</p><p>{debouncedQuery?'لا توجد نتائج':'لا توجد مقالات بعد.'}</p></div>)
-          :(<div>
+        <div style={{padding:"100px 24px 60px",maxWidth:900,margin:"0 auto",fontFamily:'Cairo'}}>
+          <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:"12px 24px",borderRadius:14,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-secondary)',cursor:'pointer',fontSize:14,fontWeight:'bold',display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
+          <h2 style={{fontSize:"clamp(1.5rem,4vw,2rem)",fontWeight:900,marginBottom:30,textAlign:"center",color:'var(--accent-gold)'}}>{title}</h2>
+          <input type="text" className="search-input" placeholder={t('search')} value={searchQuery} onChange={e=>{setSearchQuery(e.target.value);setVisibleCount(ITEMS_PER_PAGE);}} style={{width:'100%',padding:'14px 20px',borderRadius:14,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-primary)',fontFamily:'Cairo',fontSize:14,marginBottom:24,outline:'none'}} />
+          
+          {loading ? <div style={{display:'flex',flexDirection:'column',gap:16}}>{[1,2,3].map(i=><div key={i} className="skeleton" style={{height:100,width:'100%'}}></div>)}</div> :
+           error ? <div style={{textAlign:'center',color:'#ff6b6b'}}><p>{error}</p><button onClick={()=>window.location.reload()} className="glass-card" style={{marginTop:20,padding:'10px 24px',borderRadius:12,color:'#ff6b6b',cursor:'pointer'}}>{lang==='ar'?'إعادة المحاولة':'Retry'}</button></div> :
+           displayed.length===0 ? <div style={{textAlign:'center',color:'var(--text-secondary)',padding:40}}><p style={{fontSize:48}}>📝</p><p>{t('noArticles')}</p></div> :
+           (<div>
               {displayed.map((article,idx)=>{
-                const isOpen=openIndex===idx;
-                const rawHTML=parseMarkdownToHTML(article.content||article.body||'');
-                const cleanHTML=typeof DOMPurify!=='undefined'?DOMPurify.sanitize(rawHTML,{ALLOWED_TAGS:['h1','h2','h3','h4','p','br','strong','em','del','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'],ALLOWED_ATTR:['href','target','rel','src','alt','loading','style','class']}):rawHTML;
-                const commentId=article.id||article.title?.replace(/\s+/g,'-').substring(0,50)||String(idx);
+                const isOpen = openIndex === idx;
+                const rawHTML = parseMarkdownToHTML(article.content||'');
+                const cleanHTML = typeof DOMPurify!=='undefined'?DOMPurify.sanitize(rawHTML,{ALLOWED_TAGS:['h1','h2','h3','h4','p','br','strong','em','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'],ALLOWED_ATTR:['href','target','rel','src','alt','loading','style','class']}):rawHTML;
                 return(
-                  <div key={article.id||idx} id={`article-${idx}`} className={`accordion-item ${lastOpenedIndex===idx?'last-opened':''}`}>
-                    <div className="accordion-header" onClick={()=>handleToggle(idx)} role="button" tabIndex={0} aria-expanded={isOpen}>
-                      <div style={{flex:1}}><h3 className="accordion-title">{article.title||'بدون عنوان'}</h3><div className="accordion-meta">{article.date&&<span className="accordion-date">📅 {article.date}</span>}</div></div>
-                      <button className={`accordion-toggle-btn ${isOpen?'close':'read'}`} onClick={e=>{e.stopPropagation();handleToggle(idx);}}>{isOpen?'✕ إغلاق':'📖 اقرأ'}</button>
+                  <div key={article.id||idx} id={`article-${idx}`} className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`} style={{marginBottom:16,borderRadius:14,overflow:'hidden',background:'var(--glass-bg)',border:'1px solid var(--glass-border)'}}>
+                    <div onClick={()=>handleToggle(idx)} style={{padding:18,display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}}>
+                      <div style={{flex:1}}><h3 style={{fontSize:17,fontWeight:700,color:'var(--text-primary)'}}>{article.title||'بدون عنوان'}</h3><span style={{fontSize:11,color:'var(--text-secondary)',marginTop:4,display:'block'}}>{article.date}</span></div>
+                      <button style={{padding:'8px 16px',borderRadius:10,background:isOpen?'rgba(255,255,255,0.05)':'rgba(234,179,8,0.15)',color:isOpen?'var(--text-secondary)':'var(--accent-gold)',border:'none',cursor:'pointer',fontWeight:700,fontSize:12,fontFamily:'Cairo',whiteSpace:'nowrap'}}>{isOpen?t('close'):t('read')}</button>
                     </div>
-                    <div key={isOpen ? article.id : 'closed'} className={`accordion-content ${isOpen?'open':''}`}>
-                      {article.image&&<img src={article.image} alt={article.title} style={{width:"100%",borderRadius:12,marginBottom:20,boxShadow:"0 10px 30px rgba(0,0,0,0.5)"}} loading="lazy" onError={e=>e.target.style.display='none'} />}
-                      <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}} />
-                      <div className="author-meta">✍️ {article.author||'بسام إبراهيم أحمد'} · 📅 {article.date} · ⏱️ {readTime(article.content)} دقائق قراءة</div>
-                      {isOpen&&<ShareButtons article={article} />}
-                      {isOpen&&<CommentsSection articleId={commentId} />}
-                      {isOpen&&(<div className="related-articles"><h4 style={{fontSize:14,color:'#EAB308',marginBottom:12}}>📌 مقالات ذات صلة</h4><div style={{display:'flex',flexWrap:'wrap',gap:8}}>{articles.filter(a=>a.id!==article.id&&(a.button===article.button||a.tags?.some(t=>article.tags?.includes(t)))).slice(0,3).map(r=>(<button key={r.id} className="related-btn" onClick={()=>{const i=articles.findIndex(x=>x.id===r.id);if(i!==-1){setOpenIndex(i);setLastOpenedIndex(i);window.scrollTo({top:0,behavior:'smooth'});} }}>{r.title?.substring(0,25)}...</button>))}</div></div>)}
-                    </div>
+                    {isOpen && (
+                      <div style={{padding:'0 18px 24px'}}>
+                        {article.image && <img src={article.image} alt={article.title} style={{width:'100%',borderRadius:12,marginBottom:20}} loading="lazy" onError={e=>e.target.style.display='none'} />}
+                        <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}} style={{lineHeight:1.9,fontSize:15,color:'var(--text-secondary)'}} />
+                        <div className="author-meta">{t('author')} · {article.date} · ⏱️ {Math.ceil((article.content||'').split(' ').length/200)} {t('minRead')}</div>
+                        <ShareButtons article={article} lang={lang} />
+                        <CommentsSection articleId={article.id || article.title?.replace(/\s+/g, '-').substring(0, 50) || String(idx)} />
+                      </div>
+                    )}
                   </div>
                 );
               })}
-              {/* ✅ زر عرض المزيد */}
               {hasMore && (
-                <div style={{ textAlign: 'center', marginTop: 24, marginBottom: 40 }}>
-                  <button 
-                    onClick={handleShowMore}
-                    style={{
-                      padding: '12px 32px',
-                      borderRadius: 12,
-                      background: 'linear-gradient(135deg, rgba(59,158,255,0.2), rgba(96,207,255,0.1))',
-                      border: '1px solid rgba(59,158,255,0.4)',
-                      color: '#3B9EFF',
-                      fontSize: 14,
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      fontFamily: "'Cairo', sans-serif",
-                      minHeight: 44,
-                      transition: 'all 0.3s ease'
-                    }}
-                    onMouseEnter={e => {
-                      e.target.style.background = 'linear-gradient(135deg, rgba(59,158,255,0.35), rgba(96,207,255,0.2))';
-                      e.target.style.boxShadow = '0 8px 25px rgba(59,158,255,0.3)';
-                    }}
-                    onMouseLeave={e => {
-                      e.target.style.background = 'linear-gradient(135deg, rgba(59,158,255,0.2), rgba(96,207,255,0.1))';
-                      e.target.style.boxShadow = 'none';
-                    }}
-                  >
-                    📄 عرض المزيد ({searched.length - visibleCount} مقال متبقي)
+                <div style={{textAlign:'center',marginTop:24}}>
+                  <button onClick={()=>setVisibleCount(p=>p+ITEMS_PER_PAGE)} className="glass-card" style={{padding:'14px 36px',borderRadius:14,background:'rgba(59,158,255,0.1)',border:'1px solid rgba(59,158,255,0.3)',color:'var(--accent-blue)',fontWeight:700,fontSize:15,cursor:'pointer',fontFamily:'Cairo',transition:'all 0.3s'}}>
+                    {t('loadMore')} ({searched.length - visibleCount} {t('remaining')})
                   </button>
                 </div>
               )}
@@ -493,8 +359,9 @@
       );
     }
 
-    function Card({ card, onTagClick, onLibraryClick }) {
+    function Card({ card, onTagClick, onLibraryClick, lang }) {
       const [hover, setHover] = useState(false);
+      const t = (k) => I18N[lang]?.[k] || k;
       const themes = {
         engineering:{ color:'#3B9EFF', glow:'rgba(59,158,255,0.18)',  border:'rgba(59,158,255,0.45)',  tagBg:'rgba(59,158,255,0.15)',  tagBorder:'rgba(59,158,255,0.4)' },
         political:  { color:'#60CFFF', glow:'rgba(96,207,255,0.15)',  border:'rgba(96,207,255,0.4)',   tagBg:'rgba(96,207,255,0.15)',  tagBorder:'rgba(96,207,255,0.4)' },
@@ -502,213 +369,128 @@
         academy:    { color:'#A78BFA', glow:'rgba(167,139,250,0.15)', border:'rgba(167,139,250,0.4)', tagBg:'rgba(167,139,250,0.15)', tagBorder:'rgba(167,139,250,0.4)' },
         lifestyle:  { color:'#34D399', glow:'rgba(52,211,153,0.15)',  border:'rgba(52,211,153,0.4)',  tagBg:'rgba(52,211,153,0.15)',  tagBorder:'rgba(52,211,153,0.4)' },
       };
-      const t = themes[card.id] || themes.engineering;
+      const th = themes[card.id] || themes.engineering;
       return (
-        <div id={card.id} className={`card-wrap card-${card.id}`}
+        <div id={card.id} className={`glass-card card-${card.id}`}
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
-          style={{background:hover?`linear-gradient(145deg,${t.glow},rgba(255,255,255,0.02))`:'rgba(255,255,255,0.02)',border:'1px solid',borderColor:hover?t.border:'rgba(255,255,255,0.06)',borderRadius:20,padding:32,cursor:'pointer',scrollMarginTop:100}}>
-          <div className="card-icon-wrap" style={{width:56,height:56,borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',background:'rgba(255,255,255,0.03)',marginBottom:24,border:'1px solid rgba(255,255,255,0.05)'}}>{card.icon}</div>
-          <h3 style={{fontSize:18,fontWeight:700,color:'#fff',marginBottom:8}}>{card.title}</h3>
-          <p style={{fontSize:12,fontWeight:600,color:t.color,marginBottom:14}}>{card.subtitle}</p>
-          <p style={{fontSize:13,color:'#8899bb',lineHeight:1.7,marginBottom:24}}>{card.desc}</p>
+          style={{padding:32,borderRadius:22,cursor:'pointer',background: hover ? `linear-gradient(145deg,${th.glow},rgba(255,255,255,0.02))` : 'var(--glass-bg)', border: hover ? `1px solid ${th.border}` : '1px solid var(--glass-border)' }}>
+          <div className="card-icon-wrap" style={{width:56,height:56,borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',background:'var(--glass-bg)',marginBottom:24,border:'1px solid var(--glass-border)',fontSize:24,color:th.color}}>{card.icon}</div>
+          <h3 style={{fontSize:19,fontWeight:700,marginBottom:8,color:'var(--text-primary)'}}>{card.title}</h3>
+          <p style={{fontSize:12,fontWeight:600,color:th.color,marginBottom:14}}>{card.subtitle}</p>
+          <p style={{fontSize:13,color:'var(--text-secondary)',lineHeight:1.7,marginBottom:24}}>{card.desc}</p>
           <div style={{display:'flex',flexWrap:'wrap',gap:8,marginBottom:24}}>
             {card.tags.map(tag=>(
               <button key={tag} onClick={e=>{e.stopPropagation();onTagClick(tag,card.id);}} className="innovation-tag-btn"
-                style={{fontSize:10,padding:'4px 10px',borderRadius:6,background:t.tagBg,color:t.color,border:`1px solid ${t.tagBorder}`,cursor:'pointer',fontWeight:700,fontFamily:"'Cairo',sans-serif",minHeight:'32px'}}>{tag}</button>
+                style={{fontSize:10,padding:'6px 12px',borderRadius:8,background:th.tagBg,color:th.color,border:`1px solid ${th.tagBorder}`,cursor:'pointer',fontWeight:700,fontFamily:"'Cairo',sans-serif",transition:'all 0.3s'}}>{tag}</button>
             ))}
           </div>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:8}}>
-            <div style={{display:'flex',alignItems:'center',gap:8,fontSize:12,fontWeight:700,color:hover?t.color:'#445566',transition:'color 0.3s ease'}}>
-              <span>اكتشف المزيد</span>
-              <span style={{transform:hover?'translateX(-4px)':'none',display:'inline-block',transition:'transform 0.3s ease'}}>←</span>
-            </div>
-            {card.academic&&<a href={card.academic.url} target="_blank" rel="noopener noreferrer" className="academic-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>{card.academic.label}</a>}
-          </div>
-          {card.librarySlug&&(
-            <button onClick={e=>{e.stopPropagation();onLibraryClick(card.librarySlug,card.id);}}
-              style={{marginTop:16,fontSize:10,padding:'6px 10px',borderRadius:6,background:hover?'rgba(167,139,250,0.25)':'rgba(167,139,250,0.15)',color:'#A78BFA',border:`1px solid ${hover?'rgba(167,139,250,0.6)':'rgba(167,139,250,0.4)'}`,cursor:'pointer',fontWeight:700,fontFamily:"'Cairo',sans-serif",minHeight:'32px',width:'100%',transition:'all 0.3s ease',boxShadow:hover?'0 4px 15px rgba(167,139,250,0.2)':'none'}}>📚 المكتبة</button>
-          )}
-        </div>
-      );
-    }
-
-    function SocialIcon({ social }) {
-      const [hover, setHover] = useState(false);
-      return (
-        <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn"
-          onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
-          style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,background:hover?'rgba(255,255,255,0.05)':'rgba(255,255,255,0.02)',border:'1px solid',borderColor:hover?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.05)',color:hover?social.color:'#8899bb',textDecoration:'none',transform:hover?'translateY(-3px)':'none'}}>
-          {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
-        </a>
-      );
-    }
-
-    function BackToTop() {
-      const [visible, setVisible] = useState(false);
-      useEffect(()=>{const h=()=>setVisible(window.scrollY>600);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
-      if(!visible)return null;
-      return <button onClick={()=>window.scrollTo({top:0,behavior:"smooth"})} className="back-to-top" style={{position:"fixed",bottom:24,left:24,zIndex:99,width:44,height:44,borderRadius:"50%",background:"rgba(59,158,255,0.15)",border:"1px solid rgba(59,158,255,0.4)",color:"#3B9EFF",fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>↑</button>;
-    }
-
-    function WelcomeInstallPopup() {
-      const [show,setShow]=useState(false);const [deferredPrompt,setDeferredPrompt]=useState(null);
-      useEffect(()=>{const h=e=>{e.preventDefault();setDeferredPrompt(e);};window.addEventListener("beforeinstallprompt",h);const wasDismissed=localStorage.getItem("pwa_welcome_dismissed");if(!wasDismissed){const t=setTimeout(()=>setShow(true),5000);return()=>{clearTimeout(t);window.removeEventListener("beforeinstallprompt",h);};}return()=>window.removeEventListener("beforeinstallprompt",h);},[]);
-      const handleInstall=useCallback(async()=>{if(deferredPrompt){deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;setDeferredPrompt(null);setShow(false);if(outcome==="accepted")localStorage.removeItem("pwa_welcome_dismissed");else localStorage.setItem("pwa_welcome_dismissed","true");}else{alert("للتثبيت:\n• أندرويد: ⁝ ← 'إضافة إلى الشاشة الرئيسية'\n• آيفون: ↑ ← 'إضافة إلى الشاشة الرئيسية'");}},[deferredPrompt]);
-      const handleDismiss=useCallback(()=>{setShow(false);localStorage.setItem("pwa_welcome_dismissed","true");},[]);
-      if(!show)return null;
-      return(
-        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:999,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={handleDismiss}>
-          <div style={{background:"rgba(8,12,18,0.98)",border:"1px solid rgba(59,158,255,0.25)",borderRadius:24,padding:"36px 28px 28px",textAlign:"center",maxWidth:400,width:"100%",boxShadow:"0 25px 60px rgba(0,0,0,0.7)"}} onClick={e=>e.stopPropagation()}>
-            <div style={{width:68,height:68,borderRadius:18,background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 18px",fontSize:30,fontWeight:900,color:"#080c12"}}>B.I</div>
-            <h3 style={{fontSize:20,fontWeight:700,color:"#fff",marginBottom:12}}>مرحباً بك في منصتي الرقمية</h3>
-            <p style={{fontSize:13,color:"#8899bb",lineHeight:1.9,marginBottom:24}}>هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.</p>
-            <button onClick={handleInstall} className="install-btn">📲 ثبّت التطبيق للوصول السريع</button>
-            <button onClick={handleDismiss} className="dismiss-btn">استمر بالتصفح</button>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+            <span style={{fontSize:12,fontWeight:700,color:'var(--text-secondary)'}}>{t('explore')} ←</span>
+            {card.librarySlug&&(
+              <button onClick={e=>{e.stopPropagation();onLibraryClick(card.librarySlug,card.id);}} className="lib-btn" style={{padding:'8px 18px',borderRadius:10,background:`${th.color}20`,color:th.color,border:`1px solid ${th.color}40`,cursor:'pointer',fontWeight:700,fontSize:11,fontFamily:"'Cairo',sans-serif"}}>{t('library')}</button>
+            )}
           </div>
         </div>
       );
     }
 
     function App() {
-      const [scrolled, setScrolled] = useState(false);
+      const [lang, setLang] = useState('ar');
+      const [theme, setTheme] = useState('dark');
       const [activeSection, setActiveSection] = useState(null);
       const [activeCategory, setActiveCategory] = useState(null);
-
-      // ✅ الحل: متغير واحد يحفظ id التبويب الذي أتى منه المستخدم
       const [originTabId, setOriginTabId] = useState(null);
+      const t = (k) => I18N[lang]?.[k] || k;
 
-      useEffect(()=>{const h=()=>setScrolled(window.scrollY>50);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
-      const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
+      useEffect(() => { document.body.className = theme; localStorage.setItem('theme', theme); }, [theme]);
 
-      const handleTagClick = (tag, tabId) => {
-        setOriginTabId(tabId);        // ← يُحفظ id التبويب فوراً من Card
-        setActiveCategory(tag);
-        setActiveSection('articles');
-        window.scrollTo({top:0,behavior:"smooth"});
-      };
-
-      const handleLibraryClick = (slug, tabId) => {
-        setOriginTabId(tabId);        // ← نفس المنطق
-        setActiveCategory(`library_${slug}`);
-        setActiveSection('articles');
-        window.scrollTo({top:0,behavior:"smooth"});
-      };
-
-      useEffect(()=>{
-        const c=document.querySelector('link[rel="canonical"]')||document.createElement('link');
-        c.setAttribute('rel','canonical');c.setAttribute('href',`https://bassamibrahim249.github.io/bassam-portfolio/?tab=${activeCategory?.replace('library_','')||''}`);
-        if(!c.parentNode)document.head.appendChild(c);return()=>{if(c.parentNode)c.parentNode.removeChild(c);};
-      },[activeCategory]);
+      const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
+      const handleTagClick = (tag, tabId) => { setOriginTabId(tabId); setActiveCategory(tag); setActiveSection('articles'); window.scrollTo({top:0,behavior:"smooth"}); };
+      const handleLibraryClick = (slug, tabId) => { setOriginTabId(tabId); setActiveCategory(`library_${slug}`); setActiveSection('articles'); window.scrollTo({top:0,behavior:"smooth"}); };
 
       if (activeSection === 'articles') {
-        const handleBack = () => {
-          setActiveSection(null);
-          setActiveCategory(null);
-          // ✅ يعود للتبويب الصحيح دائماً
-          setTimeout(() => {
-            if (originTabId) {
-              document.getElementById(originTabId)?.scrollIntoView({behavior:'smooth',block:'start'});
-            }
-          }, 100);
-        };
-        if(activeCategory?.startsWith('library_')) return <LibrarySection category={activeCategory} onBack={handleBack} />;
-        return <ArticleListSection title={activeCategory||"المقالات"} category={activeCategory} onBack={handleBack} />;
+        const handleBack = () => { setActiveSection(null); setActiveCategory(null); setTimeout(() => { if(originTabId) document.getElementById(originTabId)?.scrollIntoView({behavior:'smooth'}); }, 100); };
+        if(activeCategory?.startsWith('library_')) return <LibrarySection category={activeCategory} onBack={handleBack} lang={lang} />;
+        return <ArticleListSection title={activeCategory||t('articles')} category={activeCategory} onBack={handleBack} lang={lang} />;
       }
 
       const CARDS = [
-        {id:"engineering",title:"المنصة الهندسية",subtitle:"علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل",desc:"بوابة إلى عالم المواد الإنشائية المتقدمة.",tags:["علوم المواد","ابتكار إنشائي","مختبر هندسي"],accent:"#3B9EFF",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><polygon points="20,4 36,30 4,30" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/><polygon points="20,10 30,26 10,26" stroke="#3B9EFF" strokeWidth="0.8" fill="none" opacity="0.4"/><line x1="20" y1="4" x2="20" y2="30" stroke="#3B9EFF" strokeWidth="0.5" opacity="0.3"/></svg>),academic:{label:"المختبر المرئي",url:"https://youtube.com/@bassamibrahimeng"},librarySlug:"engineering"},
-        {id:"political",title:"الأرشيف السياسي",subtitle:"قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية",desc:"بوابة إلى الذاكرة السياسية السودانية.",tags:["تاريخ السودان","تحليل استراتيجي","رؤى فكرية"],accent:"#60CFFF",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><rect x="6" y="6" width="28" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/><line x1="6" y1="16" x2="34" y2="16" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/><line x1="16" y1="6" x2="16" y2="34" stroke="#60CFFF" strokeWidth="0.6" opacity="0.5"/><circle cx="20" cy="20" r="4" stroke="#60CFFF" strokeWidth="1.2" fill="none"/></svg>),librarySlug:"political"},
-        {id:"nubian",title:"نوبيان (الحضارة النوبية)",subtitle:"توثيق الإرث، التاريخ، والعمارة النوبية العريقة",desc:"نافذة متخصصة في الحضارة النوبية.",tags:["تاريخ","آثار","هوية"],accent:"#EAB308",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 5L35 32H5L20 5Z" stroke="#EAB308" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/><path d="M13 18H27M10 25H30" stroke="#EAB308" strokeWidth="1.5"/></svg>),librarySlug:"nubian"},
-        {id:"academy",title:"أكاديمية التطوير والمنظمات",subtitle:"كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي",desc:"بوابة إلى التميّز المؤسسي.",tags:["كتابة مشاريع","قيادة","تدريب تنموي"],accent:"#A78BFA",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><circle cx="20" cy="20" r="14" stroke="#A78BFA" strokeWidth="1.5" fill="none"/><circle cx="20" cy="20" r="8" stroke="#A78BFA" strokeWidth="0.8" fill="none" opacity="0.5"/></svg>),librarySlug:"academy"},
-        {id:"lifestyle",title:"نمط الحياة والصحة",subtitle:"الصحة الشاملة، التغذية، والتميز البدني والذهني",desc:"بوابة إلى العافية الكاملة.",tags:["صحة شاملة","تغذية علمية","تميز بدني"],accent:"#34D399",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 8 C20 8 8 16 8 24 C8 30 13.5 34 20 34 C26.5 34 32 30 32 24 C32 16 20 8 20 8Z" stroke="#34D399" strokeWidth="1.5" fill="none"/><path d="M14 22 C16 18 20 20 20 20 C20 20 24 18 26 22" stroke="#34D399" strokeWidth="1" fill="none" opacity="0.6"/></svg>),librarySlug:"lifestyle"},
-      ];
-
-      const STATS=[
-        {label:"خبرة عملية",sublabel:"متجددة باستمرار",color:"#3B9EFF",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><circle cx="20" cy="20" r="14" stroke="#3B9EFF" strokeWidth="1.5" fill="none"/><path d="M20 12V20L26 26" stroke="#3B9EFF" strokeWidth="1.5" strokeLinecap="round"/></svg>)},
-        {label:"بحوث ودراسات",sublabel:"منشورة ومحكّمة",color:"#60CFFF",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><rect x="8" y="6" width="24" height="28" rx="2" stroke="#60CFFF" strokeWidth="1.5" fill="none"/><line x1="14" y1="14" x2="26" y2="14" stroke="#60CFFF" strokeWidth="1"/></svg>)},
-        {label:"تحليل استراتيجي",sublabel:"مستمر ومتواصل",color:"#A78BFA",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:36,height:36}}><polyline points="8,30 16,20 22,24 32,10" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>)},
-      ];
-
-      const SOCIALS=[
-        {name:"LinkedIn",href:"https://www.linkedin.com/in/bassam-ibrahim-785a01406",color:"#0A66C2",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>)},
-        {name:"Facebook",href:"https://www.facebook.com/bassam.ibrahim.ahmed",color:"#1877F2",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>)},
-        {name:"X",href:"https://x.com/BassamIbrahimSD",color:"#ffffff",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:18,height:18}}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>)},
-        {name:"YouTube",href:"https://youtube.com/@bassamibrahimeng",color:"#FF0000",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>)},
-        {name:"Instagram",href:"https://www.instagram.com/bassam.ibrahim.ahmed",color:"#E4405F",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948-.2-4.358-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>)},
-        {name:"WhatsApp",href:`https://wa.me/${CONFIG.contact.whatsapp}`,color:"#25D366",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>)},
-        {name:"TikTok",href:"https://www.tiktok.com/@.bassam.ibrahim",color:"#ffffff",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/></svg>)},
+        {id:"engineering",title:"المنصة الهندسية",subtitle:"علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل",desc:"بوابة إلى عالم المواد الإنشائية المتقدمة.",tags:["علوم المواد","ابتكار إنشائي","مختبر هندسي"],librarySlug:"engineering",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><polygon points="20,4 36,30 4,30" stroke="currentColor" strokeWidth="1.5" fill="none"/></svg>)},
+        {id:"political",title:"الأرشيف السياسي",subtitle:"قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية",desc:"بوابة إلى الذاكرة السياسية السودانية.",tags:["تاريخ السودان","تحليل استراتيجي","رؤى فكرية"],librarySlug:"political",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><rect x="6" y="6" width="28" height="28" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none"/></svg>)},
+        {id:"nubian",title:"نوبيان (الحضارة النوبية)",subtitle:"توثيق الإرث، التاريخ، والعمارة النوبية العريقة",desc:"نافذة متخصصة في الحضارة النوبية.",tags:["تاريخ","آثار","هوية"],librarySlug:"nubian",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 5L35 32H5L20 5Z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>)},
+        {id:"academy",title:"أكاديمية التطوير والمنظمات",subtitle:"كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي",desc:"بوابة إلى التميّز المؤسسي.",tags:["كتابة مشاريع","قيادة","تدريب تنموي"],librarySlug:"academy",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1.5" fill="none"/></svg>)},
+        {id:"lifestyle",title:"نمط الحياة والصحة",subtitle:"الصحة الشاملة، التغذية، والتميز البدني والذهني",desc:"بوابة إلى العافية الكاملة.",tags:["صحة شاملة","تغذية علمية","تميز بدني"],librarySlug:"lifestyle",icon:(<svg viewBox="0 0 40 40" fill="none" style={{width:40,height:40}}><path d="M20 8 C20 8 8 16 8 24 C8 30 13.5 34 20 34 C26.5 34 32 30 32 24 C32 16 20 8 20 8Z" stroke="currentColor" strokeWidth="1.5" fill="none"/></svg>)}
       ];
 
       return (
         <div style={{position:"relative"}}>
-          <div style={{position:"fixed",top:"-10%",left:"-10%",width:"50%",height:"50%",background:"radial-gradient(circle,rgba(59,158,255,0.08) 0%,transparent 70%)",pointerEvents:"none",zIndex:0}} />
-          <div style={{position:"fixed",bottom:"-10%",right:"-10%",width:"50%",height:"50%",background:"radial-gradient(circle,rgba(96,207,255,0.05) 0%,transparent 70%)",pointerEvents:"none",zIndex:0}} />
-
-          <header className="navbar" style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:scrolled?"12px 24px":"24px 24px",background:scrolled?"rgba(8,12,18,0.85)":"transparent",backdropFilter:scrolled?"blur(12px)":"none",borderBottom:scrolled?"1px solid rgba(59,158,255,0.1)":"1px solid transparent"}}>
+          <header className="navbar glass-card" style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:"14px 28px",background:'rgba(8,12,18,0.8)',backdropFilter:'blur(20px)',borderBottom:'1px solid var(--glass-border)'}}>
             <div style={{maxWidth:1200,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <div style={{width:36,height:36,borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",fontSize:14,fontWeight:900,color:"#080c12"}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:18}}>Bassam<span style={{color:"#3B9EFF"}}>Ibrahim</span></span>
+                <div style={{width:38,height:38,borderRadius:12,background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,fontWeight:900,color:"#080c12"}}>B.I</div>
+                <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)'}}>Bassam<span style={{color:'var(--accent-blue)'}}>Ibrahim</span></span>
               </div>
-              <nav className="hide-mobile" style={{display:"flex",gap:28}}>
-                {["هندسة","سياسة","نوبيان","أكاديمية","نمط الحياة"].map(item=>(<a key={item} href={`#${item}`} onClick={e=>{e.preventDefault();scrollTo(item);}} style={{fontSize:12,color:"#8899bb",textDecoration:"none",fontWeight:600}}>{item}</a>))}
-              </nav>
-              <button className="nav-cta" onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,"_blank")} style={{fontSize:12,padding:"8px 18px",borderRadius:8,fontWeight:700,fontFamily:"inherit"}}>تواصل معي</button>
+              <div style={{display:'flex',alignItems:'center',gap:16}}>
+                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" style={{padding:'6px 14px',borderRadius:8,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>{lang==='ar'?'English':'عربي'}</button>
+                <button onClick={()=>setTheme(t=>t==='dark'?'light':'dark')} className="glass-card" style={{width:38,height:38,borderRadius:10,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-primary)',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>{theme==='dark'?'☀️':'🌙'}</button>
+                <button className="nav-cta" onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,"_blank")} style={{fontSize:12,padding:"10px 20px",borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>تواصل معي</button>
+              </div>
             </div>
           </header>
 
-          <section style={{position:"relative",minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"80px 24px 40px",textAlign:"center",zIndex:1}}>
-            <div className="anim-fade-up delay-1" style={{display:"flex",alignItems:"center",gap:8,marginBottom:24}}>
-              <div className="pulse-dot" style={{width:6,height:6,borderRadius:"50%",background:"#3B9EFF"}} />
-              <span style={{fontSize:11,color:"#3B9EFF",letterSpacing:"0.3em",fontWeight:600}}>مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي</span>
-              <div className="pulse-dot" style={{width:6,height:6,borderRadius:"50%",background:"#3B9EFF"}} />
+          <section style={{padding:"140px 24px 60px",textAlign:"center",maxWidth:900,margin:"0 auto"}}>
+            <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
+            <h1 className="anim-fade-up delay-2" style={{fontSize:"clamp(2.8rem,8vw,5rem)",fontWeight:900,marginBottom:16,lineHeight:1.1,color:'var(--text-primary)'}}><span>Bassam</span><span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></h1>
+            <p className="anim-fade-up delay-3" style={{color:'var(--text-secondary)',maxWidth:650,margin:"0 auto 40px",fontSize:"1.05rem",lineHeight:1.8}}>{t('heroDesc')}</p>
+            <div className="anim-fade-up delay-4" style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginBottom:50}}>
+              <button onClick={()=>scrollTo("vision-section")} style={{padding:"14px 32px",borderRadius:14,background:"linear-gradient(135deg,#3B9EFF,#1a7fe0)",color:"#fff",fontWeight:700,fontSize:14,border:"none",cursor:"pointer",fontFamily:"Cairo",boxShadow:"0 0 30px rgba(59,158,255,0.4)"}}>{lang==='ar'?'تعرّف عليّ':'About Me'}</button>
+              <button onClick={()=>scrollTo("cards-section")} className="glass-card" style={{padding:"14px 32px",borderRadius:14,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-secondary)',fontWeight:700,fontSize:14,cursor:"pointer",fontFamily:"Cairo"}}>{lang==='ar'?'استكشف المحتوى':'Explore Content'}</button>
             </div>
-            <h1 className="anim-fade-up delay-2" style={{fontSize:"clamp(2.4rem,7vw,4.8rem)",fontWeight:900,lineHeight:1.15,marginBottom:20}}><span>Bassam</span><span className="grad-text">Ibrahim</span></h1>
-            <p className="anim-fade-up delay-3" style={{color:"#8899bb",maxWidth:650,lineHeight:1.9,fontSize:"clamp(0.9rem,2vw,1rem)",marginBottom:36}}>مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.</p>
-            <div className="anim-fade-up delay-4" style={{display:"flex",gap:16,flexWrap:"wrap",justifyContent:"center",marginBottom:60}}>
-              <button className="btn-primary" onClick={()=>scrollTo("vision-section")} style={{padding:"12px 32px",borderRadius:12,background:"linear-gradient(135deg,#3B9EFF,#1a7fe0)",boxShadow:"0 0 30px rgba(59,158,255,0.4)",color:"#fff",fontWeight:700,fontSize:13,border:"none",cursor:"pointer",fontFamily:"inherit"}}>تعرّف عليّ</button>
-              <button className="btn-outline" onClick={()=>scrollTo("cards-section")} style={{padding:"12px 32px",borderRadius:12,background:"transparent",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>استكشف المحتوى</button>
-            </div>
-            <div className="anim-fade-up delay-5" style={{marginTop:12,display:"flex",flexWrap:"wrap",gap:"clamp(24px,5vw,48px)",justifyContent:"center"}}>
-              {STATS.map(s=>(<div key={s.label} style={{textAlign:"center"}}><div style={{marginBottom:8}}><div style={{width:56,height:56,borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",background:`${s.color}10`,border:`1px solid ${s.color}25`}}>{s.icon}</div></div><div style={{fontSize:14,color:"#8899bb",fontWeight:700,marginBottom:4}}>{s.label}</div><div style={{fontSize:10,color:s.color,fontWeight:600}}>{s.sublabel}</div></div>))}
+            <div className="anim-fade-up delay-5" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',gap:20,justifyContent:'center'}}>
+              {[{label:"خبرة عملية",sublabel:"متجددة باستمرار",color:"#3B9EFF"},{label:"بحوث ودراسات",sublabel:"منشورة ومحكّمة",color:"#60CFFF"},{label:"تحليل استراتيجي",sublabel:"مستمر ومتواصل",color:"#A78BFA"}].map(s=>(
+                <div key={s.label} className="glass-card" style={{padding:24,borderRadius:18,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',textAlign:'center',transition:'all 0.3s'}}>
+                  <div style={{width:44,height:44,borderRadius:14,background:`${s.color}15`,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 12px',fontSize:22,color:s.color}}>✦</div>
+                  <div style={{fontSize:15,fontWeight:700,marginBottom:4,color:'var(--text-primary)'}}>{s.label}</div>
+                  <div style={{fontSize:11,color:s.color,fontWeight:600}}>{s.sublabel}</div>
+                </div>
+              ))}
             </div>
           </section>
 
-          <section id="cards-section" style={{padding:"80px 24px",zIndex:1}}>
+          <section id="cards-section" style={{padding:"60px 24px 80px"}}>
             <div style={{maxWidth:1100,margin:"0 auto"}}>
               <div style={{textAlign:"center",marginBottom:56}}>
-                <p style={{fontSize:12,color:"#A78BFA",letterSpacing:"0.2em",fontWeight:600,marginBottom:8}}>📂 تصفح المحتوى</p>
-                <h2 style={{fontSize:"clamp(1.5rem,4vw,2rem)",fontWeight:900}}>خمسة مجالات. رؤية واحدة.</h2>
+                <div className="section-title">{t('browse')}</div>
+                <h2 style={{fontSize:"clamp(1.5rem,4vw,2rem)",fontWeight:900,marginTop:6,color:'var(--text-primary)'}}>{t('mainTitle')}</h2>
               </div>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:22}}>
-                {CARDS.map(card=><Card key={card.id} card={card} onTagClick={handleTagClick} onLibraryClick={handleLibraryClick} />)}
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(300px, 1fr))",gap:24}}>
+                {CARDS.map(card=><Card key={card.id} card={card} onTagClick={handleTagClick} onLibraryClick={handleLibraryClick} lang={lang} />)}
               </div>
             </div>
           </section>
 
-          <section id="vision-section" style={{padding:"60px 24px",zIndex:1}}>
-            <div className="vision-card" style={{maxWidth:860,margin:"0 auto",borderRadius:20,padding:"48px 40px",textAlign:"center",background:"linear-gradient(135deg,rgba(59,158,255,0.08),rgba(96,207,255,0.04))",border:"1px solid rgba(59,158,255,0.15)"}}>
+          <section id="vision-section" style={{padding:"60px 24px 80px"}}>
+            <div className="glass-card" style={{maxWidth:860,margin:"0 auto",borderRadius:24,padding:"52px 44px",textAlign:"center",background:'var(--glass-bg)',border:'1px solid var(--glass-border)',boxShadow:'0 0 40px rgba(59,158,255,0.06)',transition:'all 0.4s'}}>
               <div style={{fontSize:44,marginBottom:14}}>⬡</div>
-              <h3 style={{fontSize:22,fontWeight:700,marginBottom:14}}>الرؤية والرسالة</h3>
-              <p style={{color:"#8899bb",lineHeight:1.9,maxWidth:580,margin:"0 auto",fontSize:14}}>أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.</p>
+              <h3 style={{fontSize:24,fontWeight:700,marginBottom:14,color:'var(--text-primary)'}}>{t('visionTitle')}</h3>
+              <p style={{color:'var(--text-secondary)',lineHeight:1.9,fontSize:14}}>{t('visionText')}</p>
             </div>
           </section>
 
-          <footer style={{padding:"48px 24px 32px",borderTop:"1px solid rgba(59,158,255,0.1)",zIndex:1}}>
-            <div style={{maxWidth:860,margin:"0 auto"}}>
-              <div style={{textAlign:"center",marginBottom:28}}>
-                <p style={{fontSize:10,letterSpacing:"0.4em",color:"#3B9EFF",marginBottom:20,fontWeight:600}}>تواصل معي</p>
-                <div style={{display:"flex",justifyContent:"center",gap:16,flexWrap:"wrap"}}>{SOCIALS.map(s=><SocialIcon key={s.name} social={s} />)}</div>
+          <footer style={{padding:"40px 24px",borderTop:'1px solid var(--glass-border)',marginTop:20}}>
+            <div style={{maxWidth:860,margin:"0 auto",textAlign:"center"}}>
+              <p style={{fontSize:13,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:24,fontWeight:700}}>{t('contact')}</p>
+              <div style={{display:'flex',justifyContent:'center',gap:20,flexWrap:'wrap',marginBottom:32}}>
+                {[['LinkedIn','https://www.linkedin.com/in/bassam-ibrahim-785a01406','#0A66C2'],['Facebook','https://www.facebook.com/bassam.ibrahim.ahmed','#1877F2'],['X','https://x.com/BassamIbrahimSD','#fff'],['YouTube','https://youtube.com/@bassamibrahimeng','#FF0000'],['Instagram','https://www.instagram.com/bassam.ibrahim.ahmed','#E4405F'],['WhatsApp',`https://wa.me/${CONFIG.contact.whatsapp}`,'#25D366'],['TikTok','https://www.tiktok.com/@.bassam.ibrahim','#fff']].map(s=>(
+                  <a key={s[0]} href={s[1]} target="_blank" className="glass-card" style={{padding:'10px 20px',borderRadius:12,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:s[2],textDecoration:'none',fontSize:13,fontWeight:700,display:'flex',alignItems:'center',gap:8,transition:'all 0.3s'}}>{s[0]}</a>
+                ))}
               </div>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",paddingTop:28,borderTop:"1px solid rgba(59,158,255,0.1)"}}>
-                <span style={{fontWeight:700,color:"#fff",fontSize:13}}>BassamIbrahim</span>
-                <p style={{fontSize:11,color:"#334455"}}>© {new Date().getFullYear()} · جميع الحقوق محفوظة</p>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:28,borderTop:'1px solid var(--glass-border)'}}>
+                <span style={{fontWeight:900,fontSize:16,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>BassamIbrahim</span>
+                <span style={{fontSize:11,color:'var(--text-secondary)'}}>© {new Date().getFullYear()} · {t('footerCopy')}</span>
               </div>
             </div>
           </footer>
-
-          <WelcomeInstallPopup />
-          <BackToTop />
         </div>
       );
     }
