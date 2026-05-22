@@ -6,21 +6,11 @@
   <title>BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني</title>
   <meta name="description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering" hreflang="ar" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering&lang=en" hreflang="en" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering" hreflang="x-default" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political" hreflang="ar" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political&lang=en" hreflang="en" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political" hreflang="x-default" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian&lang=en" hreflang="en" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="x-default" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy&lang=en" hreflang="en" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="x-default" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
-  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.34" />
+  <meta name="app-version" content="1.0.26" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -44,7 +34,7 @@
   <meta name="twitter:description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <meta name="twitter:image" content="https://bassamibrahim249.github.io/bassam-portfolio/preview.jpg" />
   <link rel="icon" type="image/jpeg" href="icon.jpg" />
-  <link rel="canonical" id="dynamicCanonical" href="https://bassamibrahim249.github.io/bassam-portfolio/" />
+  <link rel="canonical" href="https://bassamibrahim249.github.io/bassam-portfolio/" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,54 +45,51 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     :root {
-      --bg-primary: #05080f;
-      --bg-secondary: #0a0f1a;
-      --text-primary: #ffffff;
-      --text-secondary: #8899bb;
-      --border-color: rgba(255,255,255,0.06);
-      --glass-bg: rgba(255,255,255,0.03);
-      --glass-border: rgba(255,255,255,0.06);
-      --accent-blue: #3B9EFF;
-      --accent-gold: #EAB308;
-      --blur-amount: 12px;
+      --bg-primary:#05080f; --bg-secondary:#0a0f1a;
+      --text-primary:#ffffff; --text-secondary:#8899bb;
+      --border-color:rgba(255,255,255,0.06);
+      --glass-bg:rgba(255,255,255,0.03);
+      --glass-border:rgba(255,255,255,0.06);
+      --accent-blue:#3B9EFF; --accent-gold:#EAB308;
+      --blur-amount:12px;
     }
     .light {
-      --bg-primary: #e8ecf4;
-      --bg-secondary: #f0f4fa;
-      --text-primary: #1e293b;
-      --text-secondary: #475569;
-      --border-color: rgba(0,0,0,0.08);
-      --glass-bg: rgba(255,255,255,0.75);
-      --glass-border: rgba(0,0,0,0.07);
-      --blur-amount: 16px;
+      --bg-primary:#e8ecf4; --bg-secondary:#f0f4fa;
+      --text-primary:#1e293b; --text-secondary:#475569;
+      --border-color:rgba(0,0,0,0.08);
+      --glass-bg:rgba(255,255,255,0.75);
+      --glass-border:rgba(0,0,0,0.07);
+      --blur-amount:16px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg-primary);
-      font-family: 'Cairo', sans-serif;
-      color: var(--text-primary);
-      overflow-x: hidden;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-font-smoothing: antialiased;
-      transition: background 0.4s ease, color 0.3s ease;
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg-primary);font-family:'Cairo',sans-serif;color:var(--text-primary);overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;transition:background 0.4s ease,color 0.3s ease}
 
-    .glass-card { background: var(--glass-bg); backdrop-filter: blur(var(--blur-amount)); -webkit-backdrop-filter: blur(var(--blur-amount)); border: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
-    .glass-card:hover { transform: translateY(-6px); border-color: rgba(59,158,255,0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.2), 0 0 40px rgba(59,158,255,0.08); }
+    /* Glass */
+    .glass-card{background:var(--glass-bg);backdrop-filter:blur(var(--blur-amount));-webkit-backdrop-filter:blur(var(--blur-amount));border:1px solid var(--glass-border);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
+    .glass-card:hover{transform:translateY(-6px);border-color:rgba(59,158,255,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.2),0 0 40px rgba(59,158,255,0.08)}
 
-    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
-    @keyframes pulseGlow { 0%,100%{opacity:0.6}50%{opacity:1} }
-    @keyframes skeletonShimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
-    @keyframes goldenPulse { 0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)} }
-    @keyframes floatStar { 0%,100%{transform:translateY(0) scale(1);opacity:0.25}50%{transform:translateY(-28px) scale(1.6);opacity:0.8} }
-    @keyframes ringFadeIn { from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)} }
-    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
-    @keyframes heroOrb { 0%,100%{transform:scale(1);opacity:0.55}50%{transform:scale(1.15);opacity:0.9} }
-    @keyframes logoPulse { 0%,100%{box-shadow:0 0 12px rgba(59,158,255,0.45)}50%{box-shadow:0 0 32px rgba(59,158,255,0.9),0 0 55px rgba(96,207,255,0.35)} }
-    @keyframes visionAura { 0%,100%{box-shadow:0 0 40px rgba(234,179,8,0.12),0 0 80px rgba(59,158,255,0.06)}50%{box-shadow:0 0 70px rgba(234,179,8,0.30),0 0 130px rgba(59,158,255,0.14)} }
-    @keyframes borderSweep { 0%{left:-100%}100%{left:200%} }
+    /* ── Animations ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulseGlow{0%,100%{opacity:0.6}50%{opacity:1}}
+    @keyframes skeletonShimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes goldenPulse{0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)}}
+    @keyframes floatStar{0%,100%{transform:translateY(0) scale(1);opacity:0.25}50%{transform:translateY(-28px) scale(1.6);opacity:0.8}}
+    @keyframes ringFadeIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+    /* ✨ NEW — Hero glow orbs */
+    @keyframes heroOrb{0%,100%{transform:scale(1);opacity:0.55}50%{transform:scale(1.15);opacity:0.9}}
+    /* ✨ NEW — Logo pulse */
+    @keyframes logoPulse{0%,100%{box-shadow:0 0 12px rgba(59,158,255,0.45)}50%{box-shadow:0 0 32px rgba(59,158,255,0.9),0 0 55px rgba(96,207,255,0.35)}}
+    /* ✨ NEW — Vision aura */
+    @keyframes visionAura{0%,100%{box-shadow:0 0 40px rgba(234,179,8,0.12),0 0 80px rgba(59,158,255,0.06)}50%{box-shadow:0 0 70px rgba(234,179,8,0.30),0 0 130px rgba(59,158,255,0.14)}}
+    /* ✨ NEW — Card sweep shimmer */
+    @keyframes borderSweep{0%{left:-100%}100%{left:200%}}
+    /* ✨ NEW — Footer social glow on hover handled inline */
+    /* ✨ NEW — Section divider pulse */
+    @keyframes dividerPulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
 
     @media(prefers-reduced-motion:no-preference){
       .anim-fade-up{animation:fadeUp 0.75s ease both}
@@ -119,9 +106,11 @@
     .delay-1{animation-delay:0.10s}.delay-2{animation-delay:0.25s}.delay-3{animation-delay:0.40s}.delay-4{animation-delay:0.55s}.delay-5{animation-delay:0.70s}
     .tw-cursor{animation:blink 0.9s ease-in-out infinite}
 
+    /* Section title */
     .section-title{font-size:12px;letter-spacing:0.25em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px;color:var(--accent-blue)}
     .section-title::before,.section-title::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,currentColor,transparent)}
 
+    /* Article body — Light+Dark safe */
     .article-body{color:var(--text-secondary);line-height:1.9;font-size:15px}
     .article-body h1,.article-body h2,.article-body h3,.article-body h4{color:var(--accent-gold);font-weight:700;margin:20px 0 12px}
     .article-body p{margin-bottom:14px;color:var(--text-secondary)}
@@ -133,6 +122,7 @@
     .article-body code{background:rgba(59,158,255,0.1);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--accent-blue)}
     .article-body strong{color:var(--text-primary)}
 
+    /* Spotlight */
     .spotlight-card{position:relative;overflow:hidden}
     .spotlight-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(59,158,255,0.10),transparent 60%);opacity:0;transition:opacity 0.4s ease;pointer-events:none;z-index:0}
     .spotlight-card:hover::after{opacity:1}
@@ -143,27 +133,33 @@
     .card-academy.spotlight-card:hover::after{background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(167,139,250,0.14),transparent 60%)}
     .card-lifestyle.spotlight-card:hover::after{background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(52,211,153,0.14),transparent 60%)}
 
+    /* Card sweep */
     .card-wrap{position:relative;overflow:hidden}
     .card-wrap::before{content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.045),transparent);transform:skewX(-18deg);pointer-events:none;z-index:2}
     .card-wrap:hover::before{animation:borderSweep 0.75s ease forwards}
 
+    /* Card per-color hover glow */
     .card-engineering:hover{box-shadow:0 22px 55px rgba(59,158,255,0.28),0 0 90px rgba(59,158,255,0.07),inset 0 1px 0 rgba(59,158,255,0.18)}
     .card-political:hover{box-shadow:0 22px 55px rgba(96,207,255,0.28),0 0 90px rgba(96,207,255,0.07),inset 0 1px 0 rgba(96,207,255,0.18)}
     .card-nubian:hover{box-shadow:0 22px 55px rgba(234,179,8,0.32),0 0 90px rgba(234,179,8,0.09),inset 0 1px 0 rgba(234,179,8,0.22)}
     .card-academy:hover{box-shadow:0 22px 55px rgba(167,139,250,0.28),0 0 90px rgba(167,139,250,0.07),inset 0 1px 0 rgba(167,139,250,0.18)}
     .card-lifestyle:hover{box-shadow:0 22px 55px rgba(52,211,153,0.28),0 0 90px rgba(52,211,153,0.07),inset 0 1px 0 rgba(52,211,153,0.18)}
 
+    /* Social */
     .social-btn{transition:transform 0.3s ease,box-shadow 0.3s ease,background 0.3s ease,border-color 0.3s ease,color 0.3s ease;min-height:44px;display:flex;align-items:center}
     .social-btn:hover{transform:translateY(-4px)}
 
+    /* PWA popup */
     .install-btn{background:linear-gradient(135deg,#3B9EFF,#2563eb);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;margin-bottom:14px;box-shadow:0 0 30px rgba(59,158,255,0.4);transition:transform 0.25s ease;min-height:44px}
     .install-btn:hover{transform:scale(1.03)}
     .dismiss-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#6677aa;padding:12px 32px;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;min-height:44px}
 
+    /* Article counter */
     .article-list{counter-reset:article-counter}
     .accordion-item{position:relative;padding-right:40px}
     .accordion-item::before{counter-increment:article-counter;content:counter(article-counter,decimal-leading-zero)".";position:absolute;right:0;top:22px;font-size:13px;font-weight:800;color:var(--accent-blue);opacity:0.4;z-index:1;pointer-events:none}
 
+    /* Misc */
     .offline-banner{position:fixed;bottom:0;left:0;right:0;background:rgba(234,179,8,0.18);border-top:1px solid rgba(234,179,8,0.35);color:var(--accent-gold);padding:12px 24px;text-align:center;font-size:12px;z-index:1001;display:none;backdrop-filter:blur(8px)}
     .offline-banner.show{display:block}
     .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent-blue),#60CFFF);width:0%;z-index:1002;transition:width 0.1s ease;border-radius:0 3px 3px 0}
@@ -181,7 +177,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.34",S=localStorage.getItem('site_version');
+      const V="1.0.26",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -203,7 +199,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.34";
+    const APP_VERSION="1.0.26";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -227,9 +223,7 @@
         lib_engineering:'الهندسة',lib_political:'السياسة',lib_nubian:'نوبيان',lib_academy:'الأكاديمية',lib_lifestyle:'نمط الحياة',
         download_btn:'📥 تحميل',preview_btn:'👁️ معاينة',
         nav_engineering:'هندسة',nav_political:'سياسة',nav_nubian:'نوبيان',nav_academy:'أكاديمية',nav_lifestyle:'نمط الحياة',
-        pwa_title:'مرحباً بك في منصتي الرقمية',pwa_desc:'هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.',pwa_install:'📲 ثبّت التطبيق للوصول السريع',pwa_dismiss:'استمر بالتصفح',
-        meta_description:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
-        author_name:'بسام إبراهيم أحمد'
+        pwa_title:'مرحباً بك في منصتي الرقمية',pwa_desc:'هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.',pwa_install:'📲 ثبّت التطبيق للوصول السريع',pwa_dismiss:'استمر بالتصفح'
       },
       en:{
         back:'Back to Section',library:'📚 Library',read:'📖 Read',close:'✕ Close',search:'🔍 Search articles...',noArticles:'No articles yet.',loadMore:'📄 Load More',remaining:'remaining',minRead:'min read',related:'📌 Related Articles',contact:'Contact Me',visionTitle:'Vision & Mission',visionText:'I believe true specialization gives you keys to understand the world in multiple ways.',identity:'Civil Engineer · Sudan Affairs · Community Activist',heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',mainTitle:'Five Fields. One Vision.',about:'About Me',exploreContent:'Explore Content',lab:'Visual Lab',explore:'Explore',browse:'📂 Browse Content',retry:'Retry',footerCopy:'All rights reserved',
@@ -249,9 +243,7 @@
         lib_engineering:'Engineering',lib_political:'Politics',lib_nubian:'Nubian',lib_academy:'Academy',lib_lifestyle:'Lifestyle',
         download_btn:'📥 Download',preview_btn:'👁️ Preview',
         nav_engineering:'Engineering',nav_political:'Politics',nav_nubian:'Nubian',nav_academy:'Academy',nav_lifestyle:'Lifestyle',
-        pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing',
-        meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
-        author_name:'Bassam Ibrahim Ahmed'
+        pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing'
       }
     };
 
@@ -277,10 +269,7 @@
       return raw.replace(/<script[^>]*>.*?<\/script>/gi,'').replace(/on\w+="[^"]*"/g,'');
     }
 
-    const getLocalized = (article, field, lang) => {
-      return article[`${field}_${lang}`] || article[`${field}_ar`] || article[field] || '';
-    };
-
+    /* ✨ StarField — smooth fade on theme switch */
     const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
     function StarField({theme}){
       return(
@@ -292,6 +281,7 @@
       );
     }
 
+    /* ✨ TypeWriter */
     function TypeWriter({texts,color='#3B9EFF'}){
       const[display,setDisplay]=useState('');
       const[idx,setIdx]=useState(0);
@@ -310,6 +300,7 @@
       return <span style={{color,fontWeight:900}}>{display}<span className="tw-cursor" style={{color,marginRight:2}}>|</span></span>;
     }
 
+    /* ✨ ProgressRing — also drives top bar */
     function ProgressRing(){
       const[progress,setProgress]=useState(0);
       const[visible,setVisible]=useState(false);
@@ -330,7 +321,7 @@
         <div onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}
           style={{position:'fixed',bottom:24,left:24,zIndex:99,cursor:'pointer',animation:'ringFadeIn 0.3s ease',filter:'drop-shadow(0 0 10px rgba(59,158,255,0.6))'}}>
           <svg width="48" height="48" style={{transform:'rotate(-90deg)'}}>
-            <circle cx="24" cy="24" r={r} fill="var(--bg-primary)" stroke="rgba(59,158,255,0.2)" strokeWidth="3"/>
+            <circle cx="24" cy="24" r={r} fill="rgba(5,8,15,0.75)" stroke="rgba(59,158,255,0.2)" strokeWidth="3"/>
             <circle cx="24" cy="24" r={r} fill="none" stroke="#3B9EFF" strokeWidth="3" strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" style={{transition:'stroke-dashoffset 0.2s ease'}}/>
           </svg>
           <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:700,color:'#3B9EFF',transform:'rotate(90deg)'}}>{Math.round(progress)}%</div>
@@ -342,8 +333,8 @@
       const[copied,setCopied]=useState(false);
       const t=k=>I18N[lang]?.[k]||k;
       const url=encodeURIComponent(window.location.href);
-      const title = encodeURIComponent(getLocalized(article, 'title', lang));
-      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article, 'title', lang),url:window.location.href});}catch(e){}}else{window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');}};
+      const title=encodeURIComponent(article.title);
+      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:article.title,url:window.location.href});}catch(e){}}else{window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');}};
       const handleCopy=async()=>{try{await navigator.clipboard.writeText(window.location.href);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch(e){const i=document.createElement('input');i.value=window.location.href;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}};
       const open=p=>window.open({whatsapp:`https://wa.me/?text=${title}%0A${url}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,twitter:`https://twitter.com/intent/tweet?text=${title}&url=${url}`,telegram:`https://t.me/share/url?url=${url}&text=${title}`}[p],'_blank');
       const btn=(labelKey,color,bgA,onClick)=>(<button onClick={onClick} style={{padding:'8px 14px',borderRadius:8,background:`rgba(${color},${bgA})`,border:`1px solid rgba(${color},0.4)`,color:`rgb(${color})`,cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600,transition:'all 0.2s'}}>{t(labelKey)}</button>);
@@ -383,8 +374,8 @@
             {files.map(f=>(
               <div key={f.id} className="glass-card" style={{padding:20,borderRadius:14}}>
                 <div style={{fontSize:28,marginBottom:10}}>{f.fileType==='pdf'?'📕':f.fileType==='pptx'?'📊':'📄'}</div>
-                <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{getLocalized(f, 'title', lang)}</h4>
-                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f, 'description', lang) || ''}</p>
+                <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{f.title}</h4>
+                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{f.description||''}</p>
                 <div style={{fontSize:11,color:'var(--text-secondary)',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
                 <div style={{display:'flex',gap:8}}>
                   <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('download_btn')}</a>
@@ -430,14 +421,7 @@
       const btnSlug=BUTTON_SLUGS[category]||category;
       const filtered=category?articles.filter(a=>a.button===btnSlug||a.category===category):articles;
       const sorted=[...filtered].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-      const searched=debouncedQuery.trim()===''?sorted:sorted.filter(a=>{
-        const q=debouncedQuery.toLowerCase();
-        const titleAr=getLocalized(a,'title','ar').toLowerCase();
-        const titleEn=getLocalized(a,'title','en').toLowerCase();
-        const contentAr=getLocalized(a,'content','ar').toLowerCase();
-        const contentEn=getLocalized(a,'content','en').toLowerCase();
-        return titleAr.includes(q)||titleEn.includes(q)||contentAr.includes(q)||contentEn.includes(q)||a.tags?.some(tag=>tag.toLowerCase().includes(q));
-      });
+      const searched=debouncedQuery.trim()===''?sorted:sorted.filter(a=>a.title?.toLowerCase().includes(debouncedQuery.toLowerCase())||a.tags?.some(tag=>tag.toLowerCase().includes(debouncedQuery.toLowerCase())));
       const displayed=searched.slice(0,visibleCount);
       const hasMore=searched.length>visibleCount;
 
@@ -455,30 +439,29 @@
                 :(<div className="article-list">
                     {displayed.map((article,idx)=>{
                       const isOpen=openIndex===idx;
-                      const localizedContent = getLocalized(article, 'content', lang);
-                      const cleanHTML=sanitizeHTML(parseMarkdownToHTML(localizedContent));
-                      const commentId=article.id || article.slug || article.title?.toLowerCase().replace(/[^\w]+/g,'-').substring(0,40) || String(idx);
+                      const cleanHTML=sanitizeHTML(parseMarkdownToHTML(article.content||''));
+                      const commentId=article.id||article.title?.replace(/\s+/g,'-').substring(0,50)||String(idx);
                       return(
                         <div key={article.id||idx} id={`article-${idx}`} className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`} style={{marginBottom:14,borderRadius:16,overflow:'hidden'}}>
                           <div onClick={()=>handleToggle(idx)} style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}} role="button" aria-expanded={isOpen}>
                             <div style={{flex:1}}>
-                              <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{getLocalized(article, 'title', lang)||'بدون عنوان'}</h3>
+                              <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{article.title||'بدون عنوان'}</h3>
                               <span style={{fontSize:11,color:'var(--text-secondary)'}}>{article.date}</span>
                             </div>
                             <button aria-label={isOpen?t('close'):t('read')} style={{padding:'8px 18px',borderRadius:10,background:isOpen?'rgba(200,200,200,0.06)':'rgba(234,179,8,0.15)',color:isOpen?'var(--text-secondary)':'var(--accent-gold)',border:'none',cursor:'pointer',fontWeight:700,fontSize:12,fontFamily:'Cairo',whiteSpace:'nowrap',transition:'all 0.2s'}}>{isOpen?t('close'):t('read')}</button>
                           </div>
                           {isOpen&&(
                             <div style={{padding:'0 20px 24px'}}>
-                              {article.image&&<img src={article.image} alt={getLocalized(article, 'title', lang)} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
+                              {article.image&&<img src={article.image} alt={article.title} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
                               <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}}/>
-                              <div className="author-meta">✍️ {getLocalized(article, 'author', lang) || article.author || t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
+                              <div className="author-meta">✍️ {article.author||'بسام إبراهيم أحمد'} · 📅 {article.date} · ⏱️ {Math.ceil((article.content||'').split(' ').length/200)} {t('minRead')}</div>
                               <ShareButtons article={article} lang={lang}/>
                               <CommentsSection articleId={commentId}/>
                               <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
                                 <h4 style={{fontSize:13,color:'var(--accent-gold)',marginBottom:10,fontWeight:700}}>{t('related')}</h4>
                                 <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
                                   {articles.filter(a=>a.id!==article.id&&(a.button===article.button||a.tags?.some(tg=>article.tags?.includes(tg)))).slice(0,3).map(rel=>(
-                                    <button key={rel.id} className="glass-card" onClick={()=>{const i=articles.findIndex(x=>x.id===rel.id);if(i!==-1){setOpenIndex(i);setLastOpenedIndex(i);window.scrollTo({top:0,behavior:'smooth'});}}} style={{fontSize:11,padding:'6px 12px',borderRadius:8,background:'rgba(59,158,255,0.1)',color:'var(--accent-blue)',border:'1px solid rgba(59,158,255,0.3)',cursor:'pointer',fontWeight:600,fontFamily:'Cairo'}}>{getLocalized(rel, 'title', lang)?.substring(0,28)}...</button>
+                                    <button key={rel.id} className="glass-card" onClick={()=>{const i=articles.findIndex(x=>x.id===rel.id);if(i!==-1){setOpenIndex(i);setLastOpenedIndex(i);window.scrollTo({top:0,behavior:'smooth'});}}} style={{fontSize:11,padding:'6px 12px',borderRadius:8,background:'rgba(59,158,255,0.1)',color:'var(--accent-blue)',border:'1px solid rgba(59,158,255,0.3)',cursor:'pointer',fontWeight:600,fontFamily:'Cairo'}}>{rel.title?.substring(0,28)}...</button>
                                   ))}
                                 </div>
                               </div>
@@ -503,11 +486,13 @@
         <div ref={cardRef} id={card.id} className={`glass-card card-wrap spotlight-card card-${card.id}`}
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} onMouseMove={handleMouseMove}
           style={{padding:32,borderRadius:22,cursor:'pointer',background:hover?`linear-gradient(145deg,${th.glow},var(--glass-bg))`:'var(--glass-bg)',border:hover?`1px solid ${th.border}`:'1px solid var(--glass-border)',transform:hover?'translateY(-10px)':'translateY(0)',transition:'all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)'}}>
+          {/* ✨ icon with glow */}
           <div style={{width:58,height:58,borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',background:hover?`${th.glow}`:'var(--glass-bg)',marginBottom:24,border:hover?`1px solid ${th.border}`:'1px solid var(--glass-border)',fontSize:24,color:th.color,transform:hover?'scale(1.1) rotate(4deg)':'scale(1) rotate(0deg)',transition:'all 0.4s ease',boxShadow:hover?`0 0 22px ${th.glow}`:'none'}}>{card.icon}</div>
           <h3 style={{fontSize:19,fontWeight:700,marginBottom:8,color:'var(--text-primary)'}}>{card.title}</h3>
           <p style={{fontSize:12,fontWeight:600,color:th.color,marginBottom:14}}>{card.subtitle}</p>
           <p style={{fontSize:13,color:'var(--text-secondary)',lineHeight:1.75,marginBottom:24}}>{card.desc}</p>
           <div style={{display:'flex',flexWrap:'wrap',gap:8,marginBottom:24}}>
+            {/* ✅ FIX: pass actual tag text, not key */}
             {card.tagKeys.map(tagKey=>{
               const displayTag=t(tagKey);
               const actualTag=I18N['ar']?.[tagKey]||displayTag;
@@ -538,6 +523,7 @@
         <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn"
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
           style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',border:'1px solid',borderColor:hover?`${social.color}66`:'var(--glass-border)',color:hover?social.color:'var(--text-secondary)',textDecoration:'none',
+            /* ✨ per-color glow on hover */
             boxShadow:hover?`0 6px 24px ${social.color}33`:'none',
             transform:hover?'translateY(-4px)':'none'}}>
           {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
@@ -584,13 +570,11 @@
         document.body.className=theme;localStorage.setItem('theme',theme);
         document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');
         document.documentElement.setAttribute('lang',lang);
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if(metaDesc) metaDesc.setAttribute('content', t('meta_description'));
-        const canonical = document.getElementById('dynamicCanonical');
-        if(canonical) canonical.setAttribute('href', `https://bassamibrahim249.github.io/bassam-portfolio/?tab=${originTabId||''}`);
-      },[theme, lang, originTabId]);
+      },[theme,lang]);
 
       const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+
+      /* ✅ FIX: tag is already actual Arabic text from Card */
       const handleTagClick=(tag,tabId)=>{setOriginTabId(tabId);setActiveCategory(tag);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
       const handleLibraryClick=(slug,tabId)=>{setOriginTabId(tabId);setActiveCategory(`library_${slug}`);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
 
@@ -627,8 +611,10 @@
       return(
         <div style={{position:'relative',minHeight:'100vh'}}>
 
+          {/* ✨ StarField */}
           <StarField theme={theme}/>
 
+          {/* ✨ Hero background orbs */}
           {theme==='dark'&&(
             <>
               <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 7s ease-in-out infinite'}}/>
@@ -637,49 +623,37 @@
             </>
           )}
 
-          {/* 🌟 شريط التنقل - النسخة النهائية المتجاوبة مع جميع الشاشات */}
-          <header role="navigation" aria-label={lang==='ar'?'القائمة الرئيسية':'Main navigation'} style={{
-            position:'fixed',top:0,left:0,right:0,zIndex:100,
-            padding:'8px 16px',
+          {/* ── Navbar ── */}
+          <header role="navigation" style={{position:'fixed',top:0,left:0,right:0,zIndex:100,padding:'14px 28px',
             background:theme==='dark'?'rgba(5,8,15,0.85)':'rgba(232,236,244,0.92)',
             backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
-            borderBottom:'1px solid var(--glass-border)',
-            width:'100%',boxSizing:'border-box'
-          }}>
-            <div style={{display:'flex',flexDirection:'column',width:'100%',gap:8}}>
-              {/* الصف الأول: الشعار وزر التواصل */}
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
-                <div style={{display:'flex',alignItems:'center',gap:8,flex:'1 1 auto',minWidth:'120px'}}>
-                  <div className="logo-wrap" style={{width:32,height:32,borderRadius:8,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
-                  <span style={{fontWeight:900,fontSize:16,color:'var(--text-primary)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+            borderBottom:'1px solid var(--glass-border)'}}>
+            <div style={{maxWidth:1200,margin:'0 auto',display:'flex',flexDirection:'column',gap:10}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <div style={{display:'flex',alignItems:'center',gap:12}}>
+                  {/* ✨ Logo with pulse */}
+                  <div className="logo-wrap" style={{width:40,height:40,borderRadius:12,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:900,color:'#080c12'}}>B.I</div>
+                  <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
                 </div>
                 <button aria-label={t('nav_contact')} onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  style={{fontSize:12,padding:'8px 18px',borderRadius:8,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap',flexShrink:0}}>
+                  style={{fontSize:12,padding:'10px 22px',borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
                   {t('nav_contact')}
                 </button>
               </div>
-              
-              {/* الصف الثاني: روابط التبويبات وأزرار التحكم */}
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
-                <nav className="hide-mobile" style={{display:'flex',gap:12,alignItems:'center',flexWrap:'wrap',flex:'1 1 auto'}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
+                <nav style={{display:'flex',gap:20}}>
                   {NAV_ITEMS.map(item=>(
                     <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                      style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s',padding:'4px 0',whiteSpace:'nowrap'}}
+                      style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s'}}
                       onMouseEnter={e=>e.target.style.color='var(--accent-blue)'}
                       onMouseLeave={e=>e.target.style.color='var(--text-secondary)'}>
                       {t(item.key)}
                     </a>
                   ))}
                 </nav>
-                <div style={{display:'flex',alignItems:'center',gap:6,flexShrink:0}}>
-                  <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" 
-                    style={{padding:'5px 10px',borderRadius:6,color:'var(--text-secondary)',fontSize:11,fontWeight:700,cursor:'pointer',fontFamily:'Cairo',minWidth:'50px'}}>
-                    {lang==='ar'?'English':'عربي'}
-                  </button>
-                  <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
-                    style={{width:32,height:32,borderRadius:6,color:'var(--text-primary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                    {theme==='dark'?'🌙':'☀️'}
-                  </button>
+                <div style={{display:'flex',alignItems:'center',gap:12}}>
+                  <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" style={{padding:'6px 16px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>{lang==='ar'?'English':'عربي'}</button>
+                  <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card" style={{width:38,height:38,borderRadius:10,color:'var(--text-primary)',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>{theme==='dark'?'🌙':'☀️'}</button>
                 </div>
               </div>
             </div>
@@ -688,16 +662,20 @@
           {/* ── Hero ── */}
           <section style={{padding:'148px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
+
+            {/* ✨ Name with radial glow behind it */}
             <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
               {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',animation:'heroOrb 5s ease-in-out infinite'}}/>}
               <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2.6rem,8vw,5rem)',fontWeight:900,lineHeight:1.1,color:'var(--text-primary)',position:'relative'}}>
                 Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
               </h1>
             </div>
+
             <div className="anim-fade-up delay-3" style={{fontSize:'clamp(1rem,3vw,1.35rem)',marginBottom:16,minHeight:'2rem'}}>
               <TypeWriter texts={TW_TEXTS} color="#3B9EFF"/>
             </div>
             <p className="anim-fade-up delay-3" style={{color:'var(--text-secondary)',maxWidth:620,margin:'0 auto 40px',fontSize:'1rem',lineHeight:1.85}}>{t('heroDesc')}</p>
+
             <div className="anim-fade-up delay-4" style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap',marginBottom:56}}>
               <button onClick={()=>scrollTo('vision-section')}
                 style={{padding:'14px 34px',borderRadius:14,background:'linear-gradient(135deg,#3B9EFF,#1a7fe0)',color:'#fff',fontWeight:700,fontSize:14,border:'none',cursor:'pointer',fontFamily:'Cairo',boxShadow:'0 0 30px rgba(59,158,255,0.5)',transition:'all 0.2s'}}
@@ -710,6 +688,7 @@
                 {t('hero_btn2')}
               </button>
             </div>
+
             <div className="anim-fade-up delay-5" style={{display:'flex',gap:18,justifyContent:'center',flexWrap:'wrap'}}>
               {STATS.map(s=>(
                 <div key={s.label} className="glass-card"
@@ -739,6 +718,7 @@
 
           {/* ── Vision ── */}
           <section id="vision-section" style={{padding:'40px 24px 80px',position:'relative',zIndex:1}}>
+            {/* ✨ Vision ambient glow */}
             {theme==='dark'&&<div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:600,height:300,background:'radial-gradient(ellipse,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',borderRadius:'50%'}}/>}
             <div className="glass-card vision-card" style={{maxWidth:820,margin:'0 auto',borderRadius:26,padding:'52px 44px',textAlign:'center',position:'relative'}}>
               <div style={{width:68,height:68,borderRadius:20,background:'rgba(234,179,8,0.12)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 20px',fontSize:30,color:'#EAB308',border:'1px solid rgba(234,179,8,0.25)',boxShadow:'0 0 30px rgba(234,179,8,0.2)'}}>⬡</div>
@@ -749,6 +729,7 @@
 
           {/* ── Footer ── */}
           <footer style={{padding:'40px 24px 32px',borderTop:'1px solid var(--glass-border)',position:'relative',zIndex:1}}>
+            {/* ✨ Footer top ambient */}
             {theme==='dark'&&<div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'80%',height:1,background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.3),transparent)',pointerEvents:'none'}}/>}
             <div style={{maxWidth:860,margin:'0 auto',textAlign:'center'}}>
               <p style={{fontSize:12,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:22,fontWeight:700}}>{t('contact')}</p>
