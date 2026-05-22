@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.84" />
+  <meta name="app-version" content="1.0.85" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -229,7 +229,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.84",S=localStorage.getItem('site_version');
+      const V="1.0.85",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -251,7 +251,7 @@
 
     const CONFIG={contact:{whatsapp:"249967238251"},cache:{ttl:86400000}};
     const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.84";
+    const APP_VERSION="1.0.85";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -299,7 +299,7 @@
         nav_engineering:'Engineering',nav_political:'Politics',nav_nubian:'Nubian',nav_academy:'Academy',nav_lifestyle:'Lifestyle',
         pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing',
         meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
-        author_name:'Bassam Ibrahim Ahmed'
+        author_name:'Bassam Ibrahim Ahmed'  // ✅ تمت الإضافة
       }
     };
 
