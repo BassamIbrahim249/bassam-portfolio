@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.60" />
+  <meta name="app-version" content="1.0.70" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -65,8 +65,8 @@
       --accent-blue: #3B9EFF;
       --accent-gold: #EAB308;
       --blur-amount: 12px;
-      --header-bg: rgba(8,12,18,0.75);
-      --header-bg-scrolled: #0a0f1a;
+      --header-bg: rgba(5,8,15,0.01);
+      --header-bg-scrolled: rgba(8,12,18,0.88);
     }
     .light {
       --bg-primary: #e8ecf4;
@@ -77,8 +77,8 @@
       --glass-bg: rgba(255,255,255,0.75);
       --glass-border: rgba(0,0,0,0.07);
       --blur-amount: 16px;
-      --header-bg: rgba(240,244,250,0.75);
-      --header-bg-scrolled: #f0f4fa;
+      --header-bg: rgba(232,236,244,0.01);
+      --header-bg-scrolled: rgba(232,236,244,0.92);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -245,7 +245,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.60",S=localStorage.getItem('site_version');
+      const V="1.0.70",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -267,7 +267,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.60";
+    const APP_VERSION="1.0.70";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -374,7 +374,7 @@
       return <span style={{color,fontWeight:900}}>{display}<span className="tw-cursor" style={{color,marginRight:2}}>|</span></span>;
     }
 
-    function ProgressRing(){
+    function ProgressRing({theme}){
       const[progress,setProgress]=useState(0);
       const[visible,setVisible]=useState(false);
       useEffect(()=>{
@@ -394,7 +394,9 @@
         <div onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}
           style={{position:'fixed',bottom:24,left:24,zIndex:99,cursor:'pointer',animation:'ringFadeIn 0.3s ease',filter:'drop-shadow(0 0 10px rgba(59,158,255,0.6))'}}>
           <svg width="48" height="48" style={{transform:'rotate(-90deg)'}}>
-            <circle cx="24" cy="24" r={r} fill="var(--bg-primary)" stroke="rgba(59,158,255,0.2)" strokeWidth="3"/>
+            <circle cx="24" cy="24" r={r}
+              fill={theme==='dark' ? '#05080f' : '#e8ecf4'}
+              stroke="rgba(59,158,255,0.2)" strokeWidth="3"/>
             <circle cx="24" cy="24" r={r} fill="none" stroke="#3B9EFF" strokeWidth="3" strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" style={{transition:'stroke-dashoffset 0.2s ease'}}/>
           </svg>
           <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:700,color:'#3B9EFF',transform:'rotate(90deg)'}}>{Math.round(progress)}%</div>
@@ -480,7 +482,7 @@
           .catch(()=>{
             const old=localStorage.getItem(cacheKey);
             if(old){try{setArticles(JSON.parse(old).data||[]);setError(null);}catch(e){setError('تعذر تحميل المقالات.');}}
-            else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.'); /* لا نضيف الشريط هنا، سيظهر عبر الـ event listener */}
+            else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');}
             else{setArticles([]);}
           })
           .finally(()=>setLoading(false));
@@ -661,7 +663,7 @@
 
       useEffect(()=>{const h=()=>setScrolled(window.scrollY>50);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
 
-      // ✨ إدارة شريط "غير متصل" ديناميكياً
+      // Online/Offline Events
       useEffect(()=>{
         const banner=document.getElementById('offlineBanner');
         const handleOnline=()=>{if(banner)banner.classList.remove('show');};
@@ -725,46 +727,40 @@
           <StarField theme={theme}/>
 
           {theme==='dark'&&(<>
-              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 7s ease-in-out infinite'}}/>
-              <div style={{position:'fixed',top:'30%',left:'5%',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 9s ease-in-out infinite',animationDelay:'2s'}}/>
-              <div style={{position:'fixed',bottom:'10%',right:'15%',width:250,height:250,borderRadius:'50%',background:'radial-gradient(circle,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 11s ease-in-out infinite',animationDelay:'4s'}}/>
+              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 7s ease-in-out infinite',isolation:'isolate'}}/>
+              <div style={{position:'fixed',top:'30%',left:'5%',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 9s ease-in-out infinite',animationDelay:'2s',isolation:'isolate'}}/>
+              <div style={{position:'fixed',bottom:'10%',right:'15%',width:250,height:250,borderRadius:'50%',background:'radial-gradient(circle,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 11s ease-in-out infinite',animationDelay:'4s',isolation:'isolate'}}/>
             </>)
           }
 
-          {/* Header المتجاوب - مع تحسين Flexbox */}
+          {/* Header */}
           <header style={{
-            position:'fixed', top:0, left:0, right:0, zIndex:1000,
-            padding: scrolled ? '8px 12px' : '12px 12px',
+            position:'fixed', top:0, left:0, right:0, zIndex:100,
+            padding: scrolled ? '8px 16px' : '12px 16px',
             background: scrolled ? 'var(--header-bg-scrolled)' : 'var(--header-bg)',
-            backdropFilter: 'blur(var(--blur-amount))', WebkitBackdropFilter: 'blur(var(--blur-amount))',
-            borderBottom: '1px solid var(--glass-border)',
+            backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+            borderBottom: scrolled ? '1px solid rgba(59,158,255,0.1)' : '1px solid transparent',
+            isolation: 'isolate',
             width: '100%', boxSizing: 'border-box',
             transition: 'all 0.3s ease',
             transform: 'translateZ(0)',
           }}>
-            <div style={{
-              maxWidth:1280, margin:'0 auto',
-              display:'flex', alignItems:'center',
-              justifyContent:'flex-start', /* نبدأ من اليمين */
-              width:'100%',
-              gap:'8px',
-              flexWrap:'nowrap',
-            }}>
+            <div style={{maxWidth:1280, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
               
-              {/* Hamburger + Logo - دائماً في أقصى اليمين */}
-              <div style={{display:'flex', alignItems:'center', gap:8, flexShrink:0}}>
+              {/* Hamburger + Logo */}
+              <div style={{display:'flex', alignItems:'center', gap:10, flexShrink:0}}>
                 <button className="hamburger-btn" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} aria-label="القائمة">☰</button>
-                <div className="logo-wrap" style={{width:34,height:34,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:900,color:'#080c12',boxShadow:'0 0 18px rgba(59,158,255,0.5)'}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:15,color:'var(--text-primary)',whiteSpace:'nowrap'}}>
+                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:900,color:'#080c12',boxShadow:'0 0 20px rgba(59,158,255,0.5)'}}>B.I</div>
+                <span style={{fontWeight:900,fontSize:16,color:'var(--text-primary)',whiteSpace:'nowrap'}}>
                   Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
                 </span>
               </div>
 
-              {/* Desktop Tabs - تأخذ المساحة المتبقية */}
-              <nav className="nav-tabs-desktop" style={{flex:'1 1 auto', justifyContent:'center', minWidth:0, overflow:'hidden'}}>
+              {/* Desktop Tabs */}
+              <nav className="nav-tabs-desktop" style={{flex:1, justifyContent:'center'}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                    style={{fontSize:12, color:'var(--text-secondary)', textDecoration:'none', fontWeight:600, whiteSpace:'nowrap', padding:'6px 8px', transition:'all 0.3s ease', borderBottom:'2px solid transparent'}}
+                    style={{fontSize:13, color:'var(--text-secondary)', textDecoration:'none', fontWeight:600, whiteSpace:'nowrap', padding:'6px 0', transition:'all 0.3s ease', borderBottom:'2px solid transparent'}}
                     onMouseEnter={e=>{e.target.style.color='var(--accent-blue)'; e.target.style.borderColor='var(--accent-blue)';}}
                     onMouseLeave={e=>{e.target.style.color='var(--text-secondary)'; e.target.style.borderColor='transparent';}}>
                     {t(item.key)}
@@ -772,24 +768,24 @@
                 ))}
               </nav>
 
-              {/* Actions - تلتصق في اليسار */}
-              <div style={{display:'flex', alignItems:'center', gap:6, flexShrink:0, marginRight:'auto'}}>
+              {/* Actions */}
+              <div style={{display:'flex', alignItems:'center', gap:8, flexShrink:0}}>
                 <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
                   className="header-contact-btn"
-                  style={{fontSize:11, padding:'7px 12px', borderRadius:8, background:'linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))', border:'1px solid rgba(37,211,102,0.5)', color:'#25D366', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap'}}>
+                  style={{fontSize:11, padding:'8px 14px', borderRadius:8, background:'linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))', border:'1px solid rgba(37,211,102,0.5)', color:'#25D366', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap'}}>
                   {t('nav_contact')}
                 </button>
                 <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
                   className="mobile-contact-btn"
-                  style={{width:32, height:32, borderRadius:8, background:'rgba(37,211,102,0.15)', border:'1px solid rgba(37,211,102,0.3)', color:'#25D366', fontSize:15, cursor:'pointer', alignItems:'center', justifyContent:'center'}}>
+                  style={{width:34, height:34, borderRadius:8, background:'rgba(37,211,102,0.15)', border:'1px solid rgba(37,211,102,0.3)', color:'#25D366', fontSize:16, cursor:'pointer', alignItems:'center', justifyContent:'center'}}>
                   💬
                 </button>
                 <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')}
-                  style={{fontSize:10, padding:'5px 10px', borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap'}}>
+                  style={{fontSize:11, padding:'6px 12px', borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap'}}>
                   {lang==='ar'?'EN':'عربي'}
                 </button>
                 <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')}
-                  style={{width:32, height:32, borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontSize:14, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                  style={{width:34, height:34, borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontSize:15, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center'}}>
                   {theme==='dark'?'☀️':'🌙'}
                 </button>
               </div>
@@ -889,7 +885,7 @@
           </footer>
 
           <WelcomeInstallPopup lang={lang}/>
-          <ProgressRing/>
+          <ProgressRing theme={theme}/>
         </div>
       );
     }
