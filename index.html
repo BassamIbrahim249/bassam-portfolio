@@ -289,7 +289,7 @@
       h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
       h=h.replace(/^#### (.*$)/gim,'<h4>$1</h4>').replace(/^### (.*$)/gim,'<h3>$1</h3>').replace(/^## (.*$)/gim,'<h2>$1</h2>').replace(/^# (.*$)/gim,'<h1>$1</h1>');
-      h=h.replace(/\*\*\*(.*?)\*\*\*/g,'<strong><em>$1</em></strong>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
+      h=h.replace(/\*\*\*(.*?)\*\*\*/g,'<strong><em>$1</em></strong>').replace(/\*\mathbf{(.*?)}\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
       h=h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img alt="$1" src="$2" loading="lazy" />');
       h=h.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
       h=h.replace(/^---$/gim,'<hr />').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br />');
@@ -399,7 +399,7 @@
       const slug=category?.replace('library_','');const t=k=>I18N[lang]?.[k]||k;
       useEffect(()=>{setLoading(true);fetch(`https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/library_index.json?v=${APP_VERSION}`).then(r=>r.json()).then(d=>setFiles(d.files?.filter(f=>f.category===slug)||[])).catch(()=>setFiles([])).finally(()=>setLoading(false));},[slug]);
       const libName=t(`lib_${slug}`)||slug;
-      if(loading)return <div style={{padding:60,textAlign:'center'}}><div className="skeleton" style={{width:'50%',height:24,margin:'0 auto 16px'}}></div><div className="skeleton" style={{height:120}}></div></div>;
+      if(loading)return <div style={{padding:60,textAlign:'center Karth'}}><div className="skeleton" style={{width:'50%',height:24,margin:'0 auto 16px'}}></div><div className="skeleton" style={{height:120}}></div></div>;
       if(!files.length)return <div style={{padding:60,textAlign:'center',color:'var(--text-secondary)'}}><p style={{fontSize:48,marginBottom:16}}>📚</p><p>{t('noArticles')}</p><button onClick={onBack} className="glass-card" style={{marginTop:20,padding:'10px 22px',borderRadius:10,cursor:'pointer',color:'var(--accent-blue)',fontSize:14,fontWeight:700}}>← {t('back')}</button></div>;
       return(
         <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>
@@ -470,7 +470,7 @@
       return(
         <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>
           <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:'12px 24px',borderRadius:14,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-secondary)',cursor:'pointer',fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
-          <h2 style={{fontSize:'clamp(1.5rem,4vw,2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'var(--accent-gold)'}}>{t(title)||title}</h2>
+          <h2 style={{fontSize:'clamp(1.5rem,4vw,2.2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'var(--accent-gold)'}}>{t(title)||title}</h2>
           <input type="text" className="search-input" placeholder={t('search')} value={searchQuery} onChange={e=>{setSearchQuery(e.target.value);setVisibleCount(ITEMS_PER_PAGE);}} style={{width:'100%',padding:'14px 20px',borderRadius:14,fontFamily:'Cairo',fontSize:14,marginBottom:24}}/>
           {loading
             ?<div style={{display:'flex',flexDirection:'column',gap:14}}>{[1,2,3].map(i=><div key={i} className="skeleton" style={{height:90}}></div>)}</div>
@@ -648,7 +648,7 @@
         {name:"Facebook",href:"https://www.facebook.com/bassam.ibrahim.ahmed",color:"#1877F2",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>)},
         {name:"X",href:"https://x.com/BassamIbrahimSD",color:"#ffffff",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:18,height:18}}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>)},
         {name:"YouTube",href:"https://youtube.com/@bassamibrahimeng",color:"#FF0000",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>)},
-        {name:"Instagram",href:"https://www.instagram.com/bassam.ibrahim.ahmed",color:"#E4405F",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948-.2-4.358-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>)},
+        {name:"Instagram",href:"https://www.instagram.com/bassam.ibrahim.ahmed",color:"#E4405F",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948-.2-4.358-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>)},
         {name:"WhatsApp",href:`https://wa.me/${CONFIG.contact.whatsapp}`,color:"#25D366",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>)},
         {name:"TikTok",href:"https://www.tiktok.com/@.bassam.ibrahim",color:"#ffffff",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/></svg>)},
       ];
@@ -668,19 +668,21 @@
             </>
           )}
 
-          {/* 🌟 شريط التنقل - النسخة النهائية المعدلة */}
+          {/* 🌟 شريط التنقل - تم إصلاح اختفاء الأزرار والتداخل */}
           <header className="navbar" style={{
-            position:'fixed', top:0, left:0, right:0, zIndex:100,
-            padding: scrolled ? '10px 20px' : '16px 24px',
-            background: scrolled ? 'rgba(8,12,18,0.92)' : 'rgba(8,12,18,0.75)',
-            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-            borderBottom: '1px solid rgba(59,158,255,0.15)',
-            width: '100%', boxSizing: 'border-box'
+            position:'fixed', top:0, left:0, right:0, zIndex:1000,
+            padding: scrolled ? '10px 24px' : '16px 24px',
+            background: scrolled ? 'var(--bg-secondary)' : 'rgba(8,12,18,0.75)',
+            backdropFilter: 'blur(var(--blur-amount))', WebkitBackdropFilter: 'blur(var(--blur-amount))',
+            borderBottom: '1px solid var(--glass-border)',
+            width: '100%', boxSizing: 'border-box',
+            transition: 'all 0.3s ease'
           }}>
             <div style={{
               maxWidth: 1280, margin: '0 auto',
               display: 'flex', alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              position: 'relative', zIndex: 1001
             }}>
               
               {/* اليمين: الشعار + الاسم */}
@@ -697,11 +699,11 @@
                 </span>
               </div>
               
-              {/* الوسط: التبويبات - تتمدد لملء الفراغ */}
-              <nav className="hide-mobile" style={{display:'flex', gap:28, alignItems:'center', flex: 1, justifyContent: 'center', flexShrink:0}}>
+              {/* الوسط: التبويبات */}
+              <nav className="hide-mobile" style={{display:'flex', gap:28, alignItems:'center', flex: 1, justifyContent: 'center', flexShrink:0, padding: '0 16px'}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                    style={{fontSize:12, color:'var(--text-secondary)', textDecoration:'none', fontWeight:600, whiteSpace:'nowrap', padding:'6px 0', transition:'all 0.3s ease', borderBottom:'2px solid transparent'}}
+                    style={{fontSize:13, color:'var(--text-secondary)', textDecoration:'none', fontWeight:600, whiteSpace:'nowrap', padding:'6px 0', transition:'all 0.3s ease', borderBottom:'2px solid transparent'}}
                     onMouseEnter={e=>{e.target.style.color='var(--accent-blue)'; e.target.style.borderColor='var(--accent-blue)';}}
                     onMouseLeave={e=>{e.target.style.color='var(--text-secondary)'; e.target.style.borderColor='transparent';}}>
                     {t(item.key)}
@@ -709,23 +711,23 @@
                 ))}
               </nav>
               
-              {/* اليسار: زر تواصل + أزرار اللغة والثيم تحته */}
-              <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end', gap:6, flexShrink:0}}>
+              {/* اليسار: الأزرار والتحكم بشكل منظم جداً ومقاوم للتداخل */}
+              <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end', gap:8, flexShrink:0, position:'relative', zIndex:1002}}>
                 <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  style={{fontSize:12, padding:'10px 20px', borderRadius:10, background:'linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))', border:'1px solid rgba(37,211,102,0.5)', color:'#25D366', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap', transition:'all 0.3s ease', boxShadow:'0 0 20px rgba(37,211,102,0.3)'}}
+                  style={{fontSize:12, padding:'10px 20px', borderRadius:10, background:'linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))', border:'1px solid rgba(37,211,102,0.5)', color:'#25D366', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap', transition:'all 0.3s ease', boxShadow:'0 0 20px rgba(37,211,102,0.3)', minHeight:'40px'}}
                   onMouseEnter={e=>{e.target.style.background='linear-gradient(135deg,rgba(37,211,102,0.3),rgba(37,211,102,0.15))'; e.target.style.boxShadow='0 0 30px rgba(37,211,102,0.5)';}}
                   onMouseLeave={e=>{e.target.style.background='linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))'; e.target.style.boxShadow='0 0 20px rgba(37,211,102,0.3)';}}>
                   {t('nav_contact')}
                 </button>
-                <div style={{display:'flex', alignItems:'center', gap:6}}>
+                <div style={{display:'flex', alignItems:'center', gap:6, width:'100%', justifyContent:'flex-end'}}>
                   <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')}
-                    style={{fontSize:11, padding:'6px 12px', borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap', transition:'all 0.3s ease'}}
+                    style={{fontSize:11, padding:'6px 14px', borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap', transition:'all 0.3s ease', flexShrink:0, height:'34px', display:'flex', alignItems:'center', justifyContent:'center'}}
                     onMouseEnter={e=>{e.target.style.background='rgba(59,158,255,0.25)'; e.target.style.borderColor='rgba(59,158,255,0.5)';}}
                     onMouseLeave={e=>{e.target.style.background='rgba(59,158,255,0.15)'; e.target.style.borderColor='rgba(59,158,255,0.3)';}}>
                     {lang==='ar'?'English':'عربي'}
                   </button>
                   <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')}
-                    style={{width:38, height:38, borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontSize:17, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.3s ease'}}
+                    style={{width:34, height:34, borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontSize:15, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.3s ease', flexShrink:0}}
                     onMouseEnter={e=>{e.target.style.background='rgba(59,158,255,0.25)'; e.target.style.borderColor='rgba(59,158,255,0.5)';}}
                     onMouseLeave={e=>{e.target.style.background='rgba(59,158,255,0.15)'; e.target.style.borderColor='rgba(59,158,255,0.3)';}}>
                     {theme==='dark'?'☀️':'🌙'}
@@ -737,7 +739,7 @@
           </header>
 
           {/* ── Hero ── */}
-          <section style={{padding:'148px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
+          <section style={{padding:'170px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
             <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
               {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',animation:'heroOrb 5s ease-in-out infinite'}}/>}
