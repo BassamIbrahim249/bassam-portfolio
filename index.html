@@ -1,242 +1,823 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bassam Ibrahim | معرض الأعمال</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني</title>
+  <meta name="description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering" hreflang="ar" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering&lang=en" hreflang="en" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering" hreflang="x-default" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political" hreflang="ar" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political&lang=en" hreflang="en" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=political" hreflang="x-default" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian&lang=en" hreflang="en" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="x-default" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy&lang=en" hreflang="en" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="x-default" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
+  <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
+  <meta name="app-version" content="1.0.43" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="google-site-verification" content="P9voyOGI2h7PeafHVLoxowMugTDrFaZaPE6ukX7l0UU" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#05080f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Bassam Ibrahim" />
+  <link rel="apple-touch-icon" href="icon.jpg" />
+  <meta property="og:title" content="BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني" />
+  <meta property="og:description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bassamibrahim249.github.io/bassam-portfolio/" />
+  <meta property="og:image" content="https://bassamibrahim249.github.io/bassam-portfolio/preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني" />
+  <meta name="twitter:description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
+  <meta name="twitter:image" content="https://bassamibrahim249.github.io/bassam-portfolio/preview.jpg" />
+  <link rel="icon" type="image/jpeg" href="icon.jpg" />
+  <link rel="canonical" id="dynamicCanonical" href="https://bassamibrahim249.github.io/bassam-portfolio/" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #05080f;
+      --bg-secondary: #0a0f1a;
+      --text-primary: #ffffff;
+      --text-secondary: #8899bb;
+      --border-color: rgba(255,255,255,0.06);
+      --glass-bg: rgba(255,255,255,0.03);
+      --glass-border: rgba(255,255,255,0.06);
+      --accent-blue: #3B9EFF;
+      --accent-gold: #EAB308;
+      --blur-amount: 12px;
+    }
+    .light {
+      --bg-primary: #e8ecf4;
+      --bg-secondary: #f0f4fa;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --border-color: rgba(0,0,0,0.08);
+      --glass-bg: rgba(255,255,255,0.75);
+      --glass-border: rgba(0,0,0,0.07);
+      --blur-amount: 16px;
+    }
 
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-primary);
+      font-family: 'Cairo', sans-serif;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.4s ease, color 0.3s ease;
+    }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    .glass-card { background: var(--glass-bg); backdrop-filter: blur(var(--blur-amount)); -webkit-backdrop-filter: blur(var(--blur-amount)); border: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .glass-card:hover { transform: translateY(-6px); border-color: rgba(59,158,255,0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.2), 0 0 40px rgba(59,158,255,0.08); }
 
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #0b132b;
-            color: #ffffff;
-        }
-        /* مظهر مخصص لشريط التمرير */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0b132b;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1c2541;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #48cae4;
-        }
-    </style>
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
+    @keyframes pulseGlow { 0%,100%{opacity:0.6}50%{opacity:1} }
+    @keyframes skeletonShimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
+    @keyframes goldenPulse { 0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)} }
+    @keyframes floatStar { 0%,100%{transform:translateY(0) scale(1);opacity:0.25}50%{transform:translateY(-28px) scale(1.6);opacity:0.8} }
+    @keyframes ringFadeIn { from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)} }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+    @keyframes heroOrb { 0%,100%{transform:scale(1);opacity:0.55}50%{transform:scale(1.15);opacity:0.9} }
+    @keyframes logoPulse { 0%,100%{box-shadow:0 0 12px rgba(59,158,255,0.45)}50%{box-shadow:0 0 32px rgba(59,158,255,0.9),0 0 55px rgba(96,207,255,0.35)} }
+    @keyframes visionAura { 0%,100%{box-shadow:0 0 40px rgba(234,179,8,0.12),0 0 80px rgba(59,158,255,0.06)}50%{box-shadow:0 0 70px rgba(234,179,8,0.30),0 0 130px rgba(59,158,255,0.14)} }
+    @keyframes borderSweep { 0%{left:-100%}100%{left:200%} }
+    @keyframes tagShimmer { 0%{background-position:-200% center}100%{background-position:200% center} }
+
+    @media(prefers-reduced-motion:no-preference){
+      .anim-fade-up{animation:fadeUp 0.75s ease both}
+      .pulse-dot{animation:pulseGlow 2.2s ease-in-out infinite}
+      .accordion-item.last-opened{animation:goldenPulse 2s ease-in-out infinite}
+      .skeleton{animation:skeletonShimmer 1.5s infinite linear;background:linear-gradient(90deg,rgba(128,128,128,0.05) 25%,rgba(128,128,128,0.15) 50%,rgba(128,128,128,0.05) 75%);background-size:200% 100%;border-radius:12px}
+      .logo-wrap{animation:logoPulse 3s ease-in-out infinite}
+      .vision-card{animation:visionAura 4s ease-in-out infinite}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+    }
+
+    .delay-1{animation-delay:0.10s}.delay-2{animation-delay:0.25s}.delay-3{animation-delay:0.40s}.delay-4{animation-delay:0.55s}.delay-5{animation-delay:0.70s}
+    .tw-cursor{animation:blink 0.9s ease-in-out infinite}
+
+    .section-title{font-size:12px;letter-spacing:0.25em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px;color:var(--accent-blue)}
+    .section-title::before,.section-title::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,currentColor,transparent)}
+
+    .article-body{color:var(--text-secondary);line-height:1.9;font-size:15px}
+    .article-body h1,.article-body h2,.article-body h3,.article-body h4{color:var(--accent-gold);font-weight:700;margin:20px 0 12px}
+    .article-body p{margin-bottom:14px;color:var(--text-secondary)}
+    .article-body a{color:var(--accent-blue);text-decoration:underline}
+    .article-body img{max-width:100%;border-radius:12px;margin:16px 0;height:auto}
+    .article-body th,.article-body td{border:1px solid var(--border-color);padding:10px 14px;text-align:right}
+    .article-body th{background:rgba(234,179,8,0.1);color:var(--accent-gold);font-weight:700}
+    .article-body blockquote{border-right:3px solid var(--accent-gold);padding-right:16px;margin:16px 0;color:var(--text-secondary);font-style:italic}
+    .article-body code{background:rgba(59,158,255,0.1);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--accent-blue)}
+    .article-body strong{color:var(--text-primary)}
+
+    .spotlight-card{position:relative;overflow:hidden}
+    .spotlight-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(59,158,255,0.10),transparent 60%);opacity:0;transition:opacity 0.4s ease;pointer-events:none;z-index:0}
+    .spotlight-card:hover::after{opacity:1}
+    .spotlight-card>*{position:relative;z-index:1}
+    .card-engineering.spotlight-card:hover::after{background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(59,158,255,0.14),transparent 60%)}
+    .card-political.spotlight-card:hover::after{background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(96,207,255,0.14),transparent 60%)}
+    .card-nubian.spotlight-card:hover::after{background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(234,179,8,0.14),transparent 60%)}
+    .card-academy.spotlight-card:hover::after{background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(167,139,250,0.14),transparent 60%)}
+    .card-lifestyle.spotlight-card:hover::after{background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(52,211,153,0.14),transparent 60%)}
+
+    .card-wrap{position:relative;overflow:hidden}
+    .card-wrap::before{content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.045),transparent);transform:skewX(-18deg);pointer-events:none;z-index:2}
+    .card-wrap:hover::before{animation:borderSweep 0.75s ease forwards}
+
+    .card-engineering:hover{box-shadow:0 22px 55px rgba(59,158,255,0.28),0 0 90px rgba(59,158,255,0.07),inset 0 1px 0 rgba(59,158,255,0.18)}
+    .card-political:hover{box-shadow:0 22px 55px rgba(96,207,255,0.28),0 0 90px rgba(96,207,255,0.07),inset 0 1px 0 rgba(96,207,255,0.18)}
+    .card-nubian:hover{box-shadow:0 22px 55px rgba(234,179,8,0.32),0 0 90px rgba(234,179,8,0.09),inset 0 1px 0 rgba(234,179,8,0.22)}
+    .card-academy:hover{box-shadow:0 22px 55px rgba(167,139,250,0.28),0 0 90px rgba(167,139,250,0.07),inset 0 1px 0 rgba(167,139,250,0.18)}
+    .card-lifestyle:hover{box-shadow:0 22px 55px rgba(52,211,153,0.28),0 0 90px rgba(52,211,153,0.07),inset 0 1px 0 rgba(52,211,153,0.18)}
+
+    .card-icon-wrap { transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease, border-color 0.4s ease; }
+    .card-wrap:hover .card-icon-wrap { transform: scale(1.12) rotate(3deg); }
+    .card-engineering:hover .card-icon-wrap { box-shadow: 0 0 25px rgba(59,158,255,0.5); background: rgba(59,158,255,0.12) !important; border-color: rgba(59,158,255,0.4) !important; }
+    .card-political:hover .card-icon-wrap   { box-shadow: 0 0 25px rgba(96,207,255,0.5); background: rgba(96,207,255,0.12) !important; border-color: rgba(96,207,255,0.4) !important; }
+    .card-nubian:hover .card-icon-wrap      { box-shadow: 0 0 25px rgba(234,179,8,0.5);  background: rgba(234,179,8,0.12) !important;  border-color: rgba(234,179,8,0.4) !important; }
+    .card-academy:hover .card-icon-wrap     { box-shadow: 0 0 25px rgba(167,139,250,0.5);background: rgba(167,139,250,0.12) !important;border-color: rgba(167,139,250,0.4) !important; }
+    .card-lifestyle:hover .card-icon-wrap   { box-shadow: 0 0 25px rgba(52,211,153,0.5); background: rgba(52,211,153,0.12) !important; border-color: rgba(52,211,153,0.4) !important; }
+
+    .innovation-tag-btn { transition: all 0.3s ease; min-height: 32px; position: relative; overflow: hidden; }
+    .innovation-tag-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%); background-size: 200% 100%; opacity: 0; transition: opacity 0.3s ease; }
+    .innovation-tag-btn:hover::after { opacity: 1; animation: tagShimmer 0.8s ease forwards; }
+    .innovation-tag-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+    .card-engineering .innovation-tag-btn:hover { background: rgba(59,158,255,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(59,158,255,0.3); border-color: rgba(59,158,255,0.7) !important; }
+    .card-political .innovation-tag-btn:hover   { background: rgba(96,207,255,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(96,207,255,0.3); border-color: rgba(96,207,255,0.7) !important; }
+    .card-nubian .innovation-tag-btn:hover      { background: rgba(234,179,8,0.35) !important;  color: #fff !important; box-shadow: 0 6px 20px rgba(234,179,8,0.3);  border-color: rgba(234,179,8,0.7) !important; }
+    .card-academy .innovation-tag-btn:hover     { background: rgba(167,139,250,0.35) !important;color: #fff !important; box-shadow: 0 6px 20px rgba(167,139,250,0.3);border-color: rgba(167,139,250,0.7) !important; }
+    .card-lifestyle .innovation-tag-btn:hover   { background: rgba(52,211,153,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(52,211,153,0.3); border-color: rgba(52,211,153,0.7) !important; }
+
+    .social-btn{transition:transform 0.3s ease,box-shadow 0.3s ease,background 0.3s ease,border-color 0.3s ease,color 0.3s ease;min-height:44px;display:flex;align-items:center}
+    .social-btn:hover{transform:translateY(-4px)}
+    .social-btn[data-social="linkedin"]:hover { background: rgba(10,102,194,0.15); border-color: #0A66C2; color: #0A66C2; }
+    .social-btn[data-social="facebook"]:hover { background: rgba(24,119,242,0.15); border-color: #1877F2; color: #1877F2; }
+    .social-btn[data-social="x"]:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
+    .social-btn[data-social="youtube"]:hover { background: rgba(255,0,0,0.15); border-color: #FF0000; color: #FF0000; }
+    .social-btn[data-social="instagram"]:hover { background: rgba(228,64,95,0.15); border-color: #E4405F; color: #E4405F; }
+    .social-btn[data-social="whatsapp"]:hover { background: rgba(37,211,102,0.15); border-color: #25D366; color: #25D366; }
+    .social-btn[data-social="tiktok"]:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
+
+    .install-btn{background:linear-gradient(135deg,#3B9EFF,#2563eb);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;margin-bottom:14px;box-shadow:0 0 30px rgba(59,158,255,0.4);transition:transform 0.25s ease;min-height:44px}
+    .install-btn:hover{transform:scale(1.03)}
+    .dismiss-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#6677aa;padding:12px 32px;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;min-height:44px}
+
+    .article-list{counter-reset:article-counter}
+    .accordion-item{position:relative;padding-right:40px}
+    .accordion-item::before{counter-increment:article-counter;content:counter(article-counter,decimal-leading-zero)".";position:absolute;right:0;top:22px;font-size:13px;font-weight:800;color:var(--accent-blue);opacity:0.4;z-index:1;pointer-events:none}
+
+    .offline-banner{position:fixed;bottom:0;left:0;right:0;background:rgba(234,179,8,0.18);border-top:1px solid rgba(234,179,8,0.35);color:var(--accent-gold);padding:12px 24px;text-align:center;font-size:12px;z-index:1001;display:none;backdrop-filter:blur(8px)}
+    .offline-banner.show{display:block}
+    .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent-blue),#60CFFF);width:0%;z-index:1002;transition:width 0.1s ease;border-radius:0 3px 3px 0}
+    .search-input{background:var(--glass-bg);border:1px solid var(--border-color);color:var(--text-primary);transition:all 0.3s}
+    .search-input:focus{border-color:var(--accent-blue);box-shadow:0 0 20px rgba(59,158,255,0.15);outline:none}
+    .search-input::placeholder{color:var(--text-secondary)}
+    .author-meta{font-size:12px;color:var(--text-secondary);margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap}
+    @media(max-width:768px){.hide-mobile{display:none!important}}
+  </style>
 </head>
 <body>
+  <script>if(localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
+  <div class="progress-bar" id="readProgress"></div>
+  <div id="root"></div>
+  <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
+  <script>
+    (function(){
+      const V="1.0.43",S=localStorage.getItem('site_version');
+      if(S!==V){
+        if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
+        ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
+        localStorage.setItem('site_version',V);
+        if(S!==null)setTimeout(()=>location.reload(true),150);
+      }
+    })();
+  </script>
+  <script>
+    if('serviceWorker' in navigator){
+      window.addEventListener('load',()=>{
+        navigator.serviceWorker.register('/bassam-portfolio/service-worker.js')
+          .then(r=>console.log('✅ SW:',r.scope)).catch(()=>console.log('ℹ️ SW offline'));
+      });
+    }
+  </script>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
 
-    <div id="root">
-        <div class="flex items-center justify-center min-h-screen bg-[#0b132b] text-white p-4 text-center">
-            <div>
-                <i class="fas fa-spinner fa-spin text-4xl text-[#48cae4] mb-4"></i>
-                <p class="text-lg">جاري تحميل معرض الأعمال...</p>
-                <p class="text-sm text-gray-4xl mt-2">إذا استمرت الشاشة سوداء، يرجى التحقق من اتصال الإنترنت أو تحديث الصفحة.</p>
-            </div>
+    const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
+    const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
+    const APP_VERSION="1.0.43";
+    const ITEMS_PER_PAGE=10;
+    const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
+    const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
+
+    const I18N={
+      ar:{
+        back:'العودة للتبويب',library:'📚 المكتبة',read:'📖 اقرأ',close:'✕ إغلاق',search:'🔍 بحث في المقالات...',noArticles:'لا توجد مقالات بعد.',loadMore:'📄 عرض المزيد',remaining:'مقال متبقي',minRead:'دقائق قراءة',related:'📌 مقالات ذات صلة',contact:'تواصل معي',visionTitle:'الرؤية والرسالة',visionText:'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.',identity:'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي',heroDesc:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',mainTitle:'خمسة مجالات. رؤية واحدة.',about:'تعرّف عليّ',exploreContent:'استكشف المحتوى',lab:'المختبر المرئي',explore:'اكتشف المزيد',browse:'📂 تصفح المحتوى',retry:'إعادة المحاولة',footerCopy:'جميع الحقوق محفوظة',
+        tab_eng:'المنصة الهندسية',tab_eng_sub:'علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل',tab_eng_desc:'بوابة إلى عالم المواد الإنشائية المتقدمة.',
+        tab_pol:'الأرشيف السياسي',tab_pol_sub:'قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية',tab_pol_desc:'بوابة إلى الذاكرة السياسية السودانية.',
+        tab_nub:'نوبيان (الحضارة النوبية)',tab_nub_sub:'توثيق الإرث، التاريخ، والعمارة النوبية العريقة',tab_nub_desc:'نافذة متخصصة في الحضارة النوبية.',
+        tab_aca:'أكاديمية التطوير والمنظمات',tab_aca_sub:'كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي',tab_aca_desc:'بوابة إلى التميّز المؤسسي.',
+        tab_life:'نمط الحياة والصحة',tab_life_sub:'الصحة الشاملة، التغذية، والتميز البدني والذهني',tab_life_desc:'بوابة إلى العافية الكاملة.',
+        stat1:'خبرة عملية',stat1_sub:'متجددة باستمرار',stat2:'بحوث ودراسات',stat2_sub:'منشورة ومحكّمة',stat3:'تحليل استراتيجي',stat3_sub:'مستمر ومتواصل',
+        nav_contact:'تواصل معي',hero_btn1:'تعرّف عليّ',hero_btn2:'استكشف المحتوى',
+        share:'📤 مشاركة',facebook:'📘 فيسبوك',whatsapp:'📲 واتساب',twitter:'𝕏 تويتر',telegram:'💬 تيليجرام',copyLink:'📋 نسخ الرابط',copied:'✅ تم النسخ!',
+        tag_materials:'علوم المواد',tag_construction:'ابتكار إنشائي',tag_lab:'مختبر هندسي',
+        tag_sudan_history:'تاريخ السودان',tag_strategic:'تحليل استراتيجي',tag_intellectual:'رؤى فكرية',
+        tag_history:'تاريخ',tag_archaeology:'آثار',tag_identity:'هوية',
+        tag_project:'كتابة مشاريع',tag_leadership:'قيادة',tag_training:'تدريب تنموي',
+        tag_holistic:'صحة شاملة',tag_nutrition:'تغذية علمية',tag_physical:'تميز بدني',
+        lib_engineering:'الهندسة',lib_political:'السياسة',lib_nubian:'نوبيان',lib_academy:'الأكاديمية',lib_lifestyle:'نمط الحياة',
+        download_btn:'📥 تحميل',preview_btn:'👁️ معاينة',
+        nav_engineering:'هندسة',nav_political:'سياسة',nav_nubian:'نوبيان',nav_academy:'أكاديمية',nav_lifestyle:'نمط الحياة',
+        pwa_title:'مرحباً بك في منصتي الرقمية',pwa_desc:'هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.',pwa_install:'📲 ثبّت التطبيق للوصول السريع',pwa_dismiss:'استمر بالتصفح',
+        meta_description:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
+        author_name:'بسام إبراهيم أحمد'
+      },
+      en:{
+        back:'Back to Section',library:'📚 Library',read:'📖 Read',close:'✕ Close',search:'🔍 Search articles...',noArticles:'No articles yet.',loadMore:'📄 Load More',remaining:'remaining',minRead:'min read',related:'📌 Related Articles',contact:'Contact Me',visionTitle:'Vision & Mission',visionText:'I believe true specialization gives you keys to understand the world in multiple ways.',identity:'Civil Engineer · Sudan Affairs · Community Activist',heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',mainTitle:'Five Fields. One Vision.',about:'About Me',exploreContent:'Explore Content',lab:'Visual Lab',explore:'Explore',browse:'📂 Browse Content',retry:'Retry',footerCopy:'All rights reserved',
+        tab_eng:'Engineering Platform',tab_eng_sub:'Materials Science, Construction Innovation & Engineering Lab',tab_eng_desc:'Gateway to advanced structural materials.',
+        tab_pol:'Political Archive',tab_pol_sub:'Sudan History, Strategic Analysis & Intellectual Visions',tab_pol_desc:'Gateway to Sudanese political memory.',
+        tab_nub:'Nubian Civilization',tab_nub_sub:'Documenting Nubian Heritage, History & Architecture',tab_nub_desc:'A specialized window into Nubian civilization.',
+        tab_aca:'Development Academy',tab_aca_sub:'Project Writing, Leadership & Developmental Training',tab_aca_desc:'Gateway to institutional excellence.',
+        tab_life:'Lifestyle & Health',tab_life_sub:'Holistic Health, Scientific Nutrition & Physical Excellence',tab_life_desc:'Gateway to complete wellness.',
+        stat1:'Practical Experience',stat1_sub:'Continuously updated',stat2:'Published Research',stat2_sub:'Peer-reviewed studies',stat3:'Strategic Analysis',stat3_sub:'Ongoing & continuous',
+        nav_contact:'Contact Me',hero_btn1:'About Me',hero_btn2:'Explore Content',
+        share:'📤 Share',facebook:'📘 Facebook',whatsapp:'📲 WhatsApp',twitter:'𝕏 Twitter',telegram:'💬 Telegram',copyLink:'📋 Copy Link',copied:'✅ Copied!',
+        tag_materials:'Materials Science',tag_construction:'Construction Innovation',tag_lab:'Engineering Lab',
+        tag_sudan_history:'Sudan History',tag_strategic:'Strategic Analysis',tag_intellectual:'Intellectual Visions',
+        tag_history:'History',tag_archaeology:'Archaeology',tag_identity:'Identity',
+        tag_project:'Project Writing',tag_leadership:'Leadership',tag_training:'Developmental Training',
+        tag_holistic:'Holistic Health',tag_nutrition:'Scientific Nutrition',tag_physical:'Physical Excellence',
+        lib_engineering:'Engineering',lib_political:'Politics',lib_nubian:'Nubian',lib_academy:'Academy',lib_lifestyle:'Lifestyle',
+        download_btn:'📥 Download',preview_btn:'👁️ Preview',
+        nav_engineering:'Engineering',nav_political:'Politics',nav_nubian:'Nubian',nav_academy:'Academy',nav_lifestyle:'Lifestyle',
+        pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing',
+        meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
+        author_name:'Bassam Ibrahim Ahmed'
+      }
+    };
+
+    const useDebounce=(value,delay)=>{const[d,setD]=useState(value);useEffect(()=>{const h=setTimeout(()=>setD(value),delay);return()=>clearTimeout(h);},[value,delay]);return d;};
+
+    function parseMarkdownToHTML(md){
+      if(!md||typeof md!=='string')return"";
+      let h=md;
+      h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
+      h=h.replace(/^#### (.*$)/gim,'<h4>$1</h4>').replace(/^### (.*$)/gim,'<h3>$1</h3>').replace(/^## (.*$)/gim,'<h2>$1</h2>').replace(/^# (.*$)/gim,'<h1>$1</h1>');
+      h=h.replace(/\*\*\*(.*?)\*\*\*/g,'<strong><em>$1</em></strong>').replace(/\*\mathbf{(.*?)}\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
+      h=h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img alt="$1" src="$2" loading="lazy" />');
+      h=h.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+      h=h.replace(/^---$/gim,'<hr />').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br />');
+      h='<p>'+h+'</p>';
+      h=h.replace(/<p><\/p>/g,'');
+      return h;
+    }
+
+    function sanitizeHTML(raw){
+      if(typeof DOMPurify!=='undefined')return DOMPurify.sanitize(raw,{ALLOWED_TAGS:['h1','h2','h3','h4','p','br','strong','em','a','img','ul','ol','li','table','thead','tbody','tr','th','td','code','pre','blockquote','hr','span','div'],ALLOWED_ATTR:['href','target','rel','src','alt','loading','style','class']});
+      return raw.replace(/<script[^>]*>.*?<\/script>/gi,'').replace(/on\w+="[^"]*"/g,'');
+    }
+
+    const getLocalized = (article, field, lang) => {
+      return article[`${field}_${lang}`] || article[`${field}_ar`] || article[field] || '';
+    };
+
+    const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
+    function StarField({theme}){
+      return(
+        <div style={{position:'fixed',inset:0,pointerEvents:'none',zIndex:0,overflow:'hidden',opacity:theme==='light'?0:1,transition:'opacity 0.6s ease'}}>
+          {STARS.map(s=>(
+            <div key={s.id} style={{position:'absolute',width:s.size,height:s.size,borderRadius:'50%',background:s.color,left:`${s.left}%`,top:`${s.top}%`,opacity:s.opacity,boxShadow:`0 0 ${s.size*3}px ${s.color}`,animation:`floatStar ${s.duration}s ease-in-out infinite`,animationDelay:`${s.delay}s`,willChange:'transform,opacity',transform:'translateZ(0)'}}/>
+          ))}
         </div>
-    </div>
+      );
+    }
 
-    <script type="text/babel">
-        // مكوّن لبطاقات المشاريع والأبحاث
-        const Card = ({ title, category, description, icon, tags }) => (
-            <div class="bg-[#1c2541] rounded-xl p-6 border border-[#3a506b]/30 hover:border-[#48cae4]/50 transition-all duration-300 shadow-lg hover:-translate-y-1">
-                <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-semibold px-3 py-1 bg-[#48cae4]/10 text-[#48cae4] rounded-full">
-                        {category}
-                    </span>
-                    <i class={`${icon} text-xl text-[#ffd700]`}></i>
-                </div>
-                <h3 class="text-xl font-bold mb-2 text-white">{title}</h3>
-                <p class="text-gray-300 text-sm leading-relaxed mb-4">{description}</p>
-                <div class="flex flex-wrap gap-2">
-                    {tags.map((tag, idx) => (
-                        <span key={idx} class="text-xs bg-[#0b132b] text-gray-4xl px-2 py-1 rounded">
-                            {tag}
-                        </span>
-                    ))}
-                </div>
-            </div>
-        );
-
-        // المكوّن الرئيسي للموقع
-        const Portfolio = () => {
-            const [activeTab, setActiveTab] = React.useState('all');
-            const [searchTerm, setSearchTerm] = React.useState('');
-
-            const items = [
-                {
-                    id: 1,
-                    title: "دراسة تأثير الصمغ العربي على الهيدرات الإسمنتية",
-                    category: "research",
-                    description: "بحث تجريبي تفصيلي يدرس الخصائص الإنشائية وزمن الشك عند إضافة نسب محددة من الصمغ العربي للمركبات الإسمنتية.",
-                    icon: "fas fa-flask",
-                    tags: ["مواد إنشائية", "أبحاث خرسانية", "الصمغ العربي"]
-                },
-                {
-                    id: 2,
-                    title: "نظام أتمتة النشر والتوزيع الرقمي",
-                    category: "tech",
-                    description: "تطوير وبناء نظام مستقر عبر بوت تليجرام لإدارة وتوثيق المقالات والأرشيف التاريخي والاستراتيجي بكفاءة عالية.",
-                    icon: "fas fa-robot",
-                    tags: ["Termux", "Python", "أتمتة"]
-                },
-                {
-                    id: 3,
-                    title: "الهوية البصرية وإرث الأنماط النوبية",
-                    category: "design",
-                    description: "تصميم شعارات وأيقونات مستوحاة من الأهرامات السودانية والزخارف الهندسية النوبية لدمج الأصالة بالهوية الرقمية.",
-                    icon: "fas fa-palette",
-                    tags: ["هوية بصرية", "ثقافة سودانية", "تصميم هندسي"]
-                }
-            ];
-
-            const filteredItems = items.filter(item => {
-                const matchesTab = activeTab === 'all' || item.category === activeTab;
-                const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                                      item.description.toLowerCase().includes(searchTerm.toLowerCase());
-                return matchesTab && matchesSearch;
-            });
-
-            return (
-                <div class="min-h-screen flex flex-col justify-between">
-                    {/* الهيدر */}
-                    <header class="border-b border-[#3a506b]/20 bg-[#0b132b]/80 backdrop-blur sticky top-0 z-50 px-4 py-4">
-                        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#48cae4] to-[#1c2541] flex items-center justify-center border border-[#48cae4]/30">
-                                    <span class="font-bold text-lg text-white">B</span>
-                                </div>
-                                <div>
-                                    <h1 class="font-bold text-lg text-white tracking-wide">Bassam Ibrahim</h1>
-                                    <p class="text-xs text-[#48cae4]">Civil Engineering & Tech Portfolio</p>
-                                </div>
-                            </div>
-                            
-                            {/* روابط التواصل */}
-                            <div class="flex items-center gap-4 text-gray-300">
-                                <a href="#" class="hover:text-[#48cae4] transition-colors"><i class="fab fa-telegram text-xl"></i></a>
-                                <a href="#" class="hover:text-[#48cae4] transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
-                                <a href="#" class="hover:text-[#48cae4] transition-colors"><i class="fab fa-github text-xl"></i></a>
-                            </div>
-                        </div>
-                    </header>
-
-                    {/* المحتوى الرئيسي */}
-                    <main class="max-w-6xl w-full mx-auto px-4 py-12 flex-grow">
-                        {/* قسم الترحيب */}
-                        <section class="text-center mb-16">
-                            <h2 class="text-4xl font-extrabold mb-4 bg-gradient-to-r from-white via-gray-200 to-[#48cae4] bg-clip-text text-transparent">
-                                توثيق الأبحاث، الابتكار التقني، والأصالة التاريخية
-                            </h2>
-                            <p class="max-w-2xl mx-auto text-gray-300 text-base leading-relaxed">
-                                منصة متكاملة تجمع بين الهندسة الإنشائية، الحلول البرمجية الذكية، والحفاظ على الإرث الثقافي والهوية البصرية.
-                            </p>
-                        </section>
-
-                        {/* أدوات التصفية والبحث */}
-                        <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-8 bg-[#1c2541]/40 p-4 rounded-xl border border-[#3a506b]/20">
-                            <div class="flex flex-wrap gap-2 w-full md:w-auto justify-center">
-                                <button 
-                                    onClick={() => setActiveTab('all')}
-                                    class={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === 'all' ? 'bg-[#48cae4] text-[#0b132b]' : 'bg-[#1c2541] text-gray-300 hover:bg-[#3a506b]'}`}
-                                >
-                                    الكل
-                                </button>
-                                <button 
-                                    onClick={() => setActiveTab('research')}
-                                    class={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === 'research' ? 'bg-[#48cae4] text-[#0b132b]' : 'bg-[#1c2541] text-gray-300 hover:bg-[#3a506b]'}`}
-                                >
-                                    الأبحاث الإنشائية
-                                </button>
-                                <button 
-                                    onClick={() => setActiveTab('tech')}
-                                    class={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === 'tech' ? 'bg-[#48cae4] text-[#0b132b]' : 'bg-[#1c2541] text-gray-300 hover:bg-[#3a506b]'}`}
-                                >
-                                    الأنظمة والتقنية
-                                </button>
-                                <button 
-                                    onClick={() => setActiveTab('design')}
-                                    class={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === 'design' ? 'bg-[#48cae4] text-[#0b132b]' : 'bg-[#1c2541] text-gray-300 hover:bg-[#3a506b]'}`}
-                                >
-                                    الهوية والتصميم
-                                </button>
-                            </div>
-
-                            {/* حقل البحث */}
-                            <div class="relative w-full md:w-72">
-                                <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-4xl">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                                <input 
-                                    type="text"
-                                    placeholder="ابحث عن مشروع أو بحث..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    class="w-full pl-4 pr-10 py-2 bg-[#0b132b] border border-[#3a506b]/40 rounded-lg text-white placeholder-gray-5xl focus:outline-none focus:border-[#48cae4] text-sm transition-colors"
-                                />
-                            </div>
-                        </div>
-
-                        {/* شبكة المشاريع */}
-                        {filteredItems.length > 0 ? (
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {filteredItems.map(item => (
-                                    <Card key={item.id} {...item} />
-                                ))}
-                            </div>
-                        ) : (
-                            <div class="text-center py-12 text-gray-4xl">
-                                <i class="fas fa-folder-open text-4xl mb-3 block"></i>
-                                <p>لم يتم العثور على نتائج تطابق خيارات البحث.</p>
-                            </div>
-                        )}
-                    </main>
-
-                    {/* الفوتر */}
-                    <footer class="border-t border-[#3a506b]/20 bg-[#0b132b] py-6 text-center text-xs text-gray-4xl">
-                        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <p>© 2026 Bassam Ibrahim. جميع الحقوق محفوظة.</p>
-                            <p class="flex items-center gap-1">
-                                صُنع بكل فخر لتوثيق المعرفة والإرث <i class="fas fa-heart text-red-500"></i>
-                            </p>
-                        </div>
-                    </footer>
-                </div>
-            );
-        };
-
-        // رندر التطبيق في عنصر الـ root بعد التأكد من جاهزية البيئة
-        try {
-            const root = ReactDOM.createRoot(document.getElementById('root'));
-            root.render(<Portfolio />);
-        } catch (error) {
-            console.error("React Rendering Error:", error);
-            document.getElementById('root').innerHTML = `
-                <div class="flex items-center justify-center min-h-screen bg-[#0b132b] text-white p-4 text-center">
-                    <div class="bg-[#1c2541] p-6 rounded-xl border border-red-500/30 max-w-md">
-                        <i class="fas fa-exclamation-triangle text-3xl text-red-500 mb-3"></i>
-                        <h3 class="text-lg font-bold mb-2">عذراً، حدث خطأ أثناء تشغيل الواجهة</h3>
-                        <p class="text-xs text-gray-300">برجاء مراجعة الـ Console الخاص بالمتصفح لمعرفة التفاصيل.</p>
-                    </div>
-                </div>
-            `;
+    function TypeWriter({texts,color='#3B9EFF'}){
+      const[display,setDisplay]=useState('');
+      const[idx,setIdx]=useState(0);
+      const[phase,setPhase]=useState('typing');
+      useEffect(()=>{
+        const current=texts[idx%texts.length];let timer;
+        if(phase==='typing'){
+          if(display.length<current.length){timer=setTimeout(()=>setDisplay(current.slice(0,display.length+1)),75);}
+          else{timer=setTimeout(()=>setPhase('deleting'),2200);}
+        }else{
+          if(display.length>0){timer=setTimeout(()=>setDisplay(d=>d.slice(0,-1)),38);}
+          else{setIdx(i=>i+1);setPhase('typing');}
         }
-    </script>
+        return()=>clearTimeout(timer);
+      },[display,phase,idx,texts]);
+      return <span style={{color,fontWeight:900}}>{display}<span className="tw-cursor" style={{color,marginRight:2}}>|</span></span>;
+    }
+
+    function ProgressRing(){
+      const[progress,setProgress]=useState(0);
+      const[visible,setVisible]=useState(false);
+      useEffect(()=>{
+        const h=()=>{
+          const total=document.documentElement.scrollHeight-window.innerHeight;
+          const pct=total>0?(window.scrollY/total)*100:0;
+          setProgress(pct);setVisible(window.scrollY>300);
+          const bar=document.getElementById('readProgress');
+          if(bar)bar.style.width=`${pct}%`;
+        };
+        window.addEventListener('scroll',h,{passive:true});
+        return()=>window.removeEventListener('scroll',h);
+      },[]);
+      if(!visible)return null;
+      const r=18,circ=2*Math.PI*r,offset=circ-(progress/100)*circ;
+      return(
+        <div onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}
+          style={{position:'fixed',bottom:24,left:24,zIndex:99,cursor:'pointer',animation:'ringFadeIn 0.3s ease',filter:'drop-shadow(0 0 10px rgba(59,158,255,0.6))'}}>
+          <svg width="48" height="48" style={{transform:'rotate(-90deg)'}}>
+            <circle cx="24" cy="24" r={r} fill="var(--bg-primary)" stroke="rgba(59,158,255,0.2)" strokeWidth="3"/>
+            <circle cx="24" cy="24" r={r} fill="none" stroke="#3B9EFF" strokeWidth="3" strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" style={{transition:'stroke-dashoffset 0.2s ease'}}/>
+          </svg>
+          <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:700,color:'#3B9EFF',transform:'rotate(90deg)'}}>{Math.round(progress)}%</div>
+        </div>
+      );
+    }
+
+    function ShareButtons({article,lang}){
+      const[copied,setCopied]=useState(false);
+      const t=k=>I18N[lang]?.[k]||k;
+      const url=encodeURIComponent(window.location.href);
+      const title = encodeURIComponent(getLocalized(article, 'title', lang));
+      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article, 'title', lang),url:window.location.href});}catch(e){}}else{window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');}};
+      const handleCopy=async()=>{try{await navigator.clipboard.writeText(window.location.href);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch(e){const i=document.createElement('input');i.value=window.location.href;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}};
+      const open=p=>window.open({whatsapp:`https://wa.me/?text=${title}%0A${url}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,twitter:`https://twitter.com/intent/tweet?text=${title}&url=${url}`,telegram:`https://t.me/share/url?url=${url}&text=${title}`}[p],'_blank');
+      const btn=(labelKey,color,bgA,onClick)=>(<button onClick={onClick} style={{padding:'8px 14px',borderRadius:8,background:`rgba(${color},${bgA})`,border:`1px solid rgba(${color},0.4)`,color:`rgb(${color})`,cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600,transition:'all 0.2s'}}>{t(labelKey)}</button>);
+      return(
+        <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:16,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
+          {btn('share','59,158,255',0.1,handleShare)}
+          {btn('facebook','24,119,242',0.1,()=>open('facebook'))}
+          {btn('whatsapp','37,211,102',0.1,()=>open('whatsapp'))}
+          {btn('twitter','200,200,200',0.05,()=>open('twitter'))}
+          {btn('telegram','0,136,204',0.1,()=>open('telegram'))}
+          <button onClick={handleCopy} style={{padding:'8px 14px',borderRadius:8,background:copied?'rgba(37,211,102,0.2)':'rgba(200,200,200,0.05)',border:copied?'1px solid rgba(37,211,102,0.5)':'1px solid rgba(200,200,200,0.2)',color:copied?'#25D366':'var(--text-secondary)',cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600}}>{copied?t('copied'):t('copyLink')}</button>
+        </div>
+      );
+    }
+
+    function CommentsSection({articleId}){
+      useEffect(()=>{
+        const id=`comments-${articleId}`;const c=document.getElementById(id);
+        if(c&&!c.hasChildNodes()){const s=document.createElement('script');s.src='https://utteranc.es/client.js';s.setAttribute('repo','bassamibrahim249/bassam-portfolio');s.setAttribute('issue-term',articleId||'pathname');s.setAttribute('theme','github-dark');s.setAttribute('crossorigin','anonymous');s.async=true;c.appendChild(s);}
+        return()=>{if(c)c.innerHTML='';};
+      },[articleId]);
+      return <div style={{marginTop:20}}><div id={`comments-${articleId}`}></div></div>;
+    }
+
+    function LibrarySection({category,onBack,lang}){
+      const[files,setFiles]=useState([]);const[loading,setLoading]=useState(true);
+      const slug=category?.replace('library_','');const t=k=>I18N[lang]?.[k]||k;
+      useEffect(()=>{setLoading(true);fetch(`https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/library_index.json?v=${APP_VERSION}`).then(r=>r.json()).then(d=>setFiles(d.files?.filter(f=>f.category===slug)||[])).catch(()=>setFiles([])).finally(()=>setLoading(false));},[slug]);
+      const libName=t(`lib_${slug}`)||slug;
+      if(loading)return <div style={{padding:60,textAlign:'center'}}><div className="skeleton" style={{width:'50%',height:24,margin:'0 auto 16px'}}></div><div className="skeleton" style={{height:120}}></div></div>;
+      if(!files.length)return <div style={{padding:60,textAlign:'center',color:'var(--text-secondary)'}}><p style={{fontSize:48,marginBottom:16}}>📚</p><p>{t('noArticles')}</p><button onClick={onBack} className="glass-card" style={{marginTop:20,padding:'10px 22px',borderRadius:10,cursor:'pointer',color:'var(--accent-blue)',fontSize:14,fontWeight:700}}>← {t('back')}</button></div>;
+      return(
+        <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>
+          <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:'12px 24px',borderRadius:14,cursor:'pointer',color:'var(--text-secondary)',fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
+          <h2 style={{fontSize:'clamp(1.5rem,4vw,2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'#A78BFA'}}>📚 {libName}</h2>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))',gap:16}}>
+            {files.map(f=>(
+              <div key={f.id} className="glass-card" style={{padding:20,borderRadius:14}}>
+                <div style={{fontSize:28,marginBottom:10}}>{f.fileType==='pdf'?'📕':f.fileType==='pptx'?'📊':'📄'}</div>
+                <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{getLocalized(f, 'title', lang)}</h4>
+                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f, 'description', lang) || ''}</p>
+                <div style={{fontSize:11,color:'var(--text-secondary)',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
+                <div style={{display:'flex',gap:8}}>
+                  <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('download_btn')}</a>
+                  {f.fileType==='pdf'&&<a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(167,139,250,0.2)',color:'#A78BFA',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('preview_btn')}</a>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function ArticleListSection({title,category,onBack,lang}){
+      const[articles,setArticles]=useState([]);const[loading,setLoading]=useState(true);const[error,setError]=useState(null);
+      const[openIndex,setOpenIndex]=useState(null);const[lastOpenedIndex,setLastOpenedIndex]=useState(null);
+      const[searchQuery,setSearchQuery]=useState('');const[visibleCount,setVisibleCount]=useState(ITEMS_PER_PAGE);
+      const debouncedQuery=useDebounce(searchQuery,300);const t=k=>I18N[lang]?.[k]||k;
+      const dataFile=getDataFile(category);
+      const cacheKey=dataFile?`bassam_articles_cache_${dataFile.replace('data/','').replace('.json','')}`:null;
+
+      useEffect(()=>{
+        setLoading(true);setError(null);setVisibleCount(ITEMS_PER_PAGE);
+        if(!dataFile){setArticles([]);setLoading(false);return;}
+        const cached=localStorage.getItem(cacheKey);
+        if(cached){try{const p=JSON.parse(cached);if(p.timestamp&&(Date.now()-p.timestamp)<CONFIG.cache.ttl){setArticles(p.data);setLoading(false);return;}}catch(e){}}
+        fetch(`${dataFile}?v=${APP_VERSION}`)
+          .then(r=>{if(!r.ok)throw new Error();return r.json();})
+          .then(d=>{const a=Array.isArray(d)?d:[];try{localStorage.setItem(cacheKey,JSON.stringify({timestamp:Date.now(),data:a}));}catch(e){}setArticles(a);})
+          .catch(()=>{
+            const old=localStorage.getItem(cacheKey);
+            if(old){try{setArticles(JSON.parse(old).data||[]);setError(null);}catch(e){setError('تعذر تحميل المقالات.');}}
+            else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');document.getElementById('offlineBanner')?.classList.add('show');}
+            else{setArticles([]);}
+          })
+          .finally(()=>setLoading(false));
+      },[category,cacheKey]);
+
+      const handleToggle=idx=>{
+        if(openIndex===idx){setOpenIndex(null);}
+        else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>document.getElementById(`article-${idx}`)?.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+      };
+
+      const btnSlug=BUTTON_SLUGS[category]||category;
+      const filtered=category?articles.filter(a=>a.button===btnSlug||a.category===category):articles;
+      const sorted=[...filtered].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      const searched=debouncedQuery.trim()===''?sorted:sorted.filter(a=>{
+        const q=debouncedQuery.toLowerCase();
+        const titleAr=getLocalized(a,'title','ar').toLowerCase();
+        const titleEn=getLocalized(a,'title','en').toLowerCase();
+        const contentAr=getLocalized(a,'content','ar').toLowerCase();
+        const contentEn=getLocalized(a,'content','en').toLowerCase();
+        return titleAr.includes(q)||titleEn.includes(q)||contentAr.includes(q)||contentEn.includes(q)||a.tags?.some(tag=>tag.toLowerCase().includes(q));
+      });
+      const displayed=searched.slice(0,visibleCount);
+      const hasMore=searched.length>visibleCount;
+
+      return(
+        <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>
+          <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:'12px 24px',borderRadius:14,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-secondary)',cursor:'pointer',fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
+          <h2 style={{fontSize:'clamp(1.5rem,4vw,2.2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'var(--accent-gold)'}}>{t(title)||title}</h2>
+          <input type="text" className="search-input" placeholder={t('search')} value={searchQuery} onChange={e=>{setSearchQuery(e.target.value);setVisibleCount(ITEMS_PER_PAGE);}} style={{width:'100%',padding:'14px 20px',borderRadius:14,fontFamily:'Cairo',fontSize:14,marginBottom:24}}/>
+          {loading
+            ?<div style={{display:'flex',flexDirection:'column',gap:14}}>{[1,2,3].map(i=><div key={i} className="skeleton" style={{height:90}}></div>)}</div>
+            :error
+              ?<div style={{textAlign:'center',color:'#ff6b6b',padding:40}}><p style={{fontSize:48,marginBottom:12}}>⚠️</p><p>{error}</p><button onClick={()=>window.location.reload()} className="glass-card" style={{marginTop:20,padding:'10px 24px',borderRadius:12,color:'#ff6b6b',cursor:'pointer',fontWeight:700}}>{t('retry')}</button></div>
+              :displayed.length===0
+                ?<div style={{textAlign:'center',color:'var(--text-secondary)',padding:60}}><p style={{fontSize:56,marginBottom:16}}>📝</p><p style={{fontSize:16}}>{t('noArticles')}</p></div>
+                :(<div className="article-list">
+                    {displayed.map((article,idx)=>{
+                      const isOpen=openIndex===idx;
+                      const localizedContent = getLocalized(article, 'content', lang);
+                      const cleanHTML=sanitizeHTML(parseMarkdownToHTML(localizedContent));
+                      const commentId=article.id || article.slug || article.title?.toLowerCase().replace(/[^\w]+/g,'-').substring(0,40) || String(idx);
+                      return(
+                        <div key={article.id||idx} id={`article-${idx}`} className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`} style={{marginBottom:14,borderRadius:16,overflow:'hidden'}}>
+                          <div onClick={()=>handleToggle(idx)} style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}} role="button" aria-expanded={isOpen}>
+                            <div style={{flex:1}}>
+                              <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{getLocalized(article, 'title', lang)||'بدون عنوان'}</h3>
+                              <span style={{fontSize:11,color:'var(--text-secondary)'}}>{article.date}</span>
+                            </div>
+                            <button aria-label={isOpen?t('close'):t('read')} style={{padding:'8px 18px',borderRadius:10,background:isOpen?'rgba(200,200,200,0.06)':'rgba(234,179,8,0.15)',color:isOpen?'var(--text-secondary)':'var(--accent-gold)',border:'none',cursor:'pointer',fontWeight:700,fontSize:12,fontFamily:'Cairo',whiteSpace:'nowrap',transition:'all 0.2s'}}>{isOpen?t('close'):t('read')}</button>
+                          </div>
+                          {isOpen&&(
+                            <div style={{padding:'0 20px 24px'}}>
+                              {article.image&&<img src={article.image} alt={getLocalized(article, 'title', lang)} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
+                              <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}}/>
+                              <div className="author-meta">✍️ {getLocalized(article, 'author', lang) || article.author || t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
+                              <ShareButtons article={article} lang={lang}/>
+                              <CommentsSection articleId={commentId}/>
+                              <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
+                                <h4 style={{fontSize:13,color:'var(--accent-gold)',marginBottom:10,fontWeight:700}}>{t('related')}</h4>
+                                <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                                  {articles.filter(a=>a.id!==article.id&&(a.button===article.button||a.tags?.some(tg=>article.tags?.includes(tg)))).slice(0,3).map(rel=>(
+                                    <button key={rel.id} className="glass-card" onClick={()=>{const i=articles.findIndex(x=>x.id===rel.id);if(i!==-1){setOpenIndex(i);setLastOpenedIndex(i);window.scrollTo({top:0,behavior:'smooth'});}}} style={{fontSize:11,padding:'6px 12px',borderRadius:8,background:'rgba(59,158,255,0.1)',color:'var(--accent-blue)',border:'1px solid rgba(59,158,255,0.3)',cursor:'pointer',fontWeight:600,fontFamily:'Cairo'}}>{getLocalized(rel, 'title', lang)?.substring(0,28)}...</button>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                    {hasMore&&<div style={{textAlign:'center',marginTop:24}}><button onClick={()=>setVisibleCount(p=>p+ITEMS_PER_PAGE)} className="glass-card" style={{padding:'14px 36px',borderRadius:14,background:'rgba(59,158,255,0.1)',border:'1px solid rgba(59,158,255,0.3)',color:'var(--accent-blue)',fontWeight:700,fontSize:15,cursor:'pointer',fontFamily:'Cairo'}}>{t('loadMore')} ({searched.length-visibleCount} {t('remaining')})</button></div>}
+                  </div>)
+          }
+        </div>
+      );
+    }
+
+    function Card({card,onTagClick,onLibraryClick,lang}){
+      const[hover,setHover]=useState(false);const cardRef=useRef(null);const t=k=>I18N[lang]?.[k]||k;
+      const themes={engineering:{color:'#3B9EFF',glow:'rgba(59,158,255,0.15)',border:'rgba(59,158,255,0.45)',tagBg:'rgba(59,158,255,0.15)',tagBorder:'rgba(59,158,255,0.4)'},political:{color:'#60CFFF',glow:'rgba(96,207,255,0.12)',border:'rgba(96,207,255,0.4)',tagBg:'rgba(96,207,255,0.15)',tagBorder:'rgba(96,207,255,0.4)'},nubian:{color:'#EAB308',glow:'rgba(234,179,8,0.15)',border:'rgba(234,179,8,0.5)',tagBg:'rgba(234,179,8,0.15)',tagBorder:'rgba(234,179,8,0.4)'},academy:{color:'#A78BFA',glow:'rgba(167,139,250,0.12)',border:'rgba(167,139,250,0.4)',tagBg:'rgba(167,139,250,0.15)',tagBorder:'rgba(167,139,250,0.4)'},lifestyle:{color:'#34D399',glow:'rgba(52,211,153,0.12)',border:'rgba(52,211,153,0.4)',tagBg:'rgba(52,211,153,0.15)',tagBorder:'rgba(52,211,153,0.4)'}};
+      const th=themes[card.id]||themes.engineering;
+      const handleMouseMove=e=>{if(!cardRef.current)return;const rect=cardRef.current.getBoundingClientRect();cardRef.current.style.setProperty('--mouse-x',`${e.clientX-rect.left}px`);cardRef.current.style.setProperty('--mouse-y',`${e.clientY-rect.top}px`);};
+      return(
+        <div ref={cardRef} id={card.id} className={`glass-card card-wrap spotlight-card card-${card.id}`}
+          onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} onMouseMove={handleMouseMove}
+          style={{padding:32,borderRadius:22,cursor:'pointer',background:hover?`linear-gradient(145deg,${th.glow},var(--glass-bg))`:'var(--glass-bg)',border:hover?`1px solid ${th.border}`:'1px solid var(--glass-border)',transform:hover?'translateY(-10px)':'translateY(0)',transition:'all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)'}}>
+          <div className="card-icon-wrap" style={{width:58,height:58,borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',background:'var(--glass-bg)',marginBottom:24,border:'1px solid var(--glass-border)',fontSize:24,color:th.color,transition:'all 0.4s ease'}}>{card.icon}</div>
+          <h3 style={{fontSize:19,fontWeight:700,marginBottom:8,color:'var(--text-primary)'}}>{card.title}</h3>
+          <p style={{fontSize:12,fontWeight:600,color:th.color,marginBottom:14}}>{card.subtitle}</p>
+          <p style={{fontSize:13,color:'var(--text-secondary)',lineHeight:1.75,marginBottom:24}}>{card.desc}</p>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8,marginBottom:24}}>
+            {card.tagKeys.map(tagKey=>{
+              const displayTag=t(tagKey);
+              const actualTag=I18N['ar']?.[tagKey]||displayTag;
+              return(
+                <button key={tagKey} onClick={e=>{e.stopPropagation();onTagClick(actualTag,card.id);}} className="innovation-tag-btn"
+                  style={{fontSize:10,padding:'6px 14px',borderRadius:8,background:th.tagBg,color:th.color,border:`1px solid ${th.tagBorder}`,cursor:'pointer',fontWeight:700,fontFamily:'Cairo',transition:'all 0.3s'}}>
+                  {displayTag}
+                </button>
+              );
+            })}
+          </div>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+            <span style={{fontSize:12,fontWeight:700,color:hover?th.color:'var(--text-secondary)',transition:'color 0.3s'}}>{t('explore')} ←</span>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              {card.academic&&<a href={card.academic.url} target="_blank" rel="noopener noreferrer" className="glass-card" style={{padding:'6px 12px',borderRadius:8,color:'#60CFFF',textDecoration:'none',fontSize:10,fontWeight:600,display:'flex',alignItems:'center',gap:4}}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>{t('lab')}</a>}
+              {card.librarySlug&&<button onClick={e=>{e.stopPropagation();onLibraryClick(card.librarySlug,card.id);}} style={{padding:'8px 16px',borderRadius:10,background:`${th.color}20`,color:th.color,border:`1px solid ${th.color}40`,cursor:'pointer',fontWeight:700,fontSize:11,fontFamily:'Cairo',transition:'all 0.3s'}} onMouseEnter={e=>{e.target.style.background=`${th.color}35`;e.target.style.boxShadow=`0 4px 15px ${th.glow}`;}} onMouseLeave={e=>{e.target.style.background=`${th.color}20`;e.target.style.boxShadow='none';}}>{t('library')}</button>}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function SocialIcon({social}){
+      const[hover,setHover]=useState(false);
+      const socialKey = social.name.toLowerCase().replace(' ','');
+      return(
+        <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn" data-social={socialKey}
+          onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
+          style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,
+            background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',
+            border:'1px solid',borderColor:hover?'rgba(255,255,255,0.1)':'var(--glass-border)',
+            color: social.color, textDecoration:'none',
+            opacity: hover ? 1 : 0.85,
+            transform:hover?'translateY(-4px)':'none'}}>
+          {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
+        </a>
+      );
+    }
+
+    function WelcomeInstallPopup({lang}){
+      const[show,setShow]=useState(false);const[deferredPrompt,setDeferredPrompt]=useState(null);const[isInstalled,setIsInstalled]=useState(false);
+      const t=k=>I18N[lang]?.[k]||k;const DISMISS_KEY='pwa_dismiss_data';const DISMISS_DAYS=5;
+      useEffect(()=>{
+        if(window.matchMedia('(display-mode: standalone)').matches){setIsInstalled(true);return;}
+        const handler=e=>{e.preventDefault();setDeferredPrompt(e);};window.addEventListener("beforeinstallprompt",handler);
+        const raw=localStorage.getItem(DISMISS_KEY);let dismissData=null;if(raw){try{dismissData=JSON.parse(raw);}catch(e){}}
+        const shouldShow=()=>{if(!dismissData)return true;const{count,timestamp}=dismissData;const now=Date.now();const days=DISMISS_DAYS*24*60*60*1000;if(count<2)return true;if(now-timestamp<days)return false;localStorage.removeItem(DISMISS_KEY);return true;};
+        if(shouldShow()){const timer=setTimeout(()=>setShow(true),5000);return()=>{clearTimeout(timer);window.removeEventListener("beforeinstallprompt",handler);};}
+        return()=>window.removeEventListener("beforeinstallprompt",handler);
+      },[]);
+      const handleInstall=async()=>{if(deferredPrompt){deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;setDeferredPrompt(null);setShow(false);if(outcome==="accepted"){localStorage.removeItem(DISMISS_KEY);setIsInstalled(true);}}else{alert("للتثبيت:\n• أندرويد: ⁝ ← 'إضافة إلى الشاشة الرئيسية'\n• آيفون: ↑ ← 'إضافة إلى الشاشة الرئيسية'");}};
+      const handleDismiss=()=>{setShow(false);const raw=localStorage.getItem(DISMISS_KEY);let data={count:0,timestamp:0};if(raw){try{data=JSON.parse(raw);}catch(e){}}data.count=(data.count||0)+1;if(data.count>=2)data.timestamp=Date.now();localStorage.setItem(DISMISS_KEY,JSON.stringify(data));};
+      if(!show||isInstalled)return null;
+      return(
+        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:999,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={handleDismiss}>
+          <div style={{background:"rgba(8,12,18,0.98)",border:"1px solid rgba(59,158,255,0.25)",borderRadius:24,padding:"36px 28px 28px",textAlign:"center",maxWidth:400,width:"100%",boxShadow:"0 25px 60px rgba(0,0,0,0.7)"}} onClick={e=>e.stopPropagation()}>
+            <div style={{width:68,height:68,borderRadius:18,background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",display:"flex",alignItems:'center',justifyContent:'center',margin:"0 auto 18px",fontSize:30,fontWeight:900,color:"#080c12",boxShadow:'0 0 30px rgba(59,158,255,0.5)'}}>B.I</div>
+            <h3 style={{fontSize:20,fontWeight:700,color:"#fff",marginBottom:12}}>{t('pwa_title')}</h3>
+            <p style={{fontSize:13,color:"#8899bb",lineHeight:1.9,marginBottom:24}}>{t('pwa_desc')}</p>
+            <button onClick={handleInstall} className="install-btn">{t('pwa_install')}</button>
+            <button onClick={handleDismiss} className="dismiss-btn">{t('pwa_dismiss')}</button>
+          </div>
+        </div>
+      );
+    }
+
+    function App(){
+      const[lang,setLang]=useState('ar');
+      const[theme,setTheme]=useState(()=>localStorage.getItem('theme')||'dark');
+      const[activeSection,setActiveSection]=useState(null);
+      const[activeCategory,setActiveCategory]=useState(null);
+      const[originTabId,setOriginTabId]=useState(null);
+      const[scrolled,setScrolled]=useState(false);
+      const t=k=>I18N[lang]?.[k]||k;
+
+      useEffect(()=>{
+        document.body.className=theme;localStorage.setItem('theme',theme);
+        document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+        document.documentElement.setAttribute('lang',lang);
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if(metaDesc) metaDesc.setAttribute('content', t('meta_description'));
+        const canonical = document.getElementById('dynamicCanonical');
+        if(canonical) canonical.setAttribute('href', `https://bassamibrahim249.github.io/bassam-portfolio/?tab=${originTabId||''}`);
+      },[theme, lang, originTabId]);
+
+      useEffect(()=>{const h=()=>setScrolled(window.scrollY>50);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
+
+      const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+      const handleTagClick=(tag,tabId)=>{setOriginTabId(tabId);setActiveCategory(tag);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
+      const handleLibraryClick=(slug,tabId)=>{setOriginTabId(tabId);setActiveCategory(`library_${slug}`);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
+
+      if(activeSection==='articles'){
+        const handleBack=()=>{setActiveSection(null);setActiveCategory(null);setTimeout(()=>{if(originTabId)document.getElementById(originTabId)?.scrollIntoView({behavior:'smooth',block:'start'});},100);};
+        if(activeCategory?.startsWith('library_'))return <LibrarySection category={activeCategory} onBack={handleBack} lang={lang}/>;
+        return <ArticleListSection title={activeCategory||'المقالات'} category={activeCategory} onBack={handleBack} lang={lang}/>;
+      }
+
+      const TW_TEXTS=lang==='ar'?['مهندس مدني','باحث في الشأن السوداني','ناشط مجتمعي','مبتكر هندسي']:['Civil Engineer','Sudan Researcher','Community Activist','Engineering Innovator'];
+
+      const CARDS=[
+        {id:"engineering",title:t('tab_eng'),subtitle:t('tab_eng_sub'),desc:t('tab_eng_desc'),tagKeys:['tag_materials','tag_construction','tag_lab'],librarySlug:"engineering",academic:{label:t('lab'),url:"https://youtube.com/@bassamibrahimeng"},icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><polygon points="20,4 36,30 4,30" stroke="currentColor" strokeWidth="1.8" fill="none"/><polygon points="20,11 29,27 11,27" stroke="currentColor" strokeWidth="0.8" fill="none" opacity="0.4"/></svg>},
+        {id:"political",title:t('tab_pol'),subtitle:t('tab_pol_sub'),desc:t('tab_pol_desc'),tagKeys:['tag_sudan_history','tag_strategic','tag_intellectual'],librarySlug:"political",icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><rect x="6" y="6" width="28" height="28" rx="3" stroke="currentColor" strokeWidth="1.8" fill="none"/><line x1="6" y1="16" x2="34" y2="16" stroke="currentColor" strokeWidth="0.8" opacity="0.5"/><circle cx="20" cy="25" r="4" stroke="currentColor" strokeWidth="1.2" fill="none"/></svg>},
+        {id:"nubian",title:t('tab_nub'),subtitle:t('tab_nub_sub'),desc:t('tab_nub_desc'),tagKeys:['tag_history','tag_archaeology','tag_identity'],librarySlug:"nubian",icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><path d="M20 5L35 32H5L20 5Z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/><path d="M13 20H27M10 27H30" stroke="currentColor" strokeWidth="1.4"/></svg>},
+        {id:"academy",title:t('tab_aca'),subtitle:t('tab_aca_sub'),desc:t('tab_aca_desc'),tagKeys:['tag_project','tag_leadership','tag_training'],librarySlug:"academy",icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1.8" fill="none"/><circle cx="20" cy="20" r="7" stroke="currentColor" strokeWidth="0.9" fill="none" opacity="0.5"/><circle cx="20" cy="20" r="2" fill="currentColor"/></svg>},
+        {id:"lifestyle",title:t('tab_life'),subtitle:t('tab_life_sub'),desc:t('tab_life_desc'),tagKeys:['tag_holistic','tag_nutrition','tag_physical'],librarySlug:"lifestyle",icon:<svg viewBox="0 0 40 40" fill="none" style={{width:38,height:38}}><path d="M20 7C20 7 8 15 8 24C8 30 13.5 34 20 34C26.5 34 32 30 32 24C32 15 20 7 20 7Z" stroke="currentColor" strokeWidth="1.8" fill="none"/><path d="M14 22C16 18 20 20 20 20C20 20 24 18 26 22" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.6"/></svg>},
+      ];
+
+      const STATS=[{label:t('stat1'),sublabel:t('stat1_sub'),color:'#3B9EFF',icon:'⚙️'},{label:t('stat2'),sublabel:t('stat2_sub'),color:'#60CFFF',icon:'📚'},{label:t('stat3'),sublabel:t('stat3_sub'),color:'#A78BFA',icon:'📊'}];
+
+      const SOCIALS=[
+        {name:"LinkedIn",href:"https://www.linkedin.com/in/bassam-ibrahim-785a01406",color:"#0A66C2",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>)},
+        {name:"Facebook",href:"https://www.facebook.com/bassam.ibrahim.ahmed",color:"#1877F2",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>)},
+        {name:"X",href:"https://x.com/BassamIbrahimSD",color:"#ffffff",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:18,height:18}}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>)},
+        {name:"YouTube",href:"https://youtube.com/@bassamibrahimeng",color:"#FF0000",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>)},
+        {name:"Instagram",href:"https://www.instagram.com/bassam.ibrahim.ahmed",color:"#E4405F",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948-.2-4.358-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>)},
+        {name:"WhatsApp",href:`https://wa.me/${CONFIG.contact.whatsapp}`,color:"#25D366",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>)},
+        {name:"TikTok",href:"https://www.tiktok.com/@.bassam.ibrahim",color:"#ffffff",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/></svg>)},
+      ];
+
+      const NAV_ITEMS=[{id:"engineering",key:"nav_engineering"},{id:"political",key:"nav_political"},{id:"nubian",key:"nav_nubian"},{id:"academy",key:"nav_academy"},{id:"lifestyle",key:"nav_lifestyle"}];
+
+      return(
+        <div style={{position:'relative',minHeight:'100vh'}}>
+
+          <StarField theme={theme}/>
+
+          {theme==='dark'&&(
+            <>
+              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 7s ease-in-out infinite'}}/>
+              <div style={{position:'fixed',top:'30%',left:'5%',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 9s ease-in-out infinite',animationDelay:'2s'}}/>
+              <div style={{position:'fixed',bottom:'10%',right:'15%',width:250,height:250,borderRadius:'50%',background:'radial-gradient(circle,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 11s ease-in-out infinite',animationDelay:'4s'}}/>
+            </>
+          )}
+
+          {/* 🌟 شريط التنقل - تم إصلاحه بالكامل باستخدام translateZ(0) */}
+          <header className="navbar" style={{
+            position:'fixed', top:0, left:0, right:0, zIndex:1000,
+            padding: scrolled ? '10px 24px' : '16px 24px',
+            background: scrolled ? 'var(--bg-secondary)' : 'rgba(8,12,18,0.75)',
+            backdropFilter: 'blur(var(--blur-amount))', WebkitBackdropFilter: 'blur(var(--blur-amount))',
+            borderBottom: '1px solid var(--glass-border)',
+            width: '100%', boxSizing: 'border-box',
+            transition: 'all 0.3s ease',
+            transform: 'translateZ(0)', /* الحل الجذري */
+          }}>
+            <div style={{
+              maxWidth: 1280, margin: '0 auto',
+              display: 'flex', alignItems: 'center',
+              justifyContent: 'space-between',
+              position: 'relative', zIndex: 1
+            }}>
+              
+              {/* اليمين: الشعار + الاسم */}
+              <div style={{display:'flex', alignItems:'center', gap:12, flexShrink:0, position:'relative', zIndex:1}}>
+                <div className="logo-wrap" style={{
+                  width:40, height:40, borderRadius:12,
+                  background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',
+                  display:'flex', alignItems:'center', justifyContent:'center',
+                  fontSize:16, fontWeight:900, color:'#080c12',
+                  boxShadow: '0 0 25px rgba(59,158,255,0.5)'
+                }}>B.I</div>
+                <span style={{fontWeight:900, fontSize:18, color:'var(--text-primary)', whiteSpace:'nowrap'}}>
+                  Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
+                </span>
+              </div>
+              
+              {/* الوسط: التبويبات */}
+              <nav className="hide-mobile" style={{display:'flex', gap:28, alignItems:'center', flex:1, justifyContent:'center', flexShrink:0, position:'relative', zIndex:1}}>
+                {NAV_ITEMS.map(item=>(
+                  <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
+                    style={{fontSize:13, color:'var(--text-secondary)', textDecoration:'none', fontWeight:600, whiteSpace:'nowrap', padding:'6px 0', transition:'all 0.3s ease', borderBottom:'2px solid transparent'}}
+                    onMouseEnter={e=>{e.target.style.color='var(--accent-blue)'; e.target.style.borderColor='var(--accent-blue)';}}
+                    onMouseLeave={e=>{e.target.style.color='var(--text-secondary)'; e.target.style.borderColor='transparent';}}>
+                    {t(item.key)}
+                  </a>
+                ))}
+              </nav>
+              
+              {/* اليسار: الأزرار (مع z-index أعلى) */}
+              <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end', gap:8, flexShrink:0, position:'relative', zIndex:2 /* أعلى من التبويبات */}}>
+                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
+                  style={{fontSize:12, padding:'10px 20px', borderRadius:10, background:'linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))', border:'1px solid rgba(37,211,102,0.5)', color:'#25D366', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap', transition:'all 0.3s ease', boxShadow:'0 0 20px rgba(37,211,102,0.3)', minHeight:'40px'}}>
+                  {t('nav_contact')}
+                </button>
+                <div style={{display:'flex', alignItems:'center', gap:6, width:'100%', justifyContent:'flex-end', position:'relative', zIndex:1}}>
+                  <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')}
+                    style={{fontSize:11, padding:'6px 14px', borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap', transition:'all 0.3s ease', flexShrink:0, height:'34px', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                    {lang==='ar'?'English':'عربي'}
+                  </button>
+                  <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')}
+                    style={{width:34, height:34, borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontSize:15, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.3s ease', flexShrink:0}}>
+                    {theme==='dark'?'☀️':'🌙'}
+                  </button>
+                </div>
+              </div>
+              
+            </div>
+          </header>
+
+          {/* ── Hero ── */}
+          <section style={{padding:'170px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
+            <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
+            <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
+              {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',animation:'heroOrb 5s ease-in-out infinite'}}/>}
+              <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2.6rem,8vw,5rem)',fontWeight:900,lineHeight:1.1,color:'var(--text-primary)',position:'relative'}}>
+                Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
+              </h1>
+            </div>
+            <div className="anim-fade-up delay-3" style={{fontSize:'clamp(1rem,3vw,1.35rem)',marginBottom:16,minHeight:'2rem'}}>
+              <TypeWriter texts={TW_TEXTS} color="#3B9EFF"/>
+            </div>
+            <p className="anim-fade-up delay-3" style={{color:'var(--text-secondary)',maxWidth:620,margin:'0 auto 40px',fontSize:'1rem',lineHeight:1.85}}>{t('heroDesc')}</p>
+            <div className="anim-fade-up delay-4" style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap',marginBottom:56}}>
+              <button onClick={()=>scrollTo('vision-section')}
+                style={{padding:'14px 34px',borderRadius:14,background:'linear-gradient(135deg,#3B9EFF,#1a7fe0)',color:'#fff',fontWeight:700,fontSize:14,border:'none',cursor:'pointer',fontFamily:'Cairo',boxShadow:'0 0 30px rgba(59,158,255,0.5)',transition:'all 0.2s'}}
+                onMouseEnter={e=>{e.target.style.transform='scale(1.05)';e.target.style.boxShadow='0 0 50px rgba(59,158,255,0.75)';}}
+                onMouseLeave={e=>{e.target.style.transform='scale(1)';e.target.style.boxShadow='0 0 30px rgba(59,158,255,0.5)';}}>
+                {t('hero_btn1')}
+              </button>
+              <button onClick={()=>scrollTo('cards-section')} className="glass-card"
+                style={{padding:'14px 34px',borderRadius:14,color:'var(--text-secondary)',fontWeight:700,fontSize:14,cursor:'pointer',fontFamily:'Cairo'}}>
+                {t('hero_btn2')}
+              </button>
+            </div>
+            <div className="anim-fade-up delay-5" style={{display:'flex',gap:18,justifyContent:'center',flexWrap:'wrap'}}>
+              {STATS.map(s=>(
+                <div key={s.label} className="glass-card"
+                  style={{padding:'22px 28px',borderRadius:18,textAlign:'center',minWidth:150,transition:'all 0.3s'}}
+                  onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-6px)';e.currentTarget.style.borderColor=s.color+'66';e.currentTarget.style.boxShadow=`0 0 30px ${s.color}22`;}}
+                  onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.borderColor='var(--glass-border)';e.currentTarget.style.boxShadow='none';}}>
+                  <div style={{fontSize:26,marginBottom:8}}>{s.icon}</div>
+                  <div style={{fontSize:14,fontWeight:700,marginBottom:4,color:'var(--text-primary)'}}>{s.label}</div>
+                  <div style={{fontSize:11,color:s.color,fontWeight:600}}>{s.sublabel}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── Cards ── */}
+          <section id="cards-section" style={{padding:'60px 24px 80px',position:'relative',zIndex:1}}>
+            <div style={{maxWidth:1100,margin:'0 auto'}}>
+              <div style={{textAlign:'center',marginBottom:52}}>
+                <div className="section-title">{t('browse')}</div>
+                <h2 style={{fontSize:'clamp(1.5rem,4vw,2.2rem)',fontWeight:900,marginTop:8,color:'var(--text-primary)'}}>{t('mainTitle')}</h2>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:22}}>
+                {CARDS.map(card=><Card key={card.id} card={card} onTagClick={handleTagClick} onLibraryClick={handleLibraryClick} lang={lang}/>)}
+              </div>
+            </div>
+          </section>
+
+          {/* ── Vision ── */}
+          <section id="vision-section" style={{padding:'40px 24px 80px',position:'relative',zIndex:1}}>
+            {theme==='dark'&&<div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:600,height:300,background:'radial-gradient(ellipse,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',borderRadius:'50%'}}/>}
+            <div className="glass-card vision-card" style={{maxWidth:820,margin:'0 auto',borderRadius:26,padding:'52px 44px',textAlign:'center',position:'relative'}}>
+              <div style={{width:68,height:68,borderRadius:20,background:'rgba(234,179,8,0.12)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 20px',fontSize:30,color:'#EAB308',border:'1px solid rgba(234,179,8,0.25)',boxShadow:'0 0 30px rgba(234,179,8,0.2)'}}>⬡</div>
+              <h3 style={{fontSize:24,fontWeight:900,marginBottom:16,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('visionTitle')}</h3>
+              <p style={{color:'var(--text-secondary)',lineHeight:1.95,fontSize:15,maxWidth:560,margin:'0 auto'}}>{t('visionText')}</p>
+            </div>
+          </section>
+
+          {/* ── Footer ── */}
+          <footer style={{padding:'40px 24px 32px',borderTop:'1px solid var(--glass-border)',position:'relative',zIndex:1}}>
+            {theme==='dark'&&<div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'80%',height:1,background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.3),transparent)',pointerEvents:'none'}}/>}
+            <div style={{maxWidth:860,margin:'0 auto',textAlign:'center'}}>
+              <p style={{fontSize:12,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:22,fontWeight:700}}>{t('contact')}</p>
+              <div style={{display:'flex',justifyContent:'center',gap:14,flexWrap:'wrap',marginBottom:30}}>
+                {SOCIALS.map(s=><SocialIcon key={s.name} social={s}/>)}
+              </div>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:24,borderTop:'1px solid var(--glass-border)'}}>
+                <span style={{fontWeight:900,fontSize:16,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>BassamIbrahim</span>
+                <span style={{fontSize:11,color:'var(--text-secondary)'}}>© {new Date().getFullYear()} · {t('footerCopy')}</span>
+              </div>
+            </div>
+          </footer>
+
+          <WelcomeInstallPopup lang={lang}/>
+          <ProgressRing/>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+  </script>
+  <script data-goatcounter="https://bassam-portfolio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
