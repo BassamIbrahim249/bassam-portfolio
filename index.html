@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.40" />
+  <meta name="app-version" content="1.0.41" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -207,7 +207,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.40",S=localStorage.getItem('site_version');
+      const V="1.0.41",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -229,7 +229,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.40";
+    const APP_VERSION="1.0.41";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -668,33 +668,71 @@
             </>
           )}
 
-          {/* 🌟 شريط التنقل - مستقر ومضمون من v1.0.9 */}
+          {/* 🌟 شريط التنقل - الإصدار النهائي */}
           <header className="navbar" style={{
             position:'fixed', top:0, left:0, right:0, zIndex:100,
-            padding: scrolled ? '12px 24px' : '24px 24px',
-            background: scrolled ? 'rgba(8,12,18,0.85)' : 'transparent',
-            backdropFilter: scrolled ? 'blur(12px)' : 'none',
-            borderBottom: scrolled ? '1px solid rgba(59,158,255,0.1)' : '1px solid transparent'
+            padding: scrolled ? '10px 20px' : '16px 24px',
+            background: scrolled ? 'rgba(8,12,18,0.92)' : 'rgba(8,12,18,0.75)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            borderBottom: '1px solid rgba(59,158,255,0.15)',
+            width: '100%', boxSizing: 'border-box'
           }}>
-            <div style={{maxWidth:1200, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-              <div style={{display:'flex', alignItems:'center', gap:12}}>
-                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',fontSize:14,fontWeight:900,color:'#080c12'}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+            <div style={{
+              maxWidth: 1280, margin: '0 auto',
+              display: 'flex', alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              
+              {/* اليمين: الشعار + الاسم */}
+              <div style={{display:'flex', alignItems:'center', gap:12, flexShrink:0}}>
+                <div className="logo-wrap" style={{
+                  width:40, height:40, borderRadius:12,
+                  background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',
+                  display:'flex', alignItems:'center', justifyContent:'center',
+                  fontSize:16, fontWeight:900, color:'#080c12',
+                  boxShadow: '0 0 25px rgba(59,158,255,0.5)'
+                }}>B.I</div>
+                <span style={{fontWeight:900, fontSize:18, color:'var(--text-primary)', whiteSpace:'nowrap'}}>
+                  Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
+                </span>
               </div>
-              <nav className="hide-mobile" style={{display:'flex', gap:28}}>
+              
+              {/* الوسط: التبويبات */}
+              <nav className="hide-mobile" style={{display:'flex', gap:28, alignItems:'center', flexShrink:0}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                    style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600}}>
+                    style={{fontSize:12, color:'var(--text-secondary)', textDecoration:'none', fontWeight:600, whiteSpace:'nowrap', padding:'6px 0', transition:'all 0.3s ease', borderBottom:'2px solid transparent'}}
+                    onMouseEnter={e=>{e.target.style.color='var(--accent-blue)'; e.target.style.borderColor='var(--accent-blue)';}}
+                    onMouseLeave={e=>{e.target.style.color='var(--text-secondary)'; e.target.style.borderColor='transparent';}}>
                     {t(item.key)}
                   </a>
                 ))}
               </nav>
-              <button className="nav-cta" onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                style={{fontSize:12,padding:'8px 18px',borderRadius:8,fontWeight:700,fontFamily:'inherit',
-                  background:'linear-gradient(135deg, rgba(37,211,102,0.18), rgba(37,211,102,0.08))',
-                  border:'1px solid rgba(37,211,102,0.45)', color:'#25D366', cursor:'pointer'}}>
-                {t('nav_contact')}
-              </button>
+              
+              {/* اليسار: زر تواصل + أزرار اللغة والثيم تحته */}
+              <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end', gap:6, flexShrink:0}}>
+                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
+                  style={{fontSize:12, padding:'10px 20px', borderRadius:10, background:'linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))', border:'1px solid rgba(37,211,102,0.5)', color:'#25D366', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap', transition:'all 0.3s ease', boxShadow:'0 0 20px rgba(37,211,102,0.3)'}}
+                  onMouseEnter={e=>{e.target.style.background='linear-gradient(135deg,rgba(37,211,102,0.3),rgba(37,211,102,0.15))'; e.target.style.boxShadow='0 0 30px rgba(37,211,102,0.5)';}}
+                  onMouseLeave={e=>{e.target.style.background='linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))'; e.target.style.boxShadow='0 0 20px rgba(37,211,102,0.3)';}}>
+                  {t('nav_contact')}
+                </button>
+                <div style={{display:'flex', alignItems:'center', gap:6}}>
+                  <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')}
+                    style={{fontSize:11, padding:'6px 12px', borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap', transition:'all 0.3s ease'}}
+                    onMouseEnter={e=>{e.target.style.background='rgba(59,158,255,0.25)'; e.target.style.borderColor='rgba(59,158,255,0.5)';}}
+                    onMouseLeave={e=>{e.target.style.background='rgba(59,158,255,0.15)'; e.target.style.borderColor='rgba(59,158,255,0.3)';}}>
+                    {lang==='ar'?'English':'عربي'}
+                  </button>
+                  <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')}
+                    style={{width:38, height:38, borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontSize:17, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.3s ease'}}
+                    onMouseEnter={e=>{e.target.style.background='rgba(59,158,255,0.25)'; e.target.style.borderColor='rgba(59,158,255,0.5)';}}
+                    onMouseLeave={e=>{e.target.style.background='rgba(59,158,255,0.15)'; e.target.style.borderColor='rgba(59,158,255,0.3)';}}>
+                    {theme==='dark'?'☀️':'🌙'}
+                  </button>
+                </div>
+              </div>
+              
             </div>
           </header>
 
