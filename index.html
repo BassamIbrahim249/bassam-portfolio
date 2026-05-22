@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.83" />
+  <meta name="app-version" content="1.0.84" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -54,7 +54,6 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    /* ... (جميع الأنماط السابقة كما هي، لم نحذف شيئاً) ... */
     :root {
       --bg-primary:#05080f; --bg-secondary:#0a0f1a;
       --text-primary:#ffffff; --text-secondary:#8899bb;
@@ -202,19 +201,25 @@
     .mobile-menu-panel a { display: block; padding: 14px 16px; color: var(--text-primary); text-decoration: none; border-radius: 10px; margin-bottom: 6px; font-weight: 600; transition: background 0.2s; }
     .mobile-menu-panel a:hover { background: rgba(59,158,255,0.1); }
 
+    /* ── تحسينات الموبايل ── */
+    .header-top-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .header-bottom-row { display: none; justify-content: flex-end; gap: 8px; padding-top: 4px; }
+    .nav-tabs-desktop { display: flex; gap: 24px; align-items: center; }
+    .header-actions-desktop { display: flex; align-items: center; gap: 8px; }
+
     @media (max-width: 768px) {
       .nav-tabs-desktop { display: none; }
+      .header-actions-desktop { display: none; }
       .hamburger-btn { display: flex; align-items: center; justify-content: center; }
       .mobile-menu-overlay.show { display: block; }
-      .header-contact-btn { display: none !important; }
+      .header-bottom-row { display: flex; }
     }
     @media (min-width: 769px) {
       .hamburger-btn { display: none; }
       .mobile-menu-overlay { display: none; }
       .mobile-menu-panel { display: none; }
+      .header-bottom-row { display: none; }
     }
-    .hide-mobile { } /* تُستخدم مع @media */
-    @media(max-width:768px){.hide-mobile{display:none!important}}
   </style>
 </head>
 <body>
@@ -224,7 +229,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.83",S=localStorage.getItem('site_version');
+      const V="1.0.84",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -246,7 +251,7 @@
 
     const CONFIG={contact:{whatsapp:"249967238251"},cache:{ttl:86400000}};
     const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.83";
+    const APP_VERSION="1.0.84";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -712,11 +717,11 @@
             </>
           )}
 
-          {/* Header المُصلح: توزيع مضمون */}
+          {/* Header بتصميم السطرين في الموبايل */}
           <header style={{
             position:'fixed',top:0,left:0,right:0,zIndex:100,
             isolation:'isolate',
-            padding: scrolled ? '12px 24px' : '24px 24px',
+            padding: scrolled ? '8px 16px' : '16px 16px',
             background: scrolled
               ? (theme==='dark' ? 'rgba(8,12,18,0.88)' : 'rgba(232,236,244,0.92)')
               : (theme==='dark' ? 'rgba(5,8,15,0.01)'  : 'rgba(232,236,244,0.01)'),
@@ -725,29 +730,39 @@
             borderBottom: scrolled ? '1px solid rgba(59,158,255,0.1)' : '1px solid transparent',
             transition:'padding 0.3s ease, background 0.3s ease, border-color 0.3s ease'
           }}>
-            <div style={{
-              maxWidth:1200,margin:'0 auto',
-              display:'flex',alignItems:'center',
-              justifyContent:'space-between', /* هنا الإصلاح: الرجوع إلى space-between */
-              width:'100%',
-              overflow:'visible'
-            }}>
-              {/* القسم الأيمن: شعار + اسم */}
-              <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
-                <button className="hamburger-btn" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} aria-label="القائمة">☰</button>
-                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',fontSize:14,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+            <div style={{maxWidth:1200,margin:'0 auto',width:'100%'}}>
+              {/* السطر الأول: الهامبرغر (موبايل فقط) + الشعار + زر التواصل */}
+              <div className="header-top-row">
+                <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
+                  <button className="hamburger-btn" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} aria-label="القائمة">☰</button>
+                  <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',fontSize:14,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
+                  <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+                </div>
+                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
+                  style={{
+                    padding:'8px 16px',borderRadius:8,
+                    background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',
+                    border:'1px solid rgba(37,211,102,0.4)',
+                    color:'#25D366',fontWeight:700,fontSize:12,
+                    cursor:'pointer',fontFamily:'Cairo',
+                    whiteSpace:'nowrap',flexShrink:0
+                  }}>
+                  {t('nav_contact')}
+                </button>
               </div>
-
-              {/* القسم الأوسط: تبويبات سطح المكتب (مرنة) */}
-              <nav className="nav-tabs-desktop" style={{
-                display:'flex',gap:24,
-                flex:'1 1 auto', /* تأخذ المساحة المتاحة */
-                justifyContent:'center',
-                minWidth:0,
-                overflow:'hidden',
-                whiteSpace:'nowrap'
-              }}>
+              {/* السطر الثاني (موبايل فقط): أزرار اللغة والوضع */}
+              <div className="header-bottom-row">
+                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
+                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
+                  {lang==='ar'?'EN':'عربي'}
+                </button>
+                <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
+                  style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  {theme==='dark'?'🌙':'☀️'}
+                </button>
+              </div>
+              {/* تبويبات سطح المكتب (تظهر في الديسكتوب فقط) */}
+              <nav className="nav-tabs-desktop" style={{marginTop: '8px'}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`}
                     onClick={e=>{e.preventDefault();scrollTo(item.id);}}
@@ -758,31 +773,6 @@
                   </a>
                 ))}
               </nav>
-
-              {/* القسم الأيسر: الأزرار (ثابتة) */}
-              <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0, whiteSpace:'nowrap'}}>
-                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
-                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
-                  {lang==='ar'?'EN':'عربي'}
-                </button>
-                <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
-                  style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                  {theme==='dark'?'🌙':'☀️'}
-                </button>
-                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  style={{
-                    padding:'8px 16px',borderRadius:8,
-                    background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',
-                    border:'1px solid rgba(37,211,102,0.4)',
-                    color:'#25D366',fontWeight:700,fontSize:12,
-                    cursor:'pointer',fontFamily:'Cairo',
-                    whiteSpace:'nowrap',
-                    flexShrink:0, /* منع الاختفاء */
-                    minWidth:'fit-content'
-                  }}>
-                  {t('nav_contact')}
-                </button>
-              </div>
             </div>
           </header>
 
