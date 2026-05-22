@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني</title>
   <meta name="description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering" hreflang="ar" />
@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.41" />
+  <meta name="app-version" content="1.0.80" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -74,7 +74,21 @@
 
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{background:var(--bg-primary);font-family:'Cairo',sans-serif;color:var(--text-primary);overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;transition:background 0.4s ease,color 0.3s ease}
+    body{
+      background:var(--bg-primary);
+      font-family:'Cairo',sans-serif;
+      color:var(--text-primary);
+      overflow-x:hidden;
+      max-width:100vw;
+      -webkit-tap-highlight-color:transparent;
+      -webkit-font-smoothing:antialiased;
+      transition:background 0.4s ease,color 0.3s ease;
+    }
+    /* منع التمرير الأفقي في جميع الحاويات */
+    body, #root, section, header, footer, nav {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
 
     .glass-card{background:var(--glass-bg);backdrop-filter:blur(var(--blur-amount));-webkit-backdrop-filter:blur(var(--blur-amount));border:1px solid var(--glass-border);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
     .glass-card:hover{transform:translateY(-6px);border-color:rgba(59,158,255,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.2),0 0 40px rgba(59,158,255,0.08)}
@@ -187,7 +201,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.41",S=localStorage.getItem('site_version');
+      const V="1.0.80",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -209,12 +223,12 @@
 
     const CONFIG={contact:{whatsapp:"249967238251"},cache:{ttl:86400000}};
     const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.41";
+    const APP_VERSION="1.0.80";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
 
-    const I18N={
+    const I18N={ /* (نفس كائن الترجمة بالكامل دون تغيير، نضعه هنا للتوافق) */
       ar:{
         back:'العودة للتبويب',library:'📚 المكتبة',read:'📖 اقرأ',close:'✕ إغلاق',search:'🔍 بحث في المقالات...',noArticles:'لا توجد مقالات بعد.',loadMore:'📄 عرض المزيد',remaining:'مقال متبقي',minRead:'دقائق قراءة',related:'📌 مقالات ذات صلة',contact:'تواصل معي',visionTitle:'الرؤية والرسالة',visionText:'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.',identity:'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي',heroDesc:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',mainTitle:'خمسة مجالات. رؤية واحدة.',about:'تعرّف عليّ',exploreContent:'استكشف المحتوى',lab:'المختبر المرئي',explore:'اكتشف المزيد',browse:'📂 تصفح المحتوى',retry:'إعادة المحاولة',footerCopy:'جميع الحقوق محفوظة',
         tab_eng:'المنصة الهندسية',tab_eng_sub:'علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل',tab_eng_desc:'بوابة إلى عالم المواد الإنشائية المتقدمة.',
@@ -284,7 +298,6 @@
 
     const getLocalized=(obj,field,lang)=>obj[`${field}_${lang}`]||obj[`${field}_ar`]||obj[field]||'';
 
-    /* ✨ StarField */
     const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
     function StarField({theme}){
       return(
@@ -294,7 +307,6 @@
       );
     }
 
-    /* ✨ TypeWriter */
     function TypeWriter({texts,color='#3B9EFF'}){
       const[display,setDisplay]=useState('');
       const[idx,setIdx]=useState(0);
@@ -313,7 +325,6 @@
       return <span style={{color,fontWeight:900}}>{display}<span className="tw-cursor" style={{color,marginRight:2}}>|</span></span>;
     }
 
-    /* ✨ ProgressRing — يتلقى theme لإصلاح fill في Dark Mode */
     function ProgressRing({theme}){
       const[progress,setProgress]=useState(0);
       const[visible,setVisible]=useState(false);
@@ -330,7 +341,6 @@
       },[]);
       if(!visible)return null;
       const r=18,circ=2*Math.PI*r,offset=circ-(progress/100)*circ;
-      /* ✅ FIX: fill يستخدم القيمة الصحيحة حسب الوضع */
       const bgFill=theme==='dark'?'#05080f':'#e8ecf4';
       return(
         <div onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}
@@ -422,7 +432,7 @@
           .catch(()=>{
             const old=localStorage.getItem(cacheKey);
             if(old){try{setArticles(JSON.parse(old).data||[]);setError(null);}catch(e){setError('تعذر تحميل المقالات.');}}
-            else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');document.getElementById('offlineBanner')?.classList.add('show');}
+            else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.'); /* لا نضيف الشريط هنا، سيظهر عبر الأحداث */}
             else setArticles([]);
           })
           .finally(()=>setLoading(false));
@@ -598,6 +608,20 @@
 
       useEffect(()=>{const h=()=>setScrolled(window.scrollY>50);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
 
+      /* ✅ إدارة شريط "غير متصل" ديناميكياً */
+      useEffect(()=>{
+        const banner=document.getElementById('offlineBanner');
+        const handleOnline=()=>{if(banner)banner.classList.remove('show');};
+        const handleOffline=()=>{if(banner)banner.classList.add('show');};
+        window.addEventListener('online',handleOnline);
+        window.addEventListener('offline',handleOffline);
+        if(!navigator.onLine){if(banner)banner.classList.add('show');}
+        return()=>{
+          window.removeEventListener('online',handleOnline);
+          window.removeEventListener('offline',handleOffline);
+        };
+      },[]);
+
       const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
       const handleTagClick=(tag,tabId)=>{setOriginTabId(tabId);setActiveCategory(tag);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
       const handleLibraryClick=(slug,tabId)=>{setOriginTabId(tabId);setActiveCategory(`library_${slug}`);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
@@ -637,7 +661,6 @@
 
           <StarField theme={theme}/>
 
-          {/* ✅ FIX: isolation:'isolate' يفصل كل orb عن stacking context الـ header */}
           {theme==='dark'&&(
             <>
               <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 7s ease-in-out infinite'}}/>
@@ -646,7 +669,7 @@
             </>
           )}
 
-          {/* ✅ FIX: Navbar — background دائماً موجود + isolation يضمن الاستقرار في كلا الوضعين */}
+          {/* ✅ Header المعزول والمستقر */}
           <header style={{
             position:'fixed',top:0,left:0,right:0,zIndex:100,
             isolation:'isolate',
@@ -770,7 +793,6 @@
           </footer>
 
           <WelcomeInstallPopup lang={lang}/>
-          {/* ✅ FIX: نمرر theme للـ ProgressRing */}
           <ProgressRing theme={theme}/>
         </div>
       );
