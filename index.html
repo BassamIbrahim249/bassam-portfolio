@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.29" />
+  <meta name="app-version" content="1.0.31" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -181,7 +181,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.29",S=localStorage.getItem('site_version');
+      const V="1.0.31",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -203,7 +203,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.29";
+    const APP_VERSION="1.0.31";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -228,7 +228,8 @@
         download_btn:'📥 تحميل',preview_btn:'👁️ معاينة',
         nav_engineering:'هندسة',nav_political:'سياسة',nav_nubian:'نوبيان',nav_academy:'أكاديمية',nav_lifestyle:'نمط الحياة',
         pwa_title:'مرحباً بك في منصتي الرقمية',pwa_desc:'هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.',pwa_install:'📲 ثبّت التطبيق للوصول السريع',pwa_dismiss:'استمر بالتصفح',
-        meta_description:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.'
+        meta_description:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
+        author_name:'بسام إبراهيم أحمد'
       },
       en:{
         back:'Back to Section',library:'📚 Library',read:'📖 Read',close:'✕ Close',search:'🔍 Search articles...',noArticles:'No articles yet.',loadMore:'📄 Load More',remaining:'remaining',minRead:'min read',related:'📌 Related Articles',contact:'Contact Me',visionTitle:'Vision & Mission',visionText:'I believe true specialization gives you keys to understand the world in multiple ways.',identity:'Civil Engineer · Sudan Affairs · Community Activist',heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',mainTitle:'Five Fields. One Vision.',about:'About Me',exploreContent:'Explore Content',lab:'Visual Lab',explore:'Explore',browse:'📂 Browse Content',retry:'Retry',footerCopy:'All rights reserved',
@@ -249,7 +250,8 @@
         download_btn:'📥 Download',preview_btn:'👁️ Preview',
         nav_engineering:'Engineering',nav_political:'Politics',nav_nubian:'Nubian',nav_academy:'Academy',nav_lifestyle:'Lifestyle',
         pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing',
-        meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.'
+        meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
+        author_name:'Bassam Ibrahim Ahmed'
       }
     };
 
@@ -381,8 +383,8 @@
             {files.map(f=>(
               <div key={f.id} className="glass-card" style={{padding:20,borderRadius:14}}>
                 <div style={{fontSize:28,marginBottom:10}}>{f.fileType==='pdf'?'📕':f.fileType==='pptx'?'📊':'📄'}</div>
-                <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{f.title}</h4>
-                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{f.description||''}</p>
+                <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{getLocalized(f, 'title', lang)}</h4>
+                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f, 'description', lang) || ''}</p>
                 <div style={{fontSize:11,color:'var(--text-secondary)',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
                 <div style={{display:'flex',gap:8}}>
                   <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('download_btn')}</a>
@@ -469,7 +471,7 @@
                             <div style={{padding:'0 20px 24px'}}>
                               {article.image&&<img src={article.image} alt={getLocalized(article, 'title', lang)} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
                               <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}}/>
-                              <div className="author-meta">✍️ {article.author||'بسام إبراهيم أحمد'} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
+                              <div className="author-meta">✍️ {getLocalized(article, 'author', lang) || article.author || t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
                               <ShareButtons article={article} lang={lang}/>
                               <CommentsSection articleId={commentId}/>
                               <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
@@ -585,9 +587,9 @@
         // ✅ تحديث meta description ديناميكياً
         const metaDesc = document.querySelector('meta[name="description"]');
         if(metaDesc) metaDesc.setAttribute('content', t('meta_description'));
-        // ✅ تحديث canonical
+        // ✅ تحديث canonical ليشير إلى التبويب الأصلي
         const canonical = document.getElementById('dynamicCanonical');
-        if(canonical) canonical.setAttribute('href', `https://bassamibrahim249.github.io/bassam-portfolio/?tab=${activeCategory||''}`);
+        if(canonical) canonical.setAttribute('href', `https://bassamibrahim249.github.io/bassam-portfolio/?tab=${originTabId||''}`);
       },[theme,lang]);
 
       const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
@@ -637,22 +639,22 @@
             </>
           )}
 
-          {/* 🌟 Navbar المُعاد تصميمه بالكامل */}
+          {/* 🌟 Navbar النهائي المُحسّن */}
           <header role="navigation" aria-label={lang==='ar'?'القائمة الرئيسية':'Main navigation'} style={{
             position:'fixed',top:0,left:0,right:0,zIndex:100,
-            padding:'10px 24px',
+            padding:'12px 24px',
             background:theme==='dark'?'rgba(5,8,15,0.85)':'rgba(232,236,244,0.92)',
             backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
             borderBottom:'1px solid var(--glass-border)'
           }}>
             {/* السطر الأول: الشعار + تواصل معي */}
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
-              <div style={{display:'flex',alignItems:'center',gap:10}}>
-                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:900,color:'#080c12'}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:17,color:'var(--text-primary)'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+            <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:10}}>
+              <div style={{display:'flex',alignItems:'center',gap:10,flex:1,overflow:'hidden'}}>
+                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
+                <span style={{fontWeight:900,fontSize:17,color:'var(--text-primary)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
               </div>
               <button aria-label={t('nav_contact')} onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                style={{fontSize:12,padding:'10px 22px',borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
+                style={{fontSize:12,padding:'10px 22px',borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap',flexShrink:0}}>
                 {t('nav_contact')}
               </button>
             </div>
