@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.36" />
+  <meta name="app-version" content="1.0.37" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -174,6 +174,14 @@
 
     .social-btn{transition:transform 0.3s ease,box-shadow 0.3s ease,background 0.3s ease,border-color 0.3s ease,color 0.3s ease;min-height:44px;display:flex;align-items:center}
     .social-btn:hover{transform:translateY(-4px)}
+    /* أيقونات التواصل بألوانها الأصلية عند التمرير */
+    .social-btn[data-social="linkedin"]:hover { background: rgba(10,102,194,0.15); border-color: #0A66C2; color: #0A66C2; }
+    .social-btn[data-social="facebook"]:hover { background: rgba(24,119,242,0.15); border-color: #1877F2; color: #1877F2; }
+    .social-btn[data-social="x"]:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
+    .social-btn[data-social="youtube"]:hover { background: rgba(255,0,0,0.15); border-color: #FF0000; color: #FF0000; }
+    .social-btn[data-social="instagram"]:hover { background: rgba(228,64,95,0.15); border-color: #E4405F; color: #E4405F; }
+    .social-btn[data-social="whatsapp"]:hover { background: rgba(37,211,102,0.15); border-color: #25D366; color: #25D366; }
+    .social-btn[data-social="tiktok"]:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
 
     .install-btn{background:linear-gradient(135deg,#3B9EFF,#2563eb);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;margin-bottom:14px;box-shadow:0 0 30px rgba(59,158,255,0.4);transition:transform 0.25s ease;min-height:44px}
     .install-btn:hover{transform:scale(1.03)}
@@ -200,7 +208,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.36",S=localStorage.getItem('site_version');
+      const V="1.0.37",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -222,7 +230,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.36";
+    const APP_VERSION="1.0.37";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -551,11 +559,14 @@
 
     function SocialIcon({social}){
       const[hover,setHover]=useState(false);
+      const socialKey = social.name.toLowerCase().replace(' ','');
       return(
-        <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn"
+        <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn" data-social={socialKey}
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
-          style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',border:'1px solid',borderColor:hover?`${social.color}66`:'var(--glass-border)',color:social.color,textDecoration:'none',
-            boxShadow:hover?`0 6px 24px ${social.color}33`:'none',
+          style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,
+            background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',
+            border:'1px solid',borderColor:hover?'rgba(255,255,255,0.1)':'var(--glass-border)',
+            color:hover?social.color:'var(--text-secondary)',textDecoration:'none',
             transform:hover?'translateY(-4px)':'none'}}>
           {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
         </a>
@@ -579,7 +590,7 @@
       return(
         <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:999,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={handleDismiss}>
           <div style={{background:"rgba(8,12,18,0.98)",border:"1px solid rgba(59,158,255,0.25)",borderRadius:24,padding:"36px 28px 28px",textAlign:"center",maxWidth:400,width:"100%",boxShadow:"0 25px 60px rgba(0,0,0,0.7)"}} onClick={e=>e.stopPropagation()}>
-            <div style={{width:68,height:68,borderRadius:18,background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 18px",fontSize:30,fontWeight:900,color:"#080c12",boxShadow:'0 0 30px rgba(59,158,255,0.5)'}}>B.I</div>
+            <div style={{width:68,height:68,borderRadius:18,background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",display:"flex",alignItems:'center',justifyContent:'center',margin:"0 auto 18px",fontSize:30,fontWeight:900,color:"#080c12",boxShadow:'0 0 30px rgba(59,158,255,0.5)'}}>B.I</div>
             <h3 style={{fontSize:20,fontWeight:700,color:"#fff",marginBottom:12}}>{t('pwa_title')}</h3>
             <p style={{fontSize:13,color:"#8899bb",lineHeight:1.9,marginBottom:24}}>{t('pwa_desc')}</p>
             <button onClick={handleInstall} className="install-btn">{t('pwa_install')}</button>
@@ -595,6 +606,7 @@
       const[activeSection,setActiveSection]=useState(null);
       const[activeCategory,setActiveCategory]=useState(null);
       const[originTabId,setOriginTabId]=useState(null);
+      const[scrolled,setScrolled]=useState(false);
       const t=k=>I18N[lang]?.[k]||k;
 
       useEffect(()=>{
@@ -606,6 +618,8 @@
         const canonical = document.getElementById('dynamicCanonical');
         if(canonical) canonical.setAttribute('href', `https://bassamibrahim249.github.io/bassam-portfolio/?tab=${originTabId||''}`);
       },[theme, lang, originTabId]);
+
+      useEffect(()=>{const h=()=>setScrolled(window.scrollY>50);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
 
       const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
       const handleTagClick=(tag,tabId)=>{setOriginTabId(tabId);setActiveCategory(tag);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
@@ -654,50 +668,56 @@
             </>
           )}
 
-          {/* 🌟 شريط التنقل - النسخة النهائية المعاد بناؤها بالكامل */}
-          <header role="navigation" aria-label={lang==='ar'?'القائمة الرئيسية':'Main navigation'} style={{
-            position:'fixed',top:0,left:0,right:0,zIndex:100,
-            padding:'12px 20px',
-            background:theme==='dark'?'#05080f':'#e8ecf4',
-            borderBottom:'1px solid var(--glass-border)',
-            width:'100%',boxSizing:'border-box'
+          {/* 🌟 Navbar النهائي — يعمل في الموبايل والكمبيوتر */}
+          <header className="navbar" style={{
+            position:'fixed', top:0, left:0, right:0, zIndex:100,
+            padding: scrolled ? '10px 16px' : '14px 24px',
+            background: scrolled ? 'rgba(8,12,18,0.85)' : 'transparent',
+            backdropFilter: scrolled ? 'blur(12px)' : 'none',
+            borderBottom: scrolled ? '1px solid rgba(59,158,255,0.1)' : '1px solid transparent',
+            width: '100%', boxSizing: 'border-box'
           }}>
-            <div style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-              {/* اليمين: الشعار والاسم */}
-              <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
+            <div style={{
+              maxWidth: 1200, margin: '0 auto',
+              display: 'flex', alignItems: 'center',
+              gap: 16,
+              flexWrap: 'wrap'
+            }}>
+              
+              {/* 1. اليمين: شعار + اسم */}
+              <div style={{display:'flex', alignItems:'center', gap:10, flexShrink:0}}>
                 <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:900,color:'#080c12'}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:17,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+                <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',maxWidth:'140px'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
               </div>
               
-              {/* الوسط: التبويبات */}
-              <nav className="hide-mobile" style={{display:'flex',gap:20,flexWrap:'wrap',justifyContent:'center'}}>
+              {/* 2. الوسط: تبويبات — تلتف تلقائياً */}
+              <nav className="hide-mobile" style={{display:'flex', gap:20, alignItems:'center', flexWrap:'wrap', marginLeft:'auto', marginRight:'auto'}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                    style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s',padding:'4px 0',whiteSpace:'nowrap'}}
-                    onMouseEnter={e=>e.target.style.color='var(--accent-blue)'}
-                    onMouseLeave={e=>e.target.style.color='var(--text-secondary)'}>
+                    style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,whiteSpace:'nowrap'}}>
                     {t(item.key)}
                   </a>
                 ))}
               </nav>
-
-              {/* اليسار: زر التواصل + أزرار اللغة والثيم */}
-              <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:8,flexShrink:0}}>
-                <button aria-label={t('nav_contact')} onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  style={{fontSize:12,padding:'10px 22px',borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap'}}>
+              
+              {/* 3. اليسار: زر تواصل + لغة/ثيم في عمود */}
+              <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end', gap:4, flexShrink:0}}>
+                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
+                  style={{fontSize:11,padding:'8px 16px',borderRadius:8,background:'linear-gradient(135deg,rgba(37,211,102,0.18),rgba(37,211,102,0.08))',border:'1px solid rgba(37,211,102,0.45)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
                   {t('nav_contact')}
                 </button>
-                <div style={{display:'flex',alignItems:'center',gap:6}}>
-                  <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" 
-                    style={{padding:'5px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:11,fontWeight:700,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap'}}>
-                    {lang==='ar'?'English':'عربي'}
+                <div style={{display:'flex', alignItems:'center', gap:4}}>
+                  <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')}
+                    style={{fontSize:10,padding:'4px 8px',borderRadius:6,background:'rgba(255,255,255,0.03)',border:'1px solid rgba(59,158,255,0.2)',color:'#8899bb',cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                    {lang==='ar'?'En':'ع'}
                   </button>
-                  <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
-                    style={{width:34,height:34,borderRadius:8,color:'var(--text-primary)',fontSize:17,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')}
+                    style={{width:28,height:28,borderRadius:6,background:'rgba(255,255,255,0.03)',border:'1px solid rgba(59,158,255,0.2)',color:'#8899bb',fontSize:14,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
                     {theme==='dark'?'🌙':'☀️'}
                   </button>
                 </div>
               </div>
+              
             </div>
           </header>
 
