@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.35" />
+  <meta name="app-version" content="1.0.36" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -154,7 +154,6 @@
     .card-academy:hover{box-shadow:0 22px 55px rgba(167,139,250,0.28),0 0 90px rgba(167,139,250,0.07),inset 0 1px 0 rgba(167,139,250,0.18)}
     .card-lifestyle:hover{box-shadow:0 22px 55px rgba(52,211,153,0.28),0 0 90px rgba(52,211,153,0.07),inset 0 1px 0 rgba(52,211,153,0.18)}
 
-    /* أيقونات الكروت */
     .card-icon-wrap { transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease, border-color 0.4s ease; }
     .card-wrap:hover .card-icon-wrap { transform: scale(1.12) rotate(3deg); }
     .card-engineering:hover .card-icon-wrap { box-shadow: 0 0 25px rgba(59,158,255,0.5); background: rgba(59,158,255,0.12) !important; border-color: rgba(59,158,255,0.4) !important; }
@@ -163,7 +162,6 @@
     .card-academy:hover .card-icon-wrap     { box-shadow: 0 0 25px rgba(167,139,250,0.5);background: rgba(167,139,250,0.12) !important;border-color: rgba(167,139,250,0.4) !important; }
     .card-lifestyle:hover .card-icon-wrap   { box-shadow: 0 0 25px rgba(52,211,153,0.5); background: rgba(52,211,153,0.12) !important; border-color: rgba(52,211,153,0.4) !important; }
 
-    /* أزرار التاق */
     .innovation-tag-btn { transition: all 0.3s ease; min-height: 32px; position: relative; overflow: hidden; }
     .innovation-tag-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%); background-size: 200% 100%; opacity: 0; transition: opacity 0.3s ease; }
     .innovation-tag-btn:hover::after { opacity: 1; animation: tagShimmer 0.8s ease forwards; }
@@ -202,7 +200,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.35",S=localStorage.getItem('site_version');
+      const V="1.0.36",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -224,7 +222,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.35";
+    const APP_VERSION="1.0.36";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -556,7 +554,7 @@
       return(
         <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn"
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
-          style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',border:'1px solid',borderColor:hover?`${social.color}66`:'var(--glass-border)',color:hover?social.color:'var(--text-secondary)',textDecoration:'none',
+          style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',border:'1px solid',borderColor:hover?`${social.color}66`:'var(--glass-border)',color:social.color,textDecoration:'none',
             boxShadow:hover?`0 6px 24px ${social.color}33`:'none',
             transform:hover?'translateY(-4px)':'none'}}>
           {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
@@ -656,23 +654,23 @@
             </>
           )}
 
-          {/* 🌟 شريط التنقل - النسخة النهائية (مستوحاة من v1.0.9 الناجحة) */}
+          {/* 🌟 شريط التنقل - النسخة النهائية المعاد بناؤها بالكامل */}
           <header role="navigation" aria-label={lang==='ar'?'القائمة الرئيسية':'Main navigation'} style={{
             position:'fixed',top:0,left:0,right:0,zIndex:100,
-            padding:'14px 24px',
-            background:theme==='dark'?'rgba(5,8,15,0.85)':'rgba(232,236,244,0.92)',
-            backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
-            borderBottom:'1px solid var(--glass-border)'
+            padding:'12px 20px',
+            background:theme==='dark'?'#05080f':'#e8ecf4',
+            borderBottom:'1px solid var(--glass-border)',
+            width:'100%',boxSizing:'border-box'
           }}>
             <div style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
               {/* اليمين: الشعار والاسم */}
-              <div style={{display:'flex',alignItems:'center',gap:12,flexShrink:0}}>
+              <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
                 <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:900,color:'#080c12'}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+                <span style={{fontWeight:900,fontSize:17,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
               </div>
               
               {/* الوسط: التبويبات */}
-              <nav className="hide-mobile" style={{display:'flex',gap:24,flexWrap:'wrap',justifyContent:'center'}}>
+              <nav className="hide-mobile" style={{display:'flex',gap:20,flexWrap:'wrap',justifyContent:'center'}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
                     style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s',padding:'4px 0',whiteSpace:'nowrap'}}
@@ -684,7 +682,7 @@
               </nav>
 
               {/* اليسار: زر التواصل + أزرار اللغة والثيم */}
-              <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:6,flexShrink:0}}>
+              <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:8,flexShrink:0}}>
                 <button aria-label={t('nav_contact')} onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
                   style={{fontSize:12,padding:'10px 22px',borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap'}}>
                   {t('nav_contact')}
