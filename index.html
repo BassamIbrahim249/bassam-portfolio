@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني</title>
   <meta name="description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=engineering" hreflang="ar" />
@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.70" />
+  <meta name="app-version" content="1.0.41" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -55,66 +55,42 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     :root {
-      --bg-primary: #05080f;
-      --bg-secondary: #0a0f1a;
-      --text-primary: #ffffff;
-      --text-secondary: #8899bb;
-      --border-color: rgba(255,255,255,0.06);
-      --glass-bg: rgba(255,255,255,0.03);
-      --glass-border: rgba(255,255,255,0.06);
-      --accent-blue: #3B9EFF;
-      --accent-gold: #EAB308;
-      --blur-amount: 12px;
-      --header-bg: rgba(5,8,15,0.01);
-      --header-bg-scrolled: rgba(8,12,18,0.88);
+      --bg-primary:#05080f; --bg-secondary:#0a0f1a;
+      --text-primary:#ffffff; --text-secondary:#8899bb;
+      --border-color:rgba(255,255,255,0.06);
+      --glass-bg:rgba(255,255,255,0.03);
+      --glass-border:rgba(255,255,255,0.06);
+      --accent-blue:#3B9EFF; --accent-gold:#EAB308;
+      --blur-amount:12px;
     }
     .light {
-      --bg-primary: #e8ecf4;
-      --bg-secondary: #f0f4fa;
-      --text-primary: #1e293b;
-      --text-secondary: #475569;
-      --border-color: rgba(0,0,0,0.08);
-      --glass-bg: rgba(255,255,255,0.75);
-      --glass-border: rgba(0,0,0,0.07);
-      --blur-amount: 16px;
-      --header-bg: rgba(232,236,244,0.01);
-      --header-bg-scrolled: rgba(232,236,244,0.92);
+      --bg-primary:#e8ecf4; --bg-secondary:#f0f4fa;
+      --text-primary:#1e293b; --text-secondary:#475569;
+      --border-color:rgba(0,0,0,0.08);
+      --glass-bg:rgba(255,255,255,0.75);
+      --glass-border:rgba(0,0,0,0.07);
+      --blur-amount:16px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg-primary);
-      font-family: 'Cairo', sans-serif;
-      color: var(--text-primary);
-      overflow-x: hidden;
-      max-width: 100vw;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-font-smoothing: antialiased;
-      transition: background 0.4s ease, color 0.3s ease;
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg-primary);font-family:'Cairo',sans-serif;color:var(--text-primary);overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;transition:background 0.4s ease,color 0.3s ease}
 
-    body, #root, section, header, footer, nav {
-      overflow-x: hidden;
-      max-width: 100vw;
-    }
+    .glass-card{background:var(--glass-bg);backdrop-filter:blur(var(--blur-amount));-webkit-backdrop-filter:blur(var(--blur-amount));border:1px solid var(--glass-border);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
+    .glass-card:hover{transform:translateY(-6px);border-color:rgba(59,158,255,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.2),0 0 40px rgba(59,158,255,0.08)}
 
-    .glass-card { background: var(--glass-bg); backdrop-filter: blur(var(--blur-amount)); -webkit-backdrop-filter: blur(var(--blur-amount)); border: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
-    .glass-card:hover { transform: translateY(-6px); border-color: rgba(59,158,255,0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.2), 0 0 40px rgba(59,158,255,0.08); }
-
-    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
-    @keyframes pulseGlow { 0%,100%{opacity:0.6}50%{opacity:1} }
-    @keyframes skeletonShimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
-    @keyframes goldenPulse { 0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)} }
-    @keyframes floatStar { 0%,100%{transform:translateY(0) scale(1);opacity:0.25}50%{transform:translateY(-28px) scale(1.6);opacity:0.8} }
-    @keyframes ringFadeIn { from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)} }
-    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
-    @keyframes heroOrb { 0%,100%{transform:scale(1);opacity:0.55}50%{transform:scale(1.15);opacity:0.9} }
-    @keyframes logoPulse { 0%,100%{box-shadow:0 0 12px rgba(59,158,255,0.45)}50%{box-shadow:0 0 32px rgba(59,158,255,0.9),0 0 55px rgba(96,207,255,0.35)} }
-    @keyframes visionAura { 0%,100%{box-shadow:0 0 40px rgba(234,179,8,0.12),0 0 80px rgba(59,158,255,0.06)}50%{box-shadow:0 0 70px rgba(234,179,8,0.30),0 0 130px rgba(59,158,255,0.14)} }
-    @keyframes borderSweep { 0%{left:-100%}100%{left:200%} }
-    @keyframes tagShimmer { 0%{background-position:-200% center}100%{background-position:200% center} }
-    @keyframes slideDown { from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulseGlow{0%,100%{opacity:0.6}50%{opacity:1}}
+    @keyframes skeletonShimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes goldenPulse{0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)}}
+    @keyframes floatStar{0%,100%{transform:translateY(0) scale(1);opacity:0.25}50%{transform:translateY(-28px) scale(1.6);opacity:0.8}}
+    @keyframes ringFadeIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    @keyframes heroOrb{0%,100%{transform:scale(1);opacity:0.55}50%{transform:scale(1.15);opacity:0.9}}
+    @keyframes logoPulse{0%,100%{box-shadow:0 0 12px rgba(59,158,255,0.45)}50%{box-shadow:0 0 32px rgba(59,158,255,0.9),0 0 55px rgba(96,207,255,0.35)}}
+    @keyframes visionAura{0%,100%{box-shadow:0 0 40px rgba(234,179,8,0.12),0 0 80px rgba(59,158,255,0.06)}50%{box-shadow:0 0 70px rgba(234,179,8,0.30),0 0 130px rgba(59,158,255,0.14)}}
+    @keyframes borderSweep{0%{left:-100%}100%{left:200%}}
+    @keyframes tagShimmer{0%{background-position:-200% center}100%{background-position:200% center}}
 
     @media(prefers-reduced-motion:no-preference){
       .anim-fade-up{animation:fadeUp 0.75s ease both}
@@ -165,33 +141,26 @@
     .card-academy:hover{box-shadow:0 22px 55px rgba(167,139,250,0.28),0 0 90px rgba(167,139,250,0.07),inset 0 1px 0 rgba(167,139,250,0.18)}
     .card-lifestyle:hover{box-shadow:0 22px 55px rgba(52,211,153,0.28),0 0 90px rgba(52,211,153,0.07),inset 0 1px 0 rgba(52,211,153,0.18)}
 
-    .card-icon-wrap { transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease, border-color 0.4s ease; }
-    .card-wrap:hover .card-icon-wrap { transform: scale(1.12) rotate(3deg); }
-    .card-engineering:hover .card-icon-wrap { box-shadow: 0 0 25px rgba(59,158,255,0.5); background: rgba(59,158,255,0.12) !important; border-color: rgba(59,158,255,0.4) !important; }
-    .card-political:hover .card-icon-wrap   { box-shadow: 0 0 25px rgba(96,207,255,0.5); background: rgba(96,207,255,0.12) !important; border-color: rgba(96,207,255,0.4) !important; }
-    .card-nubian:hover .card-icon-wrap      { box-shadow: 0 0 25px rgba(234,179,8,0.5);  background: rgba(234,179,8,0.12) !important;  border-color: rgba(234,179,8,0.4) !important; }
-    .card-academy:hover .card-icon-wrap     { box-shadow: 0 0 25px rgba(167,139,250,0.5);background: rgba(167,139,250,0.12) !important;border-color: rgba(167,139,250,0.4) !important; }
-    .card-lifestyle:hover .card-icon-wrap   { box-shadow: 0 0 25px rgba(52,211,153,0.5); background: rgba(52,211,153,0.12) !important; border-color: rgba(52,211,153,0.4) !important; }
+    .card-icon-wrap{transition:transform 0.4s ease,box-shadow 0.4s ease,background 0.4s ease,border-color 0.4s ease}
+    .card-wrap:hover .card-icon-wrap{transform:scale(1.12) rotate(3deg)}
+    .card-engineering:hover .card-icon-wrap{box-shadow:0 0 25px rgba(59,158,255,0.5);background:rgba(59,158,255,0.12)!important;border-color:rgba(59,158,255,0.4)!important}
+    .card-political:hover .card-icon-wrap{box-shadow:0 0 25px rgba(96,207,255,0.5);background:rgba(96,207,255,0.12)!important;border-color:rgba(96,207,255,0.4)!important}
+    .card-nubian:hover .card-icon-wrap{box-shadow:0 0 25px rgba(234,179,8,0.5);background:rgba(234,179,8,0.12)!important;border-color:rgba(234,179,8,0.4)!important}
+    .card-academy:hover .card-icon-wrap{box-shadow:0 0 25px rgba(167,139,250,0.5);background:rgba(167,139,250,0.12)!important;border-color:rgba(167,139,250,0.4)!important}
+    .card-lifestyle:hover .card-icon-wrap{box-shadow:0 0 25px rgba(52,211,153,0.5);background:rgba(52,211,153,0.12)!important;border-color:rgba(52,211,153,0.4)!important}
 
-    .innovation-tag-btn { transition: all 0.3s ease; min-height: 32px; position: relative; overflow: hidden; }
-    .innovation-tag-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%); background-size: 200% 100%; opacity: 0; transition: opacity 0.3s ease; }
-    .innovation-tag-btn:hover::after { opacity: 1; animation: tagShimmer 0.8s ease forwards; }
-    .innovation-tag-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-    .card-engineering .innovation-tag-btn:hover { background: rgba(59,158,255,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(59,158,255,0.3); border-color: rgba(59,158,255,0.7) !important; }
-    .card-political .innovation-tag-btn:hover   { background: rgba(96,207,255,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(96,207,255,0.3); border-color: rgba(96,207,255,0.7) !important; }
-    .card-nubian .innovation-tag-btn:hover      { background: rgba(234,179,8,0.35) !important;  color: #fff !important; box-shadow: 0 6px 20px rgba(234,179,8,0.3);  border-color: rgba(234,179,8,0.7) !important; }
-    .card-academy .innovation-tag-btn:hover     { background: rgba(167,139,250,0.35) !important;color: #fff !important; box-shadow: 0 6px 20px rgba(167,139,250,0.3);border-color: rgba(167,139,250,0.7) !important; }
-    .card-lifestyle .innovation-tag-btn:hover   { background: rgba(52,211,153,0.35) !important; color: #fff !important; box-shadow: 0 6px 20px rgba(52,211,153,0.3); border-color: rgba(52,211,153,0.7) !important; }
+    .innovation-tag-btn{transition:all 0.3s ease;min-height:32px;position:relative;overflow:hidden}
+    .innovation-tag-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 50%,transparent 100%);background-size:200% 100%;opacity:0;transition:opacity 0.3s ease}
+    .innovation-tag-btn:hover::after{opacity:1;animation:tagShimmer 0.8s ease forwards}
+    .innovation-tag-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.4)}
+    .card-engineering .innovation-tag-btn:hover{background:rgba(59,158,255,0.35)!important;color:#fff!important;box-shadow:0 6px 20px rgba(59,158,255,0.3);border-color:rgba(59,158,255,0.7)!important}
+    .card-political .innovation-tag-btn:hover{background:rgba(96,207,255,0.35)!important;color:#fff!important;box-shadow:0 6px 20px rgba(96,207,255,0.3);border-color:rgba(96,207,255,0.7)!important}
+    .card-nubian .innovation-tag-btn:hover{background:rgba(234,179,8,0.35)!important;color:#fff!important;box-shadow:0 6px 20px rgba(234,179,8,0.3);border-color:rgba(234,179,8,0.7)!important}
+    .card-academy .innovation-tag-btn:hover{background:rgba(167,139,250,0.35)!important;color:#fff!important;box-shadow:0 6px 20px rgba(167,139,250,0.3);border-color:rgba(167,139,250,0.7)!important}
+    .card-lifestyle .innovation-tag-btn:hover{background:rgba(52,211,153,0.35)!important;color:#fff!important;box-shadow:0 6px 20px rgba(52,211,153,0.3);border-color:rgba(52,211,153,0.7)!important}
 
     .social-btn{transition:transform 0.3s ease,box-shadow 0.3s ease,background 0.3s ease,border-color 0.3s ease,color 0.3s ease;min-height:44px;display:flex;align-items:center}
     .social-btn:hover{transform:translateY(-4px)}
-    .social-btn[data-social="linkedin"]:hover { background: rgba(10,102,194,0.15); border-color: #0A66C2; color: #0A66C2; }
-    .social-btn[data-social="facebook"]:hover { background: rgba(24,119,242,0.15); border-color: #1877F2; color: #1877F2; }
-    .social-btn[data-social="x"]:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
-    .social-btn[data-social="youtube"]:hover { background: rgba(255,0,0,0.15); border-color: #FF0000; color: #FF0000; }
-    .social-btn[data-social="instagram"]:hover { background: rgba(228,64,95,0.15); border-color: #E4405F; color: #E4405F; }
-    .social-btn[data-social="whatsapp"]:hover { background: rgba(37,211,102,0.15); border-color: #25D366; color: #25D366; }
-    .social-btn[data-social="tiktok"]:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
 
     .install-btn{background:linear-gradient(135deg,#3B9EFF,#2563eb);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;margin-bottom:14px;box-shadow:0 0 30px rgba(59,158,255,0.4);transition:transform 0.25s ease;min-height:44px}
     .install-btn:hover{transform:scale(1.03)}
@@ -209,33 +178,6 @@
     .search-input::placeholder{color:var(--text-secondary)}
     .author-meta{font-size:12px;color:var(--text-secondary);margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap}
     @media(max-width:768px){.hide-mobile{display:none!important}}
-
-    /* Mobile nav styles */
-    .nav-tabs-desktop { display: flex; gap: 28px; align-items: center; }
-    .hamburger-btn { display: none; background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer; padding: 8px; }
-    .mobile-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; display: none; backdrop-filter: blur(4px); }
-    .mobile-menu-panel { position: fixed; top: 0; bottom: 0; width: 280px; background: var(--bg-secondary); z-index: 1000; overflow-y: auto; padding: 20px; transition: transform 0.3s ease; box-shadow: -5px 0 30px rgba(0,0,0,0.3); }
-    [dir="rtl"] .mobile-menu-panel { left: 0; transform: translateX(-100%); }
-    [dir="ltr"] .mobile-menu-panel { right: 0; transform: translateX(100%); }
-    .mobile-menu-panel.open { transform: translateX(0); }
-    .mobile-menu-panel a { display: block; padding: 14px 16px; color: var(--text-primary); text-decoration: none; border-radius: 10px; margin-bottom: 6px; font-weight: 600; transition: background 0.2s; }
-    .mobile-menu-panel a:hover { background: rgba(59,158,255,0.1); }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-    @media (max-width: 768px) {
-      .nav-tabs-desktop { display: none; }
-      .hamburger-btn { display: flex; align-items: center; justify-content: center; }
-      .mobile-menu-overlay.show { display: block; }
-      .header-contact-btn { display: none !important; }
-      .mobile-contact-btn { display: flex !important; }
-    }
-    @media (min-width: 769px) {
-      .hamburger-btn { display: none; }
-      .mobile-menu-overlay { display: none; }
-      .mobile-menu-panel { display: none; }
-      .mobile-contact-btn { display: none !important; }
-    }
   </style>
 </head>
 <body>
@@ -245,7 +187,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.70",S=localStorage.getItem('site_version');
+      const V="1.0.41",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -265,9 +207,9 @@
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
-    const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
-    const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.70";
+    const CONFIG={contact:{whatsapp:"249967238251"},cache:{ttl:86400000}};
+    const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
+    const APP_VERSION="1.0.41";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -319,10 +261,10 @@
       }
     };
 
-    const useDebounce=(value,delay)=>{const[d,setD]=useState(value);useEffect(()=>{const h=setTimeout(()=>setD(value),delay);return()=>clearTimeout(h);},[value,delay]);return d;};
+    const useDebounce=(v,d)=>{const[b,s]=useState(v);useEffect(()=>{const h=setTimeout(()=>s(v),d);return()=>clearTimeout(h);},[v,d]);return b;};
 
     function parseMarkdownToHTML(md){
-      if(!md||typeof md!=='string')return"";
+      if(!md||typeof md!=='string')return'';
       let h=md;
       h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
@@ -332,8 +274,7 @@
       h=h.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
       h=h.replace(/^---$/gim,'<hr />').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br />');
       h='<p>'+h+'</p>';
-      h=h.replace(/<p><\/p>/g,'');
-      return h;
+      return h.replace(/<p><\/p>/g,'');
     }
 
     function sanitizeHTML(raw){
@@ -341,39 +282,38 @@
       return raw.replace(/<script[^>]*>.*?<\/script>/gi,'').replace(/on\w+="[^"]*"/g,'');
     }
 
-    const getLocalized = (article, field, lang) => {
-      return article[`${field}_${lang}`] || article[`${field}_ar`] || article[field] || '';
-    };
+    const getLocalized=(obj,field,lang)=>obj[`${field}_${lang}`]||obj[`${field}_ar`]||obj[field]||'';
 
+    /* ✨ StarField */
     const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
     function StarField({theme}){
       return(
-        <div style={{position:'fixed',inset:0,pointerEvents:'none',zIndex:0,overflow:'hidden',opacity:theme==='light'?0:1,transition:'opacity 0.6s ease'}}>
-          {STARS.map(s=>(
-            <div key={s.id} style={{position:'absolute',width:s.size,height:s.size,borderRadius:'50%',background:s.color,left:`${s.left}%`,top:`${s.top}%`,opacity:s.opacity,boxShadow:`0 0 ${s.size*3}px ${s.color}`,animation:`floatStar ${s.duration}s ease-in-out infinite`,animationDelay:`${s.delay}s`,willChange:'transform,opacity',transform:'translateZ(0)'}}/>
-          ))}
+        <div style={{position:'fixed',inset:0,pointerEvents:'none',zIndex:0,overflow:'hidden',opacity:theme==='light'?0:1,transition:'opacity 0.6s ease',isolation:'isolate'}}>
+          {STARS.map(s=><div key={s.id} style={{position:'absolute',width:s.size,height:s.size,borderRadius:'50%',background:s.color,left:`${s.left}%`,top:`${s.top}%`,opacity:s.opacity,boxShadow:`0 0 ${s.size*3}px ${s.color}`,animation:`floatStar ${s.duration}s ease-in-out infinite`,animationDelay:`${s.delay}s`,willChange:'transform,opacity',transform:'translateZ(0)'}}/>)}
         </div>
       );
     }
 
+    /* ✨ TypeWriter */
     function TypeWriter({texts,color='#3B9EFF'}){
       const[display,setDisplay]=useState('');
       const[idx,setIdx]=useState(0);
       const[phase,setPhase]=useState('typing');
       useEffect(()=>{
-        const current=texts[idx%texts.length];let timer;
+        const cur=texts[idx%texts.length];let t;
         if(phase==='typing'){
-          if(display.length<current.length){timer=setTimeout(()=>setDisplay(current.slice(0,display.length+1)),75);}
-          else{timer=setTimeout(()=>setPhase('deleting'),2200);}
+          if(display.length<cur.length)t=setTimeout(()=>setDisplay(cur.slice(0,display.length+1)),75);
+          else t=setTimeout(()=>setPhase('deleting'),2200);
         }else{
-          if(display.length>0){timer=setTimeout(()=>setDisplay(d=>d.slice(0,-1)),38);}
+          if(display.length>0)t=setTimeout(()=>setDisplay(d=>d.slice(0,-1)),38);
           else{setIdx(i=>i+1);setPhase('typing');}
         }
-        return()=>clearTimeout(timer);
+        return()=>clearTimeout(t);
       },[display,phase,idx,texts]);
       return <span style={{color,fontWeight:900}}>{display}<span className="tw-cursor" style={{color,marginRight:2}}>|</span></span>;
     }
 
+    /* ✨ ProgressRing — يتلقى theme لإصلاح fill في Dark Mode */
     function ProgressRing({theme}){
       const[progress,setProgress]=useState(0);
       const[visible,setVisible]=useState(false);
@@ -390,13 +330,13 @@
       },[]);
       if(!visible)return null;
       const r=18,circ=2*Math.PI*r,offset=circ-(progress/100)*circ;
+      /* ✅ FIX: fill يستخدم القيمة الصحيحة حسب الوضع */
+      const bgFill=theme==='dark'?'#05080f':'#e8ecf4';
       return(
         <div onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}
           style={{position:'fixed',bottom:24,left:24,zIndex:99,cursor:'pointer',animation:'ringFadeIn 0.3s ease',filter:'drop-shadow(0 0 10px rgba(59,158,255,0.6))'}}>
           <svg width="48" height="48" style={{transform:'rotate(-90deg)'}}>
-            <circle cx="24" cy="24" r={r}
-              fill={theme==='dark' ? '#05080f' : '#e8ecf4'}
-              stroke="rgba(59,158,255,0.2)" strokeWidth="3"/>
+            <circle cx="24" cy="24" r={r} fill={bgFill} stroke="rgba(59,158,255,0.2)" strokeWidth="3"/>
             <circle cx="24" cy="24" r={r} fill="none" stroke="#3B9EFF" strokeWidth="3" strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" style={{transition:'stroke-dashoffset 0.2s ease'}}/>
           </svg>
           <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:700,color:'#3B9EFF',transform:'rotate(90deg)'}}>{Math.round(progress)}%</div>
@@ -408,11 +348,11 @@
       const[copied,setCopied]=useState(false);
       const t=k=>I18N[lang]?.[k]||k;
       const url=encodeURIComponent(window.location.href);
-      const title = encodeURIComponent(getLocalized(article, 'title', lang));
-      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article, 'title', lang),url:window.location.href});}catch(e){}}else{window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');}};
+      const title=encodeURIComponent(getLocalized(article,'title',lang));
+      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article,'title',lang),url:window.location.href});}catch(e){}}else window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');};
       const handleCopy=async()=>{try{await navigator.clipboard.writeText(window.location.href);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch(e){const i=document.createElement('input');i.value=window.location.href;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}};
       const open=p=>window.open({whatsapp:`https://wa.me/?text=${title}%0A${url}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,twitter:`https://twitter.com/intent/tweet?text=${title}&url=${url}`,telegram:`https://t.me/share/url?url=${url}&text=${title}`}[p],'_blank');
-      const btn=(labelKey,color,bgA,onClick)=>(<button onClick={onClick} style={{padding:'8px 14px',borderRadius:8,background:`rgba(${color},${bgA})`,border:`1px solid rgba(${color},0.4)`,color:`rgb(${color})`,cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600,transition:'all 0.2s'}}>{t(labelKey)}</button>);
+      const btn=(lk,c,a,fn)=>(<button onClick={fn} style={{padding:'8px 14px',borderRadius:8,background:`rgba(${c},${a})`,border:`1px solid rgba(${c},0.4)`,color:`rgb(${c})`,cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600,transition:'all 0.2s'}}>{t(lk)}</button>);
       return(
         <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:16,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
           {btn('share','59,158,255',0.1,handleShare)}
@@ -449,8 +389,8 @@
             {files.map(f=>(
               <div key={f.id} className="glass-card" style={{padding:20,borderRadius:14}}>
                 <div style={{fontSize:28,marginBottom:10}}>{f.fileType==='pdf'?'📕':f.fileType==='pptx'?'📊':'📄'}</div>
-                <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{getLocalized(f, 'title', lang)}</h4>
-                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f, 'description', lang) || ''}</p>
+                <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{getLocalized(f,'title',lang)}</h4>
+                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f,'description',lang)||''}</p>
                 <div style={{fontSize:11,color:'var(--text-secondary)',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
                 <div style={{display:'flex',gap:8}}>
                   <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('download_btn')}</a>
@@ -482,14 +422,14 @@
           .catch(()=>{
             const old=localStorage.getItem(cacheKey);
             if(old){try{setArticles(JSON.parse(old).data||[]);setError(null);}catch(e){setError('تعذر تحميل المقالات.');}}
-            else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');}
-            else{setArticles([]);}
+            else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');document.getElementById('offlineBanner')?.classList.add('show');}
+            else setArticles([]);
           })
           .finally(()=>setLoading(false));
       },[category,cacheKey]);
 
       const handleToggle=idx=>{
-        if(openIndex===idx){setOpenIndex(null);}
+        if(openIndex===idx)setOpenIndex(null);
         else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>document.getElementById(`article-${idx}`)?.scrollIntoView({behavior:'smooth',block:'start'}),150);}
       };
 
@@ -498,11 +438,9 @@
       const sorted=[...filtered].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
       const searched=debouncedQuery.trim()===''?sorted:sorted.filter(a=>{
         const q=debouncedQuery.toLowerCase();
-        const titleAr=getLocalized(a,'title','ar').toLowerCase();
-        const titleEn=getLocalized(a,'title','en').toLowerCase();
-        const contentAr=getLocalized(a,'content','ar').toLowerCase();
-        const contentEn=getLocalized(a,'content','en').toLowerCase();
-        return titleAr.includes(q)||titleEn.includes(q)||contentAr.includes(q)||contentEn.includes(q)||a.tags?.some(tag=>tag.toLowerCase().includes(q));
+        return getLocalized(a,'title','ar').toLowerCase().includes(q)||
+               getLocalized(a,'title','en').toLowerCase().includes(q)||
+               a.tags?.some(tag=>tag.toLowerCase().includes(q));
       });
       const displayed=searched.slice(0,visibleCount);
       const hasMore=searched.length>visibleCount;
@@ -510,7 +448,7 @@
       return(
         <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>
           <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:'12px 24px',borderRadius:14,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-secondary)',cursor:'pointer',fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
-          <h2 style={{fontSize:'clamp(1.5rem,4vw,2.2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'var(--accent-gold)'}}>{t(title)||title}</h2>
+          <h2 style={{fontSize:'clamp(1.5rem,4vw,2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'var(--accent-gold)'}}>{t(title)||title}</h2>
           <input type="text" className="search-input" placeholder={t('search')} value={searchQuery} onChange={e=>{setSearchQuery(e.target.value);setVisibleCount(ITEMS_PER_PAGE);}} style={{width:'100%',padding:'14px 20px',borderRadius:14,fontFamily:'Cairo',fontSize:14,marginBottom:24}}/>
           {loading
             ?<div style={{display:'flex',flexDirection:'column',gap:14}}>{[1,2,3].map(i=><div key={i} className="skeleton" style={{height:90}}></div>)}</div>
@@ -521,30 +459,30 @@
                 :(<div className="article-list">
                     {displayed.map((article,idx)=>{
                       const isOpen=openIndex===idx;
-                      const localizedContent = getLocalized(article, 'content', lang);
+                      const localizedContent=getLocalized(article,'content',lang);
                       const cleanHTML=sanitizeHTML(parseMarkdownToHTML(localizedContent));
-                      const commentId=article.id || article.slug || article.title?.toLowerCase().replace(/[^\w]+/g,'-').substring(0,40) || String(idx);
+                      const commentId=article.id||article.slug||article.title?.toLowerCase().replace(/[^\w]+/g,'-').substring(0,40)||String(idx);
                       return(
                         <div key={article.id||idx} id={`article-${idx}`} className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`} style={{marginBottom:14,borderRadius:16,overflow:'hidden'}}>
                           <div onClick={()=>handleToggle(idx)} style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}} role="button" aria-expanded={isOpen}>
                             <div style={{flex:1}}>
-                              <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{getLocalized(article, 'title', lang)||'بدون عنوان'}</h3>
+                              <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{getLocalized(article,'title',lang)||'بدون عنوان'}</h3>
                               <span style={{fontSize:11,color:'var(--text-secondary)'}}>{article.date}</span>
                             </div>
                             <button aria-label={isOpen?t('close'):t('read')} style={{padding:'8px 18px',borderRadius:10,background:isOpen?'rgba(200,200,200,0.06)':'rgba(234,179,8,0.15)',color:isOpen?'var(--text-secondary)':'var(--accent-gold)',border:'none',cursor:'pointer',fontWeight:700,fontSize:12,fontFamily:'Cairo',whiteSpace:'nowrap',transition:'all 0.2s'}}>{isOpen?t('close'):t('read')}</button>
                           </div>
                           {isOpen&&(
                             <div style={{padding:'0 20px 24px'}}>
-                              {article.image&&<img src={article.image} alt={getLocalized(article, 'title', lang)} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
+                              {article.image&&<img src={article.image} alt={getLocalized(article,'title',lang)} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
                               <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}}/>
-                              <div className="author-meta">✍️ {getLocalized(article, 'author', lang) || article.author || t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
+                              <div className="author-meta">✍️ {getLocalized(article,'author',lang)||article.author||t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
                               <ShareButtons article={article} lang={lang}/>
                               <CommentsSection articleId={commentId}/>
                               <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
                                 <h4 style={{fontSize:13,color:'var(--accent-gold)',marginBottom:10,fontWeight:700}}>{t('related')}</h4>
                                 <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
                                   {articles.filter(a=>a.id!==article.id&&(a.button===article.button||a.tags?.some(tg=>article.tags?.includes(tg)))).slice(0,3).map(rel=>(
-                                    <button key={rel.id} className="glass-card" onClick={()=>{const i=articles.findIndex(x=>x.id===rel.id);if(i!==-1){setOpenIndex(i);setLastOpenedIndex(i);window.scrollTo({top:0,behavior:'smooth'});}}} style={{fontSize:11,padding:'6px 12px',borderRadius:8,background:'rgba(59,158,255,0.1)',color:'var(--accent-blue)',border:'1px solid rgba(59,158,255,0.3)',cursor:'pointer',fontWeight:600,fontFamily:'Cairo'}}>{getLocalized(rel, 'title', lang)?.substring(0,28)}...</button>
+                                    <button key={rel.id} className="glass-card" onClick={()=>{const i=articles.findIndex(x=>x.id===rel.id);if(i!==-1){setOpenIndex(i);setLastOpenedIndex(i);window.scrollTo({top:0,behavior:'smooth'});}}} style={{fontSize:11,padding:'6px 12px',borderRadius:8,background:'rgba(59,158,255,0.1)',color:'var(--accent-blue)',border:'1px solid rgba(59,158,255,0.3)',cursor:'pointer',fontWeight:600,fontFamily:'Cairo'}}>{getLocalized(rel,'title',lang)?.substring(0,28)}...</button>
                                   ))}
                                 </div>
                               </div>
@@ -598,15 +536,14 @@
 
     function SocialIcon({social}){
       const[hover,setHover]=useState(false);
-      const socialKey = social.name.toLowerCase().replace(' ','');
       return(
-        <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn" data-social={socialKey}
+        <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn"
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
           style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,
             background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',
-            border:'1px solid',borderColor:hover?'rgba(255,255,255,0.1)':'var(--glass-border)',
-            color: social.color, textDecoration:'none',
-            opacity: hover ? 1 : 0.85,
+            border:'1px solid',borderColor:hover?`${social.color}66`:'var(--glass-border)',
+            color:hover?social.color:'var(--text-secondary)',textDecoration:'none',
+            boxShadow:hover?`0 6px 24px ${social.color}33`:'none',
             transform:hover?'translateY(-4px)':'none'}}>
           {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
         </a>
@@ -624,13 +561,13 @@
         if(shouldShow()){const timer=setTimeout(()=>setShow(true),5000);return()=>{clearTimeout(timer);window.removeEventListener("beforeinstallprompt",handler);};}
         return()=>window.removeEventListener("beforeinstallprompt",handler);
       },[]);
-      const handleInstall=async()=>{if(deferredPrompt){deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;setDeferredPrompt(null);setShow(false);if(outcome==="accepted"){localStorage.removeItem(DISMISS_KEY);setIsInstalled(true);}}else{alert("للتثبيت:\n• أندرويد: ⁝ ← 'إضافة إلى الشاشة الرئيسية'\n• آيفون: ↑ ← 'إضافة إلى الشاشة الرئيسية'");}};
+      const handleInstall=async()=>{if(deferredPrompt){deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;setDeferredPrompt(null);setShow(false);if(outcome==="accepted"){localStorage.removeItem(DISMISS_KEY);setIsInstalled(true);}}else alert("للتثبيت:\n• أندرويد: ⁝ ← 'إضافة إلى الشاشة الرئيسية'\n• آيفون: ↑ ← 'إضافة إلى الشاشة الرئيسية'");};
       const handleDismiss=()=>{setShow(false);const raw=localStorage.getItem(DISMISS_KEY);let data={count:0,timestamp:0};if(raw){try{data=JSON.parse(raw);}catch(e){}}data.count=(data.count||0)+1;if(data.count>=2)data.timestamp=Date.now();localStorage.setItem(DISMISS_KEY,JSON.stringify(data));};
       if(!show||isInstalled)return null;
       return(
         <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:999,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={handleDismiss}>
           <div style={{background:"rgba(8,12,18,0.98)",border:"1px solid rgba(59,158,255,0.25)",borderRadius:24,padding:"36px 28px 28px",textAlign:"center",maxWidth:400,width:"100%",boxShadow:"0 25px 60px rgba(0,0,0,0.7)"}} onClick={e=>e.stopPropagation()}>
-            <div style={{width:68,height:68,borderRadius:18,background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",display:"flex",alignItems:'center',justifyContent:'center',margin:"0 auto 18px",fontSize:30,fontWeight:900,color:"#080c12",boxShadow:'0 0 30px rgba(59,158,255,0.5)'}}>B.I</div>
+            <div style={{width:68,height:68,borderRadius:18,background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 18px",fontSize:30,fontWeight:900,color:"#080c12",boxShadow:'0 0 30px rgba(59,158,255,0.5)'}}>B.I</div>
             <h3 style={{fontSize:20,fontWeight:700,color:"#fff",marginBottom:12}}>{t('pwa_title')}</h3>
             <p style={{fontSize:13,color:"#8899bb",lineHeight:1.9,marginBottom:24}}>{t('pwa_desc')}</p>
             <button onClick={handleInstall} className="install-btn">{t('pwa_install')}</button>
@@ -647,47 +584,21 @@
       const[activeCategory,setActiveCategory]=useState(null);
       const[originTabId,setOriginTabId]=useState(null);
       const[scrolled,setScrolled]=useState(false);
-      const[mobileMenuOpen,setMobileMenuOpen]=useState(false);
       const t=k=>I18N[lang]?.[k]||k;
 
       useEffect(()=>{
         document.body.className=theme;localStorage.setItem('theme',theme);
         document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');
         document.documentElement.setAttribute('lang',lang);
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if(metaDesc) metaDesc.setAttribute('content', t('meta_description'));
-        const canonical = document.getElementById('dynamicCanonical');
-        if(canonical) canonical.setAttribute('href', `https://bassamibrahim249.github.io/bassam-portfolio/?tab=${originTabId||''}`);
-        setMobileMenuOpen(false);
-      },[theme, lang, originTabId]);
+        const metaDesc=document.querySelector('meta[name="description"]');
+        if(metaDesc)metaDesc.setAttribute('content',t('meta_description'));
+        const canonical=document.getElementById('dynamicCanonical');
+        if(canonical)canonical.setAttribute('href',`https://bassamibrahim249.github.io/bassam-portfolio/?tab=${originTabId||''}`);
+      },[theme,lang,originTabId]);
 
       useEffect(()=>{const h=()=>setScrolled(window.scrollY>50);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
 
-      // Online/Offline Events
-      useEffect(()=>{
-        const banner=document.getElementById('offlineBanner');
-        const handleOnline=()=>{if(banner)banner.classList.remove('show');};
-        const handleOffline=()=>{if(banner)banner.classList.add('show');};
-        window.addEventListener('online',handleOnline);
-        window.addEventListener('offline',handleOffline);
-        if(!navigator.onLine){if(banner)banner.classList.add('show');}
-        return()=>{
-          window.removeEventListener('online',handleOnline);
-          window.removeEventListener('offline',handleOffline);
-        };
-      },[]);
-
-      useEffect(()=>{
-        const handleClickOutside=(e)=>{
-          if(mobileMenuOpen && !e.target.closest('.mobile-menu-panel') && !e.target.closest('.hamburger-btn')){
-            setMobileMenuOpen(false);
-          }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return ()=>document.removeEventListener('mousedown', handleClickOutside);
-      }, [mobileMenuOpen]);
-
-      const scrollTo=id=>{setMobileMenuOpen(false);document.getElementById(id)?.scrollIntoView({behavior:'smooth'});};
+      const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
       const handleTagClick=(tag,tabId)=>{setOriginTabId(tabId);setActiveCategory(tag);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
       const handleLibraryClick=(slug,tabId)=>{setOriginTabId(tabId);setActiveCategory(`library_${slug}`);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
 
@@ -710,13 +621,13 @@
       const STATS=[{label:t('stat1'),sublabel:t('stat1_sub'),color:'#3B9EFF',icon:'⚙️'},{label:t('stat2'),sublabel:t('stat2_sub'),color:'#60CFFF',icon:'📚'},{label:t('stat3'),sublabel:t('stat3_sub'),color:'#A78BFA',icon:'📊'}];
 
       const SOCIALS=[
-        {name:"LinkedIn",href:"https://www.linkedin.com/in/bassam-ibrahim-785a01406",color:"#0A66C2",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>)},
-        {name:"Facebook",href:"https://www.facebook.com/bassam.ibrahim.ahmed",color:"#1877F2",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>)},
-        {name:"X",href:"https://x.com/BassamIbrahimSD",color:"#ffffff",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:18,height:18}}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>)},
-        {name:"YouTube",href:"https://youtube.com/@bassamibrahimeng",color:"#FF0000",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>)},
-        {name:"Instagram",href:"https://www.instagram.com/bassam.ibrahim.ahmed",color:"#E4405F",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948-.2-4.358-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>)},
-        {name:"WhatsApp",href:`https://wa.me/${CONFIG.contact.whatsapp}`,color:"#25D366",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>)},
-        {name:"TikTok",href:"https://www.tiktok.com/@.bassam.ibrahim",color:"#ffffff",icon:(<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/></svg>)},
+        {name:"LinkedIn",href:"https://www.linkedin.com/in/bassam-ibrahim-785a01406",color:"#0A66C2",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>},
+        {name:"Facebook",href:"https://www.facebook.com/bassam.ibrahim.ahmed",color:"#1877F2",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>},
+        {name:"X",href:"https://x.com/BassamIbrahimSD",color:"#ffffff",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:18,height:18}}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>},
+        {name:"YouTube",href:"https://youtube.com/@bassamibrahimeng",color:"#FF0000",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>},
+        {name:"Instagram",href:"https://www.instagram.com/bassam.ibrahim.ahmed",color:"#E4405F",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948-.2-4.358-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>},
+        {name:"WhatsApp",href:`https://wa.me/${CONFIG.contact.whatsapp}`,color:"#25D366",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>},
+        {name:"TikTok",href:"https://www.tiktok.com/@.bassam.ibrahim",color:"#ffffff",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 5.1-1.75V9.4a6.29 6.29 0 0 0-5.27 5.3 6.29 6.29 0 0 0 10.88 3.25 6.3 6.3 0 0 0 1.27-3.29h-3.45a2.88 2.88 0 0 1-.88 1.24 2.9 2.9 0 0 1-3.24-4.72v-8.7a4.82 4.82 0 0 0 4.82 4.82v-3.45a2.38 2.38 0 0 1 .75-.12 4.82 4.82 0 0 0 4.82-4.82V6.69z"/></svg>},
       ];
 
       const NAV_ITEMS=[{id:"engineering",key:"nav_engineering"},{id:"political",key:"nav_political"},{id:"nubian",key:"nav_nubian"},{id:"academy",key:"nav_academy"},{id:"lifestyle",key:"nav_lifestyle"}];
@@ -726,151 +637,125 @@
 
           <StarField theme={theme}/>
 
-          {theme==='dark'&&(<>
-              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 7s ease-in-out infinite',isolation:'isolate'}}/>
-              <div style={{position:'fixed',top:'30%',left:'5%',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 9s ease-in-out infinite',animationDelay:'2s',isolation:'isolate'}}/>
-              <div style={{position:'fixed',bottom:'10%',right:'15%',width:250,height:250,borderRadius:'50%',background:'radial-gradient(circle,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 11s ease-in-out infinite',animationDelay:'4s',isolation:'isolate'}}/>
-            </>)
-          }
+          {/* ✅ FIX: isolation:'isolate' يفصل كل orb عن stacking context الـ header */}
+          {theme==='dark'&&(
+            <>
+              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 7s ease-in-out infinite'}}/>
+              <div style={{position:'fixed',top:'30%',left:'5%',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 9s ease-in-out infinite',animationDelay:'2s'}}/>
+              <div style={{position:'fixed',bottom:'10%',right:'15%',width:250,height:250,borderRadius:'50%',background:'radial-gradient(circle,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 11s ease-in-out infinite',animationDelay:'4s'}}/>
+            </>
+          )}
 
-          {/* Header */}
+          {/* ✅ FIX: Navbar — background دائماً موجود + isolation يضمن الاستقرار في كلا الوضعين */}
           <header style={{
-            position:'fixed', top:0, left:0, right:0, zIndex:100,
-            padding: scrolled ? '8px 16px' : '12px 16px',
-            background: scrolled ? 'var(--header-bg-scrolled)' : 'var(--header-bg)',
-            backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+            position:'fixed',top:0,left:0,right:0,zIndex:100,
+            isolation:'isolate',
+            padding: scrolled ? '12px 24px' : '24px 24px',
+            background: scrolled
+              ? (theme==='dark' ? 'rgba(8,12,18,0.88)' : 'rgba(232,236,244,0.92)')
+              : (theme==='dark' ? 'rgba(5,8,15,0.01)'  : 'rgba(232,236,244,0.01)'),
+            backdropFilter:'blur(12px)',
+            WebkitBackdropFilter:'blur(12px)',
             borderBottom: scrolled ? '1px solid rgba(59,158,255,0.1)' : '1px solid transparent',
-            isolation: 'isolate',
-            width: '100%', boxSizing: 'border-box',
-            transition: 'all 0.3s ease',
-            transform: 'translateZ(0)',
+            transition:'padding 0.3s ease, background 0.3s ease, border-color 0.3s ease'
           }}>
-            <div style={{maxWidth:1280, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
-              
-              {/* Hamburger + Logo */}
-              <div style={{display:'flex', alignItems:'center', gap:10, flexShrink:0}}>
-                <button className="hamburger-btn" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} aria-label="القائمة">☰</button>
-                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:900,color:'#080c12',boxShadow:'0 0 20px rgba(59,158,255,0.5)'}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:16,color:'var(--text-primary)',whiteSpace:'nowrap'}}>
-                  Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
-                </span>
+            <div style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div style={{display:'flex',alignItems:'center',gap:12}}>
+                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',fontSize:14,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
+                <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
               </div>
-
-              {/* Desktop Tabs */}
-              <nav className="nav-tabs-desktop" style={{flex:1, justifyContent:'center'}}>
+              <nav className="hide-mobile" style={{display:'flex',gap:24}}>
                 {NAV_ITEMS.map(item=>(
-                  <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                    style={{fontSize:13, color:'var(--text-secondary)', textDecoration:'none', fontWeight:600, whiteSpace:'nowrap', padding:'6px 0', transition:'all 0.3s ease', borderBottom:'2px solid transparent'}}
-                    onMouseEnter={e=>{e.target.style.color='var(--accent-blue)'; e.target.style.borderColor='var(--accent-blue)';}}
-                    onMouseLeave={e=>{e.target.style.color='var(--text-secondary)'; e.target.style.borderColor='transparent';}}>
+                  <a key={item.id} href={`#${item.id}`}
+                    onClick={e=>{e.preventDefault();scrollTo(item.id);}}
+                    style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s'}}
+                    onMouseEnter={e=>e.target.style.color='var(--accent-blue)'}
+                    onMouseLeave={e=>e.target.style.color='var(--text-secondary)'}>
                     {t(item.key)}
                   </a>
                 ))}
               </nav>
-
-              {/* Actions */}
-              <div style={{display:'flex', alignItems:'center', gap:8, flexShrink:0}}>
-                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  className="header-contact-btn"
-                  style={{fontSize:11, padding:'8px 14px', borderRadius:8, background:'linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1))', border:'1px solid rgba(37,211,102,0.5)', color:'#25D366', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap'}}>
-                  {t('nav_contact')}
-                </button>
-                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  className="mobile-contact-btn"
-                  style={{width:34, height:34, borderRadius:8, background:'rgba(37,211,102,0.15)', border:'1px solid rgba(37,211,102,0.3)', color:'#25D366', fontSize:16, cursor:'pointer', alignItems:'center', justifyContent:'center'}}>
-                  💬
-                </button>
-                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')}
-                  style={{fontSize:11, padding:'6px 12px', borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontWeight:700, cursor:'pointer', fontFamily:'Cairo', whiteSpace:'nowrap'}}>
+              <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0}}>
+                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
+                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
                   {lang==='ar'?'EN':'عربي'}
                 </button>
-                <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')}
-                  style={{width:34, height:34, borderRadius:8, background:'rgba(59,158,255,0.15)', border:'1px solid rgba(59,158,255,0.3)', color:'var(--accent-blue)', fontSize:15, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center'}}>
-                  {theme==='dark'?'☀️':'🌙'}
+                <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
+                  style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  {theme==='dark'?'🌙':'☀️'}
+                </button>
+                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
+                  style={{padding:'8px 16px',borderRadius:8,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,fontSize:12,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap'}}>
+                  {t('nav_contact')}
                 </button>
               </div>
             </div>
           </header>
 
-          {/* Mobile Menu */}
-          <div className={`mobile-menu-overlay ${mobileMenuOpen?'show':''}`} onClick={()=>setMobileMenuOpen(false)}></div>
-          <div className={`mobile-menu-panel ${mobileMenuOpen?'open':''}`}>
-            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:24}}>
-              <span style={{fontWeight:900, fontSize:18, color:'var(--text-primary)'}}>القائمة</span>
-              <button onClick={()=>setMobileMenuOpen(false)} style={{background:'none', border:'none', color:'var(--text-secondary)', fontSize:24, cursor:'pointer'}}>✕</button>
-            </div>
-            {NAV_ITEMS.map(item=>(
-              <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault(); scrollTo(item.id);}}>
-                {t(item.key)}
-              </a>
-            ))}
-            <div style={{marginTop:16, paddingTop:16, borderTop:'1px solid var(--border-color)'}}>
-              <a href={`https://wa.me/${CONFIG.contact.whatsapp}`} target="_blank" rel="noopener noreferrer" style={{color:'#25D366'}}>
-                💬 {t('nav_contact')}
-              </a>
-            </div>
-          </div>
-
-          {/* Hero */}
-          <section style={{padding:'130px 20px 60px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
+          {/* ── Hero ── */}
+          <section style={{padding:'148px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
             <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
-              {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',animation:'heroOrb 5s ease-in-out infinite'}}/>}
-              <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2rem,8vw,4.5rem)',fontWeight:900,lineHeight:1.1,color:'var(--text-primary)',position:'relative'}}>
+              {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',isolation:'isolate',animation:'heroOrb 5s ease-in-out infinite'}}/>}
+              <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2.6rem,8vw,5rem)',fontWeight:900,lineHeight:1.1,color:'var(--text-primary)',position:'relative'}}>
                 Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
               </h1>
             </div>
-            <div className="anim-fade-up delay-3" style={{fontSize:'clamp(0.9rem,3vw,1.3rem)',marginBottom:16,minHeight:'2rem'}}>
+            <div className="anim-fade-up delay-3" style={{fontSize:'clamp(1rem,3vw,1.35rem)',marginBottom:16,minHeight:'2rem'}}>
               <TypeWriter texts={TW_TEXTS} color="#3B9EFF"/>
             </div>
-            <p className="anim-fade-up delay-3" style={{color:'var(--text-secondary)',maxWidth:620,margin:'0 auto 40px',fontSize:'0.95rem',lineHeight:1.85,padding:'0 10px'}}>{t('heroDesc')}</p>
-            <div className="anim-fade-up delay-4" style={{display:'flex',gap:14,justifyContent:'center',flexWrap:'wrap',marginBottom:56}}>
+            <p className="anim-fade-up delay-3" style={{color:'var(--text-secondary)',maxWidth:620,margin:'0 auto 40px',fontSize:'1rem',lineHeight:1.85}}>{t('heroDesc')}</p>
+            <div className="anim-fade-up delay-4" style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap',marginBottom:56}}>
               <button onClick={()=>scrollTo('vision-section')}
-                style={{padding:'12px 28px',borderRadius:14,background:'linear-gradient(135deg,#3B9EFF,#1a7fe0)',color:'#fff',fontWeight:700,fontSize:14,border:'none',cursor:'pointer',fontFamily:'Cairo',boxShadow:'0 0 25px rgba(59,158,255,0.5)'}}>
+                style={{padding:'14px 34px',borderRadius:14,background:'linear-gradient(135deg,#3B9EFF,#1a7fe0)',color:'#fff',fontWeight:700,fontSize:14,border:'none',cursor:'pointer',fontFamily:'Cairo',boxShadow:'0 0 30px rgba(59,158,255,0.5)',transition:'all 0.2s'}}
+                onMouseEnter={e=>{e.target.style.transform='scale(1.05)';e.target.style.boxShadow='0 0 50px rgba(59,158,255,0.75)';}}
+                onMouseLeave={e=>{e.target.style.transform='scale(1)';e.target.style.boxShadow='0 0 30px rgba(59,158,255,0.5)';}}>
                 {t('hero_btn1')}
               </button>
               <button onClick={()=>scrollTo('cards-section')} className="glass-card"
-                style={{padding:'12px 28px',borderRadius:14,color:'var(--text-secondary)',fontWeight:700,fontSize:14,cursor:'pointer',fontFamily:'Cairo'}}>
+                style={{padding:'14px 34px',borderRadius:14,color:'var(--text-secondary)',fontWeight:700,fontSize:14,cursor:'pointer',fontFamily:'Cairo'}}>
                 {t('hero_btn2')}
               </button>
             </div>
-            <div className="anim-fade-up delay-5" style={{display:'flex',gap:14,justifyContent:'center',flexWrap:'wrap'}}>
+            <div className="anim-fade-up delay-5" style={{display:'flex',gap:18,justifyContent:'center',flexWrap:'wrap'}}>
               {STATS.map(s=>(
                 <div key={s.label} className="glass-card"
-                  style={{padding:'20px 24px',borderRadius:16,textAlign:'center',minWidth:130}}>
-                  <div style={{fontSize:24,marginBottom:8}}>{s.icon}</div>
-                  <div style={{fontSize:13,fontWeight:700,marginBottom:4,color:'var(--text-primary)'}}>{s.label}</div>
-                  <div style={{fontSize:10,color:s.color,fontWeight:600}}>{s.sublabel}</div>
+                  style={{padding:'22px 28px',borderRadius:18,textAlign:'center',minWidth:150,transition:'all 0.3s'}}
+                  onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-6px)';e.currentTarget.style.borderColor=s.color+'66';e.currentTarget.style.boxShadow=`0 0 30px ${s.color}22`;}}
+                  onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.borderColor='var(--glass-border)';e.currentTarget.style.boxShadow='none';}}>
+                  <div style={{fontSize:26,marginBottom:8}}>{s.icon}</div>
+                  <div style={{fontSize:14,fontWeight:700,marginBottom:4,color:'var(--text-primary)'}}>{s.label}</div>
+                  <div style={{fontSize:11,color:s.color,fontWeight:600}}>{s.sublabel}</div>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* Cards */}
-          <section id="cards-section" style={{padding:'60px 20px 80px',position:'relative',zIndex:1}}>
+          {/* ── Cards ── */}
+          <section id="cards-section" style={{padding:'60px 24px 80px',position:'relative',zIndex:1}}>
             <div style={{maxWidth:1100,margin:'0 auto'}}>
               <div style={{textAlign:'center',marginBottom:52}}>
                 <div className="section-title">{t('browse')}</div>
                 <h2 style={{fontSize:'clamp(1.5rem,4vw,2.2rem)',fontWeight:900,marginTop:8,color:'var(--text-primary)'}}>{t('mainTitle')}</h2>
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:22}}>
                 {CARDS.map(card=><Card key={card.id} card={card} onTagClick={handleTagClick} onLibraryClick={handleLibraryClick} lang={lang}/>)}
               </div>
             </div>
           </section>
 
-          {/* Vision */}
-          <section id="vision-section" style={{padding:'40px 20px 80px',position:'relative',zIndex:1}}>
-            {theme==='dark'&&<div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:600,height:300,background:'radial-gradient(ellipse,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',borderRadius:'50%'}}/>}
-            <div className="glass-card vision-card" style={{maxWidth:820,margin:'0 auto',borderRadius:26,padding:'44px 36px',textAlign:'center',position:'relative'}}>
-              <div style={{width:60,height:60,borderRadius:18,background:'rgba(234,179,8,0.12)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 20px',fontSize:28,color:'#EAB308',border:'1px solid rgba(234,179,8,0.25)',boxShadow:'0 0 25px rgba(234,179,8,0.2)'}}>⬡</div>
-              <h3 style={{fontSize:22,fontWeight:900,marginBottom:16,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('visionTitle')}</h3>
-              <p style={{color:'var(--text-secondary)',lineHeight:1.9,fontSize:14,maxWidth:560,margin:'0 auto'}}>{t('visionText')}</p>
+          {/* ── Vision ── */}
+          <section id="vision-section" style={{padding:'40px 24px 80px',position:'relative',zIndex:1}}>
+            {theme==='dark'&&<div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:600,height:300,background:'radial-gradient(ellipse,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',borderRadius:'50%',isolation:'isolate'}}/>}
+            <div className="glass-card vision-card" style={{maxWidth:820,margin:'0 auto',borderRadius:26,padding:'52px 44px',textAlign:'center',position:'relative'}}>
+              <div style={{width:68,height:68,borderRadius:20,background:'rgba(234,179,8,0.12)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 20px',fontSize:30,color:'#EAB308',border:'1px solid rgba(234,179,8,0.25)',boxShadow:'0 0 30px rgba(234,179,8,0.2)'}}>⬡</div>
+              <h3 style={{fontSize:24,fontWeight:900,marginBottom:16,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('visionTitle')}</h3>
+              <p style={{color:'var(--text-secondary)',lineHeight:1.95,fontSize:15,maxWidth:560,margin:'0 auto'}}>{t('visionText')}</p>
             </div>
           </section>
 
-          {/* Footer */}
-          <footer style={{padding:'40px 20px 32px',borderTop:'1px solid var(--glass-border)',position:'relative',zIndex:1}}>
+          {/* ── Footer ── */}
+          <footer style={{padding:'40px 24px 32px',borderTop:'1px solid var(--glass-border)',position:'relative',zIndex:1}}>
             {theme==='dark'&&<div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'80%',height:1,background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.3),transparent)',pointerEvents:'none'}}/>}
             <div style={{maxWidth:860,margin:'0 auto',textAlign:'center'}}>
               <p style={{fontSize:12,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:22,fontWeight:700}}>{t('contact')}</p>
@@ -885,6 +770,7 @@
           </footer>
 
           <WelcomeInstallPopup lang={lang}/>
+          {/* ✅ FIX: نمرر theme للـ ProgressRing */}
           <ProgressRing theme={theme}/>
         </div>
       );
