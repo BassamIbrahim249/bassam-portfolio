@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.82" />
+  <meta name="app-version" content="1.0.83" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -54,6 +54,7 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
+    /* ... (جميع الأنماط السابقة كما هي، لم نحذف شيئاً) ... */
     :root {
       --bg-primary:#05080f; --bg-secondary:#0a0f1a;
       --text-primary:#ffffff; --text-secondary:#8899bb;
@@ -223,7 +224,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.82",S=localStorage.getItem('site_version');
+      const V="1.0.83",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -245,7 +246,7 @@
 
     const CONFIG={contact:{whatsapp:"249967238251"},cache:{ttl:86400000}};
     const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.82";
+    const APP_VERSION="1.0.83";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -259,7 +260,7 @@
         tab_aca:'أكاديمية التطوير والمنظمات',tab_aca_sub:'كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي',tab_aca_desc:'بوابة إلى التميّز المؤسسي.',
         tab_life:'نمط الحياة والصحة',tab_life_sub:'الصحة الشاملة، التغذية، والتميز البدني والذهني',tab_life_desc:'بوابة إلى العافية الكاملة.',
         stat1:'خبرة عملية',stat1_sub:'متجددة باستمرار',stat2:'بحوث ودراسات',stat2_sub:'منشورة ومحكّمة',stat3:'تحليل استراتيجي',stat3_sub:'مستمر ومتواصل',
-        nav_contact:'📞 معنا',hero_btn1:'تعرّف عليّ',hero_btn2:'استكشف المحتوى',
+        nav_contact:'📞 معي',hero_btn1:'تعرّف عليّ',hero_btn2:'استكشف المحتوى',
         share:'📤 مشاركة',facebook:'📘 فيسبوك',whatsapp:'📲 واتساب',twitter:'𝕏 تويتر',telegram:'💬 تيليجرام',copyLink:'📋 نسخ الرابط',copied:'✅ تم النسخ!',
         tag_materials:'علوم المواد',tag_construction:'ابتكار إنشائي',tag_lab:'مختبر هندسي',
         tag_sudan_history:'تاريخ السودان',tag_strategic:'تحليل استراتيجي',tag_intellectual:'رؤى فكرية',
@@ -281,7 +282,7 @@
         tab_aca:'Development Academy',tab_aca_sub:'Project Writing, Leadership & Developmental Training',tab_aca_desc:'Gateway to institutional excellence.',
         tab_life:'Lifestyle & Health',tab_life_sub:'Holistic Health, Scientific Nutrition & Physical Excellence',tab_life_desc:'Gateway to complete wellness.',
         stat1:'Practical Experience',stat1_sub:'Continuously updated',stat2:'Published Research',stat2_sub:'Peer-reviewed studies',stat3:'Strategic Analysis',stat3_sub:'Ongoing & continuous',
-        nav_contact:'📞 With Us',hero_btn1:'About Me',hero_btn2:'Explore Content',
+        nav_contact:'📞 With Me',hero_btn1:'About Me',hero_btn2:'Explore Content',
         share:'📤 Share',facebook:'📘 Facebook',whatsapp:'📲 WhatsApp',twitter:'𝕏 Twitter',telegram:'💬 Telegram',copyLink:'📋 Copy Link',copied:'✅ Copied!',
         tag_materials:'Materials Science',tag_construction:'Construction Innovation',tag_lab:'Engineering Lab',
         tag_sudan_history:'Sudan History',tag_strategic:'Strategic Analysis',tag_intellectual:'Intellectual Visions',
@@ -569,13 +570,12 @@
     function SocialIcon({social, theme}){
       const[hover,setHover]=useState(false);
       const socialKey = social.name.toLowerCase().replace(' ','');
-      // معالجة ألوان X و TikTok في الوضع النهاري
       let iconColor = social.color;
       if (theme === 'light' && (socialKey === 'x' || socialKey === 'tiktok')) {
         iconColor = '#000000';
       }
       if (theme === 'light' && socialKey === 'instagram') {
-        iconColor = '#E4405F'; // وردي واضح في النهاري
+        iconColor = '#E4405F';
       }
       return(
         <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn"
@@ -712,7 +712,7 @@
             </>
           )}
 
-          {/* Header مع تحسين المساحة لزر "📞 معنا" */}
+          {/* Header المُصلح: توزيع مضمون */}
           <header style={{
             position:'fixed',top:0,left:0,right:0,zIndex:100,
             isolation:'isolate',
@@ -725,17 +725,29 @@
             borderBottom: scrolled ? '1px solid rgba(59,158,255,0.1)' : '1px solid transparent',
             transition:'padding 0.3s ease, background 0.3s ease, border-color 0.3s ease'
           }}>
-            <div style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'flex-start', gap:'0px', width:'100%', overflow:'visible'}}>
-              
-              {/* Hamburger + Logo (يبدأ من أقصى اليمين) */}
-              <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0, marginRight: '0px'}}>
+            <div style={{
+              maxWidth:1200,margin:'0 auto',
+              display:'flex',alignItems:'center',
+              justifyContent:'space-between', /* هنا الإصلاح: الرجوع إلى space-between */
+              width:'100%',
+              overflow:'visible'
+            }}>
+              {/* القسم الأيمن: شعار + اسم */}
+              <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
                 <button className="hamburger-btn" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} aria-label="القائمة">☰</button>
                 <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',fontSize:14,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
                 <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
               </div>
 
-              {/* Desktop Tabs (تنزاح قليلاً لليمين) */}
-              <nav className="nav-tabs-desktop" style={{display:'flex',gap:24, marginLeft: 'auto', marginRight: '20px'}}>
+              {/* القسم الأوسط: تبويبات سطح المكتب (مرنة) */}
+              <nav className="nav-tabs-desktop" style={{
+                display:'flex',gap:24,
+                flex:'1 1 auto', /* تأخذ المساحة المتاحة */
+                justifyContent:'center',
+                minWidth:0,
+                overflow:'hidden',
+                whiteSpace:'nowrap'
+              }}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`}
                     onClick={e=>{e.preventDefault();scrollTo(item.id);}}
@@ -747,8 +759,8 @@
                 ))}
               </nav>
 
-              {/* Actions (أزرار التحكم + زر التواصل الجديد) */}
-              <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0, marginLeft: 'auto'}}>
+              {/* القسم الأيسر: الأزرار (ثابتة) */}
+              <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0, whiteSpace:'nowrap'}}>
                 <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
                   style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
                   {lang==='ar'?'EN':'عربي'}
@@ -758,7 +770,16 @@
                   {theme==='dark'?'🌙':'☀️'}
                 </button>
                 <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  style={{padding:'8px 16px',borderRadius:8,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,fontSize:12,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap',flexShrink:0,minWidth:'fit-content'}}>
+                  style={{
+                    padding:'8px 16px',borderRadius:8,
+                    background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',
+                    border:'1px solid rgba(37,211,102,0.4)',
+                    color:'#25D366',fontWeight:700,fontSize:12,
+                    cursor:'pointer',fontFamily:'Cairo',
+                    whiteSpace:'nowrap',
+                    flexShrink:0, /* منع الاختفاء */
+                    minWidth:'fit-content'
+                  }}>
                   {t('nav_contact')}
                 </button>
               </div>
