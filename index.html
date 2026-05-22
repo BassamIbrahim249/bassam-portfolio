@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.37" />
+  <meta name="app-version" content="1.0.38" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -174,14 +174,6 @@
 
     .social-btn{transition:transform 0.3s ease,box-shadow 0.3s ease,background 0.3s ease,border-color 0.3s ease,color 0.3s ease;min-height:44px;display:flex;align-items:center}
     .social-btn:hover{transform:translateY(-4px)}
-    /* أيقونات التواصل بألوانها الأصلية عند التمرير */
-    .social-btn[data-social="linkedin"]:hover { background: rgba(10,102,194,0.15); border-color: #0A66C2; color: #0A66C2; }
-    .social-btn[data-social="facebook"]:hover { background: rgba(24,119,242,0.15); border-color: #1877F2; color: #1877F2; }
-    .social-btn[data-social="x"]:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
-    .social-btn[data-social="youtube"]:hover { background: rgba(255,0,0,0.15); border-color: #FF0000; color: #FF0000; }
-    .social-btn[data-social="instagram"]:hover { background: rgba(228,64,95,0.15); border-color: #E4405F; color: #E4405F; }
-    .social-btn[data-social="whatsapp"]:hover { background: rgba(37,211,102,0.15); border-color: #25D366; color: #25D366; }
-    .social-btn[data-social="tiktok"]:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
 
     .install-btn{background:linear-gradient(135deg,#3B9EFF,#2563eb);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;margin-bottom:14px;box-shadow:0 0 30px rgba(59,158,255,0.4);transition:transform 0.25s ease;min-height:44px}
     .install-btn:hover{transform:scale(1.03)}
@@ -208,7 +200,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.37",S=localStorage.getItem('site_version');
+      const V="1.0.38",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -230,7 +222,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.37";
+    const APP_VERSION="1.0.38";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -566,7 +558,8 @@
           style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,
             background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',
             border:'1px solid',borderColor:hover?'rgba(255,255,255,0.1)':'var(--glass-border)',
-            color:hover?social.color:'var(--text-secondary)',textDecoration:'none',
+            color: social.color, textDecoration:'none',
+            opacity: hover ? 1 : 0.85,
             transform:hover?'translateY(-4px)':'none'}}>
           {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
         </a>
@@ -668,7 +661,7 @@
             </>
           )}
 
-          {/* 🌟 Navbar النهائي — يعمل في الموبايل والكمبيوتر */}
+          {/* 🌟 شريط التنقل - النسخة النهائية المثالية */}
           <header className="navbar" style={{
             position:'fixed', top:0, left:0, right:0, zIndex:100,
             padding: scrolled ? '10px 16px' : '14px 24px',
@@ -690,8 +683,8 @@
                 <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',maxWidth:'140px'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
               </div>
               
-              {/* 2. الوسط: تبويبات — تلتف تلقائياً */}
-              <nav className="hide-mobile" style={{display:'flex', gap:20, alignItems:'center', flexWrap:'wrap', marginLeft:'auto', marginRight:'auto'}}>
+              {/* 2. الوسط: تبويبات — تتمدد لملء المساحة */}
+              <nav className="hide-mobile" style={{display:'flex', gap:20, alignItems:'center', flexWrap:'wrap', flex: 1, justifyContent: 'center'}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
                     style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,whiteSpace:'nowrap'}}>
