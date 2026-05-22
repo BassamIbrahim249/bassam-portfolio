@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.32" />
+  <meta name="app-version" content="1.0.33" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -181,7 +181,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.32",S=localStorage.getItem('site_version');
+      const V="1.0.33",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -203,7 +203,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.32";
+    const APP_VERSION="1.0.33";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -457,7 +457,7 @@
                       const isOpen=openIndex===idx;
                       const localizedContent = getLocalized(article, 'content', lang);
                       const cleanHTML=sanitizeHTML(parseMarkdownToHTML(localizedContent));
-                      const commentId=article.id||`article-${idx}`;
+                      const commentId=article.id || article.slug || article.title?.toLowerCase().replace(/[^\w]+/g,'-').substring(0,40) || String(idx);
                       return(
                         <div key={article.id||idx} id={`article-${idx}`} className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`} style={{marginBottom:14,borderRadius:16,overflow:'hidden'}}>
                           <div onClick={()=>handleToggle(idx)} style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}} role="button" aria-expanded={isOpen}>
@@ -584,13 +584,11 @@
         document.body.className=theme;localStorage.setItem('theme',theme);
         document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');
         document.documentElement.setAttribute('lang',lang);
-        // ✅ تحديث meta description ديناميكياً
         const metaDesc = document.querySelector('meta[name="description"]');
         if(metaDesc) metaDesc.setAttribute('content', t('meta_description'));
-        // ✅ تحديث canonical ليشير إلى التبويب الأصلي
         const canonical = document.getElementById('dynamicCanonical');
         if(canonical) canonical.setAttribute('href', `https://bassamibrahim249.github.io/bassam-portfolio/?tab=${originTabId||''}`);
-      },[theme,lang]);
+      },[theme, lang, originTabId]);
 
       const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
       const handleTagClick=(tag,tabId)=>{setOriginTabId(tabId);setActiveCategory(tag);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
@@ -639,19 +637,21 @@
             </>
           )}
 
-          {/* 🌟 Navbar النهائي المُحسّن */}
+          {/* 🌟 Navbar النهائي — متسق في الوضعين */}
           <header role="navigation" aria-label={lang==='ar'?'القائمة الرئيسية':'Main navigation'} style={{
             position:'fixed',top:0,left:0,right:0,zIndex:100,
             padding:'12px 24px',
             background:theme==='dark'?'rgba(5,8,15,0.85)':'rgba(232,236,244,0.92)',
             backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
-            borderBottom:'1px solid var(--glass-border)'
+            borderBottom:'1px solid var(--glass-border)',
+            width:'100%',boxSizing:'border-box',
+            contain:'layout style paint'
           }}>
-            {/* السطر الأول: الشعار + تواصل معي */}
-            <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:10}}>
-              <div style={{display:'flex',alignItems:'center',gap:10,flex:1,overflow:'hidden'}}>
+            {/* السطر الأول: شعار + تواصل */}
+            <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:10,flexWrap:'nowrap'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10,flex:1,overflow:'hidden',minWidth:0}}>
                 <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
-                <span style={{fontWeight:900,fontSize:17,color:'var(--text-primary)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+                <span style={{fontWeight:900,fontSize:17,color:'var(--text-primary)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',minWidth:0,flex:1}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
               </div>
               <button aria-label={t('nav_contact')} onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
                 style={{fontSize:12,padding:'10px 22px',borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap',flexShrink:0}}>
@@ -659,25 +659,25 @@
               </button>
             </div>
 
-            {/* السطر الثاني: روابط التبويبات + أيقونات التحكم */}
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
-              <nav className="hide-mobile" style={{display:'flex',gap:16,alignItems:'center'}}>
+            {/* السطر الثاني: تبويبات + لغة/ثيم */}
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
+              <nav className="hide-mobile" style={{display:'flex',gap:16,alignItems:'center',flexWrap:'wrap'}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                    style={{fontSize:13,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s',padding:'6px 0'}}
+                    style={{fontSize:13,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s',padding:'6px 0',whiteSpace:'nowrap'}}
                     onMouseEnter={e=>e.target.style.color='var(--accent-blue)'}
                     onMouseLeave={e=>e.target.style.color='var(--text-secondary)'}>
                     {t(item.key)}
                   </a>
                 ))}
               </nav>
-              <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0}}>
                 <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" 
-                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo',minWidth:60}}>
+                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo',minWidth:60,flexShrink:0}}>
                   {lang==='ar'?'English':'عربي'}
                 </button>
                 <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
-                  style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
                   {theme==='dark'?'🌙':'☀️'}
                 </button>
               </div>
