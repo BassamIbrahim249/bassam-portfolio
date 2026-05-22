@@ -10,7 +10,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=nubian" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=academy" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
-  <meta name="app-version" content="1.0.26" />
+  <meta name="app-version" content="1.0.27" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -45,51 +45,56 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     :root {
-      --bg-primary:#05080f; --bg-secondary:#0a0f1a;
-      --text-primary:#ffffff; --text-secondary:#8899bb;
-      --border-color:rgba(255,255,255,0.06);
-      --glass-bg:rgba(255,255,255,0.03);
-      --glass-border:rgba(255,255,255,0.06);
-      --accent-blue:#3B9EFF; --accent-gold:#EAB308;
-      --blur-amount:12px;
+      --bg-primary: #05080f;
+      --bg-secondary: #0a0f1a;
+      --text-primary: #ffffff;
+      --text-secondary: #8899bb;
+      --border-color: rgba(255,255,255,0.06);
+      --glass-bg: rgba(255,255,255,0.03);
+      --glass-border: rgba(255,255,255,0.06);
+      --accent-blue: #3B9EFF;
+      --accent-gold: #EAB308;
+      --blur-amount: 12px;
     }
     .light {
-      --bg-primary:#e8ecf4; --bg-secondary:#f0f4fa;
-      --text-primary:#1e293b; --text-secondary:#475569;
-      --border-color:rgba(0,0,0,0.08);
-      --glass-bg:rgba(255,255,255,0.75);
-      --glass-border:rgba(0,0,0,0.07);
-      --blur-amount:16px;
+      --bg-primary: #e8ecf4;
+      --bg-secondary: #f0f4fa;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --border-color: rgba(0,0,0,0.08);
+      --glass-bg: rgba(255,255,255,0.75);
+      --glass-border: rgba(0,0,0,0.07);
+      --blur-amount: 16px;
     }
 
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{background:var(--bg-primary);font-family:'Cairo',sans-serif;color:var(--text-primary);overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;transition:background 0.4s ease,color 0.3s ease}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-primary);
+      font-family: 'Cairo', sans-serif;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.4s ease, color 0.3s ease;
+    }
 
     /* Glass */
-    .glass-card{background:var(--glass-bg);backdrop-filter:blur(var(--blur-amount));-webkit-backdrop-filter:blur(var(--blur-amount));border:1px solid var(--glass-border);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
-    .glass-card:hover{transform:translateY(-6px);border-color:rgba(59,158,255,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.2),0 0 40px rgba(59,158,255,0.08)}
+    .glass-card { background: var(--glass-bg); backdrop-filter: blur(var(--blur-amount)); -webkit-backdrop-filter: blur(var(--blur-amount)); border: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .glass-card:hover { transform: translateY(-6px); border-color: rgba(59,158,255,0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.2), 0 0 40px rgba(59,158,255,0.08); }
 
     /* ── Animations ── */
-    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes pulseGlow{0%,100%{opacity:0.6}50%{opacity:1}}
-    @keyframes skeletonShimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-    @keyframes goldenPulse{0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)}}
-    @keyframes floatStar{0%,100%{transform:translateY(0) scale(1);opacity:0.25}50%{transform:translateY(-28px) scale(1.6);opacity:0.8}}
-    @keyframes ringFadeIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-    /* ✨ NEW — Hero glow orbs */
-    @keyframes heroOrb{0%,100%{transform:scale(1);opacity:0.55}50%{transform:scale(1.15);opacity:0.9}}
-    /* ✨ NEW — Logo pulse */
-    @keyframes logoPulse{0%,100%{box-shadow:0 0 12px rgba(59,158,255,0.45)}50%{box-shadow:0 0 32px rgba(59,158,255,0.9),0 0 55px rgba(96,207,255,0.35)}}
-    /* ✨ NEW — Vision aura */
-    @keyframes visionAura{0%,100%{box-shadow:0 0 40px rgba(234,179,8,0.12),0 0 80px rgba(59,158,255,0.06)}50%{box-shadow:0 0 70px rgba(234,179,8,0.30),0 0 130px rgba(59,158,255,0.14)}}
-    /* ✨ NEW — Card sweep shimmer */
-    @keyframes borderSweep{0%{left:-100%}100%{left:200%}}
-    /* ✨ NEW — Footer social glow on hover handled inline */
-    /* ✨ NEW — Section divider pulse */
-    @keyframes dividerPulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
+    @keyframes pulseGlow { 0%,100%{opacity:0.6}50%{opacity:1} }
+    @keyframes skeletonShimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
+    @keyframes goldenPulse { 0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.2)}50%{box-shadow:0 0 30px rgba(234,179,8,0.5)} }
+    @keyframes floatStar { 0%,100%{transform:translateY(0) scale(1);opacity:0.25}50%{transform:translateY(-28px) scale(1.6);opacity:0.8} }
+    @keyframes ringFadeIn { from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)} }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+    @keyframes heroOrb { 0%,100%{transform:scale(1);opacity:0.55}50%{transform:scale(1.15);opacity:0.9} }
+    @keyframes logoPulse { 0%,100%{box-shadow:0 0 12px rgba(59,158,255,0.45)}50%{box-shadow:0 0 32px rgba(59,158,255,0.9),0 0 55px rgba(96,207,255,0.35)} }
+    @keyframes visionAura { 0%,100%{box-shadow:0 0 40px rgba(234,179,8,0.12),0 0 80px rgba(59,158,255,0.06)}50%{box-shadow:0 0 70px rgba(234,179,8,0.30),0 0 130px rgba(59,158,255,0.14)} }
+    @keyframes borderSweep { 0%{left:-100%}100%{left:200%} }
 
     @media(prefers-reduced-motion:no-preference){
       .anim-fade-up{animation:fadeUp 0.75s ease both}
@@ -110,7 +115,7 @@
     .section-title{font-size:12px;letter-spacing:0.25em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px;color:var(--accent-blue)}
     .section-title::before,.section-title::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,currentColor,transparent)}
 
-    /* Article body — Light+Dark safe */
+    /* Article body */
     .article-body{color:var(--text-secondary);line-height:1.9;font-size:15px}
     .article-body h1,.article-body h2,.article-body h3,.article-body h4{color:var(--accent-gold);font-weight:700;margin:20px 0 12px}
     .article-body p{margin-bottom:14px;color:var(--text-secondary)}
@@ -138,7 +143,6 @@
     .card-wrap::before{content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.045),transparent);transform:skewX(-18deg);pointer-events:none;z-index:2}
     .card-wrap:hover::before{animation:borderSweep 0.75s ease forwards}
 
-    /* Card per-color hover glow */
     .card-engineering:hover{box-shadow:0 22px 55px rgba(59,158,255,0.28),0 0 90px rgba(59,158,255,0.07),inset 0 1px 0 rgba(59,158,255,0.18)}
     .card-political:hover{box-shadow:0 22px 55px rgba(96,207,255,0.28),0 0 90px rgba(96,207,255,0.07),inset 0 1px 0 rgba(96,207,255,0.18)}
     .card-nubian:hover{box-shadow:0 22px 55px rgba(234,179,8,0.32),0 0 90px rgba(234,179,8,0.09),inset 0 1px 0 rgba(234,179,8,0.22)}
@@ -177,7 +181,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.26",S=localStorage.getItem('site_version');
+      const V="1.0.27",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -199,7 +203,7 @@
 
     const CONFIG = { contact:{ whatsapp:"249967238251" }, cache:{ ttl:86400000 } };
     const BUTTON_SLUGS = {"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.26";
+    const APP_VERSION="1.0.27";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -269,7 +273,6 @@
       return raw.replace(/<script[^>]*>.*?<\/script>/gi,'').replace(/on\w+="[^"]*"/g,'');
     }
 
-    /* ✨ StarField — smooth fade on theme switch */
     const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
     function StarField({theme}){
       return(
@@ -281,7 +284,6 @@
       );
     }
 
-    /* ✨ TypeWriter */
     function TypeWriter({texts,color='#3B9EFF'}){
       const[display,setDisplay]=useState('');
       const[idx,setIdx]=useState(0);
@@ -300,7 +302,6 @@
       return <span style={{color,fontWeight:900}}>{display}<span className="tw-cursor" style={{color,marginRight:2}}>|</span></span>;
     }
 
-    /* ✨ ProgressRing — also drives top bar */
     function ProgressRing(){
       const[progress,setProgress]=useState(0);
       const[visible,setVisible]=useState(false);
@@ -486,13 +487,11 @@
         <div ref={cardRef} id={card.id} className={`glass-card card-wrap spotlight-card card-${card.id}`}
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} onMouseMove={handleMouseMove}
           style={{padding:32,borderRadius:22,cursor:'pointer',background:hover?`linear-gradient(145deg,${th.glow},var(--glass-bg))`:'var(--glass-bg)',border:hover?`1px solid ${th.border}`:'1px solid var(--glass-border)',transform:hover?'translateY(-10px)':'translateY(0)',transition:'all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)'}}>
-          {/* ✨ icon with glow */}
           <div style={{width:58,height:58,borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',background:hover?`${th.glow}`:'var(--glass-bg)',marginBottom:24,border:hover?`1px solid ${th.border}`:'1px solid var(--glass-border)',fontSize:24,color:th.color,transform:hover?'scale(1.1) rotate(4deg)':'scale(1) rotate(0deg)',transition:'all 0.4s ease',boxShadow:hover?`0 0 22px ${th.glow}`:'none'}}>{card.icon}</div>
           <h3 style={{fontSize:19,fontWeight:700,marginBottom:8,color:'var(--text-primary)'}}>{card.title}</h3>
           <p style={{fontSize:12,fontWeight:600,color:th.color,marginBottom:14}}>{card.subtitle}</p>
           <p style={{fontSize:13,color:'var(--text-secondary)',lineHeight:1.75,marginBottom:24}}>{card.desc}</p>
           <div style={{display:'flex',flexWrap:'wrap',gap:8,marginBottom:24}}>
-            {/* ✅ FIX: pass actual tag text, not key */}
             {card.tagKeys.map(tagKey=>{
               const displayTag=t(tagKey);
               const actualTag=I18N['ar']?.[tagKey]||displayTag;
@@ -523,7 +522,6 @@
         <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn"
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
           style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',border:'1px solid',borderColor:hover?`${social.color}66`:'var(--glass-border)',color:hover?social.color:'var(--text-secondary)',textDecoration:'none',
-            /* ✨ per-color glow on hover */
             boxShadow:hover?`0 6px 24px ${social.color}33`:'none',
             transform:hover?'translateY(-4px)':'none'}}>
           {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
@@ -573,8 +571,6 @@
       },[theme,lang]);
 
       const scrollTo=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
-
-      /* ✅ FIX: tag is already actual Arabic text from Card */
       const handleTagClick=(tag,tabId)=>{setOriginTabId(tabId);setActiveCategory(tag);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
       const handleLibraryClick=(slug,tabId)=>{setOriginTabId(tabId);setActiveCategory(`library_${slug}`);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
 
@@ -611,10 +607,8 @@
       return(
         <div style={{position:'relative',minHeight:'100vh'}}>
 
-          {/* ✨ StarField */}
           <StarField theme={theme}/>
 
-          {/* ✨ Hero background orbs */}
           {theme==='dark'&&(
             <>
               <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,animation:'heroOrb 7s ease-in-out infinite'}}/>
@@ -623,38 +617,48 @@
             </>
           )}
 
-          {/* ── Navbar ── */}
-          <header role="navigation" style={{position:'fixed',top:0,left:0,right:0,zIndex:100,padding:'14px 28px',
+          {/* ── 🌟 Navbar المُعاد تصميمه بالكامل ── */}
+          <header role="navigation" style={{
+            position:'fixed',top:0,left:0,right:0,zIndex:100,
+            padding:'10px 24px',
             background:theme==='dark'?'rgba(5,8,15,0.85)':'rgba(232,236,244,0.92)',
             backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
-            borderBottom:'1px solid var(--glass-border)'}}>
-            <div style={{maxWidth:1200,margin:'0 auto',display:'flex',flexDirection:'column',gap:10}}>
-              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                <div style={{display:'flex',alignItems:'center',gap:12}}>
-                  {/* ✨ Logo with pulse */}
-                  <div className="logo-wrap" style={{width:40,height:40,borderRadius:12,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:900,color:'#080c12'}}>B.I</div>
-                  <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
-                </div>
+            borderBottom:'1px solid var(--glass-border)'
+          }}>
+            <div style={{maxWidth:1300,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
+              
+              {/* الشعار */}
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:900,color:'#080c12'}}>B.I</div>
+                <span style={{fontWeight:900,fontSize:17,color:'var(--text-primary)'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
+              </div>
+
+              {/* روابط التبويبات (تظهر على الشاشات المتوسطة والكبيرة) */}
+              <nav className="hide-mobile" style={{display:'flex',gap:16,alignItems:'center'}}>
+                {NAV_ITEMS.map(item=>(
+                  <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
+                    style={{fontSize:13,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s',padding:'6px 0'}}
+                    onMouseEnter={e=>e.target.style.color='var(--accent-blue)'}
+                    onMouseLeave={e=>e.target.style.color='var(--text-secondary)'}>
+                    {t(item.key)}
+                  </a>
+                ))}
+              </nav>
+
+              {/* الجانب الأيسر: أيقونات التحكم وزر التواصل */}
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" 
+                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo',minWidth:60}}>
+                  {lang==='ar'?'English':'عربي'}
+                </button>
+                <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
+                  style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  {theme==='dark'?'🌙':'☀️'}
+                </button>
                 <button aria-label={t('nav_contact')} onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  style={{fontSize:12,padding:'10px 22px',borderRadius:10,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
+                  style={{fontSize:12,padding:'8px 16px',borderRadius:8,background:'linear-gradient(135deg,rgba(37,211,102,0.18),rgba(37,211,102,0.08))',border:'1px solid rgba(37,211,102,0.45)',color:'#25D366',fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
                   {t('nav_contact')}
                 </button>
-              </div>
-              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
-                <nav style={{display:'flex',gap:20}}>
-                  {NAV_ITEMS.map(item=>(
-                    <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                      style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s'}}
-                      onMouseEnter={e=>e.target.style.color='var(--accent-blue)'}
-                      onMouseLeave={e=>e.target.style.color='var(--text-secondary)'}>
-                      {t(item.key)}
-                    </a>
-                  ))}
-                </nav>
-                <div style={{display:'flex',alignItems:'center',gap:12}}>
-                  <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" style={{padding:'6px 16px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>{lang==='ar'?'English':'عربي'}</button>
-                  <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card" style={{width:38,height:38,borderRadius:10,color:'var(--text-primary)',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>{theme==='dark'?'🌙':'☀️'}</button>
-                </div>
               </div>
             </div>
           </header>
@@ -662,20 +666,16 @@
           {/* ── Hero ── */}
           <section style={{padding:'148px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
-
-            {/* ✨ Name with radial glow behind it */}
             <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
               {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',animation:'heroOrb 5s ease-in-out infinite'}}/>}
               <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2.6rem,8vw,5rem)',fontWeight:900,lineHeight:1.1,color:'var(--text-primary)',position:'relative'}}>
                 Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
               </h1>
             </div>
-
             <div className="anim-fade-up delay-3" style={{fontSize:'clamp(1rem,3vw,1.35rem)',marginBottom:16,minHeight:'2rem'}}>
               <TypeWriter texts={TW_TEXTS} color="#3B9EFF"/>
             </div>
             <p className="anim-fade-up delay-3" style={{color:'var(--text-secondary)',maxWidth:620,margin:'0 auto 40px',fontSize:'1rem',lineHeight:1.85}}>{t('heroDesc')}</p>
-
             <div className="anim-fade-up delay-4" style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap',marginBottom:56}}>
               <button onClick={()=>scrollTo('vision-section')}
                 style={{padding:'14px 34px',borderRadius:14,background:'linear-gradient(135deg,#3B9EFF,#1a7fe0)',color:'#fff',fontWeight:700,fontSize:14,border:'none',cursor:'pointer',fontFamily:'Cairo',boxShadow:'0 0 30px rgba(59,158,255,0.5)',transition:'all 0.2s'}}
@@ -688,7 +688,6 @@
                 {t('hero_btn2')}
               </button>
             </div>
-
             <div className="anim-fade-up delay-5" style={{display:'flex',gap:18,justifyContent:'center',flexWrap:'wrap'}}>
               {STATS.map(s=>(
                 <div key={s.label} className="glass-card"
@@ -718,7 +717,6 @@
 
           {/* ── Vision ── */}
           <section id="vision-section" style={{padding:'40px 24px 80px',position:'relative',zIndex:1}}>
-            {/* ✨ Vision ambient glow */}
             {theme==='dark'&&<div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:600,height:300,background:'radial-gradient(ellipse,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',borderRadius:'50%'}}/>}
             <div className="glass-card vision-card" style={{maxWidth:820,margin:'0 auto',borderRadius:26,padding:'52px 44px',textAlign:'center',position:'relative'}}>
               <div style={{width:68,height:68,borderRadius:20,background:'rgba(234,179,8,0.12)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 20px',fontSize:30,color:'#EAB308',border:'1px solid rgba(234,179,8,0.25)',boxShadow:'0 0 30px rgba(234,179,8,0.2)'}}>⬡</div>
@@ -729,7 +727,6 @@
 
           {/* ── Footer ── */}
           <footer style={{padding:'40px 24px 32px',borderTop:'1px solid var(--glass-border)',position:'relative',zIndex:1}}>
-            {/* ✨ Footer top ambient */}
             {theme==='dark'&&<div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'80%',height:1,background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.3),transparent)',pointerEvents:'none'}}/>}
             <div style={{maxWidth:860,margin:'0 auto',textAlign:'center'}}>
               <p style={{fontSize:12,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:22,fontWeight:700}}>{t('contact')}</p>
