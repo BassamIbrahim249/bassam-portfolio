@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.87" />
+  <meta name="app-version" content="1.0.88" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -75,18 +75,10 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{
-      background:var(--bg-primary);
-      font-family:'Cairo',sans-serif;
-      color:var(--text-primary);
-      overflow-x:hidden;
-      max-width:100vw;
-      -webkit-tap-highlight-color:transparent;
-      -webkit-font-smoothing:antialiased;
+      background:var(--bg-primary);font-family:'Cairo',sans-serif;
+      color:var(--text-primary);overflow-x:hidden;max-width:100vw;
+      -webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;
       transition:background 0.4s ease,color 0.3s ease;
-    }
-    body, #root, section, header, footer, nav {
-      overflow-x: hidden;
-      max-width: 100vw;
     }
 
     .glass-card{background:var(--glass-bg);backdrop-filter:blur(var(--blur-amount));-webkit-backdrop-filter:blur(var(--blur-amount));border:1px solid var(--glass-border);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
@@ -191,34 +183,35 @@
     .search-input::placeholder{color:var(--text-secondary)}
     .author-meta{font-size:12px;color:var(--text-secondary);margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap}
 
-    /* ── Mobile Nav ── */
-    .hamburger-btn { display: none; background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer; padding: 8px; }
-    .mobile-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; display: none; backdrop-filter: blur(4px); }
-    .mobile-menu-panel { position: fixed; top: 0; bottom: 0; width: 280px; background: var(--bg-secondary); z-index: 1000; overflow-y: auto; padding: 20px; transition: transform 0.3s ease; box-shadow: -5px 0 30px rgba(0,0,0,0.3); }
-    [dir="rtl"] .mobile-menu-panel { left: 0; transform: translateX(-100%); }
-    [dir="ltr"] .mobile-menu-panel { right: 0; transform: translateX(100%); }
-    .mobile-menu-panel.open { transform: translateX(0); }
-    .mobile-menu-panel a { display: block; padding: 14px 16px; color: var(--text-primary); text-decoration: none; border-radius: 10px; margin-bottom: 6px; font-weight: 600; transition: background 0.2s; }
-    .mobile-menu-panel a:hover { background: rgba(59,158,255,0.1); }
+    /* ── ✅ Header Layout ── */
+    .header-inner{max-width:1200px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .header-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    /* ✅ Nav الديسكتوب في المنتصف */
+    .nav-desktop{display:flex;gap:24px;align-items:center;flex:1;justify-content:center}
+    /* ✅ أزرار الديسكتوب على اليسار */
+    .header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    /* ✅ زر الهامبرغر للموبايل */
+    .hamburger-btn{display:none;background:none;border:none;color:var(--text-primary);font-size:22px;cursor:pointer;padding:6px;line-height:1}
 
-    /* ── تحسينات الموبايل ── */
-    .header-top-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-    .header-bottom-row { display: none; justify-content: flex-end; gap: 8px; padding-top: 4px; }
-    .nav-tabs-desktop { display: flex; gap: 24px; align-items: center; }
-    .header-actions-desktop { display: flex; align-items: center; gap: 8px; }
+    /* ── Mobile Menu ── */
+    .mobile-menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:998;display:none;backdrop-filter:blur(4px)}
+    .mobile-menu-overlay.show{display:block}
+    .mobile-menu-panel{position:fixed;top:0;bottom:0;width:280px;background:var(--bg-secondary);z-index:999;overflow-y:auto;padding:20px;transition:transform 0.3s ease;box-shadow:-5px 0 30px rgba(0,0,0,0.3)}
+    [dir="rtl"] .mobile-menu-panel{left:0;transform:translateX(-100%)}
+    [dir="ltr"] .mobile-menu-panel{right:0;transform:translateX(100%)}
+    .mobile-menu-panel.open{transform:translateX(0)!important}
+    .mobile-menu-panel a{display:block;padding:14px 16px;color:var(--text-primary);text-decoration:none;border-radius:10px;margin-bottom:6px;font-weight:600;transition:background 0.2s}
+    .mobile-menu-panel a:hover{background:rgba(59,158,255,0.1)}
 
-    @media (max-width: 768px) {
-      .nav-tabs-desktop { display: none; }
-      .header-actions-desktop { display: none; }
-      .hamburger-btn { display: flex; align-items: center; justify-content: center; }
-      .mobile-menu-overlay.show { display: block; }
-      .header-bottom-row { display: flex; }
+    @media(max-width:768px){
+      .nav-desktop{display:none}
+      .header-actions{display:none}
+      .hamburger-btn{display:flex;align-items:center;justify-content:center}
     }
-    @media (min-width: 769px) {
-      .hamburger-btn { display: none; }
-      .mobile-menu-overlay { display: none; }
-      .mobile-menu-panel { display: none; }
-      .header-bottom-row { display: none; }
+    @media(min-width:769px){
+      .hamburger-btn{display:none!important}
+      .mobile-menu-overlay{display:none!important}
+      .mobile-menu-panel{display:none!important}
     }
   </style>
 </head>
@@ -229,7 +222,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.87",S=localStorage.getItem('site_version');
+      const V="1.0.88",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -251,7 +244,7 @@
 
     const CONFIG={contact:{whatsapp:"249967238251"},cache:{ttl:86400000}};
     const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.87";
+    const APP_VERSION="1.0.88";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
@@ -265,7 +258,7 @@
         tab_aca:'أكاديمية التطوير والمنظمات',tab_aca_sub:'كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي',tab_aca_desc:'بوابة إلى التميّز المؤسسي.',
         tab_life:'نمط الحياة والصحة',tab_life_sub:'الصحة الشاملة، التغذية، والتميز البدني والذهني',tab_life_desc:'بوابة إلى العافية الكاملة.',
         stat1:'خبرة عملية',stat1_sub:'متجددة باستمرار',stat2:'بحوث ودراسات',stat2_sub:'منشورة ومحكّمة',stat3:'تحليل استراتيجي',stat3_sub:'مستمر ومتواصل',
-        nav_contact:'📞 معي',hero_btn1:'تعرّف عليّ',hero_btn2:'استكشف المحتوى',
+        nav_contact:'تواصل معي',hero_btn1:'تعرّف عليّ',hero_btn2:'استكشف المحتوى',
         share:'📤 مشاركة',facebook:'📘 فيسبوك',whatsapp:'📲 واتساب',twitter:'𝕏 تويتر',telegram:'💬 تيليجرام',copyLink:'📋 نسخ الرابط',copied:'✅ تم النسخ!',
         tag_materials:'علوم المواد',tag_construction:'ابتكار إنشائي',tag_lab:'مختبر هندسي',
         tag_sudan_history:'تاريخ السودان',tag_strategic:'تحليل استراتيجي',tag_intellectual:'رؤى فكرية',
@@ -277,7 +270,8 @@
         nav_engineering:'هندسة',nav_political:'سياسة',nav_nubian:'نوبيان',nav_academy:'أكاديمية',nav_lifestyle:'نمط الحياة',
         pwa_title:'مرحباً بك في منصتي الرقمية',pwa_desc:'هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.',pwa_install:'📲 ثبّت التطبيق للوصول السريع',pwa_dismiss:'استمر بالتصفح',
         meta_description:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
-        author_name:'بسام إبراهيم أحمد'
+        author_name:'بسام إبراهيم أحمد',
+        mobile_menu_title:'القائمة'
       },
       en:{
         back:'Back to Section',library:'📚 Library',read:'📖 Read',close:'✕ Close',search:'🔍 Search articles...',noArticles:'No articles yet.',loadMore:'📄 Load More',remaining:'remaining',minRead:'min read',related:'📌 Related Articles',contact:'Contact Me',visionTitle:'Vision & Mission',visionText:'I believe true specialization gives you keys to understand the world in multiple ways.',identity:'Civil Engineer · Sudan Affairs · Community Activist',heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',mainTitle:'Five Fields. One Vision.',about:'About Me',exploreContent:'Explore Content',lab:'Visual Lab',explore:'Explore',browse:'📂 Browse Content',retry:'Retry',footerCopy:'All rights reserved',
@@ -287,7 +281,7 @@
         tab_aca:'Development Academy',tab_aca_sub:'Project Writing, Leadership & Developmental Training',tab_aca_desc:'Gateway to institutional excellence.',
         tab_life:'Lifestyle & Health',tab_life_sub:'Holistic Health, Scientific Nutrition & Physical Excellence',tab_life_desc:'Gateway to complete wellness.',
         stat1:'Practical Experience',stat1_sub:'Continuously updated',stat2:'Published Research',stat2_sub:'Peer-reviewed studies',stat3:'Strategic Analysis',stat3_sub:'Ongoing & continuous',
-        nav_contact:'📞 With Me',hero_btn1:'About Me',hero_btn2:'Explore Content',
+        nav_contact:'Contact Me',hero_btn1:'About Me',hero_btn2:'Explore Content',
         share:'📤 Share',facebook:'📘 Facebook',whatsapp:'📲 WhatsApp',twitter:'𝕏 Twitter',telegram:'💬 Telegram',copyLink:'📋 Copy Link',copied:'✅ Copied!',
         tag_materials:'Materials Science',tag_construction:'Construction Innovation',tag_lab:'Engineering Lab',
         tag_sudan_history:'Sudan History',tag_strategic:'Strategic Analysis',tag_intellectual:'Intellectual Visions',
@@ -299,7 +293,8 @@
         nav_engineering:'Engineering',nav_political:'Politics',nav_nubian:'Nubian',nav_academy:'Academy',nav_lifestyle:'Lifestyle',
         pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing',
         meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
-        author_name:'Bassam Ibrahim Ahmed'
+        author_name:'Bassam Ibrahim Ahmed',
+        mobile_menu_title:'Menu'
       }
     };
 
@@ -324,11 +319,11 @@
       return raw.replace(/<script[^>]*>.*?<\/script>/gi,'').replace(/on\w+="[^"]*"/g,'');
     }
 
-    const getLocalized = (obj, field, lang) => {
-      if (lang === 'en') {
-        return obj[`${field}_en`] || null;
-      }
-      return obj[`${field}_ar`] || obj[field] || null;
+    /* ✅ FIX: getLocalized يُرجع '' بدل null دائماً */
+    const getLocalized=(obj,field,lang)=>{
+      if(!obj)return'';
+      if(lang==='en')return obj[`${field}_en`]||obj[`${field}_ar`]||obj[field]||'';
+      return obj[`${field}_ar`]||obj[field]||'';
     };
 
     const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
@@ -345,15 +340,15 @@
       const[idx,setIdx]=useState(0);
       const[phase,setPhase]=useState('typing');
       useEffect(()=>{
-        const cur=texts[idx%texts.length];let t;
+        const cur=texts[idx%texts.length];let timer;
         if(phase==='typing'){
-          if(display.length<cur.length)t=setTimeout(()=>setDisplay(cur.slice(0,display.length+1)),75);
-          else t=setTimeout(()=>setPhase('deleting'),2200);
+          if(display.length<cur.length)timer=setTimeout(()=>setDisplay(cur.slice(0,display.length+1)),75);
+          else timer=setTimeout(()=>setPhase('deleting'),2200);
         }else{
-          if(display.length>0)t=setTimeout(()=>setDisplay(d=>d.slice(0,-1)),38);
+          if(display.length>0)timer=setTimeout(()=>setDisplay(d=>d.slice(0,-1)),38);
           else{setIdx(i=>i+1);setPhase('typing');}
         }
-        return()=>clearTimeout(t);
+        return()=>clearTimeout(timer);
       },[display,phase,idx,texts]);
       return <span style={{color,fontWeight:900}}>{display}<span className="tw-cursor" style={{color,marginRight:2}}>|</span></span>;
     }
@@ -391,7 +386,7 @@
       const[copied,setCopied]=useState(false);
       const t=k=>I18N[lang]?.[k]||k;
       const url=encodeURIComponent(window.location.href);
-      const title=encodeURIComponent(getLocalized(article,'title',lang));
+      const title=encodeURIComponent(getLocalized(article,'title',lang)||'');
       const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article,'title',lang),url:window.location.href});}catch(e){}}else window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');};
       const handleCopy=async()=>{try{await navigator.clipboard.writeText(window.location.href);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch(e){const i=document.createElement('input');i.value=window.location.href;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}};
       const open=p=>window.open({whatsapp:`https://wa.me/?text=${title}%0A${url}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,twitter:`https://twitter.com/intent/tweet?text=${title}&url=${url}`,telegram:`https://t.me/share/url?url=${url}&text=${title}`}[p],'_blank');
@@ -433,7 +428,7 @@
               <div key={f.id} className="glass-card" style={{padding:20,borderRadius:14}}>
                 <div style={{fontSize:28,marginBottom:10}}>{f.fileType==='pdf'?'📕':f.fileType==='pptx'?'📊':'📄'}</div>
                 <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{getLocalized(f,'title',lang)}</h4>
-                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f,'description',lang)||''}</p>
+                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f,'description',lang)}</p>
                 <div style={{fontSize:11,color:'var(--text-secondary)',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
                 <div style={{display:'flex',gap:8}}>
                   <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('download_btn')}</a>
@@ -489,7 +484,7 @@
       const hasMore=searched.length>visibleCount;
 
       return(
-        <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>
+        <div style={{padding:'clamp(100px,18vw,148px) 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>
           <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:'12px 24px',borderRadius:14,background:'var(--glass-bg)',border:'1px solid var(--glass-border)',color:'var(--text-secondary)',cursor:'pointer',fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
           <h2 style={{fontSize:'clamp(1.5rem,4vw,2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'var(--accent-gold)'}}>{t(title)||title}</h2>
           <input type="text" className="search-input" placeholder={t('search')} value={searchQuery} onChange={e=>{setSearchQuery(e.target.value);setVisibleCount(ITEMS_PER_PAGE);}} style={{width:'100%',padding:'14px 20px',borderRadius:14,fontFamily:'Cairo',fontSize:14,marginBottom:24}}/>
@@ -518,7 +513,7 @@
                             <div style={{padding:'0 20px 24px'}}>
                               {article.image&&<img src={article.image} alt={getLocalized(article,'title',lang)} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
                               <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}}/>
-                              <div className="author-meta">✍️ {getLocalized(article,'author',lang) || t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
+                              <div className="author-meta">✍️ {getLocalized(article,'author',lang)||t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
                               <ShareButtons article={article} lang={lang}/>
                               <CommentsSection articleId={commentId}/>
                               <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
@@ -577,25 +572,19 @@
       );
     }
 
-    function SocialIcon({social, theme}){
+    function SocialIcon({social,theme}){
       const[hover,setHover]=useState(false);
-      const socialKey = social.name.toLowerCase().replace(' ','');
-      let iconColor = social.color;
-      if (theme === 'light' && (socialKey === 'x' || socialKey === 'tiktok')) {
-        iconColor = '#000000';
-      }
-      if (theme === 'light' && socialKey === 'instagram') {
-        iconColor = '#E4405F';
-      }
+      const key=social.name.toLowerCase().replace(/\s/g,'');
+      let color=social.color;
+      if(theme==='light'&&(key==='x'||key==='tiktok'))color='#000000';
       return(
         <a href={social.href} target="_blank" rel="noopener noreferrer" className="social-btn"
           onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
           style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,
             background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',
-            border:'1px solid',borderColor:hover?`${iconColor}66`:'var(--glass-border)',
-            color: iconColor, textDecoration:'none',
-            opacity: hover ? 1 : 0.85,
-            boxShadow:hover?`0 6px 24px ${iconColor}33`:'none',
+            border:'1px solid',borderColor:hover?`${color}66`:'var(--glass-border)',
+            color:color,textDecoration:'none',opacity:hover?1:0.85,
+            boxShadow:hover?`0 6px 24px ${color}33`:'none',
             transform:hover?'translateY(-4px)':'none'}}>
           {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
         </a>
@@ -608,8 +597,8 @@
       useEffect(()=>{
         if(window.matchMedia('(display-mode: standalone)').matches){setIsInstalled(true);return;}
         const handler=e=>{e.preventDefault();setDeferredPrompt(e);};window.addEventListener("beforeinstallprompt",handler);
-        const raw=localStorage.getItem(DISMISS_KEY);let dismissData=null;if(raw){try{dismissData=JSON.parse(raw);}catch(e){}}
-        const shouldShow=()=>{if(!dismissData)return true;const{count,timestamp}=dismissData;const now=Date.now();const days=DISMISS_DAYS*24*60*60*1000;if(count<2)return true;if(now-timestamp<days)return false;localStorage.removeItem(DISMISS_KEY);return true;};
+        const raw=localStorage.getItem(DISMISS_KEY);let dd=null;if(raw){try{dd=JSON.parse(raw);}catch(e){}}
+        const shouldShow=()=>{if(!dd)return true;const{count,timestamp}=dd;if(count<2)return true;if(Date.now()-timestamp<DISMISS_DAYS*864e5)return false;localStorage.removeItem(DISMISS_KEY);return true;};
         if(shouldShow()){const timer=setTimeout(()=>setShow(true),5000);return()=>{clearTimeout(timer);window.removeEventListener("beforeinstallprompt",handler);};}
         return()=>window.removeEventListener("beforeinstallprompt",handler);
       },[]);
@@ -654,26 +643,24 @@
 
       useEffect(()=>{
         const banner=document.getElementById('offlineBanner');
-        const handleOnline=()=>{if(banner)banner.classList.remove('show');};
-        const handleOffline=()=>{if(banner)banner.classList.add('show');};
-        window.addEventListener('online',handleOnline);
-        window.addEventListener('offline',handleOffline);
-        if(!navigator.onLine){if(banner)banner.classList.add('show');}
-        return()=>{
-          window.removeEventListener('online',handleOnline);
-          window.removeEventListener('offline',handleOffline);
-        };
+        const onOnline=()=>banner?.classList.remove('show');
+        const onOffline=()=>banner?.classList.add('show');
+        window.addEventListener('online',onOnline);
+        window.addEventListener('offline',onOffline);
+        if(!navigator.onLine)banner?.classList.add('show');
+        return()=>{window.removeEventListener('online',onOnline);window.removeEventListener('offline',onOffline);};
       },[]);
 
+      /* ✅ FIX: إغلاق قائمة الموبايل عند الضغط خارجها */
       useEffect(()=>{
-        const handleClickOutside=(e)=>{
-          if(mobileMenuOpen && !e.target.closest('.mobile-menu-panel') && !e.target.closest('.hamburger-btn')){
+        if(!mobileMenuOpen)return;
+        const handler=e=>{
+          if(!e.target.closest('.mobile-menu-panel')&&!e.target.closest('.hamburger-btn'))
             setMobileMenuOpen(false);
-          }
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return ()=>document.removeEventListener('mousedown', handleClickOutside);
-      }, [mobileMenuOpen]);
+        document.addEventListener('mousedown',handler);
+        return()=>document.removeEventListener('mousedown',handler);
+      },[mobileMenuOpen]);
 
       const scrollTo=id=>{setMobileMenuOpen(false);document.getElementById(id)?.scrollIntoView({behavior:'smooth'});};
       const handleTagClick=(tag,tabId)=>{setOriginTabId(tabId);setActiveCategory(tag);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
@@ -722,86 +709,94 @@
             </>
           )}
 
-          {/* Header بتصميم السطرين في الموبايل */}
+          {/* ✅ Header — سطر واحد: شعار + nav وسط + أزرار يمين/يسار */}
           <header style={{
             position:'fixed',top:0,left:0,right:0,zIndex:100,
             isolation:'isolate',
-            padding: scrolled ? '8px 16px' : '16px 16px',
+            padding: scrolled ? '10px 20px' : '18px 20px',
             background: scrolled
               ? (theme==='dark' ? 'rgba(8,12,18,0.88)' : 'rgba(232,236,244,0.92)')
               : (theme==='dark' ? 'rgba(5,8,15,0.01)'  : 'rgba(232,236,244,0.01)'),
             backdropFilter:'blur(12px)',
             WebkitBackdropFilter:'blur(12px)',
             borderBottom: scrolled ? '1px solid rgba(59,158,255,0.1)' : '1px solid transparent',
-            transition:'padding 0.3s ease, background 0.3s ease, border-color 0.3s ease'
+            transition:'padding 0.3s ease,background 0.3s ease,border-color 0.3s ease'
           }}>
-            <div style={{maxWidth:1200,margin:'0 auto',width:'100%'}}>
-              {/* السطر الأول: الهامبرغر (موبايل فقط) + الشعار + زر التواصل */}
-              <div className="header-top-row">
-                <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
-                  <button className="hamburger-btn" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} aria-label="القائمة">☰</button>
-                  <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',fontSize:14,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
-                  <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
-                </div>
-                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
-                  style={{
-                    padding:'8px 16px',borderRadius:8,
-                    background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',
-                    border:'1px solid rgba(37,211,102,0.4)',
-                    color:'#25D366',fontWeight:700,fontSize:12,
-                    cursor:'pointer',fontFamily:'Cairo',
-                    whiteSpace:'nowrap',flexShrink:0
-                  }}>
-                  {t('nav_contact')}
-                </button>
+            <div className="header-inner">
+
+              {/* الشعار */}
+              <div className="header-logo">
+                <button className="hamburger-btn" onClick={()=>setMobileMenuOpen(o=>!o)} aria-label="القائمة">☰</button>
+                <div className="logo-wrap" style={{width:36,height:36,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',fontSize:14,fontWeight:900,color:'#080c12',flexShrink:0}}>B.I</div>
+                <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
               </div>
-              {/* السطر الثاني (موبايل فقط): أزرار اللغة والوضع */}
-              <div className="header-bottom-row">
-                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
-                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
-                  {lang==='ar'?'EN':'عربي'}
-                </button>
-                <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
-                  style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                  {theme==='dark'?'🌙':'☀️'}
-                </button>
-              </div>
-              {/* تبويبات سطح المكتب (تظهر في الديسكتوب فقط) */}
-              <nav className="nav-tabs-desktop" style={{marginTop: '8px'}}>
+
+              {/* ✅ Nav في المنتصف — ديسكتوب فقط */}
+              <nav className="nav-desktop">
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`}
                     onClick={e=>{e.preventDefault();scrollTo(item.id);}}
-                    style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s'}}
+                    style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s',whiteSpace:'nowrap'}}
                     onMouseEnter={e=>e.target.style.color='var(--accent-blue)'}
                     onMouseLeave={e=>e.target.style.color='var(--text-secondary)'}>
                     {t(item.key)}
                   </a>
                 ))}
               </nav>
+
+              {/* ✅ أزرار اللغة + الوضع + تواصل — ديسكتوب فقط */}
+              <div className="header-actions">
+                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
+                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap'}}>
+                  {lang==='ar'?'EN':'عربي'}
+                </button>
+                <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
+                  style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  {theme==='dark'?'🌙':'☀️'}
+                </button>
+                <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')}
+                  style={{padding:'8px 16px',borderRadius:8,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,fontSize:12,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap'}}>
+                  {t('nav_contact')}
+                </button>
+              </div>
+
             </div>
           </header>
 
-          {/* Mobile Menu */}
-          <div className={`mobile-menu-overlay ${mobileMenuOpen?'show':''}`} onClick={()=>setMobileMenuOpen(false)}></div>
-          <div className={`mobile-menu-panel ${mobileMenuOpen?'open':''}`}>
+          {/* ✅ Mobile Menu */}
+          <div className={`mobile-menu-overlay${mobileMenuOpen?' show':''}`} onClick={()=>setMobileMenuOpen(false)}/>
+          <div className={`mobile-menu-panel${mobileMenuOpen?' open':''}`}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
-              <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)'}}>القائمة</span>
-              <button onClick={()=>setMobileMenuOpen(false)} style={{background:'none',border:'none',color:'var(--text-secondary)',fontSize:24,cursor:'pointer'}}>✕</button>
+              <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)'}}>{t('mobile_menu_title')}</span>
+              <button onClick={()=>setMobileMenuOpen(false)} style={{background:'none',border:'none',color:'var(--text-secondary)',fontSize:24,cursor:'pointer',lineHeight:1}}>✕</button>
             </div>
             {NAV_ITEMS.map(item=>(
               <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}>
                 {t(item.key)}
               </a>
             ))}
-            <div style={{marginTop:16,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
-              <a href={`https://wa.me/${CONFIG.contact.whatsapp}`} target="_blank" rel="noopener noreferrer" style={{color:'#25D366'}}>
+            <div style={{marginTop:16,paddingTop:16,borderTop:'1px solid var(--border-color)',display:'flex',flexDirection:'column',gap:10}}>
+              {/* ✅ FIX: زر التواصل في الموبايل يغلق القائمة */}
+              <a href={`https://wa.me/${CONFIG.contact.whatsapp}`} target="_blank" rel="noopener noreferrer"
+                onClick={()=>setMobileMenuOpen(false)}
+                style={{color:'#25D366',fontWeight:700}}>
                 💬 {t('nav_contact')}
               </a>
+              <div style={{display:'flex',gap:8}}>
+                <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
+                  style={{flex:1,padding:'10px',borderRadius:8,color:'var(--text-secondary)',fontSize:13,fontWeight:700,cursor:'pointer',fontFamily:'Cairo',textAlign:'center'}}>
+                  {lang==='ar'?'English':'عربي'}
+                </button>
+                <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card"
+                  style={{width:44,height:44,borderRadius:8,color:'var(--text-primary)',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  {theme==='dark'?'🌙':'☀️'}
+                </button>
+              </div>
             </div>
           </div>
 
           {/* ── Hero ── */}
-          <section style={{padding:'148px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
+          <section style={{padding:'clamp(100px,18vw,148px) 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
             <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
               {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',isolation:'isolate',animation:'heroOrb 5s ease-in-out infinite'}}/>}
