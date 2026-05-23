@@ -20,7 +20,7 @@
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="ar" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle&lang=en" hreflang="en" />
   <link rel="alternate" href="https://bassamibrahim249.github.io/bassam-portfolio/?tab=lifestyle" hreflang="x-default" />
-  <meta name="app-version" content="1.0.97" />
+  <meta name="app-version" content="1.0.98" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -55,21 +55,30 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     :root {
-      --bg-primary:#05080f; --bg-secondary:#0a0f1a;
-      --text-primary:#ffffff; --text-secondary:#8899bb;
-      --border-color:rgba(255,255,255,0.06);
-      --glass-bg:rgba(255,255,255,0.03);
-      --glass-border:rgba(255,255,255,0.06);
-      --accent-blue:#3B9EFF; --accent-gold:#EAB308;
-      --blur-amount:12px;
+      --bg-primary: #05080f; --bg-secondary: #0a0f1a;
+      --text-primary: #ffffff; --text-secondary: #8899bb;
+      --border-color: rgba(255,255,255,0.06);
+      --glass-bg: rgba(255,255,255,0.03);
+      --glass-border: rgba(255,255,255,0.06);
+      --accent-blue: #3B9EFF; --accent-gold: #EAB308;
+      --blur-amount: 12px;
     }
     .light {
-      --bg-primary:#e8ecf4; --bg-secondary:#f0f4fa;
-      --text-primary:#1e293b; --text-secondary:#475569;
-      --border-color:rgba(0,0,0,0.08);
-      --glass-bg:rgba(255,255,255,0.75);
-      --glass-border:rgba(0,0,0,0.07);
-      --blur-amount:16px;
+      /* خلفيات */
+      --bg-primary: #f8fafc;        /* Slate 50 - خلفية رئيسية نقية */
+      --bg-secondary: #f1f5f9;      /* Slate 100 - خلفية القوائم والهيدر */
+      
+      /* نصوص */
+      --text-primary: #0f172a;      /* Slate 900 - نص رئيسي داكن وواضح جداً */
+      --text-secondary: #475569;    /* Slate 600 - نص فرعي متزن */
+      
+      /* حدود وتأثيرات */
+      --border-color: rgba(15, 23, 42, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(15, 23, 42, 0.06);
+      --blur-amount: 18px;
+      --header-bg: rgba(248,250,252,0.85);
+      --header-bg-scrolled: rgba(241,245,249,0.95);
     }
 
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -91,6 +100,15 @@
 
     .glass-card{background:var(--glass-bg);backdrop-filter:blur(var(--blur-amount));-webkit-backdrop-filter:blur(var(--blur-amount));border:1px solid var(--glass-border);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
     .glass-card:hover{transform:translateY(-6px);border-color:rgba(59,158,255,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.2),0 0 40px rgba(59,158,255,0.08)}
+    
+    /* ظلال ناعمة للبطاقات في الوضع النهاري لإبراز العمق */
+    .light .glass-card {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+    .light .glass-card:hover {
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08) !important;
+      border-color: rgba(59,158,255,0.35) !important;
+    }
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
     @keyframes pulseGlow{0%,100%{opacity:0.6}50%{opacity:1}}
@@ -120,7 +138,7 @@
     .delay-1{animation-delay:0.10s}.delay-2{animation-delay:0.25s}.delay-3{animation-delay:0.40s}.delay-4{animation-delay:0.55s}.delay-5{animation-delay:0.70s}
     .tw-cursor{animation:blink 0.9s ease-in-out infinite}
 
-    .section-title{font-size:12px;letter-spacing:0.25em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:12px;color:var(--accent-blue)}
+    .section-title{font-size:12px;letter-spacing:0.25em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justifyContent:center;gap:12px;color:var(--accent-blue)}
     .section-title::before,.section-title::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,currentColor,transparent)}
 
     .article-body{color:var(--text-secondary);line-height:1.9;font-size:15px}
@@ -230,7 +248,7 @@
   <div class="offline-banner" id="offlineBanner">⚠️ أنت غير متصل بالإنترنت. تحقق من اتصالك وحاول مجدداً.</div>
   <script>
     (function(){
-      const V="1.0.97",S=localStorage.getItem('site_version');
+      const V="1.0.98",S=localStorage.getItem('site_version');
       if(S!==V){
         if('caches' in window)caches.keys().then(n=>n.forEach(n=>caches.delete(n)));
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
@@ -252,12 +270,11 @@
 
     const CONFIG={contact:{whatsapp:"249967238251"},cache:{ttl:86400000}};
     const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
-    const APP_VERSION="1.0.97";
+    const APP_VERSION="1.0.98";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
     const getDataFile=cat=>{if(!cat)return null;const slug=BUTTON_SLUGS[cat]||cat;const file=SLUG_TO_FILE[slug];return file?`data/${file}.json`:null;};
 
-    // ✅ خريطة tagKey → slug (للبحث/الفلترة)
     const TAGKEY_TO_SLUG = {
       'tag_materials': 'materials_science',
       'tag_construction': 'construction_innovation',
@@ -275,7 +292,6 @@
       'tag_nutrition': 'scientific_nutrition',
       'tag_physical': 'physical_excellence',
     };
-    // ✅ خريطة عكسية: slug → tagKey (للعرض)
     const SLUG_TO_TAGKEY = Object.fromEntries(
       Object.entries(TAGKEY_TO_SLUG).map(([k,v]) => [v,k])
     );
@@ -348,7 +364,6 @@
       return raw.replace(/<script[^>]*>.*?<\/script>/gi,'').replace(/on\w+="[^"]*"/g,'');
     }
 
-    // ✅ دالة getLocalized المُصحّحة: في الإنجليزية، لا تستخدم article.author مطلقاً
     const getLocalized = (obj, field, lang) => {
       if (!obj) return '';
       if (lang === 'en') {
