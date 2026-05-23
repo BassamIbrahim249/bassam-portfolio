@@ -1,5 +1,6 @@
 // service-worker.js — BassamIbrahim Portfolio
-const CACHE_NAME = 'bassam-portfolio-v2'; // <-- تم تغيير اسم الكاش لمسح القديم تلقائياً
+const CACHE_NAME = 'bassam-portfolio-v2';
+
 const ASSETS_TO_CACHE = [
   '/bassam-portfolio/',
   '/bassam-portfolio/index.html',
@@ -12,7 +13,6 @@ const ASSETS_TO_CACHE = [
   'https://unpkg.com/react@18/umd/react.production.min.js',
   'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
   'https://unpkg.com/@babel/standalone/babel.min.js',
-  // ✅ دعم الملفات المنفصلة الجديدة
   '/bassam-portfolio/data/engineering.json',
   '/bassam-portfolio/data/political.json',
   '/bassam-portfolio/data/nubian.json',
@@ -21,7 +21,7 @@ const ASSETS_TO_CACHE = [
   '/bassam-portfolio/library_index.json'
 ];
 
-// التثبيت: تخزين الموارد الأساسية في الكاش
+// التثبيت
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -35,7 +35,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// التفعيل: مسح الكاش القديم
+// التفعيل
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -50,11 +50,13 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// الجلب: الشبكة أولاً، ثم الكاش
+// الجلب: استراتيجية مزدوجة
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   
   const url = new URL(event.request.url);
+  
+  // تجاهل النطاقات غير المسموح بها
   if (url.hostname !== self.location.hostname && 
       !url.hostname.includes('cdnjs.cloudflare.com') &&
       !url.hostname.includes('cdn.tailwindcss.com') &&
@@ -62,17 +64,37 @@ self.addEventListener('fetch', (event) => {
       !url.hostname.includes('fonts.gstatic.com') &&
       !url.hostname.includes('unpkg.com')) return;
   
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
+  // هل المورد ملف JSON؟
+  const isJSON = url.pathname.endsWith('.json');
+
+  if (isJSON) {
+    // stale-while-revalidate: يُرجع من الكاش فوراً، ثم يحدثه من الشبكة
+    event.respondWith(
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(event.request).then((cachedResponse) => {
+          const fetchPromise = fetch(event.request).then((networkResponse) => {
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+          }).catch(() => cachedResponse);
+          
+          return cachedResponse || fetchPromise;
         });
-        return response;
       })
-      .catch(() => {
-        return caches.match(event.request);
-      })
-  );
+    );
+  } else {
+    // الشبكة أولاً (لـ HTML, CSS, JS إلخ)
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+          return response;
+        })
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+  }
 });
