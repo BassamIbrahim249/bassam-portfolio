@@ -5,7 +5,7 @@
   "start_url": "/bassam-portfolio/",
   "scope": "/bassam-portfolio/",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "background_color": "#080c12",
   "theme_color": "#080c12",
   "lang": "ar",
@@ -22,6 +22,43 @@
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "المنصة الهندسية",
+      "short_name": "هندسة",
+      "description": "علوم المواد والابتكارات الإنشائية",
+      "url": "/bassam-portfolio/?tab=engineering",
+      "icons": [{ "src": "icon.jpg", "sizes": "96x96" }]
+    },
+    {
+      "name": "الأرشيف السياسي",
+      "short_name": "سياسة",
+      "description": "تاريخ السودان والتحليل الاستراتيجي",
+      "url": "/bassam-portfolio/?tab=political",
+      "icons": [{ "src": "icon.jpg", "sizes": "96x96" }]
+    },
+    {
+      "name": "الحضارة النوبية",
+      "short_name": "نوبيان",
+      "description": "توثيق الإرث والتاريخ النوبي",
+      "url": "/bassam-portfolio/?tab=nubian",
+      "icons": [{ "src": "icon.jpg", "sizes": "96x96" }]
+    },
+    {
+      "name": "أكاديمية التطوير",
+      "short_name": "أكاديمية",
+      "description": "كتابة المشاريع والتدريب التنموي",
+      "url": "/bassam-portfolio/?tab=academy",
+      "icons": [{ "src": "icon.jpg", "sizes": "96x96" }]
+    },
+    {
+      "name": "نمط الحياة والصحة",
+      "short_name": "حياة",
+      "description": "الصحة الشاملة والتغذية والتميز البدني",
+      "url": "/bassam-portfolio/?tab=lifestyle",
+      "icons": [{ "src": "icon.jpg", "sizes": "96x96" }]
     }
   ]
 }
