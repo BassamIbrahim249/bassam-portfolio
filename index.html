@@ -967,5 +967,381 @@
     ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
   </script>
   <script data-goatcounter="https://bassam-portfolio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!-- مساعد Google Gemini الذكي (آمن - تخزين محلي للمفتاح) -->
+<style>
+  #gemini-assistant-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3B9EFF, #60CFFF);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(59,158,255,0.5);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #gemini-assistant-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(59,158,255,0.8);
+  }
+  #gemini-chat-box {
+    position: fixed;
+    bottom: 90px;
+    right: 24px;
+    width: 350px;
+    max-width: 90vw;
+    height: 450px;
+    max-height: 60vh;
+    background: #080c12;
+    border: 1px solid rgba(59,158,255,0.3);
+    border-radius: 16px;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+  }
+  #gemini-chat-box.open {
+    display: flex;
+  }
+  #gemini-chat-header {
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #3B9EFF, #60CFFF);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #gemini-chat-messages {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    color: #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  #gemini-chat-input-area {
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 8px;
+    gap: 8px;
+  }
+  #gemini-chat-input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    outline: none;
+  }
+  #gemini-chat-send {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #3B9EFF;
+    color: white;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  /* زر الإعدادات المخفي */
+  #gemini-admin-btn {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    width: 15px;
+    height: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    opacity: 0.3;
+  }
+  #gemini-admin-dialog {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  #gemini-admin-dialog.open {
+    display: flex;
+  }
+  #gemini-admin-dialog > div {
+    background: #0a0f1a;
+    border: 1px solid rgba(59,158,255,0.4);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+  }
+  #gemini-admin-dialog input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+  }
+  #gemini-admin-dialog button {
+    padding: 10px 20px;
+    background: #3B9EFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 4px;
+  }
+</style>
+
+<!-- زر المساعد -->
+<button id="gemini-assistant-btn" title="اسأل المساعد الذكي">💬</button>
+
+<!-- صندوق المحادثة -->
+<div id="gemini-chat-box">
+  <div id="gemini-chat-header">
+    <span>🤖 مساعد BassamIbrahim</span>
+    <button id="gemini-chat-close" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;">✕</button>
+  </div>
+  <div id="gemini-chat-messages">
+    <div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">
+      أهلاً بك! أنا مساعد BassamIbrahim. اسألني عن الهندسة، السياسة، الحضارة النوبية، التطوير، أو الصحة. سأبحث أولاً في مقالات الموقع لأعطيك إجابة دقيقة.
+    </div>
+  </div>
+  <div id="gemini-chat-input-area">
+    <input type="text" id="gemini-chat-input" placeholder="اكتب سؤالك هنا..." />
+    <button id="gemini-chat-send">إرسال</button>
+  </div>
+</div>
+
+<!-- زر الإعدادات المخفي (للمدير فقط) -->
+<button id="gemini-admin-btn" title="إعدادات المساعد"></button>
+<div id="gemini-admin-dialog">
+  <div>
+    <h3 style="margin-bottom:12px;">⚙️ إعداد مفتاح Gemini API</h3>
+    <p style="font-size:12px;color:#8899bb;margin-bottom:8px;">أدخل مفتاح API الخاص بك من Google AI Studio. يتم تخزينه محلياً في متصفحك فقط.</p>
+    <input type="password" id="gemini-admin-key" placeholder="أدخل المفتاح هنا..." />
+    <div>
+      <button id="gemini-admin-save">💾 حفظ</button>
+      <button id="gemini-admin-clear" style="background:#ff4444;">🗑️ مسح المفتاح</button>
+      <button id="gemini-admin-close" style="background:transparent;border:1px solid rgba(255,255,255,0.3);">إغلاق</button>
+    </div>
+    <p id="gemini-admin-status" style="font-size:11px;margin-top:8px;color:#25D366;"></p>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const STORAGE_KEY = 'bassam_gemini_api_key';
+
+    function getApiKey() {
+      return localStorage.getItem(STORAGE_KEY) || '';
+    }
+
+    function setApiKey(key) {
+      localStorage.setItem(STORAGE_KEY, key);
+    }
+
+    function clearApiKey() {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
+    // === عناصر المساعد ===
+    const btn = document.getElementById('gemini-assistant-btn');
+    const box = document.getElementById('gemini-chat-box');
+    const close = document.getElementById('gemini-chat-close');
+    const input = document.getElementById('gemini-chat-input');
+    const send = document.getElementById('gemini-chat-send');
+    const messages = document.getElementById('gemini-chat-messages');
+
+    // === عناصر الإعدادات ===
+    const adminBtn = document.getElementById('gemini-admin-btn');
+    const adminDialog = document.getElementById('gemini-admin-dialog');
+    const adminKeyInput = document.getElementById('gemini-admin-key');
+    const adminSave = document.getElementById('gemini-admin-save');
+    const adminClear = document.getElementById('gemini-admin-clear');
+    const adminClose = document.getElementById('gemini-admin-close');
+    const adminStatus = document.getElementById('gemini-admin-status');
+
+    // فتح/إغلاق الإعدادات
+    adminBtn.addEventListener('click', () => {
+      adminKeyInput.value = getApiKey();
+      adminStatus.textContent = getApiKey() ? '✅ المفتاح مخزن حالياً.' : '';
+      adminDialog.classList.add('open');
+    });
+    adminClose.addEventListener('click', () => adminDialog.classList.remove('open'));
+    adminSave.addEventListener('click', () => {
+      const key = adminKeyInput.value.trim();
+      if (key) {
+        setApiKey(key);
+        adminStatus.textContent = '✅ تم حفظ المفتاح بنجاح!';
+        setTimeout(() => adminDialog.classList.remove('open'), 800);
+      } else {
+        adminStatus.textContent = '❌ الرجاء إدخال مفتاح صحيح.';
+      }
+    });
+    adminClear.addEventListener('click', () => {
+      clearApiKey();
+      adminKeyInput.value = '';
+      adminStatus.textContent = '🗑️ تم مسح المفتاح.';
+    });
+
+    // === المساعد ===
+    let searchIndex = [];
+
+    async function loadSearchIndex() {
+      if (searchIndex.length > 0) return;
+      try {
+        const resp = await fetch('/bassam-portfolio/search_index.json');
+        if (resp.ok) {
+          searchIndex = await resp.json();
+        }
+      } catch(e) {}
+    }
+
+    function searchLocal(query) {
+      const q = query.toLowerCase();
+      const results = [];
+      for (const entry of searchIndex) {
+        let score = 0;
+        if (entry.title_ar && entry.title_ar.toLowerCase().includes(q)) score += 3;
+        if (entry.title_en && entry.title_en.toLowerCase().includes(q)) score += 3;
+        if (entry.tags) {
+          for (const tag of entry.tags) {
+            if (tag.toLowerCase().includes(q)) score += 2;
+          }
+        }
+        if (entry.content_ar && entry.content_ar.toLowerCase().includes(q)) score += 1;
+        if (entry.content_en && entry.content_en.toLowerCase().includes(q)) score += 1;
+        if (score > 0) results.push({ ...entry, score });
+      }
+      results.sort((a,b) => b.score - a.score);
+      return results;
+    }
+
+    btn.addEventListener('click', () => {
+      const apiKey = getApiKey();
+      if (!apiKey) {
+        alert('⚠️ لم يتم إعداد مفتاح Gemini API بعد.\nاضغط على النقطة الصغيرة أسفل يسار الشاشة للإعداد.');
+        return;
+      }
+      box.classList.toggle('open');
+      if (box.classList.contains('open')) {
+        loadSearchIndex();
+      }
+    });
+    close.addEventListener('click', () => box.classList.remove('open'));
+
+    async function askGemini(question) {
+      const apiKey = getApiKey();
+      if (!apiKey) {
+        alert('⚠️ لم يتم إعداد مفتاح Gemini API.');
+        return;
+      }
+
+      const userMsg = document.createElement('div');
+      userMsg.style.cssText = 'align-self:flex-end;background:rgba(234,179,8,0.15);padding:8px 12px;border-radius:12px;max-width:85%;';
+      userMsg.textContent = question;
+      messages.appendChild(userMsg);
+      messages.scrollTop = messages.scrollHeight;
+
+      const loadingMsg = document.createElement('div');
+      loadingMsg.style.cssText = 'align-self:flex-start;background:rgba(255,255,255,0.05);padding:8px 12px;border-radius:12px;';
+      loadingMsg.textContent = '⏳ جاري البحث في المقالات...';
+      messages.appendChild(loadingMsg);
+      messages.scrollTop = messages.scrollHeight;
+
+      await loadSearchIndex();
+
+      const localResults = searchLocal(question);
+      let context = '';
+      let sources = '';
+
+      if (localResults.length > 0) {
+        const topResults = localResults.slice(0, 2);
+        context = 'المقالات ذات الصلة من موقع BassamIbrahim:\n';
+        for (const article of topResults) {
+          context += `---\nعنوان: ${article.title_ar || article.title_en}\n`;
+          context += `محتوى: ${(article.content_ar || article.content_en || '').substring(0, 800)}\n`;
+          sources += `• ${article.title_ar || article.title_en}\n`;
+        }
+        loadingMsg.textContent = '⏳ تم العثور على مقالات. جاري تحليلها...';
+        messages.scrollTop = messages.scrollHeight;
+      } else {
+        loadingMsg.textContent = '⏳ لم أجد مقالات متطابقة. سأجيب من معرفتي العامة...';
+        messages.scrollTop = messages.scrollHeight;
+      }
+
+      try {
+        let prompt;
+        if (context) {
+          prompt = `أنت مساعد خبير في منصة BassamIbrahim. استخدم المقالات التالية كمصدر أساسي للإجابة. إذا كانت المعلومات في المقالات غير كافية، أكمل من معرفتك العامة.\n\n${context}\n\nسؤال الزائر: ${question}\n\nأجب بالعربية. اذكر أن الإجابة مستندة إلى مقالات المنصة إن وُجدت.`;
+        } else {
+          prompt = `أنت مساعد خبير في منصة BassamIbrahim (مهندس مدني، باحث في الشأن السوداني). أجب بالعربية على السؤال التالي من معرفتك العامة. السؤال: ${question}`;
+        }
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 600 }
+          })
+        });
+
+        const data = await response.json();
+        let reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أستطع الإجابة.';
+
+        if (sources) {
+          reply += '\n\n📚 **مقالات ذات صلة في المنصة:**\n' + sources;
+        }
+
+        loadingMsg.textContent = reply;
+      } catch (e) {
+        loadingMsg.textContent = '❌ حدث خطأ. تأكد من اتصالك وحاول مجدداً.';
+      }
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    send.addEventListener('click', () => {
+      const q = input.value.trim();
+      if (q) { askGemini(q); input.value = ''; }
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const q = input.value.trim();
+        if (q) { askGemini(q); input.value = ''; }
+      }
+    });
+  })();
+</script>
 </body>
 </html>
