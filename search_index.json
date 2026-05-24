@@ -1,0 +1,736 @@
+[
+  {
+    "id": "1778796797",
+    "title_ar": "🧪 سلسلة مختبر هندسي -[1] المعمل يكشف ما لا تقوله الكتب",
+    "title_en": "🧪 Engineering Lab Series – [1] The Lab Reveals What Books Don't Say",
+    "tab": "engineering",
+    "button": "engineering_lab",
+    "content_ar": "# 🧪 المعمل يكشف ما لا تقوله الكتب\n\n## مدخل فكري\n\nعلى الورق… كل شيء يبدو مثاليًا.\n\nالمعادلات متزنة.  \nالأرقام منطقية.  \nوالتصميم يبدو ناجحًا.\n\nلكن الهندسة لا تُختبر على الورق فقط.\n\nقد تبدو مادة قوية نظ",
+    "content_en": "# 🧪 The Lab Reveals What Books Don't Say\n\n## An Intellectual Entry\n\nOn paper… everything looks perfect.\n\nEquations are balanced.  \nNumbers are logical.  \nAnd the design looks successful.\n\nBut engineer",
+    "tags": [
+      "مختبر هندسي",
+      "اختبار مواد",
+      "خرسانة",
+      "تربة",
+      "فحص",
+      "جودة",
+      "السودان",
+      "هندسة مدنية",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778797113",
+    "title_ar": "🔧 سلسلة الابتكار الإنشائي – (1) الهندسة قبل أن تُسمى هندسة",
+    "title_en": "🔧 Construction Innovation Series – (1) Engineering Before It Was Called Engineering",
+    "tab": "engineering",
+    "button": "construction_innovation",
+    "content_ar": "# الهندسة قبل أن تُسمى هندسة: كيف بدأ الإنسان في حل مشاكله؟\n\n## بداية السؤال\n\nهل كانت الهندسة علمًا وُلد داخل الجامعات… أم أنها بدأت عندما واجه الإنسان أول مشكلة حقيقية في حياته؟\n\nقبل أن تصبح الهندسة ",
+    "content_en": "# Engineering Before It Was Called Engineering: How Did Man Start Solving His Problems?\n\n## The Starting Question\n\nWas engineering a science born inside universities… or did it begin when man faced hi",
+    "tags": [
+      "ابتكار إنشائي",
+      "تاريخ الهندسة",
+      "بناء",
+      "هندسة مدنية",
+      "حضارة",
+      "تصميم",
+      "تطور",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778798136",
+    "title_ar": "🔧 سلسلة الابتكار الإنشائي – (2) من الحرفة إلى العلم",
+    "title_en": "🔧 Construction Innovation Series – (2) From Craft to Science",
+    "tab": "engineering",
+    "button": "construction_innovation",
+    "content_ar": "# 🧪 من الحرفة إلى العلم: متى أصبحت الهندسة علمًا منظمًا؟\n\n## مدخل فكري\n\nلم تولد الهندسة كعلم كامل من اللحظة الأولى…  \nبل مرت بمرحلة طويلة كانت فيها مجرد خبرات متناثرة ومحاولات فردية.\n\nالإنسان لم يكن ي",
+    "content_en": "# 🧪 From Craft to Science: When Did Engineering Become an Organized Science?\n\n## An Intellectual Entry\n\nEngineering was not born as a complete science from the very first moment…  \nrather it passed th",
+    "tags": [
+      "ابتكار إنشائي",
+      "تاريخ الهندسة",
+      "قياس",
+      "بناء",
+      "حضارة",
+      "علم",
+      "تنظيم",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778798341",
+    "title_ar": "🔧 سلسلة الابتكار الإنشائي – (3) كيف غيرت الهندسة شكل حياتنا اليومية؟",
+    "title_en": "🔧 Construction Innovation Series – (3) How Has Engineering Changed Our Daily Lives?",
+    "tab": "engineering",
+    "button": "construction_innovation",
+    "content_ar": "# 🧪 كيف غيرت الهندسة شكل حياتنا اليومية؟\n\n## بداية السؤال\n\nماذا سيحدث لو اختفت الهندسة من حياتك ليوم واحد فقط؟\n\nلا كهرباء…  \nلا مياه…  \nلا طرق…  \nلا اتصالات…  \nولا مبانٍ تحميك من الحر أو المطر.\n\nالأشي",
+    "content_en": "# 🧪 How Has Engineering Changed Our Daily Lives?\n\n## The Starting Question\n\nWhat would happen if engineering disappeared from your life for just one day?\n\nNo electricity…  \nNo water…  \nNo roads…  \nNo ",
+    "tags": [
+      "ابتكار إنشائي",
+      "هندسة",
+      "حياة يومية",
+      "بنية تحتية",
+      "تكنولوجيا",
+      "تصميم",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778798435",
+    "title_ar": "🔧 سلسلة الابتكار الإنشائي – (4) من علم واحد إلى عوالم متعددة",
+    "title_en": "🔧 Construction Innovation Series – (4) From One Science to Multiple Worlds",
+    "tab": "engineering",
+    "button": "construction_innovation",
+    "content_ar": "# 🧭 من علم واحد إلى عوالم متعددة: كيف انقسمت الهندسة إلى تخصصات؟\n\n## بداية السؤال\n\nكيف يمكن لكلمة واحدة مثل \"الهندسة\" أن تصف أشياء مختلفة تمامًا؟\n\nمرة نتحدث عن بناء الجسور…  \nومرة عن تصميم الطائرات…  ",
+    "content_en": "# 🧭 From One Science to Multiple Worlds: How Did Engineering Divide into Specialties?\n\n## The Starting Question\n\nHow can a single word like \"engineering\" describe completely different things?\n\nOnce we",
+    "tags": [
+      "ابتكار إنشائي",
+      "تخصصات هندسية",
+      "هندسة مدنية",
+      "ميكانيكا",
+      "كهرباء",
+      "برمجيات",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778798551",
+    "title_ar": "🔧 سلسلة الابتكار الإنشائي – (5) من الفكرة إلى الواقع: أين تقف الهندسة في السودان؟",
+    "title_en": "🔧 Construction Innovation Series – (5) From Idea to Reality: Where Does Engineering Stand in Sudan?",
+    "tab": "engineering",
+    "button": "construction_innovation",
+    "content_ar": "# 🇸🇩 من الفكرة إلى الواقع: أين تقف الهندسة في السودان اليوم؟\n\n## بداية السؤال\n\nبعد كل هذه الرحلة الطويلة…\n\nمن إنسان بدائي يحتمي من المطر،  \nإلى علم منظم،  \nإلى تخصصات هندسية معقدة…\n\nيبقى السؤال الحقيق",
+    "content_en": "# 🇸🇩 From Idea to Reality: Where Does Engineering Stand in Sudan Today?\n\n## The Starting Question\n\nAfter all this long journey…\n\nFrom a primitive man sheltering from the rain,  \nto an organized scienc",
+    "tags": [
+      "ابتكار إنشائي",
+      "السودان",
+      "هندسة مدنية",
+      "تنمية",
+      "بنية تحتية",
+      "موارد",
+      "تخطيط",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1779172640",
+    "title_ar": "علم المواد – من الطبيعة إلى الخرسانة (1) – من القش إلى الخرسانة: كيف تطورت مواد البناء عبر التاريخ؟",
+    "title_en": "Materials Science – From Nature to Concrete (1) – From Straw to Concrete: How Did Building Materials Evolve Through History?",
+    "tab": "engineering",
+    "button": "materials_science",
+    "content_ar": "# 🧱 علم المواد – من الطبيعة إلى الخرسانة (1)\n\n## من القش إلى الخرسانة: كيف تطورت مواد البناء عبر التاريخ؟\n\n### ✨ قبل أن تبدأ القصة\n\nهل كانت مواد البناء تتطور لأن الإنسان يريد التقدم… أم لأنه كان يحاول",
+    "content_en": "# 🧱 Materials Science – From Nature to Concrete (1)\n\n## From Straw to Concrete: How Did Building Materials Evolve Through History?\n\n### ✨ Before the Story Begins\n\nDid building materials evolve because",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، تطور مواد البناء عبر التاريخ، من القش إلى الخرسانة، تاريخ الهندسة المعمارية، الطين والطوب اللبن في البناء، العزل الحراري الطبيعي، الطوب الأحمر بعد اكتشاف الأفران، الثورة الصناعية والخرسانة المسلحة، مواد البناء في الحضارات القديمة، الاستدامة في مواد البناء الحديثة، فرص السودان في تطوير مواد البناء، كيف بنى الإنسان عبر العصور"
+    ]
+  },
+  {
+    "id": "1779172737",
+    "title_ar": "علم المواد – (2) – لماذا تنهار بعض المباني رغم قوة الخرسانة؟",
+    "title_en": "Materials Science – (2) – Why Do Some Buildings Collapse Despite the Strength of Concrete?",
+    "tab": "engineering",
+    "button": "materials_science",
+    "content_ar": "# علم المواد – (2)\n\n# لماذا تنهار بعض المباني رغم قوة الخرسانة؟\n\n## بداية السؤال\n\nكيف يمكن لمبنى مصنوع من الخرسانة والحديد أن ينهار؟\n\nأليست الخرسانة واحدة من أقوى المواد التي عرفها الإنسان؟\n\nفي الحقيق",
+    "content_en": "# Materials Science – (2)\n\n# Why Do Some Buildings Collapse Despite the Strength of Concrete?\n\n## The Starting Question\n\nHow can a building made of concrete and steel collapse?\n\nIsn't concrete one of ",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، أسباب انهيار المباني الخرسانية، قوة الخرسانة مقابل جودة التنفيذ، تأثير كمية المياه على الخرسانة، أخطاء حديد التسليح في الأبنية، مرحلة معالجة الخرسانة وأهميتها، ضعف الرقابة في البناء، لماذا تنهار المباني رغم المواد الجيدة، أسرار فشل المنشآت الخرسانية، العلاقة بين جودة الخرسانة وسلامة المبنى، الهندسة ليست مجرد مواد، التفاصيل الصغيرة التي تدمر المباني، عوامل ضعف الخرسانة رغم قوتها النظرية"
+    ]
+  },
+  {
+    "id": "1779172804",
+    "title_ar": "علم المواد – (3) – هل يمكن أن تعود مواد البناء الطبيعية من جديد؟",
+    "title_en": "Materials Science – (3) – Can Natural Building Materials Return Again?",
+    "tab": "engineering",
+    "button": "materials_science",
+    "content_ar": "# علم المواد – (3)\n\n# هل يمكن أن تعود مواد البناء الطبيعية من جديد؟\n\n## بداية السؤال\n\nبعد كل هذا التطور في الخرسانة والحديد والزجاج…\n\nلماذا بدأ العالم يعود للاهتمام بالطين والخشب والمواد الطبيعية؟\n\nهل",
+    "content_en": "# Materials Science – (3)\n\n# Can Natural Building Materials Return Again?\n\n## The Starting Question\n\nAfter all this development in concrete, steel, and glass…\n\nwhy has the world started to re-interest",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، عودة مواد البناء الطبيعية، البناء بالطين والخشب حديثًا، لماذا تراجع استخدام المواد الطبيعية، استدامة مواد البناء، المواد الطبيعية مقابل المواد الصناعية، انبعاثات الكربون في البناء الحديث، الطين المطور والتكنولوجيا الحديثة، فرص البناء المستدام في السودان، مواد بناء محلية صديقة للبيئة، الهندسة بين القديم والحديث، اختيار المادة الأنسب في البناء، الخرسانة الخضراء والمواد المعاد تدويرها"
+    ]
+  },
+  {
+    "id": "1779172867",
+    "title_ar": "علم المواد – (4) – المواد القديمة أم الحديثة: أيهما أفضل فعلًا؟",
+    "title_en": "Materials Science – (4) – Old or Modern Materials: Which Is Actually Better?",
+    "tab": "engineering",
+    "button": "materials_science",
+    "content_ar": "# علم المواد – (4)\n\n# المواد القديمة أم الحديثة: أيهما أفضل فعلًا؟\n\n## مدخل فكري\n\nفي كل مرحلة من التاريخ، كان الإنسان يعتقد أنه وصل إلى أفضل مادة ممكنة للبناء.\n\nلكن مع مرور الزمن… كانت كل مادة تكشف نق",
+    "content_en": "# Materials Science – (4)\n\n# Old or Modern Materials: Which Is Actually Better?\n\n## An Intellectual Entry\n\nIn every stage of history, man believed he had reached the best possible material for buildin",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، مقارنة مواد البناء القديمة والحديثة، أيهما أفضل الطين أم الخرسانة، مميزات المواد الطبيعية في البناء، تحديات المواد الحديثة في الهندسة، القوة مقابل الاستدامة في البناء، العزل الحراري في البيوت الطينية، أثر المواد الصناعية على البيئة، الدمج بين القديم والحديث في الهندسة، اختيار المادة الأنسب للمناخ، تطور الإنسان ومواد البناء، مستقبل مواد البناء بين التقنية والحكمة القديمة"
+    ]
+  },
+  {
+    "id": "1779257922",
+    "title_ar": "تاريخ السودان من الجذور إلى الحاضر",
+    "title_en": "The History of Sudan from Roots to Present",
+    "tab": "political",
+    "button": "sudan_history",
+    "content_ar": "# تاريخ السودان من الجذور إلى الحاضر\n\nفي حياة الشعوب، لا تبدأ الحكاية من اللحظة التي نراها أمامنا، بل من الطريق الطويل الذي سبقها.  \nفما يبدو اليوم واقعًا حاضرًا هو في الحقيقة نتيجة تراكمات قديمة، صنع",
+    "content_en": "# The History of Sudan from Roots to Present\n\nIn the life of nations, the story does not begin from the moment we see in front of us, but from the long road that preceded it.  \nWhat appears today as p",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، تاريخ السودان الكامل، السودان من الجذور إلى الحاضر، حضارة وادي النيل، مملكة كوش ونبتة ومروي، الممالك المسيحية في السودان، التحولات الإسلامية في السودان، الحكم التركي المصري، الثورة المهدية، الاستعمار الثنائي، تاريخ السودان الحديث، فهم السودان عبر التاريخ، جذور الأزمات السودانية، الهوية السودانية وتاريخها، علاقة المركز بالأطراف، الصراعات السياسية في السودان، التنوع الثقافي والإثني في السودان، قراءة التاريخ لفهم الحاضر"
+    ]
+  },
+  {
+    "id": "1779259371",
+    "title_ar": "قبل الممالك: كيف بدأت الحكاية الأولى للإنسان في السودان؟",
+    "title_en": "Before the Kingdoms: How Did the First Story of Man in Sudan Begin?",
+    "tab": "political",
+    "button": "sudan_history",
+    "content_ar": "# قبل الممالك: كيف بدأت الحكاية الأولى للإنسان في السودان؟\r\n\r\nفي حياة الشعوب، لا تبدأ الحكاية من اللحظة التي نراها أمامنا، بل من الطريق الطويل الذي سبقها.  \r\nفما يبدو اليوم واقعًا حاضرًا هو في الحقيقة",
+    "content_en": "# Before the Kingdoms: How Did the First Story of Man in Sudan Begin?\n\nIn the life of nations, the story does not begin from the moment we see in front of us, but from the long road that preceded it. ",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، تاريخ السودان القديم، بداية الاستيطان البشري في السودان، ما قبل الممالك في السودان، جذور الحضارة السودانية، الإنسان الأول في وادي النيل، الجغرافيا والنيل وتشكل المجتمعات، نشأة المجتمعات السودانية الأولى، التحولات الثقافية والدينية في السودان، التراكم التاريخي للمجتمع السوداني، فهم السودان من الجذور، جذور الصراع والسلطة في السودان، ما قبل كوش ونبتة، الحضارات المحلية المنسية، التنوع الإثني والثقافي منذ البداية، كيف تشكلت الهوية السودانية، قراءة التاريخ لفهم الحاضر، السودان في العصور الحجرية"
+    ]
+  },
+  {
+    "id": "1779259460",
+    "title_ar": "مملكة كوش: حين بدأ السودان يصنع ملامحه الأولى في التاريخ المكتوب",
+    "title_en": "The Kingdom of Kush: When Sudan Began to Form Its First Features in Written History",
+    "tab": "political",
+    "button": "sudan_history",
+    "content_ar": "# مملكة كوش: حين بدأ السودان يصنع ملامحه الأولى في التاريخ المكتوب\n\nفي لحظة ما من التاريخ، لا تبقى المجتمعات مجرد تجمعات بشرية تعيش قرب النيل، بل تبدأ في التحول إلى كيانات منظمة تمتلك سلطة وهوية ونظام",
+    "content_en": "# The Kingdom of Kush: When Sudan Began to Form Its First Features in Written History\n\nAt some moment in history, societies no longer remain mere human gatherings living near the Nile, but begin to tr",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، مملكة كوش في التاريخ السوداني، نشأة مملكة كوش، نبتة ومروي حضارة السودان، كوش والعالم القديم، التفاعل بين كوش ومصر القديمة، ملامح الحضارة الكوشية، تطور الدولة الكوشية، مرحلة مروي في الحضارة السودانية، الكتابة والصناعة في كوش، الهوية الحضارية للسودان القديم، التنظيم السياسي في كوش، الاقتصاد الزراعي والتجاري في كوش، مراكز الحكم والدين في كوش، لماذا سقطت مملكة كوش، إرث كوش الحضاري، السودان في التاريخ المكتوب، كوش كبداية للدولة في السودان"
+    ]
+  },
+  {
+    "id": "1779259622",
+    "title_ar": "الممالك المسيحية في السودان: حين تغيّر الدين شكل الدولة والمجتمع",
+    "title_en": "The Christian Kingdoms in Sudan: When Religion Changed the Form of the State and Society",
+    "tab": "political",
+    "button": "sudan_history",
+    "content_ar": "# الممالك المسيحية في السودان: حين تغيّر الدين شكل الدولة والمجتمع\r\n\r\nفي مسار التاريخ، لا تتغير المجتمعات فقط بالحروب أو تبدل الحكام، بل أحيانًا تتغير عبر الأفكار.  \r\nفالفكر الديني والثقافي قادر على إ",
+    "content_en": "# The Christian Kingdoms in Sudan: When Religion Changed the Form of the State and Society\n\nIn the course of history, societies do not change only through wars or the change of rulers, but sometimes t",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، الممالك المسيحية في السودان، دخول المسيحية إلى السودان، نوباتيا والمقرة وعلوة، تأثير الدين على الدولة والمجتمع، التحول الفكري في التاريخ السوداني، اتفاقية البقط بين المقرة ومصر، العلاقات بين المسيحيين والمسلمين في السودان القديم، تنظيم الحكم في الممالك المسيحية، الإرث الحضاري للمسيحية في السودان، نهاية الممالك المسيحية وتراجعها، الهوية الثقافية والدينية في السودان، مراحل التحول الديني في التاريخ السوداني، الكنائس والمؤسسات الدينية في الممالك المسيحية، التبادل الثقافي مع مصر البيزنطية، الاستقرار السياسي في مملكة المقرة، أثر الممالك المسيحية على السودان الحديث، قراءة التاريخ لفهم تحولات الدولة"
+    ]
+  },
+  {
+    "id": "1779259936",
+    "title_ar": "كيف دخل الإسلام إلى السودان؟ التحول الهادئ الذي أعاد تشكيل المجتمع",
+    "title_en": "How Did Islam Enter Sudan? The Quiet Transformation That Reshaped Society",
+    "tab": "political",
+    "button": "sudan_history",
+    "content_ar": "# كيف دخل الإسلام إلى السودان؟ التحول الهادئ الذي أعاد تشكيل المجتمع\n\nفي التاريخ، ليست كل التحولات مرتبطة بالحروب أو التغيرات المفاجئة، فبعضها يحدث بصمت، عبر الزمن، حتى يصبح جزءًا طبيعيًا من حياة النا",
+    "content_en": "# How Did Islam Enter Sudan? The Quiet Transformation That Reshaped Society\n\nIn history, not all transformations are linked to wars or sudden changes; some happen silently, over time, until they becom",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، دخول الإسلام إلى السودان، انتشار الإسلام في السودان تاريخيًا، دور التجارة في نشر الإسلام، الطرق الصوفية في السودان، التحول الثقافي بعد الإسلام، التفاعل بين الموروث المحلي والإسلام، تشكل الهوية السودانية الإسلامية، سلطنة الفونج ودارفور، التدرج في التحول الديني، الإسلام كحركة تواصل لا كحدث مفاجئ، الهجرات العربية إلى السودان، المراكز التجارية ونقل الأفكار، إعادة تشكيل المجتمع السوداني، التنوع الثقافي والديني في السودان، الإسلام والدولة في المراحل اللاحقة، قراءة تاريخ السودان بوعي، من الممالك المسيحية إلى التحول الإسلامي"
+    ]
+  },
+  {
+    "id": "1779260018",
+    "title_ar": "ما معنى التحليل الاستراتيجي؟ ولماذا لا يكفي السرد لفهم السودان؟",
+    "title_en": "What Is the Meaning of Strategic Analysis? And Why Is Narration Not Enough to Understand Sudan?",
+    "tab": "political",
+    "button": "strategic_analysis",
+    "content_ar": "# ما معنى التحليل الاستراتيجي؟ ولماذا لا يكفي السرد لفهم السودان؟\n\nفي لحظات كثيرة يبدو التاريخ وكأنه سلسلة من الأحداث المنفصلة، لكن هذا الانطباع يخفي خلفه طبقات أعمق من العلاقات والأسباب التي تصنع تلك",
+    "content_en": "# What Is the Meaning of Strategic Analysis? And Why Is Narration Not Enough to Understand Sudan?\n\nIn many moments, history seems like a series of separate events, but this impression hides behind it ",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، ما معنى التحليل الاستراتيجي، الفرق بين السرد والتحليل التاريخي، لماذا لا يكفي السرد لفهم السودان، قراءة التاريخ بعقل تحليلي، من الحدث إلى الاتجاه في التاريخ، فهم الأزمات السودانية من الجذور، التحليل الاستراتيجي للمجتمع السوداني، كيف نفهم التاريخ بدلاً من حفظه، أسباب الأزمات لا وصفها فقط، رؤية العلاقة بين الماضي والحاضر، التاريخ كشبكة أسباب وليس وقائع منفصلة، لماذا تتكرر الأزمات السياسية في السودان، ضعف المؤسسات كاتجاه تاريخي، قراءة التاريخ لفهم الحاضر السوداني، السرد مقابل التحليل في الدراسات التاريخية، أداة الفهم لا الحفظ في التاريخ، التحليل الاستراتيجي كمدخل لفهم الدول المعقدة"
+    ]
+  },
+  {
+    "id": "1779260084",
+    "title_ar": "كيف نقرأ التاريخ بعقل تحليلي؟ من السرد إلى الفهم العميق",
+    "title_en": "How to Read History with an Analytical Mind? From Narration to Deep Understanding",
+    "tab": "political",
+    "button": "strategic_analysis",
+    "content_ar": "# كيف نقرأ التاريخ بعقل تحليلي؟ من السرد إلى الفهم العميق\n\nقراءة التاريخ ليست مجرد استرجاع لما حدث، بل هي محاولة لفهم لماذا حدث ما حدث، وكيف تداخلت العوامل المختلفة لتصنع النتيجة النهائية.  \nفالتاريخ ",
+    "content_en": "# How to Read History with an Analytical Mind? From Narration to Deep Understanding\n\nReading history is not just retrieving what happened, but an attempt to understand why what happened happened, and ",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، كيف نقرأ التاريخ بعقل تحليلي، من السرد إلى الفهم العميق، القراءة التحليلية للتاريخ، تفكيك الحدث التاريخي بدل حفظه، أهمية السياق التاريخي في الفهم، فهم تراكم الزمن في التاريخ، لماذا لا يكفي حفظ الوقائع والتواريخ، تحويل التاريخ من معلومات إلى فهم حي، العلاقات والأنماط في قراءة التاريخ، كيف نبحث عن الأسباب لا النتائج فقط، قراءة تاريخ السودان بوعي، أدوات التحليل التاريخي، دور التراكمات الصغيرة في الأحداث الكبرى، التاريخ كمسار لا كصور منفصلة، لماذا تحتاج الدول المعقدة لقراءة تحليلية، التاريخ كأداة للتفكير وليس للحفظ، من السرد التاريخي إلى الاستراتيجي"
+    ]
+  },
+  {
+    "id": "1779260164",
+    "title_ar": "ما الفرق بين الحدث والاتجاه؟ وكيف نفهم تكرار التاريخ في السودان؟",
+    "title_en": "What Is the Difference Between Event and Trend? And How Do We Understand the Repetition of History in Sudan?",
+    "tab": "political",
+    "button": "strategic_analysis",
+    "content_ar": "# ما الفرق بين الحدث والاتجاه؟ وكيف نفهم تكرار التاريخ في السودان؟\n\nفي كثير من القراءات السطحية للتاريخ، تبدو الأحداث وكأنها مفاجآت منفصلة لا علاقة لها ببعضها البعض.  \nلكن عند النظر بعمق، نكتشف أن ما ",
+    "content_en": "# What Is the Difference Between Event and Trend? And How Do We Understand the Repetition of History in Sudan?\n\nIn many superficial readings of history, events seem like separate surprises that have n",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، ما الفرق بين الحدث والاتجاه، تكرار التاريخ في السودان، فهم تكرار الأزمات السودانية، من الحدث إلى الاتجاه في القراءة التاريخية، لماذا تتكرر الصراعات السياسية في السودان، الحدث كنتاج وليس بداية، الاتجاه كمسار طويل الأمد، كيف نقرأ التاريخ بعمق، رؤية الروابط بين الأحداث التاريخية، لماذا لا تكفي القراءة السطحية للتاريخ، تحليل الواقع السوداني كامتداد تاريخي، أنماط الحكم المتكررة في السودان، العلاقة بين الدولة والمجتمع عبر الزمن، التاريخ كخريطة حركة وليس قائمة أحداث، فهم بنية الصراع في السودان، من السرد التاريخي إلى التحليل الاستراتيجي، أدوات قراءة التاريخ بوعي"
+    ]
+  },
+  {
+    "id": "1779260274",
+    "title_ar": "ما معنى الرؤية الفكرية؟ ولماذا تحتاج المجتمعات إلى الوعي قبل الموقف؟",
+    "title_en": "What Is the Meaning of Intellectual Vision? And Why Do Societies Need Awareness Before Position?",
+    "tab": "political",
+    "button": "intellectual_visions",
+    "content_ar": "# ما معنى الرؤية الفكرية؟ ولماذا تحتاج المجتمعات إلى الوعي قبل الموقف؟\n\nفي كثير من اللحظات التاريخية، لا تكون المشكلة في غياب المعلومات، بل في غياب الطريقة التي تُفهم بها هذه المعلومات.  \nفالمجتمعات ق",
+    "content_en": "# What Is the Meaning of Intellectual Vision? And Why Do Societies Need Awareness Before Position?\n\nIn many historical moments, the problem is not the absence of information, but the absence of the wa",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، ما معنى الرؤية الفكرية، الوعي قبل الموقف في المجتمعات، الفرق بين الرؤية ورد الفعل، لماذا تحتاج المجتمعات إلى رؤية فكرية، الفكر كأداة لفهم الواقع، من رد الفعل إلى بناء الفهم، الرؤية الفكرية كعدسة الفهم، بناء وعي تراكمي في المجتمعات، العلاقة بين الفكر والتاريخ، قراءة التاريخ بعين فكرية، التاريخ كأداة لبناء الوعي، تجاوز الحدث السياسي المباشر، فهم السودان عبر رؤية فكرية، البحث عن جذور الأزمات، الرؤية الفكرية في المجتمعات المعقدة، من التفاعل اللحظي إلى الفهم العميق، التاريخ كمنظومة مترابطة"
+    ]
+  },
+  {
+    "id": "1779260346",
+    "title_ar": "كيف يتحول التاريخ إلى وعي؟ من حفظ الماضي إلى فهم الإنسان والمجتمع",
+    "title_en": "How Does History Turn into Awareness? From Memorizing the Past to Understanding Man and Society",
+    "tab": "political",
+    "button": "intellectual_visions",
+    "content_ar": "# كيف يتحول التاريخ إلى وعي؟ من حفظ الماضي إلى فهم الإنسان والمجتمع\n\nليست قيمة التاريخ في عدد الأحداث التي نحفظها، بل في مقدار الفهم الذي يمنحه لنا عن الإنسان والمجتمع وتحولات الزمن.  \nفالتاريخ الذي ل",
+    "content_en": "# How Does History Turn into Awareness? From Memorizing the Past to Understanding Man and Society\n\nThe value of history is not in the number of events we memorize, but in the amount of understanding i",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، كيف يتحول التاريخ إلى وعي، من حفظ الماضي إلى فهم الإنسان، التاريخ كأداة لفهم المجتمع، الوعي التاريخي وأهميته، لماذا لا يكفي حفظ الأحداث التاريخية، تحويل التجربة التاريخية إلى فهم عميق، التاريخ ليس ذاكرة جامدة، كيف نقرأ التاريخ لفهم الحاضر، العلاقة بين الماضي والمستقبل، قراءة الأحداث في سياقها المتصل، الوعي التاريخي يقلل القراءة الانفعالية، فهم تعقيد الواقع عبر التاريخ، التاريخ كمسار وليس لحظات منفصلة، لماذا يحتاج السودان إلى وعي تاريخي، ربط الجذور التاريخية بالواقع الحالي، التاريخ من قصة تُروى إلى وعي يُبنى، الماضي كوسيلة لفهم الإنسان"
+    ]
+  },
+  {
+    "id": "1778923210",
+    "title_ar": "# قبل أن يُولد اسم السودان... من كان يعيش هنا؟",
+    "title_en": "# Before the Name Sudan Was Born… Who Lived Here?",
+    "tab": "nubian",
+    "button": "history",
+    "content_ar": "# قبل أن يُولد اسم السودان... من كان يعيش هنا؟\n\nالأسماء التي نعرفها اليوم تبدو ثابتة جدًا في وعينا، لكنها في الحقيقة حديثة للغاية مقارنة بعمر هذه الأرض.  \nقبل اسم السودان، وقبل الحدود السياسية، وقبل ا",
+    "content_en": "# Before the Name Sudan Was Born… Who Lived Here?\n\nThe names we know today seem very fixed in our awareness, but in reality they are very recent compared to the age of this land.  \nBefore the name Sud",
+    "tags": [
+      "نوبيان",
+      "تاريخ السودان",
+      "عصور ما قبل التاريخ",
+      "وادي النيل",
+      "حضارة نوبية",
+      "الصحراء الكبرى",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778923471",
+    "title_ar": "# كيف صنع النيل أول المجتمعات المستقرة في وادي النيل؟",
+    "title_en": "# How Did the Nile Create the First Settled Societies in the Nile Valley?",
+    "tab": "nubian",
+    "button": "history",
+    "content_ar": "# كيف صنع النيل أول المجتمعات المستقرة في وادي النيل؟\n\nالحضارات لا تبدأ بالملوك.  \nولا تبدأ بالقصور أو المعابد أو الجيوش.  \nغالبًا تبدأ من سؤال بسيط جدًا: كيف يعيش الإنسان غدًا دون أن يجوع؟\n\nوهنا يظهر",
+    "content_en": "# How Did the Nile Create the First Settled Societies in the Nile Valley?\n\nCivilizations do not start with kings.  \nNor do they start with palaces, temples, or armies.  \nThey often start from a very s",
+    "tags": [
+      "نوبيان",
+      "النيل",
+      "زراعة",
+      "استقرار",
+      "حضارة نوبية",
+      "وادي النيل",
+      "عصر حجري حديث",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778923579",
+    "title_ar": "# متى ظهرت النوبة لأول مرة في التاريخ المكتوب؟",
+    "title_en": "# When Did Nubia First Appear in Written History?",
+    "tab": "nubian",
+    "button": "history",
+    "content_ar": "# متى ظهرت النوبة لأول مرة في التاريخ المكتوب؟\n\nأحيانًا يكون وجود الشعوب أقدم بكثير من اللحظة التي يكتبها التاريخ.  \nقد تعيش حضارة لقرون طويلة قبل أن تُذكر في النصوص الرسمية لجيرانها.  \nوهذا ما حدث مع",
+    "content_en": "# When Did Nubia First Appear in Written History?\n\nSometimes the existence of peoples is much older than the moment history writes about them.  \nA civilization may live for long centuries before being",
+    "tags": [
+      "نوبيان",
+      "النوبة",
+      "تاريخ السودان",
+      "مصر القديمة",
+      "كوش",
+      "تا سيتي",
+      "واوات",
+      "حضارة نوبية",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778923708",
+    "title_ar": "# لماذا كان الذهب سببًا في صعود النوبة؟",
+    "title_en": "# Why Was Gold a Reason for the Rise of Nubia?",
+    "tab": "nubian",
+    "button": "history",
+    "content_ar": "# لماذا كان الذهب سببًا في صعود النوبة؟\n\nليست كل الثروات نعمة خالصة.  \nأحيانًا تتحول الموارد الطبيعية إلى مصدر قوة... وفي الوقت نفسه إلى سبب دائم للصراع.  \nوفي تاريخ النوبة، كان الذهب واحدًا من أكثر ا",
+    "content_en": "# Why Was Gold a Reason for the Rise of Nubia?\n\nNot all wealth is a pure blessing.  \nSometimes natural resources turn into a source of power... and at the same time into a constant cause of conflict. ",
+    "tags": [
+      "نوبيان",
+      "الذهب",
+      "النوبة",
+      "تاريخ السودان",
+      "مصر القديمة",
+      "ثروة",
+      "تجارة",
+      "حضارة نوبية",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778923841",
+    "title_ar": "# مملكة كرمة: كيف ظهرت أول قوة عظيمة في السودان القديم؟",
+    "title_en": "# The Kingdom of Kerma: How Did the First Great Power Emerge in Ancient Sudan?",
+    "tab": "nubian",
+    "button": "history",
+    "content_ar": "# مملكة كرمة: كيف ظهرت أول قوة عظيمة في السودان القديم؟\n\nالحضارات لا تُقاس فقط بعمرها...  \nبل باللحظة التي تنتقل فيها من مجرد تجمعات بشرية متفرقة إلى دولة تفرض حضورها على التاريخ.  \nوفي وادي النيل، كا",
+    "content_en": "# The Kingdom of Kerma: How Did the First Great Power Emerge in Ancient Sudan?\n\nCivilizations are not measured only by their age...  \nbut by the moment they transition from mere scattered human gather",
+    "tags": [
+      "نوبيان",
+      "مملكة كرمة",
+      "تاريخ السودان",
+      "الدفوفة",
+      "حضارة نوبية",
+      "مصر القديمة",
+      "كرمة",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778924028",
+    "title_ar": "# من هم النوبيون؟ سؤال الهوية الذي لم ينتهِ",
+    "title_en": "# Who Are the Nubians? The Identity Question That Has Not Ended",
+    "tab": "nubian",
+    "button": "identity",
+    "content_ar": "# من هم النوبيون؟ سؤال الهوية الذي لم ينتهِ\n\nبعض الأسئلة تبدو بسيطة جدًا عندما تُطرح لأول مرة.  \nلكن كلما اقتربت منها اكتشفت أنها تحمل قرونًا من التاريخ والتحولات والالتباسات.  \nوسؤال \"من هم النوبيون؟",
+    "content_en": "# Who Are the Nubians? The Identity Question That Has Not Ended\n\nSome questions seem very simple when first asked.  \nBut the closer you get to them, the more you discover they carry centuries of histo",
+    "tags": [
+      "نوبيان",
+      "هوية",
+      "النوبة",
+      "لغة نوبية",
+      "محس",
+      "سكوت",
+      "دناقلة",
+      "تاريخ السودان",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778924157",
+    "title_ar": "# كيف أثرت الحضارة النوبية في تشكيل هوية السودان الحديثة؟",
+    "title_en": "# How Did the Nubian Civilization Influence the Formation of Modern Sudanese Identity?",
+    "tab": "nubian",
+    "button": "identity",
+    "content_ar": "# كيف أثرت الحضارة النوبية في تشكيل هوية السودان الحديثة؟\n\nالدول الحديثة يمكن أن تُرسم حدودها خلال سنوات.  \nلكن الهويات الوطنية لا تُبنى بهذه السرعة.  \nهي غالبًا نتيجة تراكم طويل جدًا من التاريخ والثق",
+    "content_en": "# How Did the Nubian Civilization Influence the Formation of Modern Sudanese Identity?\n\nModern states can have their borders drawn within years.  \nBut national identities are not built this fast.  \nTh",
+    "tags": [
+      "نوبيان",
+      "هوية",
+      "السودان",
+      "حضارة نوبية",
+      "لغة",
+      "ثقافة",
+      "عمارة",
+      "تاريخ السودان",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778924282",
+    "title_ar": "# هل اختفى النوبيون فعلًا؟ تفكيك واحدة من أكثر الأفكار الخاطئة عن النوبة",
+    "title_en": "# Did the Nubians Actually Disappear? Dismantling One of the Most Misconceived Ideas About Nubia",
+    "tab": "nubian",
+    "button": "identity",
+    "content_ar": "# هل اختفى النوبيون فعلًا؟ تفكيك واحدة من أكثر الأفكار الخاطئة عن النوبة\n\nأحيانًا لا يموت التاريخ... بل يُختزل بطريقة ظالمة.  \nوعندما يُختزل شعب كامل في صور آثار قديمة، يبدأ كثير من الناس في الاعتقاد ",
+    "content_en": "# Did the Nubians Actually Disappear? Dismantling One of the Most Misconceived Ideas About Nubia\n\nSometimes history does not die... it is reduced in an unjust way.  \nAnd when an entire people is reduc",
+    "tags": [
+      "نوبيان",
+      "هوية",
+      "النوبة",
+      "لغة نوبية",
+      "تهجير",
+      "تاريخ السودان",
+      "مجتمعات نوبية",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778924403",
+    "title_ar": "# الهوية النوبية بين الاستمرار والتحول",
+    "title_en": "# Nubian Identity Between Continuity and Transformation",
+    "tab": "nubian",
+    "button": "identity",
+    "content_ar": "# الهوية النوبية بين الاستمرار والتحول\n\nالهوية ليست شيئًا ثابتًا يُحفظ في الكتب.  \nبل هي كائن حي يتغير مع الزمن، يتكيف مع الظروف، ويعيد تشكيل نفسه دون أن يفقد جذوره بالكامل.  \nوعندما ننظر إلى الهوية ا",
+    "content_en": "# Nubian Identity Between Continuity and Transformation\n\nIdentity is not a fixed thing preserved in books.  \nIt is a living being that changes with time, adapts to circumstances, and reshapes itself w",
+    "tags": [
+      "نوبيان",
+      "هوية",
+      "النوبة",
+      "استمرار",
+      "تحول",
+      "تاريخ السودان",
+      "ثقافة نوبية",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1778924619",
+    "title_ar": "# الآثار النوبية: ذاكرة الحجر التي لا تموت",
+    "title_en": "# Nubian Antiquities: The Stone Memory That Never Dies",
+    "tab": "nubian",
+    "button": "archaeology",
+    "content_ar": "# الآثار النوبية: ذاكرة الحجر التي لا تموت\n\nالحضارات لا تختفي كما تختفي المدن الحديثة.  \nهي فقط تنتقل من حياة الناس إلى صمت الأرض.  \nلكن الصمت هنا ليس غيابًا... بل شكل آخر من الكلام.  \nوفي النوبة، الح",
+    "content_en": "# Nubian Antiquities: The Stone Memory That Never Dies\n\nCivilizations do not disappear as modern cities disappear.  \nThey only move from the lives of people to the silence of the earth.  \nBut the sile",
+    "tags": [
+      "نوبيان",
+      "آثار",
+      "النوبة",
+      "جبل البركل",
+      "أهرامات مروي",
+      "كرمة",
+      "تاريخ السودان",
+      "حضارة نوبية",
+      "Bassam Ibrahim",
+      "بسام ابراهيم"
+    ]
+  },
+  {
+    "id": "1779115942",
+    "title_ar": "لماذا يمتلك كثير من الناس أفكارًا رائعة… لكن قلة فقط تبني مشاريع حقيقية؟",
+    "title_en": "Why Do Many People Have Great Ideas… But Only a Few Build Real Projects?",
+    "tab": "academy",
+    "button": "project_writing",
+    "content_ar": "# لماذا يمتلك كثير من الناس أفكارًا رائعة… لكن قلة فقط تبني مشاريع حقيقية؟\n\n## بداية السؤال\n\nكم مرة سمعت شخصًا يقول:  \n\"عندي فكرة مشروع ممتازة جدًا\"؟\n\nثم بعد أشهر، أو حتى سنوات، تكتشف أن الفكرة لم تغا",
+    "content_en": "# Why Do Many People Have Great Ideas… But Only a Few Build Real Projects?\n\n## The Starting Question\n\nHow many times have you heard someone say:  \n\"I have an amazing project idea\"?\n\nThen months, or ev",
+    "tags": [
+      "tag_project",
+      "tag_leadership"
+    ]
+  },
+  {
+    "id": "1779116103",
+    "title_ar": "ما الفرق الحقيقي بين الفكرة والمشروع؟",
+    "title_en": "What Is the Real Difference Between an Idea and a Project?",
+    "tab": "academy",
+    "button": "project_writing",
+    "content_ar": "# ما الفرق الحقيقي بين الفكرة والمشروع؟\n\n## مدخل فكري\n\nفي المراحل الأولى من أي حلم كبير، يبدو كل شيء بسيطًا جدًا.\n\nفكرة تلمع في ذهنك فجأة.\n\nتخبر أصدقاءك عنها بحماس.\n\nتبدأ في تخيل الأرباح أو التأثير أو",
+    "content_en": "# What Is the Real Difference Between an Idea and a Project?\n\n## An Intellectual Entry\n\nIn the early stages of any big dream, everything seems very simple.\n\nAn idea suddenly shines in your mind.\n\nYou ",
+    "tags": [
+      "tag_project",
+      "tag_leadership"
+    ]
+  },
+  {
+    "id": "1779116276",
+    "title_ar": "لماذا تموت المشاريع الصغيرة قبل أن تنجح؟",
+    "title_en": "Why Do Small Projects Die Before They Succeed?",
+    "tab": "academy",
+    "button": "project_writing",
+    "content_ar": "# لماذا تموت المشاريع الصغيرة قبل أن تنجح؟\n\n## بداية السؤال\n\nفي كل عام تظهر آلاف المشاريع الصغيرة...\n\nمتاجر إلكترونية  \nمطاعم  \nمبادرات  \nمنظمات ناشئة  \nمشاريع خدمية  \nأفكار تقنية  \nصفحات تجارية  \nأعم",
+    "content_en": "# Why Do Small Projects Die Before They Succeed?\n\n## The Starting Question\n\nEvery year thousands of small projects appear...\n\nE‑commerce stores  \nRestaurants  \nInitiatives  \nEmerging organizations  \nS",
+    "tags": [
+      "tag_project",
+      "tag_leadership"
+    ]
+  },
+  {
+    "id": "1779116411",
+    "title_ar": "لماذا يفشل كثير من الناس عندما يحصلون على أول منصب قيادي؟",
+    "title_en": "Why Do Many People Fail When They Get Their First Leadership Position?",
+    "tab": "academy",
+    "button": "leadership",
+    "content_ar": "# لماذا يفشل كثير من الناس عندما يحصلون على أول منصب قيادي؟\n\n## بداية السؤال\n\nالسلطة تُمنح بسرعة أحيانًا،  \nلكن القيادة الحقيقية تُبنى ببطء شديد.\n\nكثير من الناس يظنون أن لحظة حصولهم على منصب جديد هي ل",
+    "content_en": "# Why Do Many People Fail When They Get Their First Leadership Position?\n\n## The Starting Question\n\nAuthority is sometimes granted quickly,  \nbut real leadership is built very slowly.\n\nMany people thi",
+    "tags": [
+      "tag_leadership"
+    ]
+  },
+  {
+    "id": "1779116526",
+    "title_ar": "الفرق الحقيقي بين القائد والمدير",
+    "title_en": "The Real Difference Between a Leader and a Manager",
+    "tab": "academy",
+    "button": "leadership",
+    "content_ar": "# الفرق الحقيقي بين القائد والمدير\n\n## مدخل فكري\n\nفي كثير من المؤسسات...\n\nيتم استخدام كلمتي \"قائد\" و\"مدير\" وكأنهما شيء واحد.\n\nوفي كثير من الأحيان يحصل شخص على منصب إداري...\n\nفيبدأ الناس تلقائيًا بوصفه",
+    "content_en": "# The Real Difference Between a Leader and a Manager\n\n## An Intellectual Entry\n\nIn many organizations...\n\nthe words \"leader\" and \"manager\" are used as if they are the same thing.\n\nAnd many times a per",
+    "tags": [
+      "tag_leadership"
+    ]
+  },
+  {
+    "id": "1779116620",
+    "title_ar": "لماذا تنهار بعض الفرق رغم وجود أشخاص موهوبين؟",
+    "title_en": "Why Do Some Teams Collapse Despite Having Talented People?",
+    "tab": "academy",
+    "button": "leadership",
+    "content_ar": "# لماذا تنهار بعض الفرق رغم وجود أشخاص موهوبين؟\n\n## بداية السؤال\n\nالموهبة وحدها لا تصنع فريقًا ناجحًا.\n\nوهذه واحدة من أكثر الحقائق التي يكتشفها الناس متأخرًا داخل المؤسسات والشركات والمبادرات وحتى الم",
+    "content_en": "# Why Do Some Teams Collapse Despite Having Talented People?\n\n## The Starting Question\n\nTalent alone does not make a successful team.\n\nAnd this is one of the most common truths people discover late in",
+    "tags": [
+      "tag_leadership"
+    ]
+  },
+  {
+    "id": "1779116818",
+    "title_ar": "لماذا يتغير الناس لأيام فقط… ثم يعودون لنفس حياتهم القديمة؟",
+    "title_en": "Why Do People Change for Only a Few Days… Then Return to Their Old Lives?",
+    "tab": "academy",
+    "button": "developmental_training",
+    "content_ar": "# لماذا يتغير الناس لأيام فقط… ثم يعودون لنفس حياتهم القديمة؟\n\n## بداية السؤال\n\nالإنسان كائن غريب جدًا...\n\nقد يقرأ كتابًا رائعًا في ليلة واحدة.\n\nيشاهد محاضرة ملهمة.\n\nيحضر دورة تدريبية.\n\nيسمع قصة نجاح ",
+    "content_en": "# Why Do People Change for Only a Few Days… Then Return to Their Old Lives?\n\n## The Starting Question\n\nHuman beings are very strange creatures...\n\nThey may read a wonderful book in one night.\n\nWatch a",
+    "tags": [
+      "tag_training"
+    ]
+  },
+  {
+    "id": "1779118440",
+    "title_ar": "كيف تصنع التربية شخصية قوية... أو شخصية مهزوزة؟",
+    "title_en": "How Does Upbringing Build a Strong Personality… or a Shaken One?",
+    "tab": "academy",
+    "button": "developmental_training",
+    "content_ar": "# كيف تصنع التربية شخصية قوية... أو شخصية مهزوزة؟\n\n## مدخل فكري\n\nفي كثير من الأحيان...\n\nنحاكم الإنسان على سلوكه الحالي...\n\nوننسى الرحلة الطويلة التي صنعت هذا السلوك.\n\nنرى شخصًا واثقًا فنقول:\n\nهذا إنسا",
+    "content_en": "# How Does Upbringing Build a Strong Personality… or a Shaken One?\n\n## An Intellectual Entry\n\nVery often...\n\nwe judge a person by their current behavior...\n\nand forget the long journey that produced t",
+    "tags": [
+      "tag_training"
+    ]
+  },
+  {
+    "id": "1779118520",
+    "title_ar": "لماذا يخاف كثير من الشباب من الفشل؟",
+    "title_en": "Why Are Many Young People Afraid of Failure?",
+    "tab": "academy",
+    "button": "developmental_training",
+    "content_ar": "# لماذا يخاف كثير من الشباب من الفشل؟\n\n## بداية السؤال\n\nالخوف من الفشل ليس جديدًا...\n\nلكنه أصبح أكثر تعقيدًا في هذا العصر.\n\nجيل كامل يرى نجاحات الآخرين يوميًا على الشاشات.\n\nيشاهد من وصلوا سريعًا.\n\nمن ",
+    "content_en": "# Why Are Many Young People Afraid of Failure?\n\n## The Starting Question\n\nThe fear of failure is not new...\n\nbut it has become more complex in this era.\n\nAn entire generation sees the successes of oth",
+    "tags": [
+      "tag_training"
+    ]
+  },
+  {
+    "id": "1779118608",
+    "title_ar": "العادات اليومية الصغيرة التي تدمر مستقبلك دون أن تشعر",
+    "title_en": "The Small Daily Habits That Destroy Your Future Without You Noticing",
+    "tab": "academy",
+    "button": "developmental_training",
+    "content_ar": "# العادات اليومية الصغيرة التي تدمر مستقبلك دون أن تشعر\n\n## مدخل فكري\n\nنادراً ما ينهار الإنسان بسبب قرار واحد كارثي...\n\nوفي المقابل نادرًا ما يُبنى مستقبل عظيم بسبب قرار واحد عبقري.\n\nالحياة في كثير من",
+    "content_en": "# The Small Daily Habits That Destroy Your Future Without You Noticing\n\n## An Intellectual Entry\n\nRarely does a person collapse because of one catastrophic decision...\n\nand on the other hand, a great ",
+    "tags": [
+      "tag_training"
+    ]
+  },
+  {
+    "id": "1779057653",
+    "title_ar": "لماذا يشعر جسمك بالإرهاق رغم أنك لم تبذل مجهودًا كبيرًا؟",
+    "title_en": "Why Does Your Body Feel Exhausted Even Though You Didn't Exert Much Effort?",
+    "tab": "lifestyle",
+    "button": "holistic_health",
+    "content_ar": "# لماذا يشعر جسمك بالإرهاق رغم أنك لم تبذل مجهودًا كبيرًا؟\n\nالجسد لا ينهار دائمًا بسبب الأعمال الشاقة...  \n\nأحيانًا ينهك نفسه بصمت داخل تفاصيل يومية صغيرة لا ينتبه لها أحد.\n\nوالمشكلة أن كثيرًا من النا",
+    "content_en": "# Why Does Your Body Feel Exhausted Even Though You Didn't Exert Much Effort?\n\nThe body does not always collapse because of hard work...  \n\nSometimes it silently exhausts itself inside small daily det",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، إرهاق الجسم، التعب المزمن، طاقة الجسم، جودة النوم، الجفاف الصامت، التغذية اليومية، الضغط النفسي، قلة الحركة، الخمول العام، الصحة الشاملة، عادات صحية، نمط حياة صحي"
+    ]
+  },
+  {
+    "id": "1779057793",
+    "title_ar": "هل تشرب ماءً كافيًا؟ وكيف تعرف احتياجك الحقيقي؟",
+    "title_en": "Do You Drink Enough Water? And How to Know Your Real Need?",
+    "tab": "lifestyle",
+    "button": "holistic_health",
+    "content_ar": "# هل تشرب ماءً كافيًا؟ وكيف تعرف احتياجك الحقيقي؟\n\nمن الغريب أن أحد أهم عناصر الحياة... أصبح من أكثر الأشياء التي يتم تجاهلها يوميًا.\n\nيشعر الإنسان بالتعب، والصداع، وضعف التركيز، وتقلب المزاج...\n\nثم ي",
+    "content_en": "# Do You Drink Enough Water? And How to Know Your Real Need?\n\nIt is strange that one of the most important elements of life... has become one of the most neglected things daily.\n\nA person feels tiredn",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، شرب الماء، احتياج الماء اليومي، الجفاف، الصداع، الخمول، التركيز، الصحة في السودان، العطش، التغذية الصحية، وظائف الجسم، العادات اليومية، الصحة الشاملة، نمط حياة صحي"
+    ]
+  },
+  {
+    "id": "1779057987",
+    "title_ar": "كيف يؤثر النوم على صحتك وتركيزك ووزنك؟",
+    "title_en": "How Does Sleep Affect Your Health, Focus, and Weight?",
+    "tab": "lifestyle",
+    "button": "holistic_health",
+    "content_ar": "# كيف يؤثر النوم على صحتك وتركيزك ووزنك؟\n\nهناك أشياء يعتقد الإنسان أنه يستطيع تأجيلها دائمًا...\n\nوالنوم واحد من أكثرها تعرضًا للظلم.\n\nنسهر من أجل الدراسة، والعمل، والهاتف، والالتزامات اليومية... ثم نت",
+    "content_en": "# How Does Sleep Affect Your Health, Focus, and Weight?\n\nThere are things that man believes he can always postpone...\n\nand sleep is one of the most wronged.\n\nWe stay up late for studying, work, the ph",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، النوم الصحي، قلة النوم، التركيز الذهني، زيادة الوزن، الصحة النفسية، السهر، العادات اليومية، الطاقة الجسدية، الهرمونات، المنبهات، جودة النوم، الصحة الشاملة، نمط حياة صحي"
+    ]
+  },
+  {
+    "id": "1779058175",
+    "title_ar": "العادات اليومية التي تضعف صحتك دون أن تشعر",
+    "title_en": "Daily Habits That Weaken Your Health Without You Noticing",
+    "tab": "lifestyle",
+    "button": "holistic_health",
+    "content_ar": "# العادات اليومية التي تضعف صحتك دون أن تشعر\n\nمعظم الناس يعتقدون أن تدهور الصحة يحدث بسبب قرارات كبيرة جدًا...\n\nمرض مفاجئ، حادث كبير، أو مشكلة واضحة يمكن رؤيتها بسهولة.\n\nلكن الحقيقة أكثر هدوءًا من ذلك",
+    "content_en": "# Daily Habits That Weaken Your Health Without You Noticing\n\nMost people believe that health deterioration happens because of very big decisions...\n\nA sudden illness, a major accident, or a clear prob",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، العادات اليومية، الصحة العامة، الجلوس الطويل، النوم غير المنتظم، الإفراط في السكر، قلة الحركة، التوتر النفسي، الخمول، آلام الظهر، الطاقة الجسدية، التغيير التدريجي، نمط حياة صحي، الصحة الشاملة، الوعي الصحي"
+    ]
+  },
+  {
+    "id": "1779058256",
+    "title_ar": "ما هي السعرات الحرارية؟ ولماذا يجب أن تفهمها؟",
+    "title_en": "What Are Calories? And Why Should You Understand Them?",
+    "tab": "lifestyle",
+    "button": "scientific_nutrition",
+    "content_ar": "# ما هي السعرات الحرارية؟ ولماذا يجب أن تفهمها؟\n\nكثير من الناس يتعاملون مع كلمة \"السعرات الحرارية\" وكأنها مصطلح معقد يخص خبراء التغذية ولا علاقة له بحياتهم اليومية.\n\nالبعض يخاف منها.\n\nالبعض يتجاهلها.\n",
+    "content_en": "# What Are Calories? And Why Should You Understand Them?\n\nMany people deal with the word \"calories\" as if it is a complex term belonging to nutrition experts and has no relation to their daily lives.\n",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، السعرات الحرارية، الطاقة الغذائية، زيادة الوزن، نقص الوزن، التغذية اليومية، الوعي الغذائي، العادات الغذائية، الطعام الصحي، كميات الطعام، التمثيل الغذائي، تنظيم الوزن، الصحة الشاملة، نمط حياة صحي، التثقيف الصحي"
+    ]
+  },
+  {
+    "id": "1779058373",
+    "title_ar": "ما الفرق بين البروتين والكربوهيدرات والدهون؟",
+    "title_en": "What Is the Difference Between Protein, Carbohydrates, and Fats?",
+    "tab": "lifestyle",
+    "button": "scientific_nutrition",
+    "content_ar": "# ما الفرق بين البروتين والكربوهيدرات والدهون؟\n\nعندما يبدأ الناس رحلة تحسين صحتهم، غالبًا يصطدمون بثلاث كلمات تتكرر في كل مكان:\n\nالبروتين.\n\nالكربوهيدرات.\n\nالدهون.\n\nوبسرعة تتحول هذه الكلمات إلى مصدر ار",
+    "content_en": "# What Is the Difference Between Protein, Carbohydrates, and Fats?\n\nWhen people start their health improvement journey, they often collide with three words that repeat everywhere:\n\nProtein.\n\nCarbohydr",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، البروتين، الكربوهيدرات، الدهون الصحية، التغذية المتوازنة، الطاقة الغذائية، بناء العضلات، الهرمونات، الفيتامينات، الغذاء اليومي، العادات الغذائية، التوازن الغذائي، الصحة الشاملة، نمط حياة صحي، التثقيف الصحي، الوعي الغذائي"
+    ]
+  },
+  {
+    "id": "1779058464",
+    "title_ar": "كيف تبني نظامًا غذائيًا مناسبًا لك وبميزانية معقولة؟",
+    "title_en": "How to Build a Suitable Diet for You on a Reasonable Budget?",
+    "tab": "lifestyle",
+    "button": "scientific_nutrition",
+    "content_ar": "# كيف تبني نظامًا غذائيًا مناسبًا لك وبميزانية معقولة؟\n\nأحد أكثر الأفكار انتشارًا في عالم التغذية هو أن الأكل الصحي مكلف جدًا.\n\nصور الوجبات المثالية على الإنترنت...\n\nالمكملات الغذائية...\n\nالأطعمة المس",
+    "content_en": "# How to Build a Suitable Diet for You on a Reasonable Budget?\n\nOne of the most widespread ideas in the nutrition world is that healthy eating is very expensive.\n\nPictures of perfect meals online...\n\n",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، نظام غذائي، ميزانية محدودة، التغذية اليومية، الأطعمة الأساسية، تنظيم الوجبات، الصحة العامة، العادات الغذائية، الطعام الصحي، التخطيط الغذائي، التوازن الغذائي، الوعي الغذائي، الصحة الشاملة، نمط حياة صحي، التثقيف الصحي"
+    ]
+  },
+  {
+    "id": "1779058558",
+    "title_ar": "كيف تبدأ ممارسة الرياضة إذا كنت مبتدئًا تمامًا؟",
+    "title_en": "How to Start Exercising If You Are a Complete Beginner?",
+    "tab": "lifestyle",
+    "button": "physical_excellence",
+    "content_ar": "# كيف تبدأ ممارسة الرياضة إذا كنت مبتدئًا تمامًا؟\n\nواحدة من أكبر المشكلات في عالم الرياضة ليست قلة المعلومات...\n\nبل كثرتها بطريقة مرهقة.\n\nتشاهد شخصًا يتدرب لساعتين يوميًا.\n\nوآخر يتحدث عن أن النجاح يحت",
+    "content_en": "# How to Start Exercising If You Are a Complete Beginner?\n\nOne of the biggest problems in the world of sports is not the lack of information...\n\nbut its abundance in an exhausting way.\n\nYou watch some",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، الرياضة للمبتدئين، التمارين المنزلية، المشي اليومي، اللياقة البدنية، العادات الرياضية، الصحة العامة، الاستمرارية، التدرج في التمارين، النشاط البدني، تمارين الضغط، القرفصاء، الصحة الشاملة، نمط حياة صحي، التحفيز الرياضي"
+    ]
+  },
+  {
+    "id": "1779058637",
+    "title_ar": "أفضل التمارين المنزلية لمن لا يملك معدات",
+    "title_en": "The Best Home Exercises for Those Without Equipment",
+    "tab": "lifestyle",
+    "button": "physical_excellence",
+    "content_ar": "# أفضل التمارين المنزلية لمن لا يملك معدات\n\nأحد أكثر الأعذار انتشارًا عند الحديث عن الرياضة هو:\n\n\"لا أملك اشتراكًا في الجيم.\"\n\nأو:\n\n\"لا أملك معدات.\"\n\nأو حتى:\n\n\"سأبدأ عندما تتوفر الظروف المناسبة.\"\n\nلكن",
+    "content_en": "# The Best Home Exercises for Those Without Equipment\n\nOne of the most common excuses when talking about sports is:\n\n\"I don't have a gym membership.\"\n\nOr:\n\n\"I don't have equipment.\"\n\nOr even:\n\n\"I'll s",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، التمارين المنزلية، تمارين بدون معدات، تمارين الضغط، القرفصاء، تمرين البلانك، اللياقة البدنية، الرياضة المنزلية، تمارين التمدد، المشي اليومي، تقوية العضلات، المرونة، الصحة الشاملة، نمط حياة صحي، النشاط البدني"
+    ]
+  },
+  {
+    "id": "1779058731",
+    "title_ar": "كيف تبني عادة رياضية مستمرة دون انقطاع؟",
+    "title_en": "How to Build a Continuous Sports Habit Without Interruption?",
+    "tab": "lifestyle",
+    "button": "physical_excellence",
+    "content_ar": "# كيف تبني عادة رياضية مستمرة دون انقطاع؟\n\nالبداية في الرياضة ليست المشكلة الحقيقية...\n\nكثير من الناس يبدأون فعلًا.\n\nيشترون الملابس.\n\nيضعون خطة قوية.\n\nيتحمسون لأيام أو أسابيع.\n\nثم يختفون تمامًا من رحل",
+    "content_en": "# How to Build a Continuous Sports Habit Without Interruption?\n\nStarting in sports is not the real problem...\n\nmany people indeed start.\n\nThey buy clothes.\n\nThey set a strong plan.\n\nThey get excited f",
+    "tags": [
+      "بسام إبراهيم Bassam Ibrahim، العادة الرياضية، الاستمرارية، الالتزام الرياضي، التمارين اليومية، اللياقة البدنية، الانضباط الذاتي، الحماس الرياضي، الصحة العامة، الأهداف الرياضية، التدرج الرياضي، الصحة الشاملة، نمط حياة صحي، التحفيز الذاتي، الهوية الرياضية"
+    ]
+  }
+]
