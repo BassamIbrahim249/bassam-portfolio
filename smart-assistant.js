@@ -151,6 +151,35 @@
     return null;
   }
 
+  // ---- فتح المقال (يبحث داخل الصفحة عن العنوان) ----
+  function openArticle(article) {
+    const title = article.title_ar || article.title_en || '';
+    // نبحث عن أي h3 يحتوي على العنوان
+    const allH3 = document.querySelectorAll('h3');
+    let found = null;
+    allH3.forEach(h3 => {
+      if (h3.textContent.trim() === title.trim()) {
+        found = h3;
+      }
+    });
+    if (found) {
+      // وجدنا العنوان، ننتقل إليه ونفتح المقال (نحاكي ضغطة على العنصر الأب)
+      found.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const parentAccordion = found.closest('.accordion-item');
+      if (parentAccordion) {
+        parentAccordion.click(); // يفتح المقال
+      }
+    } else {
+      // إذا لم يجد العنوان، ننتقل إلى أعلى القسم
+      const section = document.getElementById('cards-section');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  }
+
   async function handleQuestion(question) {
     addMessage(question, true);
     const typing = document.createElement('div');
@@ -185,12 +214,12 @@
           const tabName = getTabName(article._tab);
           const btnName = getButtonName(article);
           const snippet = (article.content_ar || article.content_en || '').substring(0, 150).replace(/[#*\[\]]/g, ' ');
-          const articleId = article.id || '';
+          // بدلاً من href، نستخدم onclick لاستدعاء دالة الفتح
           reply += `<div class="smart-result">`;
           reply += `📰 <b>${title}</b><br>`;
           reply += `📂 ${tabName} → ${btnName}<br>`;
           reply += `📝 ${snippet}...<br>`;
-          reply += `<a href="#" onclick="document.getElementById('article-${articleId}')?.scrollIntoView({behavior:'smooth'}); return false;">🔗 فتح المقال</a>`;
+          reply += `<a href="#" onclick="window.smartAssistant.openArticleById('${article.id}'); return false;">🔗 فتح المقال</a>`;
           reply += `</div>`;
         }
         if (results.length > 3) reply += `\n... و ${results.length - 3} مقال آخر. جرب كلمات أكثر تحديداً.`;
@@ -209,4 +238,16 @@
       if (q) { handleQuestion(q); input.value = ''; }
     }
   });
+
+  // تعريض دالة الفتح للعامة
+  window.smartAssistant = {
+    openArticleById: function(articleId) {
+      const article = allArticles.find(a => a.id === articleId);
+      if (article) {
+        openArticle(article);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
 })();
