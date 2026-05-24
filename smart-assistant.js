@@ -1,4 +1,4 @@
-// =============== محرك البحث الذكي - BassamIbrahim (v3.0) ===============
+// =============== محرك البحث الذكي - BassamIbrahim (v4 - مرشد) ===============
 (function() {
   // ---- قاعدة معرفة للإجابة عن أسئلة عامة ----
   const knowledgeBase = [
@@ -37,7 +37,7 @@
     #smart-chat-input { flex:1; padding:10px 12px; border-radius:20px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.05); color:white; font-family:'Cairo',sans-serif; font-size:12px; outline:none; }
     #smart-chat-send { padding:8px 16px; border-radius:20px; background:#3B9EFF; color:white; border:none; font-family:'Cairo',sans-serif; font-weight:700; font-size:12px; cursor:pointer; }
     .smart-result { background:rgba(59,158,255,0.1); border:1px solid rgba(59,158,255,0.3); border-radius:12px; padding:10px 12px; margin-bottom:6px; }
-    .smart-result a { color:#3B9EFF; font-weight:700; text-decoration:none; }
+    .smart-result b { color:#fff; }
   `;
   document.head.appendChild(style);
 
@@ -51,7 +51,7 @@
   box.id = 'smart-chat-box';
   box.innerHTML = `
     <div id="smart-chat-header"><span>🤖 مساعد BassamIbrahim</span><button id="smart-chat-close" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;">✕</button></div>
-    <div id="smart-chat-messages"><div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">أهلاً! أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأبحث لك في جميع المقالات. جرّب أن تسأل: "من أنت؟" أو "عن الموقع".</div></div>
+    <div id="smart-chat-messages"><div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">أهلاً! أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأرشدك إلى مكانه الصحيح في الموقع. جرّب أن تسأل: "من أنت؟" أو "عن الموقع".</div></div>
     <div id="smart-chat-input-area"><input type="text" id="smart-chat-input" placeholder="ابحث عن مقال..." /><button id="smart-chat-send">بحث</button></div>
   `;
   document.body.appendChild(box);
@@ -150,48 +150,6 @@
     return null;
   }
 
-  // ---- فتح المقال (يبحث عن div بالـ id أولاً) ----
-  function openArticle(article) {
-    // الطريقة المضمونة: نبحث عن العنصر <div id="article-XXXX">
-    const target = document.getElementById(`article-${article.id}`);
-    if (target) {
-      // ننتقل إلى المقال
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // نحاول الضغط على زر "اقرأ" إذا كان المقال مغلقاً
-      const readBtn = target.querySelector('button');
-      if (readBtn && (readBtn.textContent.includes('اقرأ') || readBtn.textContent.includes('Read'))) {
-        setTimeout(() => readBtn.click(), 300);
-      }
-      return;
-    }
-
-    // خطة بديلة: البحث عن h3 مطابق
-    const title = article.title_ar || article.title_en || '';
-    const allH3 = document.querySelectorAll('h3');
-    let found = null;
-    allH3.forEach(h3 => {
-      if (h3.textContent.trim() === title.trim()) {
-        found = h3;
-      }
-    });
-    if (found) {
-      found.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const parentAccordion = found.closest('.accordion-item');
-      if (parentAccordion) {
-        parentAccordion.click();
-      }
-      return;
-    }
-
-    // خطة الطوارئ: ننتقل إلى أعلى القسم
-    const section = document.getElementById('cards-section');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-
   async function handleQuestion(question) {
     addMessage(question, true);
     const typing = document.createElement('div');
@@ -223,12 +181,10 @@
           const title = article.title_ar || article.title_en || 'بدون عنوان';
           const tabName = getTabName(article._tab);
           const btnName = getButtonName(article);
-          const snippet = (article.content_ar || article.content_en || '').substring(0, 150).replace(/[#*\[\]]/g, ' ');
           reply += `<div class="smart-result">`;
           reply += `📰 <b>${title}</b><br>`;
-          reply += `📂 ${tabName} → ${btnName}<br>`;
-          reply += `📝 ${snippet}...<br>`;
-          reply += `<a href="#" onclick="window.smartAssistant.openArticleById('${article.id}'); return false;">🔗 فتح المقال</a>`;
+          reply += `📂 اذهب إلى: <b>${tabName}</b> ← ثم اضغط على زر <b>${btnName}</b><br>`;
+          reply += `🔎 ابحث في الصفحة عن: "<b>${title}</b>" لتصل مباشرة للمقال.`;
           reply += `</div>`;
         }
         if (results.length > 3) reply += `\n... و ${results.length - 3} مقال آخر. جرب كلمات أكثر تحديداً.`;
@@ -247,16 +203,4 @@
       if (q) { handleQuestion(q); input.value = ''; }
     }
   });
-
-  // تعريض دالة الفتح للعامة
-  window.smartAssistant = {
-    openArticleById: function(articleId) {
-      const article = allArticles.find(a => a.id === articleId);
-      if (article) {
-        openArticle(article);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-  };
 })();
