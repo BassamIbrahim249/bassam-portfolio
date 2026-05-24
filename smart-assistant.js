@@ -1,4 +1,4 @@
-// =============== محرك البحث الذكي - BassamIbrahim ===============
+// =============== محرك البحث الذكي - BassamIbrahim (v3.0) ===============
 (function() {
   // ---- قاعدة معرفة للإجابة عن أسئلة عامة ----
   const knowledgeBase = [
@@ -140,7 +140,6 @@
     messages.scrollTop = messages.scrollHeight;
   }
 
-  // ---- البحث في قاعدة المعرفة ----
   function searchKnowledgeBase(query) {
     const q = query.toLowerCase().trim();
     for (const item of knowledgeBase) {
@@ -151,10 +150,23 @@
     return null;
   }
 
-  // ---- فتح المقال (يبحث داخل الصفحة عن العنوان) ----
+  // ---- فتح المقال (يبحث عن div بالـ id أولاً) ----
   function openArticle(article) {
+    // الطريقة المضمونة: نبحث عن العنصر <div id="article-XXXX">
+    const target = document.getElementById(`article-${article.id}`);
+    if (target) {
+      // ننتقل إلى المقال
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // نحاول الضغط على زر "اقرأ" إذا كان المقال مغلقاً
+      const readBtn = target.querySelector('button');
+      if (readBtn && (readBtn.textContent.includes('اقرأ') || readBtn.textContent.includes('Read'))) {
+        setTimeout(() => readBtn.click(), 300);
+      }
+      return;
+    }
+
+    // خطة بديلة: البحث عن h3 مطابق
     const title = article.title_ar || article.title_en || '';
-    // نبحث عن أي h3 يحتوي على العنوان
     const allH3 = document.querySelectorAll('h3');
     let found = null;
     allH3.forEach(h3 => {
@@ -163,20 +175,20 @@
       }
     });
     if (found) {
-      // وجدنا العنوان، ننتقل إليه ونفتح المقال (نحاكي ضغطة على العنصر الأب)
       found.scrollIntoView({ behavior: 'smooth', block: 'start' });
       const parentAccordion = found.closest('.accordion-item');
       if (parentAccordion) {
-        parentAccordion.click(); // يفتح المقال
+        parentAccordion.click();
       }
+      return;
+    }
+
+    // خطة الطوارئ: ننتقل إلى أعلى القسم
+    const section = document.getElementById('cards-section');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      // إذا لم يجد العنوان، ننتقل إلى أعلى القسم
-      const section = document.getElementById('cards-section');
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
@@ -188,7 +200,6 @@
     messages.appendChild(typing);
     messages.scrollTop = messages.scrollHeight;
 
-    // 1. البحث في قاعدة المعرفة أولاً
     const kbAnswer = searchKnowledgeBase(question);
     if (kbAnswer) {
       setTimeout(() => {
@@ -198,7 +209,6 @@
       return;
     }
 
-    // 2. البحث في المقالات
     await loadAllArticles();
     setTimeout(() => {
       typing.remove();
@@ -214,7 +224,6 @@
           const tabName = getTabName(article._tab);
           const btnName = getButtonName(article);
           const snippet = (article.content_ar || article.content_en || '').substring(0, 150).replace(/[#*\[\]]/g, ' ');
-          // بدلاً من href، نستخدم onclick لاستدعاء دالة الفتح
           reply += `<div class="smart-result">`;
           reply += `📰 <b>${title}</b><br>`;
           reply += `📂 ${tabName} → ${btnName}<br>`;
