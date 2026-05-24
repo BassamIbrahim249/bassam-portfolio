@@ -1,5 +1,7 @@
-// =============== محرك البحث الذكي - BassamIbrahim (v5 - يدعم المكتبة) ===============
+// =============== محرك البحث الذكي - BassamIbrahim (v7 - توجيه ثم تواصل) ===============
 (function() {
+  const WHATSAPP_NUMBER = '249967238251';
+
   // ---- قاعدة معرفة للإجابة عن أسئلة عامة ----
   const knowledgeBase = [
     {
@@ -38,6 +40,7 @@
     #smart-chat-send { padding:8px 16px; border-radius:20px; background:#3B9EFF; color:white; border:none; font-family:'Cairo',sans-serif; font-weight:700; font-size:12px; cursor:pointer; }
     .smart-result { background:rgba(59,158,255,0.1); border:1px solid rgba(59,158,255,0.3); border-radius:12px; padding:10px 12px; margin-bottom:6px; }
     .smart-result b { color:#fff; }
+    .whatsapp-link { color:#25D366; font-weight:700; text-decoration:none; display:inline-block; margin-top:6px; padding:6px 12px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.4); border-radius:20px; }
   `;
   document.head.appendChild(style);
 
@@ -51,7 +54,7 @@
   box.id = 'smart-chat-box';
   box.innerHTML = `
     <div id="smart-chat-header"><span>🤖 مساعد BassamIbrahim</span><button id="smart-chat-close" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;">✕</button></div>
-    <div id="smart-chat-messages"><div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">أهلاً! أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأبحث لك في المقالات والمكتبة الرقمية. جرّب أن تسأل: "من أنت؟" أو "عن الموقع" أو اسم كتاب.</div></div>
+    <div id="smart-chat-messages"><div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">أهلاً! أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأبحث لك في المقالات والمكتبة الرقمية.</div></div>
     <div id="smart-chat-input-area"><input type="text" id="smart-chat-input" placeholder="ابحث في المنصة..." /><button id="smart-chat-send">بحث</button></div>
   `;
   document.body.appendChild(box);
@@ -224,7 +227,16 @@
       const libraryResults = searchLibrary(question);
 
       if (articleResults.length === 0 && libraryResults.length === 0) {
-        addMessage('🤔 لم أجد شيئاً يطابق بحثك لا في المقالات ولا في المكتبة. جرب كلمات أخرى، أو اطلع على الأقسام من القائمة الجانبية.');
+        const encodedQuestion = encodeURIComponent(question);
+        const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedQuestion}`;
+        // توجيه ثم تواصل
+        const noResultMsg = `🤔 لم أجد نتيجة عن "<b>${question}</b>" حالياً في المقالات أو المكتبة.<br><br>
+        💡 <b>جرب:</b><br>
+        • صياغة السؤال بشكل مختلف<br>
+        • تصفح الأقسام من القائمة الجانبية<br><br>
+        📲 إذا كان لديك اقتراح أو ملاحظة، تواصل معي مباشرة:<br>
+        <a href="${whatsappLink}" target="_blank" class="whatsapp-link">💬 تواصل عبر واتساب</a>`;
+        addMessage(noResultMsg);
         return;
       }
 
