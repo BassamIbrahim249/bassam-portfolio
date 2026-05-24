@@ -526,7 +526,7 @@
 
       const handleToggle=idx=>{
         if(openIndex===idx)setOpenIndex(null);
-        else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>document.getElementById(`article-${idx}`)?.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+        else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>document.getElementById(`article-${articles[idx]?.id}`)?.scrollIntoView({behavior:'smooth',block:'start'}),150);}
       };
 
       const btnSlug=BUTTON_SLUGS[category]||category;
@@ -559,7 +559,7 @@
                       const cleanHTML=sanitizeHTML(parseMarkdownToHTML(localizedContent));
                       const commentId=article.id||article.slug||article.title?.toLowerCase().replace(/[^\w]+/g,'-').substring(0,40)||String(idx);
                       return(
-                        <div key={article.id||idx} id={`article-${idx}`} className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`} style={{marginBottom:14,borderRadius:16,overflow:'hidden'}}>
+                        <div key={article.id||idx} id={`article-${article.id}`} className={`accordion-item glass-card ${lastOpenedIndex===idx?'last-opened':''}`} style={{marginBottom:14,borderRadius:16,overflow:'hidden'}}>
                           <div onClick={()=>handleToggle(idx)} style={{padding:'18px 20px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',gap:12}} role="button" aria-expanded={isOpen}>
                             <div style={{flex:1}}>
                               <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{getLocalized(article,'title',lang)||'بدون عنوان'}</h3>
@@ -967,6 +967,6 @@
     ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
   </script>
   <script data-goatcounter="https://bassam-portfolio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script src="smart-assistant.js"></script>
+  <script src="smart-assistant.js"></script>
 </body>
 </html>
