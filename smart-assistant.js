@@ -1,4 +1,4 @@
-// =============== محرك البحث الذكي - BassamIbrahim (v4 - مرشد) ===============
+// =============== محرك البحث الذكي - BassamIbrahim (v5 - يدعم المكتبة) ===============
 (function() {
   // ---- قاعدة معرفة للإجابة عن أسئلة عامة ----
   const knowledgeBase = [
@@ -12,7 +12,7 @@
     },
     {
       keywords: ['كيف أستخدم', 'طريقة الاستخدام', 'ازاي استخدم', 'شرح الموقع', 'كيفية التصفح', 'التنقل', 'كيف أبحث', 'البحث عن مقال', 'شرح'],
-      answer: '💡 <b>كيف تستخدم المنصة:</b><br>1️⃣ تصفح الأقسام الخمسة من القائمة العلوية أو الجانبية (☰).<br>2️⃣ داخل كل قسم، اختر الزر المناسب (مثل "علوم المواد" أو "تاريخ السودان").<br>3️⃣ يمكنك البحث داخل القسم عن أي كلمة.<br>4️⃣ للتحميل، اضغط على زر 📚 المكتبة في كل قسم.<br>5️⃣ استخدمني أنا (زر 💬) للبحث عن أي موضوع في كل المقالات.'
+      answer: '💡 <b>كيف تستخدم المنصة:</b><br>1️⃣ تصفح الأقسام الخمسة من القائمة العلوية أو الجانبية (☰).<br>2️⃣ داخل كل قسم، اختر الزر المناسب (مثل "علوم المواد" أو "تاريخ السودان").<br>3️⃣ يمكنك البحث داخل القسم عن أي كلمة.<br>4️⃣ للتحميل، اضغط على زر 📚 المكتبة في كل قسم.<br>5️⃣ استخدمني أنا (زر 💬) للبحث عن أي موضوع في كل المقالات والمكتبة.'
     },
     {
       keywords: ['شكرا', 'شكراً', 'thanks', 'thank', 'مشكور', 'تسلم', 'يعطيك العافية'],
@@ -20,7 +20,7 @@
     },
     {
       keywords: ['مرحبا', 'اهلا', 'هلا', 'السلام', 'hello', 'hi', 'صباح', 'مساء'],
-      answer: 'أهلاً بك! 😊 أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأبحث لك في جميع المقالات.'
+      answer: 'أهلاً بك! 😊 أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأبحث لك في جميع المقالات والمكتبة.'
     }
   ];
 
@@ -43,7 +43,7 @@
 
   const btn = document.createElement('button');
   btn.id = 'smart-assistant-btn';
-  btn.title = 'ابحث في المقالات';
+  btn.title = 'ابحث في المنصة';
   btn.textContent = '💬';
   document.body.appendChild(btn);
 
@@ -51,8 +51,8 @@
   box.id = 'smart-chat-box';
   box.innerHTML = `
     <div id="smart-chat-header"><span>🤖 مساعد BassamIbrahim</span><button id="smart-chat-close" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;">✕</button></div>
-    <div id="smart-chat-messages"><div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">أهلاً! أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأرشدك إلى مكانه الصحيح في الموقع. جرّب أن تسأل: "من أنت؟" أو "عن الموقع".</div></div>
-    <div id="smart-chat-input-area"><input type="text" id="smart-chat-input" placeholder="ابحث عن مقال..." /><button id="smart-chat-send">بحث</button></div>
+    <div id="smart-chat-messages"><div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">أهلاً! أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأبحث لك في المقالات والمكتبة الرقمية. جرّب أن تسأل: "من أنت؟" أو "عن الموقع" أو اسم كتاب.</div></div>
+    <div id="smart-chat-input-area"><input type="text" id="smart-chat-input" placeholder="ابحث في المنصة..." /><button id="smart-chat-send">بحث</button></div>
   `;
   document.body.appendChild(box);
 
@@ -67,9 +67,11 @@
   });
   closeBtn.addEventListener('click', () => box.classList.remove('open'));
 
-  // ---- ذاكرة تخزين مؤقت للمقالات ----
+  // ---- ذاكرة تخزين مؤقت للمقالات والمكتبة ----
   let allArticles = [];
+  let allLibraryFiles = [];
   let articlesLoaded = false;
+  let libraryLoaded = false;
 
   const TAB_NAMES = {
     engineering: 'المنصة الهندسية',
@@ -77,6 +79,13 @@
     nubian: 'نوبيان (الحضارة النوبية)',
     academy: 'أكاديمية التطوير والمنظمات',
     lifestyle: 'نمط الحياة والصحة'
+  };
+
+  const TYPE_NAMES = {
+    book: '📕 كتاب/دليل',
+    research: '📄 بحث/دراسة',
+    presentation: '📊 عرض تقديمي',
+    template: '📝 نموذج/قالب'
   };
 
   async function loadAllArticles() {
@@ -91,6 +100,18 @@
     const results = await Promise.all(promises);
     allArticles = results.flat();
     articlesLoaded = true;
+  }
+
+  async function loadLibrary() {
+    if (libraryLoaded) return;
+    try {
+      const resp = await fetch('library_index.json?v=1.0.99');
+      if (resp.ok) {
+        const data = await resp.json();
+        allLibraryFiles = data.files || [];
+      }
+    } catch(e) {}
+    libraryLoaded = true;
   }
 
   function searchArticles(query) {
@@ -112,6 +133,28 @@
         return { ...article, score };
       })
       .filter(a => a.score > 0)
+      .sort((a, b) => b.score - a.score);
+  }
+
+  function searchLibrary(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) return [];
+    return allLibraryFiles
+      .map(file => {
+        let score = 0;
+        const titleAr = (file.title_ar || '').toLowerCase();
+        const titleEn = (file.title_en || '').toLowerCase();
+        const descAr = (file.description_ar || '').toLowerCase();
+        const descEn = (file.description_en || '').toLowerCase();
+        const tags = (file.tags || []).map(t => t.toLowerCase());
+        if (titleAr.includes(q)) score += 10;
+        if (titleEn.includes(q)) score += 8;
+        tags.forEach(tag => { if (tag.includes(q) || q.includes(tag)) score += 6; });
+        if (descAr.includes(q)) score += 3;
+        if (descEn.includes(q)) score += 2;
+        return { ...file, score };
+      })
+      .filter(f => f.score > 0)
       .sort((a, b) => b.score - a.score);
   }
 
@@ -154,10 +197,11 @@
     addMessage(question, true);
     const typing = document.createElement('div');
     typing.style.cssText = 'align-self:flex-start;background:rgba(255,255,255,0.05);padding:8px 12px;border-radius:12px;';
-    typing.innerHTML = '⏳ جاري البحث...';
+    typing.innerHTML = '⏳ جاري البحث في المنصة...';
     messages.appendChild(typing);
     messages.scrollTop = messages.scrollHeight;
 
+    // 1. قاعدة المعرفة
     const kbAnswer = searchKnowledgeBase(question);
     if (kbAnswer) {
       setTimeout(() => {
@@ -167,29 +211,62 @@
       return;
     }
 
-    await loadAllArticles();
+    // 2. تحميل المقالات والمكتبة معاً
+    await Promise.all([loadAllArticles(), loadLibrary()]);
+
     setTimeout(() => {
       typing.remove();
-      const results = searchArticles(question);
-      if (results.length === 0) {
-        addMessage('🤔 لم أجد مقالات تطابق بحثك. جرب كلمات أخرى، أو اطلع على الأقسام من القائمة الجانبية. جرّب أن تسأل: "من أنت؟" أو "عن الموقع".');
-      } else {
-        const count = Math.min(results.length, 3);
-        let reply = `✅ وجدت ${count} مقال(ة):\n\n`;
+
+      // 3. البحث في المقالات
+      const articleResults = searchArticles(question);
+
+      // 4. البحث في المكتبة
+      const libraryResults = searchLibrary(question);
+
+      if (articleResults.length === 0 && libraryResults.length === 0) {
+        addMessage('🤔 لم أجد شيئاً يطابق بحثك لا في المقالات ولا في المكتبة. جرب كلمات أخرى، أو اطلع على الأقسام من القائمة الجانبية.');
+        return;
+      }
+
+      let reply = '';
+
+      // عرض نتائج المقالات
+      if (articleResults.length > 0) {
+        const count = Math.min(articleResults.length, 3);
+        reply += `📰 **مقالات (${count}):**\n\n`;
         for (let i = 0; i < count; i++) {
-          const article = results[i];
+          const article = articleResults[i];
           const title = article.title_ar || article.title_en || 'بدون عنوان';
           const tabName = getTabName(article._tab);
           const btnName = getButtonName(article);
           reply += `<div class="smart-result">`;
           reply += `📰 <b>${title}</b><br>`;
           reply += `📂 اذهب إلى: <b>${tabName}</b> ← ثم اضغط على زر <b>${btnName}</b><br>`;
-          reply += `🔎 ابحث في الصفحة عن: "<b>${title}</b>" لتصل مباشرة للمقال.`;
           reply += `</div>`;
         }
-        if (results.length > 3) reply += `\n... و ${results.length - 3} مقال آخر. جرب كلمات أكثر تحديداً.`;
-        addMessage(reply);
       }
+
+      // عرض نتائج المكتبة
+      if (libraryResults.length > 0) {
+        const count = Math.min(libraryResults.length, 3);
+        reply += `\n📚 **مكتبة (${count}):**\n\n`;
+        for (let i = 0; i < count; i++) {
+          const file = libraryResults[i];
+          const title = file.title_ar || file.title_en || 'بدون عنوان';
+          const tabName = getTabName(file.category);
+          const typeName = TYPE_NAMES[file.type] || file.type;
+          const fileSize = file.fileSize || 'غير معروف';
+          const downloadUrl = `https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${file.filePath}`;
+          reply += `<div class="smart-result">`;
+          reply += `📁 <b>${title}</b><br>`;
+          reply += `📂 القسم: <b>${tabName}</b> | ${typeName}<br>`;
+          reply += `📦 الحجم: ${fileSize}<br>`;
+          reply += `<a href="${downloadUrl}" target="_blank" rel="noopener noreferrer">⬇️ تحميل الملف</a>`;
+          reply += `</div>`;
+        }
+      }
+
+      addMessage(reply);
     }, 600);
   }
 
