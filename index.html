@@ -411,59 +411,31 @@
       return <span style={{color,fontWeight:900}}>{display}<span className="tw-cursor" style={{color,marginRight:2}}>|</span></span>;
     }
 
-    function ProgressRing({theme, activeSection}) {
-      const[progress, setProgress] = useState(0);
-      const[visible, setVisible] = useState(false);
-
-      useEffect(() => {
-        const updateProgress = () => {
-          const total = document.documentElement.scrollHeight - window.innerHeight;
-          const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
-          setProgress(pct);
-          setVisible(window.scrollY > 300);
-          const bar = document.getElementById('readProgress');
-          if (bar) bar.style.width = `${pct}%`;
+    function ProgressRing({theme}){
+      const[progress,setProgress]=useState(0);
+      const[visible,setVisible]=useState(false);
+      useEffect(()=>{
+        const h=()=>{
+          const total=document.documentElement.scrollHeight-window.innerHeight;
+          const pct=total>0?(window.scrollY/total)*100:0;
+          setProgress(pct);setVisible(window.scrollY>300);
+          const bar=document.getElementById('readProgress');
+          if(bar)bar.style.width=`${pct}%`;
         };
-
-        window.addEventListener('scroll', updateProgress, {passive: true});
-
-        const observer = new ResizeObserver(() => {
-          updateProgress();
-        });
-        observer.observe(document.documentElement);
-
-        updateProgress();
-
-        return () => {
-          window.removeEventListener('scroll', updateProgress);
-          observer.disconnect();
-        };
-      }, [activeSection]);
-
-      if (!visible) return null;
-
-      const r = 18, circ = 2 * Math.PI * r, offset = circ - (progress / 100) * circ;
-      const bgFill = theme === 'dark' ? '#05080f' : '#e8ecf4';
-
-      return (
-        <div onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-          style={{
-            position: 'fixed', bottom: 24, left: 24, zIndex: 99, cursor: 'pointer',
-            animation: 'ringFadeIn 0.3s ease',
-            filter: 'drop-shadow(0 0 10px rgba(59,158,255,0.6))'
-          }}>
-          <svg width="48" height="48" style={{transform: 'rotate(-90deg)'}}>
+        window.addEventListener('scroll',h,{passive:true});
+        return()=>window.removeEventListener('scroll',h);
+      },[]);
+      if(!visible)return null;
+      const r=18,circ=2*Math.PI*r,offset=circ-(progress/100)*circ;
+      const bgFill=theme==='dark'?'#05080f':'#e8ecf4';
+      return(
+        <div onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}
+          style={{position:'fixed',bottom:24,left:24,zIndex:99,cursor:'pointer',animation:'ringFadeIn 0.3s ease',filter:'drop-shadow(0 0 10px rgba(59,158,255,0.6))'}}>
+          <svg width="48" height="48" style={{transform:'rotate(-90deg)'}}>
             <circle cx="24" cy="24" r={r} fill={bgFill} stroke="rgba(59,158,255,0.2)" strokeWidth="3"/>
-            <circle cx="24" cy="24" r={r} fill="none" stroke="#3B9EFF" strokeWidth="3" strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" style={{transition: 'stroke-dashoffset 0.2s ease'}}/>
+            <circle cx="24" cy="24" r={r} fill="none" stroke="#3B9EFF" strokeWidth="3" strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" style={{transition:'stroke-dashoffset 0.2s ease'}}/>
           </svg>
-          <div style={{
-            position: 'absolute', inset: 0, display: 'flex',
-            alignItems: 'center', justifyContent: 'center',
-            fontSize: 10, fontWeight: 700, color: '#3B9EFF',
-            transform: 'rotate(90deg)'
-          }}>
-            {Math.round(progress)}%
-          </div>
+          <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:700,color:'#3B9EFF',transform:'rotate(90deg)'}}>{Math.round(progress)}%</div>
         </div>
       );
     }
@@ -987,7 +959,7 @@
           </footer>
 
           <WelcomeInstallPopup lang={lang}/>
-          <ProgressRing theme={theme} activeSection={activeSection} />
+          <ProgressRing theme={theme}/>
         </div>
       );
     }
