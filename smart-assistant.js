@@ -1,4 +1,4 @@
-// =============== محرك البحث الذكي - BassamIbrahim (v7 - توجيه ثم تواصل) ===============
+// =============== محرك البحث الذكي - BassamIbrahim (v7.4 - 20 اقتراحاً عشوائياً) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
 
@@ -41,6 +41,9 @@
     .smart-result { background:rgba(59,158,255,0.1); border:1px solid rgba(59,158,255,0.3); border-radius:12px; padding:10px 12px; margin-bottom:6px; }
     .smart-result b { color:#fff; }
     .whatsapp-link { color:#25D366; font-weight:700; text-decoration:none; display:inline-block; margin-top:6px; padding:6px 12px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.4); border-radius:20px; }
+    .suggestion-chips { display:flex; flex-wrap:wrap; gap:6px; padding:4px 0 8px; }
+    .suggestion-chip { font-size:11px; padding:6px 12px; border-radius:16px; background:rgba(59,158,255,0.2); color:#3B9EFF; border:1px solid rgba(59,158,255,0.4); cursor:pointer; font-family:'Cairo',sans-serif; transition:all 0.2s; }
+    .suggestion-chip:hover { background:rgba(59,158,255,0.4); color:#fff; }
   `;
   document.head.appendChild(style);
 
@@ -50,25 +53,102 @@
   btn.textContent = '💬';
   document.body.appendChild(btn);
 
+  // ---- قائمة الأسئلة المقترحة (20 سؤالاً) ----
+  const ALL_SUGGESTED_QUESTIONS = [
+    "هل تريد أن نبحر معاً في علم المواد؟",
+    "كيف تقود الابتكار في عالم الإنشاء؟",
+    "ماذا يحدث داخل المختبر الهندسي؟",
+    "هل تود اكتشاف صفحات من تاريخ السودان؟",
+    "كيف تقرأ المشهد السياسي بعين استراتيجية؟",
+    "ما هي الرؤى الفكرية التي توسع مداركك؟",
+    "هل تريد التعمق في تاريخ الحضارة النوبية؟",
+    "ماذا تخبرنا آثار النوبة عن عظمتها؟",
+    "كيف نحافظ على الهوية النوبية اليوم؟",
+    "كيف تطور مهاراتك في كتابة المشاريع؟",
+    "تعلم كيف تصبح قائداً ملهماً؟",
+    "ما هو التدريب التنموي وكيف يغير حياتك؟",
+    "كيف تصل إلى صحة شاملة ومتوازنة؟",
+    "ماذا يقول العلم عن تغذيتك المثالية؟",
+    "هل تريد تحقيق التميز البدني والذهني؟",
+    "هل تبحث عن ملفات وكتب في الهندسة؟",
+    "هل تبحث عن مصادر موثوقة في السياسة؟",
+    "هل تريد تحميل موارد عن الحضارة النوبية؟",
+    "هل تحتاج أدوات عملية للتطوير؟",
+    "هل تريد مراجع وكتباً عن الصحة والتغذية؟",
+    "كيف تستخدم المنصة لتحقيق أقصى فائدة؟",
+    "من هو بسام إبراهيم وما قصته؟"
+  ];
+
+  function getRandomSuggestions(count = 2) {
+    const shuffled = [...ALL_SUGGESTED_QUESTIONS].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+  }
+
+  function buildSuggestionChips() {
+    const questions = getRandomSuggestions();
+    let chipsHtml = '<div class="suggestion-chips">';
+    questions.forEach(q => {
+      chipsHtml += `<button class="suggestion-chip" data-question="${q}">${q}</button>`;
+    });
+    chipsHtml += '</div>';
+    return chipsHtml;
+  }
+
+  const WELCOME_MESSAGE_BASE = `
+    <div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">
+      أهلاً! أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأبحث لك في المقالات والمكتبة الرقمية.
+    </div>
+  `;
+
+  function resetChat() {
+    messages.innerHTML = WELCOME_MESSAGE_BASE + buildSuggestionChips();
+    bindSuggestionChips();
+    messages.scrollTop = 0;
+  }
+
   const box = document.createElement('div');
   box.id = 'smart-chat-box';
   box.innerHTML = `
-    <div id="smart-chat-header"><span>🤖 مساعد BassamIbrahim</span><button id="smart-chat-close" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;">✕</button></div>
-    <div id="smart-chat-messages"><div style="align-self:flex-start;background:rgba(59,158,255,0.15);padding:8px 12px;border-radius:12px;max-width:85%;">أهلاً! أنا مساعد البحث في منصة BassamIbrahim. اسألني عن أي موضوع، وسأبحث لك في المقالات والمكتبة الرقمية.</div></div>
+    <div id="smart-chat-header">
+      <span>🤖 مساعد BassamIbrahim</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button id="smart-chat-clear" title="مسح المحادثة" style="background:none;border:none;color:white;font-size:16px;cursor:pointer;opacity:0.8;">🗑️</button>
+        <button id="smart-chat-close" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;">✕</button>
+      </div>
+    </div>
+    <div id="smart-chat-messages">
+      ${WELCOME_MESSAGE_BASE}
+      ${buildSuggestionChips()}
+    </div>
     <div id="smart-chat-input-area"><input type="text" id="smart-chat-input" placeholder="ابحث في المنصة..." /><button id="smart-chat-send">بحث</button></div>
   `;
   document.body.appendChild(box);
 
   const closeBtn = document.getElementById('smart-chat-close');
+  const clearBtn = document.getElementById('smart-chat-clear');
   const input = document.getElementById('smart-chat-input');
   const send = document.getElementById('smart-chat-send');
   const messages = document.getElementById('smart-chat-messages');
+
+  function bindSuggestionChips() {
+    const chips = messages.querySelectorAll('.suggestion-chip');
+    chips.forEach(chip => {
+      chip.addEventListener('click', function() {
+        const question = this.getAttribute('data-question');
+        if (question) {
+          handleQuestion(question);
+        }
+      });
+    });
+  }
+  bindSuggestionChips();
 
   btn.addEventListener('click', () => {
     box.classList.toggle('open');
     if (box.classList.contains('open') && input) input.focus();
   });
   closeBtn.addEventListener('click', () => box.classList.remove('open'));
+  clearBtn.addEventListener('click', resetChat);
 
   // ---- ذاكرة تخزين مؤقت للمقالات والمكتبة ----
   let allArticles = [];
@@ -204,7 +284,6 @@
     messages.appendChild(typing);
     messages.scrollTop = messages.scrollHeight;
 
-    // 1. قاعدة المعرفة
     const kbAnswer = searchKnowledgeBase(question);
     if (kbAnswer) {
       setTimeout(() => {
@@ -214,22 +293,17 @@
       return;
     }
 
-    // 2. تحميل المقالات والمكتبة معاً
     await Promise.all([loadAllArticles(), loadLibrary()]);
 
     setTimeout(() => {
       typing.remove();
 
-      // 3. البحث في المقالات
       const articleResults = searchArticles(question);
-
-      // 4. البحث في المكتبة
       const libraryResults = searchLibrary(question);
 
       if (articleResults.length === 0 && libraryResults.length === 0) {
         const encodedQuestion = encodeURIComponent(question);
         const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedQuestion}`;
-        // توجيه ثم تواصل
         const noResultMsg = `🤔 لم أجد نتيجة عن "<b>${question}</b>" حالياً في المقالات أو المكتبة.<br><br>
         💡 <b>جرب:</b><br>
         • صياغة السؤال بشكل مختلف<br>
@@ -242,7 +316,6 @@
 
       let reply = '';
 
-      // عرض نتائج المقالات
       if (articleResults.length > 0) {
         const count = Math.min(articleResults.length, 3);
         reply += `📰 **مقالات (${count}):**\n\n`;
@@ -258,7 +331,6 @@
         }
       }
 
-      // عرض نتائج المكتبة
       if (libraryResults.length > 0) {
         const count = Math.min(libraryResults.length, 3);
         reply += `\n📚 **مكتبة (${count}):**\n\n`;
