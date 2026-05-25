@@ -1,4 +1,4 @@
-// =============== محرك البحث الذكي - BassamIbrahim (v9.0 - مع خبير Gemini) ===============
+// =============== محرك البحث الذكي - BassamIbrahim (v9.1 - بحث محسَّن) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.99';
@@ -252,16 +252,37 @@
     libraryLoaded = true;
   }
 
+  // ========== ✅ دالة البحث المحسَّنة ==========
   function searchArticles(query) {
-    return allArticles.map(a => {
-      let score = 0;
-      score += fuzzyMatch(a.title_ar || a.title || '', query) * 10;
-      score += fuzzyMatch(a.title_en || '', query) * 8;
-      (a.tags || []).forEach(tag => { score += fuzzyMatch(tag, query) * 6; });
-      score += fuzzyMatch(a.content_ar || a.content || '', query) * 2;
-      score += fuzzyMatch(a.content_en || '', query) * 1.5;
-      return { ...a, score };
-    }).filter(a => a.score > 0).sort((a, b) => b.score - a.score);
+    const q = normalize(query);
+    if (!q || q.length < 2) return [];
+
+    return allArticles
+      .map(article => {
+        let score = 0;
+        const titleAr = normalize(article.title_ar || article.title || '');
+        const titleEn = normalize(article.title_en || '');
+        const contentAr = normalize(article.content_ar || article.content || '');
+        const contentEn = normalize(article.content_en || '');
+        const tags = (article.tags || []).map(t => normalize(t));
+
+        // وزن كبير للتطابق في العنوان
+        if (titleAr.includes(q)) score += 100;
+        if (titleEn.includes(q)) score += 90;
+
+        // وزن كبير للتطابق في التاجات
+        tags.forEach(tag => {
+          if (tag === q || tag.includes(q) || q.includes(tag)) score += 80;
+        });
+
+        // وزن أقل للتطابق في المحتوى
+        if (contentAr.includes(q)) score += 15;
+        if (contentEn.includes(q)) score += 10;
+
+        return { ...article, score };
+      })
+      .filter(a => a.score > 0)
+      .sort((a, b) => b.score - a.score);
   }
 
   function searchLibrary(query) {
@@ -386,7 +407,7 @@
   window.smartAssistant = {
     askExpertQuestion: async function(question) {
       addMsg('⏳ جاري سؤال الخبير...');
-      const context = ''; // يمكننا إضافة سياق من المقالات لاحقاً
+      const context = '';
       const reply = await askExpert(question, context);
       addMsg(reply);
     }
