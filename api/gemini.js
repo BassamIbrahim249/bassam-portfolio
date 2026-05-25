@@ -1,4 +1,4 @@
-// api/gemini.js (تم التحديث إلى Gemini 2.5 Flash - الحل النهائي)
+// api/gemini.js (تم التحديث إلى Gemini 2.5 Flash-Lite - السرعة والكفاءة)
 export default async function handler(req, res) {
   // إعدادات CORS للسماح بالطلبات من أي مصدر
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -40,9 +40,9 @@ export default async function handler(req, res) {
       }
     };
 
-    // ✅ التغيير الوحيد: استخدام gemini-2.5-flash بدلاً من 2.0-flash
+    // ✅ التغيير الوحيد: استخدام gemini-2.5-flash-lite بدلاً من 2.5-flash
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
