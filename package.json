@@ -1,0 +1,6 @@
+{
+  "name": "bassam-ai-proxy",
+  "version": "1.0.0",
+  "description": "وسيط آمن لاستدعاء Gemini API لمنصة BassamIbrahim",
+  "dependencies": {}
+}
