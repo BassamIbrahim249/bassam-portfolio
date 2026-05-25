@@ -1,4 +1,4 @@
-// api/gemini.js (النسخة النهائية المستقرة - v2.3)
+// api/gemini.js (تم التحديث إلى Gemini 2.5 Flash - الحل النهائي)
 export default async function handler(req, res) {
   // إعدادات CORS للسماح بالطلبات من أي مصدر
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,7 +26,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ reply: 'مفتاح Gemini API غير مضبوط في الخادم.' });
     }
 
-    // التعليمات الموجهة للموديل بناءً على السياق
     const systemPrompt = "أنت مساعد ذكي لموقع المهندس بسام إبراهيم. أجب عن سؤال المستخدم بناءً على 'السياق' المقدم فقط. إذا لم يكن السياق كافياً، فقل 'لا أملك معلومات كافية في مقالاتي لهذا السؤال' ولا تخمن. أجب بالعربية.";
     
     const fullPrompt = context 
@@ -41,9 +40,9 @@ export default async function handler(req, res) {
       }
     };
 
-    // استخدام النموذج الأحدث مع الإصدار المستقر v1
+    // ✅ التغيير الوحيد: استخدام gemini-2.5-flash بدلاً من 2.0-flash
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
