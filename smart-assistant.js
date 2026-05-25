@@ -1,9 +1,8 @@
-// =============== المساعد الهجين - BassamIbrahim (v12.1 - Stabilized & Fixed) ===============
+// =============== المساعد الهجين - BassamIbrahim (v12.2 - Final Optimized) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.99';
   
-  // ✅ تم إصلاح الرابط وحذف .js لأن Vercel يتعرف على مسارات الـ API تلقائياً ويمنع خطأ 404
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
 
   // ========== قاعدة المعرفة الموسَّعة ==========
@@ -332,13 +331,13 @@
     return null;
   }
 
-  // ✅ تم إصلاح الدالة لتمرير سياق نصي نظيف ومطابق تماماً لمتغيرات الـ API لمنع خطأ 400
+  // ✅ تم تقليل حجم السياق المرسل من 1000 حرف إلى 300 حرف لتقليل استهلاك الحصة
   async function askHybridExpert(question, articles) {
     let context = '';
     if (articles && articles.length > 0) {
       context = articles.slice(0, 3).map(a => {
         const title = a.title_ar || a.title_en || '';
-        const content = (a.content_ar || a.content_en || a.content || '').substring(0, 1000);
+        const content = (a.content_ar || a.content_en || a.content || '').substring(0, 300);
         return `عنوان المقال: ${title}\nمحتوى: ${content}`;
       }).join('\n---\n');
     } else {
