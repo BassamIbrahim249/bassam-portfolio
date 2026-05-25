@@ -1,4 +1,4 @@
-// api/gemini.js (النسخة النهائية المعدلة - v2.1)
+// api/gemini.js (النسخة المصححة المستقرة - v2.2)
 export default async function handler(req, res) {
   // إعدادات CORS للسماح بالطلبات من أي مصدر
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ reply: 'مفتاح Gemini API غير مضبوط في الخادم.' });
     }
 
-    // تم دمج التعليمات مباشرة في النص لتجنب مشكلة systemInstruction
+    // التعليمات الموجهة للموديل بناءً على السياق
     const systemPrompt = "أنت مساعد ذكي لموقع المهندس بسام إبراهيم. أجب عن سؤال المستخدم بناءً على 'السياق' المقدم فقط. إذا لم يكن السياق كافياً، فقل 'لا أملك معلومات كافية في مقالاتي لهذا السؤال' ولا تخمن. أجب بالعربية.";
     
     const fullPrompt = context 
@@ -41,9 +41,9 @@ export default async function handler(req, res) {
       }
     };
 
-    // استخدام النموذج الأحدث مع الإصدار المستقر v1
+    // تعديل الرابط إلى موديل 1.5-flash المستقر لتفادي خطأ 404 وحل مشكلة النفاد السريع للحصة
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // سجل لفحص الرد الخام
+    // سجل لفحص الرد الخام في Vercel Logs
     console.log('Gemini Full Response:', JSON.stringify(data));
 
     if (data.error) {
