@@ -1,8 +1,7 @@
-// =============== المساعد الهجين - BassamIbrahim (v10.0 - Hybrid AI) ===============
+// =============== المساعد الهجين - BassamIbrahim (v11.0 - Enhanced) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.99';
-  // تم تعديل الرابط ليطابق مشروعك على Vercel
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
 
   // ========== قاعدة المعرفة الموسَّعة ==========
@@ -291,6 +290,15 @@
     }).filter(f => f.score > 0).sort((a, b) => b.score - a.score);
   }
 
+  // ✅ دالة استخراج ملخص من المحتوى
+  function getContentPreview(article, maxLength = 200) {
+    const content = article.content_ar || article.content_en || article.content || '';
+    if (!content) return '';
+    let plain = content.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+    if (plain.length > maxLength) plain = plain.substring(0, maxLength) + '...';
+    return plain;
+  }
+
   const BUTTON_NAMES = {
     materials_science:'علوم المواد', construction_innovation:'ابتكار إنشائي',
     engineering_lab:'مختبر هندسي', sudan_history:'تاريخ السودان',
@@ -364,9 +372,18 @@
     if (!articles.length && !files.length) {
       typing.remove();
       const enc = encodeURIComponent(question);
-      addMsg(`🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.<br><br>
-        📲 تواصل مع بسام مباشرة لاقتراح هذا الموضوع:<br>
-        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link">💬 واتساب</a>`);
+      addMsg(`
+        🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="suggestion-chip ask-general-ai" style="background:#EAB308;color:#000;border:none;">🧠 اسأل الخبير العام</button>
+          <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link" style="margin-top:0;">💬 تواصل مع بسام</a>
+        </div>
+      `);
+      // ربط حدث الزر
+      document.querySelector('.ask-general-ai')?.addEventListener('click', async () => {
+        const expertReply = await askHybridExpert(question, []);
+        addMsg(`<div class="smart-result expert-badge">🧠 <b>يقول الخبير:</b><br>${expertReply}</div>`);
+      });
       return;
     }
 
@@ -378,9 +395,11 @@
         const title = a.title_ar || a.title_en || a.title || 'بدون عنوان';
         const tab = TAB_NAMES[a._tab] || a._tab;
         const btnName = BUTTON_NAMES[a.button] || '';
+        const preview = getContentPreview(a);
         reply += `<div class="smart-result">
           📰 <b>${title}</b><br>
           📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}
+          ${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}
         </div>`;
       });
     }
@@ -397,16 +416,26 @@
         </div>`;
       });
     }
+    
+    // 5. زر اختياري لاستدعاء الخبير
+    reply += `<div style="margin-top:12px;">
+      <button class="suggestion-chip ask-expert-btn">✨ اسأل الخبير لتلخيص هذه النتائج</button>
+    </div>`;
     addMsg(reply);
 
-    // 5. ثم نضيف إجابة الخبير تلقائياً
-    typing.innerHTML = '🧠 جاري سؤال الخبير...';
-    const expertReply = await askHybridExpert(question, articles);
+    // تفعيل زر الخبير
+    const expertBtn = document.querySelector('.ask-expert-btn');
+    if (expertBtn) {
+      expertBtn.addEventListener('click', async () => {
+        expertBtn.disabled = true;
+        expertBtn.textContent = '⏳ جاري سؤال الخبير...';
+        const expertReply = await askHybridExpert(question, articles);
+        addMsg(`<div class="smart-result expert-badge">🧠 <b>يقول الخبير:</b><br>${expertReply}</div>`);
+        expertBtn.style.display = 'none';
+      });
+    }
+
     typing.remove();
-    
-    addMsg(`<div class="smart-result expert-badge">
-      🧠 <b>يقول الخبير:</b><br>${expertReply}
-    </div>`);
   }
 
   sendBtn.addEventListener('click', () => {
