@@ -1,8 +1,7 @@
-// =============== محرك البحث الذكي - BassamIbrahim (v9.1 - بحث محسَّن) ===============
+// =============== المساعد الهجين - BassamIbrahim (v10.0 - Hybrid AI) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.99';
-  // رابط دالة Vercel الوسيطة
   const AI_PROXY_URL = 'https://bassam-portfolio-6hrn5z61b-bassamibrahim0129-1565s-projects.vercel.app/api/gemini';
 
   // ========== قاعدة المعرفة الموسَّعة ==========
@@ -119,7 +118,7 @@
     .smart-result{background:rgba(255,255,255,0.04);border:1px solid rgba(59,158,255,0.25);border-radius:10px;padding:10px 12px;margin-bottom:8px;line-height:1.7;}
     .smart-result b{color:#fff;}
     .whatsapp-link{color:#25D366!important;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;padding:6px 14px;background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.4);border-radius:20px;}
-    .expert-btn{color:#EAB308!important;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;padding:6px 14px;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.4);border-radius:20px;cursor:pointer;}
+    .expert-badge{border-left:4px solid #EAB308!important;background:rgba(234,179,8,0.08)!important;}
     .suggestion-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 8px;}
     .suggestion-chip{font-size:11px;padding:6px 12px;border-radius:16px;background:rgba(59,158,255,0.15);color:#3B9EFF;border:1px solid rgba(59,158,255,0.35);cursor:pointer;font-family:'Cairo',sans-serif;transition:all 0.2s;}
     .suggestion-chip:hover{background:rgba(59,158,255,0.35);color:#fff;}
@@ -266,16 +265,11 @@
         const contentEn = normalize(article.content_en || '');
         const tags = (article.tags || []).map(t => normalize(t));
 
-        // وزن كبير للتطابق في العنوان
         if (titleAr.includes(q)) score += 100;
         if (titleEn.includes(q)) score += 90;
-
-        // وزن كبير للتطابق في التاجات
         tags.forEach(tag => {
           if (tag === q || tag.includes(q) || q.includes(tag)) score += 80;
         });
-
-        // وزن أقل للتطابق في المحتوى
         if (contentAr.includes(q)) score += 15;
         if (contentEn.includes(q)) score += 10;
 
@@ -323,8 +317,17 @@
     return null;
   }
 
-  // ========== دالة سؤال الخبير (Gemini) ==========
-  async function askExpert(question, context) {
+  // ========== الدالة الأهم: سؤال الخبير الهجين ==========
+  async function askHybridExpert(question, articles) {
+    let context = '';
+    if (articles && articles.length > 0) {
+      context = articles.slice(0, 3).map(a => {
+        const title = a.title_ar || a.title_en || '';
+        const content = (a.content_ar || a.content_en || a.content || '').substring(0, 1000);
+        return `عنوان المقال: ${title}\nمحتوى: ${content}`;
+      }).join('\n---\n');
+    }
+
     try {
       const response = await fetch(AI_PROXY_URL, {
         method: 'POST',
@@ -332,86 +335,78 @@
         body: JSON.stringify({ question, context })
       });
       const data = await response.json();
-      return data.reply || 'عذراً، لم أستطع الحصول على إجابة من الخبير.';
+      return data.reply || 'عذراً، لم أستطع الحصول على إجابة من الخبير. حاول مجدداً.';
     } catch (error) {
       return 'عذراً، حدث خطأ في الاتصال بالخبير. حاول مرة أخرى لاحقاً.';
     }
   }
 
-  // ========== المعالج الرئيسي ==========
+  // ========== المعالج الرئيسي (المساعد الهجين) ==========
   async function handleQuestion(question) {
     saveToHistory(question);
     addMsg(question, true);
-    const typing = addMsg('⏳ جاري البحث...');
+    const typing = addMsg('⏳ جاري البحث في المنصة...');
 
+    // 1. نتحقق من قاعدة المعرفة أولاً
     const kbAns = searchKB(question);
     if (kbAns) {
       setTimeout(() => { typing.remove(); addMsg(kbAns); }, 350);
       return;
     }
 
+    // 2. نبحث في المقالات والمكتبة
     await Promise.all([loadAllArticles(), loadLibrary()]);
+    const articles = searchArticles(question).slice(0, 3);
+    const files = searchLibrary(question).slice(0, 3);
 
-    setTimeout(() => {
+    // 3. إذا لم نجد شيئاً على الإطلاق
+    if (!articles.length && !files.length) {
       typing.remove();
-      const articles = searchArticles(question).slice(0, 3);
-      const files = searchLibrary(question).slice(0, 3);
-
-      if (!articles.length && !files.length) {
-        const enc = encodeURIComponent(question);
-        // عرض رسالة عدم وجود نتائج مع زر "اسأل الخبير" وزر "واتساب"
-        const noResultMsg = `
-          🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.<br><br>
-          💡 <b>ماذا تريد أن تفعل؟</b><br>
-          • <span class="expert-btn" onclick="window.smartAssistant.askExpertQuestion('${question.replace(/'/g, "\\'")}')">🤖 اسأل الخبير (AI)</span><br>
-          • <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link">💬 تواصل مع بسام</a>
-        `;
-        addMsg(noResultMsg);
-        return;
-      }
-
-      let reply = '';
-
-      if (articles.length) {
-        reply += `<b>📰 مقالات (${articles.length}):</b><br><br>`;
-        articles.forEach(a => {
-          const title = a.title_ar || a.title_en || a.title || 'بدون عنوان';
-          const tab = TAB_NAMES[a._tab] || a._tab;
-          const btnName = BUTTON_NAMES[a.button] || '';
-          reply += `<div class="smart-result">
-            📰 <b>${title}</b><br>
-            📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}
-          </div>`;
-        });
-      }
-
-      if (files.length) {
-        reply += `<b>📚 مكتبة (${files.length}):</b><br><br>`;
-        files.forEach(f => {
-          const title = f.title_ar || f.title_en || f.title || 'بدون عنوان';
-          const tab = TAB_NAMES[f.category] || f.category;
-          const url = `https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`;
-          reply += `<div class="smart-result">
-            📁 <b>${title}</b><br>
-            📂 <span class="section-badge">${tab}</span>${f.fileSize ? ` 📦 ${f.fileSize}` : ''}<br>
-            <a href="${url}" target="_blank" rel="noopener noreferrer">⬇️ تحميل الملف</a>
-          </div>`;
-        });
-      }
-
-      addMsg(reply);
-    }, 500);
-  }
-
-  // تعريض دالة سؤال الخبير للعامة
-  window.smartAssistant = {
-    askExpertQuestion: async function(question) {
-      addMsg('⏳ جاري سؤال الخبير...');
-      const context = '';
-      const reply = await askExpert(question, context);
-      addMsg(reply);
+      const enc = encodeURIComponent(question);
+      addMsg(`🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.<br><br>
+        📲 تواصل مع بسام مباشرة لاقتراح هذا الموضوع:<br>
+        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link">💬 واتساب</a>`);
+      return;
     }
-  };
+
+    // 4. إذا وجدنا نتائج، نجهز الرد المحلي أولاً...
+    let reply = '';
+    if (articles.length) {
+      reply += `<b>📰 مقالات (${articles.length}):</b><br><br>`;
+      articles.forEach(a => {
+        const title = a.title_ar || a.title_en || a.title || 'بدون عنوان';
+        const tab = TAB_NAMES[a._tab] || a._tab;
+        const btnName = BUTTON_NAMES[a.button] || '';
+        reply += `<div class="smart-result">
+          📰 <b>${title}</b><br>
+          📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}
+        </div>`;
+      });
+    }
+    if (files.length) {
+      reply += `<b>📚 مكتبة (${files.length}):</b><br><br>`;
+      files.forEach(f => {
+        const title = f.title_ar || f.title_en || f.title || 'بدون عنوان';
+        const tab = TAB_NAMES[f.category] || f.category;
+        const url = `https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`;
+        reply += `<div class="smart-result">
+          📁 <b>${title}</b><br>
+          📂 <span class="section-badge">${tab}</span>${f.fileSize ? ` 📦 ${f.fileSize}` : ''}<br>
+          <a href="${url}" target="_blank" rel="noopener noreferrer">⬇️ تحميل الملف</a>
+        </div>`;
+      });
+    }
+    addMsg(reply);
+
+    // 5. ثم نضيف إجابة الخبير تلقائياً
+    typing.innerHTML = '🧠 جاري سؤال الخبير...';
+    const expertReply = await askHybridExpert(question, articles);
+    typing.remove();
+    
+    addMsg(`<div class="smart-result expert-badge">
+      🧠 <b>يقول الخبير:</b><br>${expertReply}
+    </div>`);
+  }
 
   sendBtn.addEventListener('click', () => {
     const q = inputEl.value.trim();
