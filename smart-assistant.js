@@ -2,7 +2,8 @@
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.99';
-  const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
+  // ✅ تم إصلاح الرابط بإضافة .js لمنع Vercel من تحويل POST إلى GET
+  const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini.js';
 
   // ========== قاعدة المعرفة الموسَّعة ==========
   const knowledgeBase = [
