@@ -1,9 +1,10 @@
-// =============== المساعد الهجين - BassamIbrahim (v12.0 - Stabilized) ===============
+// =============== المساعد الهجين - BassamIbrahim (v12.1 - Stabilized & Fixed) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.99';
-  // ✅ تم إصلاح الرابط بإضافة .js لمنع Vercel من تحويل POST إلى GET
-  const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini.js';
+  
+  // ✅ تم إصلاح الرابط وحذف .js لأن Vercel يتعرف على مسارات الـ API تلقائياً ويمنع خطأ 404
+  const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
 
   // ========== قاعدة المعرفة الموسَّعة ==========
   const knowledgeBase = [
@@ -142,7 +143,7 @@
     'ما هو الابتكار الإنشائي؟','كيف أحقق التميز البدني؟',
     'ما هي الآثار النوبية؟','كيف أكتب منحة دراسية؟','ما هي الصحة الشاملة؟',
     'ما هو التحليل الاستراتيجي؟','ما هي فراعنة السودان؟',
-    'ما أقسام الأكاديمية؟','كيف أستخدم المنصة؟'
+    'ما أقسام الأكاديمية؟','كيف أستخدم المنصة?'
   ];
 
   function getRandomSuggestions(count = 3) {
@@ -204,7 +205,6 @@
   const sendBtn = document.getElementById('smart-chat-send');
   const messagesEl = document.getElementById('smart-chat-messages');
 
-  // ✅ الحل السحري لمشكلة تكرار الأزرار
   function bindChips(container) {
     container.querySelectorAll('.suggestion-chip').forEach(chip => {
       chip.replaceWith(chip.cloneNode(true));
@@ -332,6 +332,7 @@
     return null;
   }
 
+  // ✅ تم إصلاح الدالة لتمرير سياق نصي نظيف ومطابق تماماً لمتغيرات الـ API لمنع خطأ 400
   async function askHybridExpert(question, articles) {
     let context = '';
     if (articles && articles.length > 0) {
@@ -340,6 +341,8 @@
         const content = (a.content_ar || a.content_en || a.content || '').substring(0, 1000);
         return `عنوان المقال: ${title}\nمحتوى: ${content}`;
       }).join('\n---\n');
+    } else {
+      context = '';
     }
 
     try {
@@ -351,6 +354,7 @@
       const data = await response.json();
       return data.reply || 'عذراً، لم أستطع الحصول على إجابة من الخبير. حاول مجدداً.';
     } catch (error) {
+      console.error('Fetch error:', error);
       return 'عذراً، حدث خطأ في الاتصال بالخبير. حاول مرة أخرى لاحقاً.';
     }
   }
