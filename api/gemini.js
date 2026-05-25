@@ -1,16 +1,13 @@
-// api/gemini.js (النسخة النهائية المستقرة)
+// api/gemini.js (إظهار الخطأ الفعلي للمساعدة في التشخيص)
 export default async function handler(req, res) {
-  // إعدادات CORS للسماح بالطلبات من أي مصدر
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // التعامل مع طلبات OPTIONS (Preflight)
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // السماح فقط بطلبات POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -43,7 +40,6 @@ export default async function handler(req, res) {
       }
     };
 
-    // ✅ استخدام النموذج الأحدث مع الإصدار المستقر v1
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
@@ -55,20 +51,17 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // سجل لفحص الرد الخام
     console.log('Gemini Full Response:', JSON.stringify(data));
 
     if (data.error) {
-      console.error('Gemini API Error:', data.error);
-      return res.status(500).json({ reply: 'حدث خطأ أثناء التواصل مع الذكاء الاصطناعي.' });
+      // هيظهر الخطأ الحقيقي من Gemini قدامك في الشات
+      return res.status(200).json({ reply: `خطأ من Gemini: ${data.error.message || JSON.stringify(data.error)}` });
     }
 
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أستطع الإجابة.';
-
     res.status(200).json({ reply });
 
   } catch (error) {
-    console.error('Server error:', error);
-    res.status(500).json({ reply: 'حدث خطأ داخلي في الخادم.' });
+    return res.status(200).json({ reply: `خطأ داخلي: ${error.message}` });
   }
 }
