@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v12.3 - مرشد ذكي) ===============
+// =============== المساعد الهجين - BassamIbrahim (v12.4 - المرشد الكامل) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.99';
@@ -304,6 +304,15 @@
     return plain;
   }
 
+  // ✅ دالة اقتراحات البحث المحلية
+  function getSearchSuggestions(query) {
+    const allTitles = allArticles.map(a => a.title_ar || a.title_en || a.title || '').filter(Boolean);
+    const suggestions = allTitles
+      .filter(title => fuzzyMatch(title, query) > 0.3)
+      .slice(0, 3);
+    return suggestions.length > 0 ? suggestions : ['الهندسة في السودان', 'تاريخ مملكة مروي', 'كتابة المشاريع'];
+  }
+
   const BUTTON_NAMES = {
     materials_science:'علوم المواد', construction_innovation:'ابتكار إنشائي',
     engineering_lab:'مختبر هندسي', sudan_history:'تاريخ السودان',
@@ -365,7 +374,6 @@
       });
       const data = await response.json();
       
-      // إذا كان الرد هو "لا أملك معلومات كافية"، نستبدله بردنا الاحترافي
       if (data.reply && data.reply.includes('لا أملك معلومات كافية')) {
         return getProfessionalFallback(question);
       }
@@ -397,12 +405,14 @@
 
     if (!articles.length && !files.length) {
       const enc = encodeURIComponent(question);
+      const suggestions = getSearchSuggestions(question);
       const noResultNode = addMsg(`
         🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
           <button class="suggestion-chip ask-general-ai" style="background:#EAB308;color:#000;border:none;font-weight:bold;">🧠 اسأل الخبير العام</button>
           <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link" style="margin-top:0;">💬 تواصل مع بسام</a>
         </div>
+        <div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات للبحث:</b> ${suggestions.map(s => `<button class="suggestion-chip" data-question="${s}" style="font-size:10px;">${s}</button>`).join(' ')}</div>
       `);
       
       noResultNode.querySelector('.ask-general-ai')?.addEventListener('click', async function() {
@@ -456,7 +466,14 @@
         this.disabled = true;
         this.textContent = '⏳ جاري إعداد التلخيص الذكي...';
         const expertReply = await askHybridExpert(question, articles);
-        addMsg(`<div class="smart-result expert-badge">🧠 <b>تلخيص الخبير للنتائج:</b><br>${expertReply}</div>`);
+        // ✅ إضافة دعوة لقراءة المقال كاملاً بعد التلخيص
+        const enhancedReply = `
+          ${expertReply}
+          <div style="margin-top:10px;padding:8px 12px;background:rgba(59,158,255,0.08);border-radius:8px;border-right:3px solid #3B9EFF;">
+            💡 <b>للاستفادة القصوى:</b> المقال الكامل يحتوي على تفاصيل وأمثلة ودراسات حالة لا تجدها في هذا التلخيص. أنصحك بقراءته كاملاً.
+          </div>
+        `;
+        addMsg(`<div class="smart-result expert-badge">🧠 <b>تلخيص الخبير للنتائج:</b><br>${enhancedReply}</div>`);
         this.style.display = 'none';
       });
     }
