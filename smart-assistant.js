@@ -2,7 +2,8 @@
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.99';
-  const AI_PROXY_URL = 'https://bassam-portfolio-6hrn5z61b-bassamibrahim0129-1565s-projects.vercel.app/api/gemini';
+  // تم تعديل الرابط ليطابق مشروعك على Vercel
+  const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
 
   // ========== قاعدة المعرفة الموسَّعة ==========
   const knowledgeBase = [
@@ -251,7 +252,7 @@
     libraryLoaded = true;
   }
 
-  // ========== ✅ دالة البحث المحسَّنة ==========
+  // ========== دالة البحث المحسَّنة ==========
   function searchArticles(query) {
     const q = normalize(query);
     if (!q || q.length < 2) return [];
