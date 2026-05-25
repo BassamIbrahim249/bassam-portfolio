@@ -1,4 +1,4 @@
-// api/gemini.js (النسخة المصححة المستقرة - v2.2)
+// api/gemini.js (النسخة النهائية المستقرة - v2.3)
 export default async function handler(req, res) {
   // إعدادات CORS للسماح بالطلبات من أي مصدر
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -41,9 +41,9 @@ export default async function handler(req, res) {
       }
     };
 
-    // تعديل الرابط إلى موديل 1.5-flash المستقر لتفادي خطأ 404 وحل مشكلة النفاد السريع للحصة
+    // استخدام النموذج الأحدث مع الإصدار المستقر v1
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
