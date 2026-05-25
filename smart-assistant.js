@@ -344,9 +344,12 @@
         body: JSON.stringify({ question, context })
       });
       const data = await response.json();
-      return data.reply || 'عذراً، لم أستطع الحصول على إجابة من الخبير. حاول مجدداً.';
+      // ✅ إظهار أي خطأ قادم من الخادم
+      if (data.error) return `❌ خطأ من الخادم: ${data.error}`;
+      if (!data.reply) return `❌ رد الخادم لا يحتوي على إجابة. الرد: ${JSON.stringify(data)}`;
+      return data.reply;
     } catch (error) {
-      return 'عذراً، حدث خطأ في الاتصال بالخبير. حاول مرة أخرى لاحقاً.';
+      return `❌ فشل الاتصال: ${error.message}`;
     }
   }
 
