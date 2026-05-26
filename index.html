@@ -103,18 +103,15 @@
       border-color: rgba(59,158,255,0.35) !important;
     }
 
-    /* وصف الهيرو - لمسات جمالية */
     .hero-description {
       transition: text-shadow 0.4s ease, box-shadow 0.4s ease;
     }
-    /* الوضع الليلي: توهج ناعم + خط سفلي متدرج */
     body:not(.light) .hero-description {
       text-shadow: 0 0 18px rgba(59,158,255,0.15);
       border-bottom: 1px solid rgba(59,158,255,0.25);
       padding-bottom: 12px;
       display: inline-block;
     }
-    /* الوضع النهاري: ظل ناعم + خط أنيق */
     .light .hero-description {
       text-shadow: 0 1px 3px rgba(0,0,0,0.05);
       border-bottom: 1px solid rgba(59,158,255,0.3);
@@ -135,6 +132,16 @@
     @keyframes borderSweep{0%{left:-100%}100%{left:200%}}
     @keyframes tagShimmer{0%{background-position:-200% center}100%{background-position:200% center}}
 
+    /* ✨ NEW — أنيميشن نبضة القارئ الصوتي */
+    @keyframes audioWave {
+      0%,100%{transform:scaleY(1)}
+      50%{transform:scaleY(1.8)}
+    }
+    @keyframes audioRipple {
+      0%{box-shadow:0 0 0 0 rgba(59,158,255,0.4)}
+      100%{box-shadow:0 0 0 12px rgba(59,158,255,0)}
+    }
+
     @media(prefers-reduced-motion:no-preference){
       .anim-fade-up{animation:fadeUp 0.75s ease both}
       .pulse-dot{animation:pulseGlow 2.2s ease-in-out infinite}
@@ -142,6 +149,10 @@
       .skeleton{animation:skeletonShimmer 1.5s infinite linear;background:linear-gradient(90deg,rgba(128,128,128,0.05) 25%,rgba(128,128,128,0.15) 50%,rgba(128,128,128,0.05) 75%);background-size:200% 100%;border-radius:12px}
       .logo-wrap{animation:logoPulse 3s ease-in-out infinite}
       .vision-card{animation:visionAura 4s ease-in-out infinite}
+
+      /* ✨ NEW — نبضة الموجات أثناء التشغيل */
+      .audio-bar-playing { animation: audioWave 0.6s ease-in-out infinite; }
+      .audio-btn-playing { animation: audioRipple 1.5s ease-out infinite; }
     }
     @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
@@ -329,7 +340,13 @@
         nav_engineering:'هندسة',nav_political:'سياسة',nav_nubian:'نوبيان',nav_academy:'أكاديمية',nav_lifestyle:'نمط الحياة',
         pwa_title:'مرحباً بك في منصتي الرقمية',pwa_desc:'هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.',pwa_install:'📲 ثبّت التطبيق للوصول السريع',pwa_dismiss:'استمر بالتصفح',
         meta_description:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
-        author_name:'بسام إبراهيم أحمد'
+        author_name:'بسام إبراهيم أحمد',
+        // ✨ NEW — نصوص القارئ الصوتي
+        audio_listen:'🎧 استمع',
+        audio_pause:'⏸ إيقاف مؤقت',
+        audio_resume:'▶ استئناف',
+        audio_stop:'⏹ إيقاف',
+        audio_not_supported:'القارئ الصوتي غير مدعوم في هذا المتصفح'
       },
       en:{
         back:'Back to Section',library:'📚 Library',read:'📖 Read',close:'✕ Close',search:'🔍 Search articles...',noArticles:'No articles yet.',loadMore:'📄 Load More',remaining:'remaining',minRead:'min read',related:'📌 Related Articles',contact:'Contact Me',visionTitle:'Vision & Mission',visionText:'I believe true specialization gives you keys to understand the world in multiple ways.',identity:'Civil Engineer · Sudan Affairs · Community Activist',heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',mainTitle:'Five Fields. One Vision.',about:'About Me',exploreContent:'Explore Content',lab:'Visual Lab',explore:'Explore',browse:'📂 Browse Content',retry:'Retry',footerCopy:'All rights reserved',
@@ -351,7 +368,13 @@
         nav_engineering:'Engineering',nav_political:'Politics',nav_nubian:'Nubian',nav_academy:'Academy',nav_lifestyle:'Lifestyle',
         pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing',
         meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
-        author_name:'Bassam Ibrahim Ahmed'
+        author_name:'Bassam Ibrahim Ahmed',
+        // ✨ NEW — نصوص القارئ الصوتي
+        audio_listen:'🎧 Listen',
+        audio_pause:'⏸ Pause',
+        audio_resume:'▶ Resume',
+        audio_stop:'⏹ Stop',
+        audio_not_supported:'Text-to-speech not supported in this browser'
       }
     };
 
@@ -383,6 +406,210 @@
       }
       return obj[`${field}_ar`] || obj[field] || '';
     };
+
+    // ============================================================
+    // ✨ NEW — مكوِّن القارئ الصوتي AudioReader
+    // يستخدم window.speechSynthesis API فقط (بدون مكتبات خارجية)
+    // يدعم: تشغيل، إيقاف مؤقت، استئناف، إيقاف كامل
+    // يكتشف اللغة تلقائياً من prop lang
+    // ============================================================
+    function AudioReader({ text, lang }) {
+      const [status, setStatus] = useState('idle'); // idle | playing | paused
+      const utteranceRef = useRef(null);
+      const t = k => I18N[lang]?.[k] || k;
+
+      // تنظيف عند إغلاق المقال
+      useEffect(() => {
+        return () => {
+          if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+          }
+        };
+      }, []);
+
+      // إيقاف التشغيل عند تغيير النص (مثلاً فتح مقال آخر)
+      useEffect(() => {
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+          setStatus('idle');
+        }
+      }, [text]);
+
+      // التحقق من دعم المتصفح
+      if (!window.speechSynthesis) {
+        return (
+          <div style={{fontSize:11,color:'var(--text-secondary)',padding:'6px 10px',
+            background:'rgba(255,255,255,0.04)',borderRadius:8,marginTop:12,
+            border:'1px solid var(--border-color)'}}>
+            ⚠️ {t('audio_not_supported')}
+          </div>
+        );
+      }
+
+      // تحويل HTML إلى نص نظيف للقراءة
+      function extractPlainText(html) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || '';
+      }
+
+      function handlePlay() {
+        window.speechSynthesis.cancel();
+        const plainText = extractPlainText(text);
+        if (!plainText.trim()) return;
+
+        const utter = new SpeechSynthesisUtterance(plainText);
+        utter.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
+        utter.rate = 0.92;
+        utter.pitch = 1;
+        utter.volume = 1;
+
+        utter.onstart  = () => setStatus('playing');
+        utter.onpause  = () => setStatus('paused');
+        utter.onresume = () => setStatus('playing');
+        utter.onend    = () => setStatus('idle');
+        utter.onerror  = () => setStatus('idle');
+
+        utteranceRef.current = utter;
+        window.speechSynthesis.speak(utter);
+        setStatus('playing');
+      }
+
+      function handlePause() {
+        window.speechSynthesis.pause();
+        setStatus('paused');
+      }
+
+      function handleResume() {
+        window.speechSynthesis.resume();
+        setStatus('playing');
+      }
+
+      function handleStop() {
+        window.speechSynthesis.cancel();
+        setStatus('idle');
+      }
+
+      // الموجات الصوتية الجمالية — تظهر فقط أثناء التشغيل
+      const AudioWaves = () => (
+        <span style={{display:'inline-flex',alignItems:'flex-end',gap:2,height:14,marginLeft:6}}>
+          {[1,2,3,4,3].map((h, i) => (
+            <span key={i} className={status === 'playing' ? 'audio-bar-playing' : ''}
+              style={{
+                display:'inline-block', width:3,
+                height: status === 'playing' ? `${h * 3}px` : '4px',
+                background:'#3B9EFF', borderRadius:2,
+                transition:'height 0.2s ease',
+                animationDelay: `${i * 0.1}s`
+              }}/>
+          ))}
+        </span>
+      );
+
+      return (
+        <div style={{
+          display:'flex', alignItems:'center', gap:8,
+          marginTop:14, paddingTop:14,
+          borderTop:'1px solid var(--border-color)',
+          flexWrap:'wrap'
+        }}>
+          {/* ── زر التشغيل الرئيسي ── */}
+          {status === 'idle' && (
+            <button onClick={handlePlay}
+              className={status === 'playing' ? 'audio-btn-playing' : ''}
+              style={{
+                display:'flex', alignItems:'center', gap:6,
+                padding:'8px 16px', borderRadius:20,
+                background:'rgba(59,158,255,0.12)',
+                border:'1px solid rgba(59,158,255,0.4)',
+                color:'#3B9EFF', cursor:'pointer',
+                fontFamily:'Cairo', fontSize:12, fontWeight:700,
+                transition:'all 0.25s ease'
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.background='rgba(59,158,255,0.25)';e.currentTarget.style.boxShadow='0 0 16px rgba(59,158,255,0.35)';}}
+              onMouseLeave={e=>{e.currentTarget.style.background='rgba(59,158,255,0.12)';e.currentTarget.style.boxShadow='none';}}>
+              {t('audio_listen')}
+            </button>
+          )}
+
+          {/* ── أزرار التحكم أثناء التشغيل ── */}
+          {status === 'playing' && (
+            <>
+              <button onClick={handlePause}
+                style={{
+                  display:'flex', alignItems:'center', gap:6,
+                  padding:'8px 16px', borderRadius:20,
+                  background:'rgba(234,179,8,0.15)',
+                  border:'1px solid rgba(234,179,8,0.5)',
+                  color:'#EAB308', cursor:'pointer',
+                  fontFamily:'Cairo', fontSize:12, fontWeight:700,
+                  transition:'all 0.25s ease'
+                }}
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(234,179,8,0.28)'}
+                onMouseLeave={e=>e.currentTarget.style.background='rgba(234,179,8,0.15)'}>
+                {t('audio_pause')} <AudioWaves/>
+              </button>
+              <button onClick={handleStop}
+                style={{
+                  padding:'8px 14px', borderRadius:20,
+                  background:'rgba(255,100,100,0.1)',
+                  border:'1px solid rgba(255,100,100,0.35)',
+                  color:'#ff6b6b', cursor:'pointer',
+                  fontFamily:'Cairo', fontSize:12, fontWeight:700,
+                  transition:'all 0.25s ease'
+                }}
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(255,100,100,0.22)'}
+                onMouseLeave={e=>e.currentTarget.style.background='rgba(255,100,100,0.1)'}>
+                {t('audio_stop')}
+              </button>
+            </>
+          )}
+
+          {/* ── أزرار التحكم في الإيقاف المؤقت ── */}
+          {status === 'paused' && (
+            <>
+              <button onClick={handleResume}
+                style={{
+                  display:'flex', alignItems:'center', gap:6,
+                  padding:'8px 16px', borderRadius:20,
+                  background:'rgba(52,211,153,0.12)',
+                  border:'1px solid rgba(52,211,153,0.4)',
+                  color:'#34D399', cursor:'pointer',
+                  fontFamily:'Cairo', fontSize:12, fontWeight:700,
+                  transition:'all 0.25s ease'
+                }}
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(52,211,153,0.25)'}
+                onMouseLeave={e=>e.currentTarget.style.background='rgba(52,211,153,0.12)'}>
+                {t('audio_resume')}
+              </button>
+              <button onClick={handleStop}
+                style={{
+                  padding:'8px 14px', borderRadius:20,
+                  background:'rgba(255,100,100,0.1)',
+                  border:'1px solid rgba(255,100,100,0.35)',
+                  color:'#ff6b6b', cursor:'pointer',
+                  fontFamily:'Cairo', fontSize:12, fontWeight:700,
+                  transition:'all 0.25s ease'
+                }}
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(255,100,100,0.22)'}
+                onMouseLeave={e=>e.currentTarget.style.background='rgba(255,100,100,0.1)'}>
+                {t('audio_stop')}
+              </button>
+            </>
+          )}
+
+          {/* ── مؤشر الحالة النصي ── */}
+          {status !== 'idle' && (
+            <span style={{fontSize:11,color:'var(--text-secondary)',fontStyle:'italic'}}>
+              {status === 'playing' ? (lang === 'ar' ? '🔊 جاري القراءة...' : '🔊 Reading...') : (lang === 'ar' ? '⏸ متوقف مؤقتاً' : '⏸ Paused')}
+            </span>
+          )}
+        </div>
+      );
+    }
+    // ============================================================
+    // ✨ END — AudioReader
+    // ============================================================
 
     const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
     function StarField({theme}){
@@ -571,6 +798,9 @@
                             <div style={{padding:'0 20px 24px'}}>
                               {article.image&&<img src={article.image} alt={getLocalized(article,'title',lang)} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
                               <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}}/>
+                              {/* ✨ NEW — القارئ الصوتي يظهر مباشرة بعد محتوى المقال */}
+                              <AudioReader text={cleanHTML} lang={lang} />
+                              {/* ✨ END — القارئ الصوتي */}
                               <div className="author-meta">✍️ {getLocalized(article,'author',lang) || t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
                               <ShareButtons article={article} lang={lang}/>
                               <CommentsSection articleId={commentId}/>
@@ -744,6 +974,8 @@
           setActiveSection(null);
           setActiveCategory(null);
           setActiveTagKey(null);
+          // ✨ إيقاف القارئ الصوتي عند العودة
+          if(window.speechSynthesis) window.speechSynthesis.cancel();
           setTimeout(()=>{
             if(originTabId)document.getElementById(originTabId)?.scrollIntoView({behavior:'smooth',block:'start'});
           },100);
@@ -790,7 +1022,6 @@
             </>
           )}
 
-          {/* Header بتصميم السطرين في الموبايل */}
           <header style={{
             position:'fixed',top:0,left:0,right:0,zIndex:100,
             isolation:'isolate',
@@ -804,7 +1035,6 @@
             transition:'padding 0.3s ease, background 0.3s ease, border-color 0.3s ease'
           }}>
             <div style={{maxWidth:1200,margin:'0 auto',width:'100%'}}>
-              {/* السطر الأول: الهامبرغر (موبايل فقط) + الشعار + زر التواصل */}
               <div className="header-top-row">
                 <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
                   <button className="hamburger-btn" onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} aria-label="القائمة">☰</button>
@@ -812,7 +1042,6 @@
                   <span style={{fontWeight:900,fontSize:18,color:'var(--text-primary)',whiteSpace:'nowrap'}}>Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span></span>
                 </div>
                 <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0}}>
-                  {/* أزرار الديسكتوب: اللغة والوضع */}
                   <div className="header-actions-desktop">
                     <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
                       style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
@@ -836,7 +1065,6 @@
                   </button>
                 </div>
               </div>
-              {/* السطر الثاني (موبايل فقط): أزرار اللغة والوضع */}
               <div className="header-bottom-row">
                 <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card"
                   style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
@@ -847,7 +1075,6 @@
                   {theme==='dark'?'🌙':'☀️'}
                 </button>
               </div>
-              {/* تبويبات سطح المكتب (تظهر في الديسكتوب فقط) */}
               <nav className="nav-tabs-desktop" style={{marginTop: '8px'}}>
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`}
@@ -862,7 +1089,6 @@
             </div>
           </header>
 
-          {/* Mobile Menu */}
           <div className={`mobile-menu-overlay ${mobileMenuOpen?'show':''}`} onClick={()=>setMobileMenuOpen(false)}></div>
           <div className={`mobile-menu-panel ${mobileMenuOpen?'open':''}`}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
@@ -881,7 +1107,6 @@
             </div>
           </div>
 
-          {/* ── Hero ── */}
           <section style={{padding:'148px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
             <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
@@ -920,7 +1145,6 @@
             </div>
           </section>
 
-          {/* ── Cards ── */}
           <section id="cards-section" style={{padding:'60px 24px 80px',position:'relative',zIndex:1}}>
             <div style={{maxWidth:1100,margin:'0 auto'}}>
               <div style={{textAlign:'center',marginBottom:52}}>
@@ -933,7 +1157,6 @@
             </div>
           </section>
 
-          {/* ── Vision ── */}
           <section id="vision-section" style={{padding:'40px 24px 80px',position:'relative',zIndex:1}}>
             {theme==='dark'&&<div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:600,height:300,background:'radial-gradient(ellipse,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',borderRadius:'50%',isolation:'isolate'}}/>}
             <div className="glass-card vision-card" style={{maxWidth:820,margin:'0 auto',borderRadius:26,padding:'52px 44px',textAlign:'center',position:'relative'}}>
@@ -943,7 +1166,6 @@
             </div>
           </section>
 
-          {/* ── Footer ── */}
           <footer style={{padding:'40px 24px 32px',borderTop:'1px solid var(--glass-border)',position:'relative',zIndex:1}}>
             {theme==='dark'&&<div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'80%',height:1,background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.3),transparent)',pointerEvents:'none'}}/>}
             <div style={{maxWidth:860,margin:'0 auto',textAlign:'center'}}>
