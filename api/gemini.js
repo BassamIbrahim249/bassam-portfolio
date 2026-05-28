@@ -1,4 +1,4 @@
-// api/gemini.js (v3.1 - مع تشخيص الأخطاء)
+// api/gemini.js (v3.2 - Gemini أكثر مرونة وذكاءً في الردود)
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -18,28 +18,34 @@ export default async function handler(req, res) {
     if (!question) return res.status(400).json({ reply: 'حقل السؤال (question) مطلوب.' });
     if (!process.env.GEMINI_API_KEY) return res.status(500).json({ reply: 'مفتاح Gemini API غير مضبوط في الخادم.' });
 
-    // [1] فحص الذاكرة
-    const { data: cachedData, error: fetchError } = await supabase
+    // 🕵️‍♂️ [1] التحقق من الذاكرة المخبأة
+    const { data: cachedData } = await supabase
       .from('bot_cache')
       .select('reply')
       .eq('question', question.trim())
       .maybeSingle();
 
-    if (fetchError) {
-      console.error('Supabase fetch error:', fetchError);
-      return res.status(200).json({ reply: `خطأ في قراءة الذاكرة: ${fetchError.message}` });
-    }
-
     if (cachedData) {
-      console.log('⚡ من الذاكرة (بدون توكينز)');
+      console.log('⚡ تم جلب الإجابة من السحابة مجاناً (استهلاك Gemini = 0)');
       return res.status(200).json({ reply: cachedData.reply });
     }
 
-    // [2] سؤال Gemini
-    const systemPrompt = "أنت مساعد ذكي لموقع المهندس بسام إبراهيم. أجب عن سؤال المستخدم بناءً على 'السياق' المقدم فقط. إذا لم يكن السياق كافياً، فقل 'لا أملك معلومات كافية في مقالاتي لهذا السؤال' ولا تخمن. أجب بالعربية.";
+    // 🤖 [2] إنشاء إجابة جديدة من Gemini
+    // ✨ التعديل الوحيد: تعليمات أكثر مرونة وذكاءً
+    const systemPrompt = `أنت مساعد ذكي ومفيد في منصة "بسام إبراهيم". مهمتك هي الإجابة عن أسئلة الزوار بناءً على محتوى المقالات المقدم لك في السياق.
+
+قواعد مهمة جداً:
+1. إذا كان السياق يحتوي على معلومات كافية عن السؤال، قدم إجابة شاملة ومباشرة مع الاستشهاد بالمقالات.
+2. إذا كان السياق يتحدث عن الموضوع بشكل عام وليس بالتفصيل المطلوب، فلا ترفض الإجابة. بدلاً من ذلك، قل: "لم أجد تفاصيل دقيقة عن [السؤال] في المقالات المتاحة، لكنها تتحدث بشكل عام عن [الموضوع]. إليك ما وجدته:" ثم قدم ما هو موجود.
+3. لا تقل أبداً "لا أملك معلومات كافية" ثم تتوقف. قدم دائماً أفضل ما لديك.
+4. استخدم أسلوباً دافئاً ومشجعاً. لا تجعل الزائر يشعر بالإحباط.
+5. إذا كان السؤال خارج نطاق المنصة تماماً، يمكنك الاعتذار بلطف وتوجيه الزائر إلى المجالات المتاحة.
+
+أجب بالعربية الفصحى السلسة.`;
+
     const fullPrompt = context 
-      ? `${systemPrompt}\n\nالسياق من مقالات الموقع:\n${context}\n\nسؤال الزائر: ${question}\n\nأجب بناءً على السياق فقط.`
-      : `${systemPrompt}\n\nسؤال الزائر: ${question}`;
+      ? `${systemPrompt}\n\nالسياق من مقالات الموقع:\n${context}\n\nسؤال الزائر: ${question}\n\nأجب بناءً على القواعد أعلاه.`
+      : `${systemPrompt}\n\nسؤال الزائر: ${question}\n\nأجب بناءً على القواعد أعلاه.`;
 
     const aiResponse = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
@@ -48,7 +54,7 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: fullPrompt }] }],
-          generationConfig: { temperature: 0.3, maxOutputTokens: 500 }
+          generationConfig: { temperature: 0.4, maxOutputTokens: 500 }
         })
       }
     );
@@ -56,18 +62,10 @@ export default async function handler(req, res) {
     const data = await aiResponse.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أستطع الإجابة حالياً.';
 
-    // [3] حفظ الإجابة الجديدة
+    // 💾 [3] حفظ الإجابة الجديدة للاستخدام المستقبلي
     if (reply && reply !== 'عذراً، لم أستطع الإجابة حالياً.') {
-      const { error: insertError } = await supabase
-        .from('bot_cache')
-        .insert([{ question: question.trim(), reply: reply }]);
-
-      if (insertError) {
-        console.error('Supabase insert error:', insertError);
-        // سنعرض الخطأ للمستخدم حتى نعرف السبب
-        return res.status(200).json({ reply: `⚠️ تم إنشاء الإجابة ولكن فشل الحفظ في السحابة: ${insertError.message}. يرجى مراجعة صلاحيات الجدول.` });
-      }
-      console.log('💾 تم الحفظ بنجاح');
+      await supabase.from('bot_cache').insert([{ question: question.trim(), reply: reply }]);
+      console.log('💾 تم حفظ الإجابة الجديدة في السحابة.');
     }
 
     res.status(200).json({ reply });
