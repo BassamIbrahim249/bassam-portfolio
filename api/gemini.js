@@ -1,13 +1,11 @@
-// api/gemini.js (الإصدار الثالث - مقترن بقاعدة بيانات Supabase)
+// api/gemini.js (v3.1 - مع تشخيص الأخطاء)
 import { createClient } from '@supabase/supabase-js';
 
-// إعداد الاتصال الآمن بقاعدة البيانات
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handler(req, res) {
-  // إعدادات CORS للسماح للموقع بالاتصال
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -20,25 +18,30 @@ export default async function handler(req, res) {
     if (!question) return res.status(400).json({ reply: 'حقل السؤال (question) مطلوب.' });
     if (!process.env.GEMINI_API_KEY) return res.status(500).json({ reply: 'مفتاح Gemini API غير مضبوط في الخادم.' });
 
-    // 🕵️‍♂️ [1] التحقق من الذاكرة المخبأة أولاً لتوفير الحصة المجانية
-    const { data: cachedData } = await supabase
+    // [1] فحص الذاكرة
+    const { data: cachedData, error: fetchError } = await supabase
       .from('bot_cache')
       .select('reply')
       .eq('question', question.trim())
       .maybeSingle();
 
+    if (fetchError) {
+      console.error('Supabase fetch error:', fetchError);
+      return res.status(200).json({ reply: `خطأ في قراءة الذاكرة: ${fetchError.message}` });
+    }
+
     if (cachedData) {
-      console.log('⚡ تم جلب الإجابة من السحابة مجاناً (استهلاك Gemini = 0)');
+      console.log('⚡ من الذاكرة (بدون توكينز)');
       return res.status(200).json({ reply: cachedData.reply });
     }
 
-    // 🤖 [2] إنشاء إجابة جديدة من Gemini عند الحاجة
+    // [2] سؤال Gemini
     const systemPrompt = "أنت مساعد ذكي لموقع المهندس بسام إبراهيم. أجب عن سؤال المستخدم بناءً على 'السياق' المقدم فقط. إذا لم يكن السياق كافياً، فقل 'لا أملك معلومات كافية في مقالاتي لهذا السؤال' ولا تخمن. أجب بالعربية.";
     const fullPrompt = context 
       ? `${systemPrompt}\n\nالسياق من مقالات الموقع:\n${context}\n\nسؤال الزائر: ${question}\n\nأجب بناءً على السياق فقط.`
       : `${systemPrompt}\n\nسؤال الزائر: ${question}`;
 
-    const response = await fetch(
+    const aiResponse = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: 'POST',
@@ -50,13 +53,21 @@ export default async function handler(req, res) {
       }
     );
 
-    const data = await response.json();
+    const data = await aiResponse.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أستطع الإجابة حالياً.';
 
-    // 💾 [3] حفظ الإجابة الجديدة للاستخدام المستقبلي
+    // [3] حفظ الإجابة الجديدة
     if (reply && reply !== 'عذراً، لم أستطع الإجابة حالياً.') {
-      await supabase.from('bot_cache').insert([{ question: question.trim(), reply: reply }]);
-      console.log('💾 تم حفظ الإجابة الجديدة في السحابة.');
+      const { error: insertError } = await supabase
+        .from('bot_cache')
+        .insert([{ question: question.trim(), reply: reply }]);
+
+      if (insertError) {
+        console.error('Supabase insert error:', insertError);
+        // سنعرض الخطأ للمستخدم حتى نعرف السبب
+        return res.status(200).json({ reply: `⚠️ تم إنشاء الإجابة ولكن فشل الحفظ في السحابة: ${insertError.message}. يرجى مراجعة صلاحيات الجدول.` });
+      }
+      console.log('💾 تم الحفظ بنجاح');
     }
 
     res.status(200).json({ reply });
