@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     }
 
     // 🤖 [2] إنشاء إجابة جديدة من Gemini
-    // ✨ التعديل الوحيد: تعليمات أكثر مرونة وذكاءً
+    // ✨ تعليمات أكثر مرونة وذكاءً
     const systemPrompt = `أنت مساعد ذكي ومفيد في منصة "بسام إبراهيم". مهمتك هي الإجابة عن أسئلة الزوار بناءً على محتوى المقالات المقدم لك في السياق.
 
 قواعد مهمة جداً:
@@ -41,6 +41,10 @@ export default async function handler(req, res) {
 4. استخدم أسلوباً دافئاً ومشجعاً. لا تجعل الزائر يشعر بالإحباط.
 5. إذا كان السؤال خارج نطاق المنصة تماماً، يمكنك الاعتذار بلطف وتوجيه الزائر إلى المجالات المتاحة.
 
+ملاحظة عن أقسام المنصة: 
+- الأكاديمية تُسمى "أكاديمية التدريب والتطوير"، وتحتوي على ثلاثة أقسام فرعية: "المشاريع والمنح"، "القيادة والإدارة"، و"التدريب التنموي".
+- استخدم هذه الأسماء بالضبط عند الإشارة إلى هذه الأقسام.
+
 أجب بالعربية الفصحى السلسة.`;
 
     const fullPrompt = context 
@@ -48,7 +52,7 @@ export default async function handler(req, res) {
       : `${systemPrompt}\n\nسؤال الزائر: ${question}\n\nأجب بناءً على القواعد أعلاه.`;
 
     const aiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
