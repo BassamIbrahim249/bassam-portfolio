@@ -47,8 +47,7 @@
   <link rel="canonical" id="dynamicCanonical" href="https://bassamibrahim249.github.io/bassam-portfolio/" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -97,8 +96,7 @@
     .light .glass-card{box-shadow:0 4px 20px rgba(0,0,0,0.03)}
     .light .glass-card:hover{box-shadow:0 16px 36px rgba(15,23,42,0.08)!important;border-color:rgba(59,158,255,0.35)!important}
 
-    .hero-description{transition:text-shadow 0.4s ease,box-shadow 0.4s ease}
-    body:not(.light) .hero-description{text-shadow:0 0 18px rgba(59,158,255,0.15);border-bottom:1px solid rgba(59,158,255,0.25);padding-bottom:12px;display:inline-block}
+    .hero-description{transition:text-shadow 0.4s ease,box-shadow 0.4s ease}    body:not(.light) .hero-description{text-shadow:0 0 18px rgba(59,158,255,0.15);border-bottom:1px solid rgba(59,158,255,0.25);padding-bottom:12px;display:inline-block}
     .light .hero-description{text-shadow:0 1px 3px rgba(0,0,0,0.05);border-bottom:1px solid rgba(59,158,255,0.3);padding-bottom:12px;display:inline-block}
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
@@ -147,8 +145,7 @@
     .article-body code{background:rgba(59,158,255,0.1);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--accent-blue)}
     .article-body strong{color:var(--text-primary)}
 
-    .spotlight-card{position:relative;overflow:hidden}
-    .spotlight-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(59,158,255,0.10),transparent 60%);opacity:0;transition:opacity 0.4s ease;pointer-events:none;z-index:0}
+    .spotlight-card{position:relative;overflow:hidden}    .spotlight-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(59,158,255,0.10),transparent 60%);opacity:0;transition:opacity 0.4s ease;pointer-events:none;z-index:0}
     .spotlight-card:hover::after{opacity:1}
     .spotlight-card>*{position:relative;z-index:1}
     .card-engineering.spotlight-card:hover::after{background:radial-gradient(500px circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(59,158,255,0.14),transparent 60%)}
@@ -197,8 +194,7 @@
     .accordion-item::before{counter-increment:article-counter;content:counter(article-counter,decimal-leading-zero)".";position:absolute;right:0;top:22px;font-size:13px;font-weight:800;color:var(--accent-blue);opacity:0.4;z-index:1;pointer-events:none}
 
     .offline-banner{position:fixed;bottom:0;left:0;right:0;background:rgba(234,179,8,0.18);border-top:1px solid rgba(234,179,8,0.35);color:var(--accent-gold);padding:12px 24px;text-align:center;font-size:12px;z-index:1001;display:none;backdrop-filter:blur(8px)}
-    .offline-banner.show{display:block}
-    .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent-blue),#60CFFF);width:0%;z-index:1002;transition:width 0.1s ease;border-radius:0 3px 3px 0}
+    .offline-banner.show{display:block}    .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent-blue),#60CFFF);width:0%;z-index:1002;transition:width 0.1s ease;border-radius:0 3px 3px 0}
     .search-input{background:var(--glass-bg);border:1px solid var(--border-color);color:var(--text-primary);transition:all 0.3s}
     .search-input:focus{border-color:var(--accent-blue);box-shadow:0 0 20px rgba(59,158,255,0.15);outline:none}
     .search-input::placeholder{color:var(--text-secondary)}
@@ -247,8 +243,7 @@
         ['all','engineering','political','nubian','academy','lifestyle'].forEach(s=>{try{localStorage.removeItem(`bassam_articles_cache_${s}`);}catch(e){}});
         localStorage.setItem('site_version',V);
         if(S!==null)setTimeout(()=>location.reload(true),150);
-      }
-    })();
+      }    })();
   </script>
   <script>
     if('serviceWorker' in navigator){
@@ -262,7 +257,7 @@
     const { useState, useEffect, useRef } = React;
 
     const CONFIG={contact:{whatsapp:"249967238251"},cache:{ttl:86400000}};
-    const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","كتابة مشاريع":"project_writing","قيادة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
+    const BUTTON_SLUGS={"علوم المواد":"materials_science","ابتكار إنشائي":"construction_innovation","مختبر هندسي":"engineering_lab","تاريخ السودان":"sudan_history","تحليل استراتيجي":"strategic_analysis","رؤى فكرية":"intellectual_visions","تاريخ":"history","آثار":"archaeology","هوية":"identity","المشاريع":"project_writing","القيادة والإدارة":"leadership","تدريب تنموي":"developmental_training","صحة شاملة":"holistic_health","تغذية علمية":"scientific_nutrition","تميز بدني":"physical_excellence"};
     const APP_VERSION="1.0.99";
     const ITEMS_PER_PAGE=10;
     const SLUG_TO_FILE={materials_science:'engineering',construction_innovation:'engineering',engineering_lab:'engineering',sudan_history:'political',strategic_analysis:'political',intellectual_visions:'political',history:'nubian',archaeology:'nubian',identity:'nubian',project_writing:'academy',leadership:'academy',developmental_training:'academy',holistic_health:'lifestyle',scientific_nutrition:'lifestyle',physical_excellence:'lifestyle',engineering:'engineering',political:'political',nubian:'nubian',academy:'academy',lifestyle:'lifestyle'};
@@ -277,7 +272,7 @@
         tab_eng:'المنصة الهندسية',tab_eng_sub:'علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل',tab_eng_desc:'بوابة إلى عالم المواد الإنشائية المتقدمة.',
         tab_pol:'الأرشيف السياسي',tab_pol_sub:'قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية',tab_pol_desc:'بوابة إلى الذاكرة السياسية السودانية.',
         tab_nub:'نوبيان (الحضارة النوبية)',tab_nub_sub:'توثيق الإرث، التاريخ، والعمارة النوبية العريقة',tab_nub_desc:'نافذة متخصصة في الحضارة النوبية.',
-        tab_aca:'أكاديمية التطوير والمنظمات',tab_aca_sub:'كتابة المشاريع والمنح، مهارات القيادة، والتدريب التنموي',tab_aca_desc:'بوابة إلى التميّز المؤسسي.',
+        tab_aca:'أكاديمية التدريب والتطوير',tab_aca_sub:'المشاريع والمنح، القيادة والإدارة، والتدريب التنموي',tab_aca_desc:'بوابة إلى التميّز المؤسسي.',
         tab_life:'نمط الحياة والصحة',tab_life_sub:'الصحة الشاملة، التغذية، والتميز البدني والذهني',tab_life_desc:'بوابة إلى العافية الكاملة.',
         stat1:'خبرة عملية',stat1_sub:'متجددة باستمرار',stat2:'بحوث ودراسات',stat2_sub:'منشورة ومحكّمة',stat3:'تحليل استراتيجي',stat3_sub:'مستمر ومتواصل',
         nav_contact:'📞 معي',hero_btn1:'تعرّف عليّ',hero_btn2:'استكشف المحتوى',
@@ -285,7 +280,7 @@
         tag_materials:'علوم المواد',tag_construction:'ابتكار إنشائي',tag_lab:'مختبر هندسي',
         tag_sudan_history:'تاريخ السودان',tag_strategic:'تحليل استراتيجي',tag_intellectual:'رؤى فكرية',
         tag_history:'تاريخ',tag_archaeology:'آثار',tag_identity:'هوية',
-        tag_project:'كتابة مشاريع',tag_leadership:'قيادة',tag_training:'تدريب تنموي',
+        tag_project:'المشاريع',tag_leadership:'القيادة والإدارة',tag_training:'تدريب تنموي',
         tag_holistic:'صحة شاملة',tag_nutrition:'تغذية علمية',tag_physical:'تميز بدني',
         lib_engineering:'الهندسة',lib_political:'السياسة',lib_nubian:'نوبيان',lib_academy:'الأكاديمية',lib_lifestyle:'نمط الحياة',
         download_btn:'📥 تحميل',preview_btn:'👁️ معاينة',
@@ -297,10 +292,9 @@
       },
       en:{
         back:'Back to Section',library:'📚 Library',read:'📖 Read',close:'✕ Close',search:'🔍 Search articles...',noArticles:'No articles yet.',loadMore:'📄 Load More',remaining:'remaining',minRead:'min read',related:'📌 Related Articles',contact:'Contact Me',visionTitle:'Vision & Mission',visionText:'I believe true specialization gives you keys to understand the world in multiple ways.',identity:'Civil Engineer · Sudan Affairs · Community Activist',heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',mainTitle:'Five Fields. One Vision.',about:'About Me',exploreContent:'Explore Content',lab:'Visual Lab',explore:'Explore',browse:'📂 Browse Content',retry:'Retry',footerCopy:'All rights reserved',
-        tab_eng:'Engineering Platform',tab_eng_sub:'Materials Science, Construction Innovation & Engineering Lab',tab_eng_desc:'Gateway to advanced structural materials.',
-        tab_pol:'Political Archive',tab_pol_sub:'Sudan History, Strategic Analysis & Intellectual Visions',tab_pol_desc:'Gateway to Sudanese political memory.',
+        tab_eng:'Engineering Platform',tab_eng_sub:'Materials Science, Construction Innovation & Engineering Lab',tab_eng_desc:'Gateway to advanced structural materials.',        tab_pol:'Political Archive',tab_pol_sub:'Sudan History, Strategic Analysis & Intellectual Visions',tab_pol_desc:'Gateway to Sudanese political memory.',
         tab_nub:'Nubian Civilization',tab_nub_sub:'Documenting Nubian Heritage, History & Architecture',tab_nub_desc:'A specialized window into Nubian civilization.',
-        tab_aca:'Development Academy',tab_aca_sub:'Project Writing, Leadership & Developmental Training',tab_aca_desc:'Gateway to institutional excellence.',
+        tab_aca:'Training & Development Academy',tab_aca_sub:'Projects, Leadership & Management, Developmental Training',tab_aca_desc:'Gateway to institutional excellence.',
         tab_life:'Lifestyle & Health',tab_life_sub:'Holistic Health, Scientific Nutrition & Physical Excellence',tab_life_desc:'Gateway to complete wellness.',
         stat1:'Practical Experience',stat1_sub:'Continuously updated',stat2:'Published Research',stat2_sub:'Peer-reviewed studies',stat3:'Strategic Analysis',stat3_sub:'Ongoing & continuous',
         nav_contact:'📞 With Me',hero_btn1:'About Me',hero_btn2:'Explore Content',
@@ -308,7 +302,7 @@
         tag_materials:'Materials Science',tag_construction:'Construction Innovation',tag_lab:'Engineering Lab',
         tag_sudan_history:'Sudan History',tag_strategic:'Strategic Analysis',tag_intellectual:'Intellectual Visions',
         tag_history:'History',tag_archaeology:'Archaeology',tag_identity:'Identity',
-        tag_project:'Project Writing',tag_leadership:'Leadership',tag_training:'Developmental Training',
+        tag_project:'Projects',tag_leadership:'Leadership & Management',tag_training:'Developmental Training',
         tag_holistic:'Holistic Health',tag_nutrition:'Scientific Nutrition',tag_physical:'Physical Excellence',
         lib_engineering:'Engineering',lib_political:'Politics',lib_nubian:'Nubian',lib_academy:'Academy',lib_lifestyle:'Lifestyle',
         download_btn:'📥 Download',preview_btn:'👁️ Preview',
@@ -325,7 +319,7 @@
     function parseMarkdownToHTML(md){
       if(!md||typeof md!=='string')return'';
       let h=md;
-      h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      h=h.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>');
       h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
       h=h.replace(/^#### (.*$)/gim,'<h4>$1</h4>').replace(/^### (.*$)/gim,'<h3>$1</h3>').replace(/^## (.*$)/gim,'<h2>$1</h2>').replace(/^# (.*$)/gim,'<h1>$1</h1>');
       h=h.replace(/\*\*\*(.*?)\*\*\*/g,'<strong><em>$1</em></strong>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
@@ -347,11 +341,7 @@
       return obj[`${field}_ar`]||obj[field]||'';
     };
 
-    // ============================================================
-    // ✨ مكوِّن القارئ الصوتي AudioReader
-    // ============================================================
-    function AudioReader({text,lang}){
-      const[status,setStatus]=useState('idle');
+    function AudioReader({text,lang}){      const[status,setStatus]=useState('idle');
       const utteranceRef=useRef(null);
       const t=k=>I18N[lang]?.[k]||k;
 
@@ -400,8 +390,7 @@
             <span key={i} className={status==='playing'?'audio-bar-playing':''}
               style={{display:'inline-block',width:3,
                 height:status==='playing'?`${h*3}px`:'4px',
-                background:'#3B9EFF',borderRadius:2,
-                transition:'height 0.2s ease',
+                background:'#3B9EFF',borderRadius:2,                transition:'height 0.2s ease',
                 animationDelay:`${i*0.1}s`}}/>
           ))}
         </span>
@@ -450,8 +439,7 @@
                 onMouseLeave={e=>e.currentTarget.style.background='rgba(52,211,153,0.12)'}>
                 {t('audio_resume')}
               </button>
-              <button onClick={handleStop}
-                style={{padding:'8px 14px',borderRadius:20,background:'rgba(255,100,100,0.1)',
+              <button onClick={handleStop}                style={{padding:'8px 14px',borderRadius:20,background:'rgba(255,100,100,0.1)',
                   border:'1px solid rgba(255,100,100,0.35)',color:'#ff6b6b',cursor:'pointer',
                   fontFamily:'Cairo',fontSize:12,fontWeight:700,transition:'all 0.25s ease'}}
                 onMouseEnter={e=>e.currentTarget.style.background='rgba(255,100,100,0.22)'}
@@ -468,9 +456,6 @@
         </div>
       );
     }
-    // ============================================================
-    // ✨ END — AudioReader
-    // ============================================================
 
     const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
     function StarField({theme}){
@@ -503,8 +488,7 @@
       const[progress,setProgress]=useState(0);
       const[visible,setVisible]=useState(false);
       useEffect(()=>{
-        const h=()=>{
-          const total=document.documentElement.scrollHeight-window.innerHeight;
+        const h=()=>{          const total=document.documentElement.scrollHeight-window.innerHeight;
           const pct=total>0?(window.scrollY/total)*100:0;
           setProgress(pct);setVisible(window.scrollY>300);
           const bar=document.getElementById('readProgress');
@@ -553,8 +537,7 @@
       useEffect(()=>{
         const id=`comments-${articleId}`;const c=document.getElementById(id);
         if(c&&!c.hasChildNodes()){const s=document.createElement('script');s.src='https://utteranc.es/client.js';s.setAttribute('repo','bassamibrahim249/bassam-portfolio');s.setAttribute('issue-term',articleId||'pathname');s.setAttribute('theme','github-dark');s.setAttribute('crossorigin','anonymous');s.async=true;c.appendChild(s);}
-        return()=>{if(c)c.innerHTML='';};
-      },[articleId]);
+        return()=>{if(c)c.innerHTML='';};      },[articleId]);
       return <div style={{marginTop:20}}><div id={`comments-${articleId}`}></div></div>;
     }
 
@@ -603,8 +586,7 @@
         fetch(`${dataFile}?v=${APP_VERSION}`)
           .then(r=>{if(!r.ok)throw new Error();return r.json();})
           .then(d=>{const a=Array.isArray(d)?d:[];try{localStorage.setItem(cacheKey,JSON.stringify({timestamp:Date.now(),data:a}));}catch(e){}setArticles(a);})
-          .catch(()=>{
-            const old=localStorage.getItem(cacheKey);
+          .catch(()=>{            const old=localStorage.getItem(cacheKey);
             if(old){try{setArticles(JSON.parse(old).data||[]);setError(null);}catch(e){setError('تعذر تحميل المقالات.');}}
             else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');}
             else setArticles([]);
@@ -653,13 +635,10 @@
                               <h3 style={{fontSize:16,fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{getLocalized(article,'title',lang)||'بدون عنوان'}</h3>
                               <span style={{fontSize:11,color:'var(--text-secondary)'}}>{article.date}</span>
                             </div>
-                            <button aria-label={isOpen?t('close'):t('read')} style={{padding:'8px 18px',borderRadius:10,background:isOpen?'rgba(200,200,200,0.06)':'rgba(234,179,8,0.15)',color:isOpen?'var(--text-secondary)':'var(--accent-gold)',border:'none',cursor:'pointer',fontWeight:700,fontSize:12,fontFamily:'Cairo',whiteSpace:'nowrap',transition:'all 0.2s'}}>{isOpen?t('close'):t('read')}</button>
-                          </div>
+                            <button aria-label={isOpen?t('close'):t('read')} style={{padding:'8px 18px',borderRadius:10,background:isOpen?'rgba(200,200,200,0.06)':'rgba(234,179,8,0.15)',color:isOpen?'var(--text-secondary)':'var(--accent-gold)',border:'none',cursor:'pointer',fontWeight:700,fontSize:12,fontFamily:'Cairo',whiteSpace:'nowrap',transition:'all 0.2s'}}>{isOpen?t('close'):t('read')}</button>                          </div>
                           {isOpen&&(
                             <div style={{padding:'0 20px 24px'}}>
-                              {/* ✨ القارئ الصوتي — بعد العنوان مباشرة وقبل الصورة */}
                               <AudioReader text={cleanHTML} lang={lang}/>
-                              {/* ✨ END */}
                               {article.image&&<img src={article.image} alt={getLocalized(article,'title',lang)} style={{width:'100%',borderRadius:12,marginBottom:20,boxShadow:'0 8px 30px rgba(0,0,0,0.3)'}} loading="lazy" onError={e=>e.target.style.display='none'}/>}
                               <div className="article-body" dangerouslySetInnerHTML={{__html:cleanHTML}}/>
                               <div className="author-meta">✍️ {getLocalized(article,'author',lang)||t('author_name')} · 📅 {article.date} · ⏱️ {Math.ceil((localizedContent.split(' ').length)/200)} {t('minRead')}</div>
@@ -705,8 +684,7 @@
               return(
                 <button key={tagKey} onClick={e=>{e.stopPropagation();onTagClick(slug,card.id,tagKey);}} className="innovation-tag-btn"
                   style={{fontSize:10,padding:'6px 14px',borderRadius:8,background:th.tagBg,color:th.color,border:`1px solid ${th.tagBorder}`,cursor:'pointer',fontWeight:700,fontFamily:'Cairo',transition:'all 0.3s'}}>
-                  {displayTag}
-                </button>
+                  {displayTag}                </button>
               );
             })}
           </div>
@@ -755,8 +733,7 @@
       const handleInstall=async()=>{if(deferredPrompt){deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;setDeferredPrompt(null);setShow(false);if(outcome==="accepted"){localStorage.removeItem(DISMISS_KEY);setIsInstalled(true);}}else alert("للتثبيت:\n• أندرويد: ⁝ ← 'إضافة إلى الشاشة الرئيسية'\n• آيفون: ↑ ← 'إضافة إلى الشاشة الرئيسية'");};
       const handleDismiss=()=>{setShow(false);const raw=localStorage.getItem(DISMISS_KEY);let data={count:0,timestamp:0};if(raw){try{data=JSON.parse(raw);}catch(e){}}data.count=(data.count||0)+1;if(data.count>=2)data.timestamp=Date.now();localStorage.setItem(DISMISS_KEY,JSON.stringify(data));};
       if(!show||isInstalled)return null;
-      return(
-        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:999,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={handleDismiss}>
+      return(        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:999,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={handleDismiss}>
           <div style={{background:"rgba(8,12,18,0.98)",border:"1px solid rgba(59,158,255,0.25)",borderRadius:24,padding:"36px 28px 28px",textAlign:"center",maxWidth:400,width:"100%",boxShadow:"0 25px 60px rgba(0,0,0,0.7)"}} onClick={e=>e.stopPropagation()}>
             <div style={{width:68,height:68,borderRadius:18,background:"linear-gradient(135deg,#3B9EFF,#60CFFF)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 18px",fontSize:30,fontWeight:900,color:"#080c12",boxShadow:'0 0 30px rgba(59,158,255,0.5)'}}>B.I</div>
             <h3 style={{fontSize:20,fontWeight:700,color:"#fff",marginBottom:12}}>{t('pwa_title')}</h3>
@@ -805,8 +782,7 @@
       useEffect(()=>{
         const handleClickOutside=(e)=>{
           if(mobileMenuOpen&&!e.target.closest('.mobile-menu-panel')&&!e.target.closest('.hamburger-btn')){
-            setMobileMenuOpen(false);
-          }
+            setMobileMenuOpen(false);          }
         };
         document.addEventListener('mousedown',handleClickOutside);
         return()=>document.removeEventListener('mousedown',handleClickOutside);
@@ -855,8 +831,7 @@
         <div style={{position:'relative',minHeight:'100vh'}}>
           <StarField theme={theme}/>
           {theme==='dark'&&(
-            <>
-              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 7s ease-in-out infinite'}}/>
+            <>              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 7s ease-in-out infinite'}}/>
               <div style={{position:'fixed',top:'30%',left:'5%',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 9s ease-in-out infinite',animationDelay:'2s'}}/>
               <div style={{position:'fixed',bottom:'10%',right:'15%',width:250,height:250,borderRadius:'50%',background:'radial-gradient(circle,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 11s ease-in-out infinite',animationDelay:'4s'}}/>
             </>
@@ -905,8 +880,7 @@
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
             <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
               {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',isolation:'isolate',animation:'heroOrb 5s ease-in-out infinite'}}/>}
-              <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2.6rem,8vw,5rem)',fontWeight:900,lineHeight:1.1,color:'var(--text-primary)',position:'relative'}}>
-                Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
+              <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2.6rem,8vw,5rem)',fontWeight:900,lineHeight:1.1,color:'var(--text-primary)',position:'relative'}}>                Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
               </h1>
             </div>
             <div className="anim-fade-up delay-3" style={{fontSize:'clamp(1rem,3vw,1.35rem)',marginBottom:16,minHeight:'2rem'}}>
@@ -955,8 +929,7 @@
             {theme==='dark'&&<div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'80%',height:1,background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.3),transparent)',pointerEvents:'none'}}/>}
             <div style={{maxWidth:860,margin:'0 auto',textAlign:'center'}}>
               <p style={{fontSize:12,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:22,fontWeight:700}}>{t('contact')}</p>
-              <div style={{display:'flex',justifyContent:'center',gap:14,flexWrap:'wrap',marginBottom:30}}>
-                {SOCIALS.map(s=><SocialIcon key={s.name} social={s} theme={theme}/>)}
+              <div style={{display:'flex',justifyContent:'center',gap:14,flexWrap:'wrap',marginBottom:30}}>                {SOCIALS.map(s=><SocialIcon key={s.name} social={s} theme={theme}/>)}
               </div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:24,borderTop:'1px solid var(--glass-border)'}}>
                 <span style={{fontWeight:900,fontSize:16,background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>BassamIbrahim</span>
