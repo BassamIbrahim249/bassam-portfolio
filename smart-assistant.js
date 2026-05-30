@@ -1,7 +1,7 @@
 // =============== المساعد الهجين - BassamIbrahim (v12.5 - إصلاح نهائي للتهرب) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
-  const APP_VERSION = '1.0.99';
+  const APP_VERSION = '1.0.100';
   
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
 
