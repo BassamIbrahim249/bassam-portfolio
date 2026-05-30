@@ -1,4 +1,4 @@
-// api/gemini.js (v3.3 - إصلاح التهرب من التلخيص)
+// api/gemini.js (v3.4 - إصلاح نهائي للتهرب من التلخيص)
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -18,7 +18,6 @@ export default async function handler(req, res) {
     if (!question) return res.status(400).json({ reply: 'حقل السؤال (question) مطلوب.' });
     if (!process.env.GEMINI_API_KEY) return res.status(500).json({ reply: 'مفتاح Gemini API غير مضبوط في الخادم.' });
 
-    // 🕵️‍♂️ [1] التحقق من الذاكرة المخبأة
     const { data: cachedData } = await supabase
       .from('bot_cache')
       .select('reply')
@@ -30,25 +29,16 @@ export default async function handler(req, res) {
       return res.status(200).json({ reply: cachedData.reply });
     }
 
-    // 🤖 [2] إنشاء إجابة جديدة من Gemini
-    // ✨ تعديل: قواعد أكثر مرونة لمنع التهرب من التلخيص
-    const systemPrompt = `أنت مساعد ذكي ومفيد في منصة "بسام إبراهيم". مهمتك هي الإجابة عن أسئلة الزوار بناءً على محتوى المقالات المقدم لك في السياق.
+    // ✨ تعليمات حاسمة: لا ترفض الإجابة أبداً
+    const systemPrompt = `أنت مساعد ذكي ومفيد في منصة "بسام إبراهيم". مهمتك هي تلخيص المقالات المقدمة لك والإجابة عن أسئلة الزوار بناءً عليها.
 
-قواعد مهمة جداً:
-1. إذا كان السياق يحتوي على أي معلومات تتعلق بالسؤال، فقدم أفضل تلخيص ممكن بناءً على ما هو موجود. لا ترفض الإجابة أبداً طالما أن السياق يتعلق بالموضوع.
-2. استخدم دائماً المعلومات المتاحة في السياق لتكوين إجابة مفيدة. قل أشياء مثل: "بناءً على المقال المتاح، إليك ما يمكنني إخبارك به..." ثم قدم ما وجدته.
-3. استخدم أسلوباً دافئاً ومشجعاً. لا تجعل الزائر يشعر بالإحباط.
-4. فقط إذا كان السؤال خارج نطاق المنصة تماماً (مثلاً عن مواضيع لا علاقة لها بمحتوى المنصة)، يمكنك الاعتذار بلطف وتوجيه الزائر إلى المجالات المتاحة.
-
-ملاحظة عن أقسام المنصة: 
-- الأكاديمية تُسمى "أكاديمية التدريب والتطوير"، وتحتوي على ثلاثة أقسام فرعية: "المشاريع والمنح"، "القيادة والإدارة"، و"التدريب التنموي".
-- استخدم هذه الأسماء بالضبط عند الإشارة إلى هذه الأقسام.
+قاعدة ذهبية: إذا كان هناك أي سياق متاح، يجب عليك تقديم أفضل تلخيص ممكن بناءً عليه. لا تعتذر أبداً. لا تقل "لا أملك معلومات كافية". قدم دائماً ما هو موجود.
 
 أجب بالعربية الفصحى السلسة.`;
 
     const fullPrompt = context 
-      ? `${systemPrompt}\n\nالسياق من مقالات الموقع:\n${context}\n\nسؤال الزائر: ${question}\n\nأجب بناءً على القواعد أعلاه.`
-      : `${systemPrompt}\n\nسؤال الزائر: ${question}\n\nأجب بناءً على القواعد أعلاه.`;
+      ? `${systemPrompt}\n\nالسياق من المقالات:\n${context}\n\nسؤال الزائر: ${question}\n\nقدم أفضل تلخيص ممكن بناءً على السياق أعلاه. لا تعتذر.`
+      : `${systemPrompt}\n\nسؤال الزائر: ${question}`;
 
     const aiResponse = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
@@ -65,7 +55,6 @@ export default async function handler(req, res) {
     const data = await aiResponse.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أستطع الإجابة حالياً.';
 
-    // 💾 [3] حفظ الإجابة الجديدة للاستخدام المستقبلي
     if (reply && reply !== 'عذراً، لم أستطع الإجابة حالياً.') {
       await supabase.from('bot_cache').insert([{ question: question.trim(), reply: reply }]);
       console.log('💾 تم حفظ الإجابة الجديدة في السحابة.');
