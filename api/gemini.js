@@ -1,4 +1,4 @@
-// api/gemini.js (v3.6 - إصلاح أسماء الأعمدة)
+// api/gemini.js (v3.7 - إصدار متطابق تمامًا مع الجدول الجديد)
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -18,16 +18,16 @@ export default async function handler(req, res) {
     if (!question) return res.status(400).json({ reply: 'حقل السؤال (question) مطلوب.' });
     if (!process.env.GEMINI_API_KEY) return res.status(500).json({ reply: 'مفتاح Gemini API غير مضبوط في الخادم.' });
 
-    // [1] فحص الذاكرة باستخدام Question
+    // [1] فحص الذاكرة المخبأة - اسم العمود question (حساس لحالة الأحرف)
     const { data: cachedData } = await supabase
       .from('bot_cache')
-      .select('Answer')
-      .eq('Question', question.trim())
+      .select('reply')
+      .eq('question', question.trim())
       .maybeSingle();
 
     if (cachedData) {
       console.log('⚡ تم جلب الإجابة من السحابة مجاناً (استهلاك Gemini = 0)');
-      return res.status(200).json({ reply: cachedData.Answer });
+      return res.status(200).json({ reply: cachedData.reply });
     }
 
     // [2] سؤال Gemini
@@ -52,11 +52,11 @@ export default async function handler(req, res) {
     const data = await aiResponse.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أستطع الإجابة حالياً.';
 
-    // [3] حفظ الإجابة باستخدام Question و Answer
+    // [3] حفظ الإجابة الجديدة - اسم العمود question و reply (حساس لحالة الأحرف)
     if (reply && reply !== 'عذراً، لم أستطع الإجابة حالياً.') {
       const { error: insertError } = await supabase
         .from('bot_cache')
-        .insert([{ Question: question.trim(), Answer: reply }]);
+        .insert([{ question: question.trim(), reply: reply }]);
 
       if (insertError) {
         console.error('❌ Supabase insert error:', insertError);
