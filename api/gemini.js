@@ -1,4 +1,4 @@
-// api/gemini.js (v3.5 - مع تشخيص أخطاء الحفظ)
+// api/gemini.js (v3.5 - إصلاح حفظ Supabase)
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     const { data: cachedData } = await supabase
       .from('bot_cache')
       .select('reply')
-      .eq('question', question.trim())
+      .eq('question_hash', question.trim()) // ✅ استخدمنا question_hash
       .maybeSingle();
 
     if (cachedData) {
@@ -29,12 +29,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ reply: cachedData.reply });
     }
 
-    // ✨ تعليمات حاسمة: لا ترفض الإجابة أبداً
-    const systemPrompt = `أنت مساعد ذكي ومفيد في منصة "بسام إبراهيم". مهمتك هي تلخيص المقالات المقدمة لك والإجابة عن أسئلة الزوار بناءً عليها.
-
-قاعدة ذهبية: إذا كان هناك أي سياق متاح، يجب عليك تقديم أفضل تلخيص ممكن بناءً عليه. لا تعتذر أبداً. لا تقل "لا أملك معلومات كافية". قدم دائماً ما هو موجود.
-
-أجب بالعربية الفصحى السلسة.`;
+    const systemPrompt = `أنت مساعد ذكي ومفيد في منصة "بسام إبراهيم". مهمتك هي تلخيص المقالات المقدمة لك والإجابة عن أسئلة الزوار بناءً عليها. قاعدة ذهبية: إذا كان هناك أي سياق متاح، يجب عليك تقديم أفضل تلخيص ممكن بناءً عليه. لا تعتذر أبداً. لا تقل "لا أملك معلومات كافية". قدم دائماً ما هو موجود. أجب بالعربية الفصحى السلسة.`;
 
     const fullPrompt = context 
       ? `${systemPrompt}\n\nالسياق من المقالات:\n${context}\n\nسؤال الزائر: ${question}\n\nقدم أفضل تلخيص ممكن بناءً على السياق أعلاه. لا تعتذر.`
@@ -59,7 +54,7 @@ export default async function handler(req, res) {
     if (reply && reply !== 'عذراً، لم أستطع الإجابة حالياً.') {
       const { error: insertError } = await supabase
         .from('bot_cache')
-        .insert([{ question: question.trim(), reply: reply }]);
+        .insert([{ question_hash: question.trim(), reply: reply }]); // ✅ استخدمنا question_hash
 
       if (insertError) {
         console.error('❌ Supabase insert error:', insertError);
