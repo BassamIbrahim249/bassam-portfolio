@@ -895,26 +895,14 @@ This platform is not the end of a journey — but its beginning. A journey of aw
                   <div className="header-actions-desktop">
                     <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>{lang==='ar'?'EN':'عربي'}</button>
                     <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card" style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>{theme==='dark'?'🌙':'☀️'}</button>
-                    {/* ✨ NEW — زر عن المنصة في الديسكتوب */}
-                    <button onClick={()=>setActiveSection('about')} className="glass-card"
-                      style={{padding:'6px 14px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo',transition:'all 0.2s'}}
-                      onMouseEnter={e=>{e.currentTarget.style.color='var(--accent-blue)';e.currentTarget.style.borderColor='rgba(59,158,255,0.4)';}}
-                      onMouseLeave={e=>{e.currentTarget.style.color='var(--text-secondary)';e.currentTarget.style.borderColor='var(--glass-border)';}}>
-                      {t('nav_about')}
-                    </button>
                   </div>
                   <button onClick={()=>window.open(`https://wa.me/${CONFIG.contact.whatsapp}`,'_blank')} style={{padding:'8px 16px',borderRadius:8,background:'linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05))',border:'1px solid rgba(37,211,102,0.4)',color:'#25D366',fontWeight:700,fontSize:12,cursor:'pointer',fontFamily:'Cairo',whiteSpace:'nowrap',flexShrink:0}}>{t('nav_contact')}</button>
                 </div>
               </div>
 
-              {/* ✨ NEW — زر عن المنصة في الموبايل (السطر الثاني) */}
               <div className="header-bottom-row">
                 <button onClick={()=>setLang(l=>l==='ar'?'en':'ar')} className="glass-card" style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>{lang==='ar'?'EN':'عربي'}</button>
                 <button onClick={()=>setTheme(th=>th==='dark'?'light':'dark')} className="glass-card" style={{width:36,height:36,borderRadius:8,color:'var(--text-primary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>{theme==='dark'?'🌙':'☀️'}</button>
-                <button onClick={()=>{setActiveSection('about');setMobileMenuOpen(false);}} className="glass-card"
-                  style={{padding:'6px 12px',borderRadius:8,color:'var(--text-secondary)',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'Cairo'}}>
-                  {t('nav_about')}
-                </button>
               </div>
 
               <nav className="nav-tabs-desktop" style={{marginTop:'8px'}}>
@@ -932,11 +920,6 @@ This platform is not the end of a journey — but its beginning. A journey of aw
               <button onClick={()=>setMobileMenuOpen(false)} style={{background:'none',border:'none',color:'var(--text-secondary)',fontSize:24,cursor:'pointer'}}>✕</button>
             </div>
             {NAV_ITEMS.map(item=>(<a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}}>{t(item.key)}</a>))}
-            {/* ✨ NEW — رابط عن المنصة في Mobile Menu */}
-            <a href="#" onClick={e=>{e.preventDefault();setActiveSection('about');setMobileMenuOpen(false);}}
-              style={{color:'var(--accent-blue)',fontWeight:700}}>
-              ℹ️ {t('nav_about')}
-            </a>
             <div style={{marginTop:16,paddingTop:16,borderTop:'1px solid var(--border-color)'}}>
               <a href={`https://wa.me/${CONFIG.contact.whatsapp}`} target="_blank" rel="noopener noreferrer" style={{color:'#25D366'}}>💬 {t('nav_contact')}</a>
             </div>
