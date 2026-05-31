@@ -1,4 +1,4 @@
-// api/gemini.js (v3.4 - إصلاح نهائي للتهرب من التلخيص)
+// api/gemini.js (v3.5 - مع تشخيص أخطاء الحفظ)
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -55,8 +55,16 @@ export default async function handler(req, res) {
     const data = await aiResponse.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أستطع الإجابة حالياً.';
 
+    // 💾 حفظ الإجابة الجديدة مع تشخيص الأخطاء
     if (reply && reply !== 'عذراً، لم أستطع الإجابة حالياً.') {
-      await supabase.from('bot_cache').insert([{ question: question.trim(), reply: reply }]);
+      const { error: insertError } = await supabase
+        .from('bot_cache')
+        .insert([{ question: question.trim(), reply: reply }]);
+
+      if (insertError) {
+        console.error('❌ Supabase insert error:', insertError);
+        return res.status(200).json({ reply: `⚠️ فشل الحفظ في السحابة: ${insertError.message}` });
+      }
       console.log('💾 تم حفظ الإجابة الجديدة في السحابة.');
     }
 
