@@ -12,12 +12,12 @@
   "dir": "rtl",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "icon_192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "icon_512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
@@ -28,35 +28,35 @@
       "short_name": "هندسة",
       "description": "علوم المواد والابتكارات الإنشائية",
       "url": "/bassam-portfolio/?tab=engineering",
-      "icons": [{ "src": "icon-192.png", "sizes": "96x96" }]
+      "icons": [{ "src": "icon_192.png", "sizes": "96x96" }]
     },
     {
       "name": "الأرشيف السياسي",
       "short_name": "سياسة",
       "description": "تاريخ السودان والتحليل الاستراتيجي",
       "url": "/bassam-portfolio/?tab=political",
-      "icons": [{ "src": "icon-192.png", "sizes": "96x96" }]
+      "icons": [{ "src": "icon_192.png", "sizes": "96x96" }]
     },
     {
       "name": "الحضارة النوبية",
       "short_name": "نوبيان",
       "description": "توثيق الإرث والتاريخ النوبي",
       "url": "/bassam-portfolio/?tab=nubian",
-      "icons": [{ "src": "icon-192.png", "sizes": "96x96" }]
+      "icons": [{ "src": "icon_192.png", "sizes": "96x96" }]
     },
     {
       "name": "أكاديمية التدريب والتطوير",
       "short_name": "أكاديمية",
       "description": "المشاريع والقيادة والإدارة والتدريب التنموي",
       "url": "/bassam-portfolio/?tab=academy",
-      "icons": [{ "src": "icon-192.png", "sizes": "96x96" }]
+      "icons": [{ "src": "icon_192.png", "sizes": "96x96" }]
     },
     {
       "name": "نمط الحياة والصحة",
       "short_name": "حياة",
       "description": "الصحة الشاملة والتغذية والتميز البدني",
       "url": "/bassam-portfolio/?tab=lifestyle",
-      "icons": [{ "src": "icon-192.png", "sizes": "96x96" }]
+      "icons": [{ "src": "icon_192.png", "sizes": "96x96" }]
     }
   ]
 }
