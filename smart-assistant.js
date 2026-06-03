@@ -394,6 +394,11 @@
       });
       const data = await response.json();
       
+      // ✅ الإصلاح: إذا كان الرد هو NOT_FOUND، استخدم الرد الاحترافي
+      if (data.reply === 'NOT_FOUND') {
+        return getProfessionalFallback(question);
+      }
+      
       // ✅ الإصلاح: نعرض الرد مباشرة طالما أنه أطول من 50 حرفاً
       if (data.reply && data.reply.length > 50) {
         return data.reply;
@@ -415,6 +420,7 @@
       });
       const data = await response.json();
       
+      // ✅ إصلاح: إذا كان الرد NOT_FOUND، نعتبر أنه لا توجد إجابة في السحابة
       if (data.reply && data.reply !== 'NOT_FOUND' && data.reply.length > 10) {
         return data.reply;
       }
@@ -433,13 +439,13 @@
     // ✅ فحص السحابة أولاً
     const cloudAnswer = await checkCloudCache(question);
     if (cloudAnswer) {
-      typing.remove();
-      addMsg(`<div class="smart-result expert-badge">🧠 <b>من الذاكرة الذكية:</b><br>${cloudAnswer}</div>`);
+      typing.remove();      addMsg(`<div class="smart-result expert-badge">🧠 <b>من الذاكرة الذكية:</b><br>${cloudAnswer}</div>`);
       return;
     }
 
     const kbAns = searchKB(question);
-    if (kbAns) {      typing.remove(); 
+    if (kbAns) {
+      typing.remove(); 
       addMsg(kbAns); 
       return;
     }
@@ -482,13 +488,13 @@
         const preview = getContentPreview(a);
         reply += `<div class="smart-result">
           📰 <b>${title}</b><br>
-          📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}
-          ${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}
+          📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}          ${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}
         </div>`;
       });
     }
     if (files.length) {
-      reply += `<b>📚 ملفات من المكتبة (${files.length}):</b><br><br>`;      files.forEach(f => {
+      reply += `<b>📚 ملفات من المكتبة (${files.length}):</b><br><br>`;
+      files.forEach(f => {
         const title = f.title_ar || f.title_en || f.title || 'بدون عنوان';
         const tab = TAB_NAMES[f.category] || f.category;
         const url = `https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/${f.filePath}`;
@@ -531,7 +537,6 @@
   inputEl.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
       const q = inputEl.value.trim();
-      if (q) { handleQuestion(q); inputEl.value = ''; }
-    }
+      if (q) { handleQuestion(q); inputEl.value = ''; }    }
   });
 })();
