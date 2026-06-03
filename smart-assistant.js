@@ -468,6 +468,8 @@
         <div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات للبحث:</b> ${suggestions.map(s => `<button class="suggestion-chip" data-question="${s}" style="font-size:10px;">${s}</button>`).join(' ')}</div>
       `);
       
+      bindChips(noResultNode);
+
       noResultNode.querySelector('.ask-general-ai')?.addEventListener('click', async function() {
         this.disabled = true;
         this.textContent = '⏳ جاري تفكير الخبير...';
@@ -486,9 +488,9 @@
         const tab = TAB_NAMES[a._tab] || a._tab;
         const btnName = BUTTON_NAMES[a.button] || '';
         const preview = getContentPreview(a);
-        reply += `<div class="smart-result">
-          📰 <b>${title}</b><br>
-          📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}          ${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}
+        reply += `<div class="smart-result">          📰 <b>${title}</b><br>
+          📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}
+          ${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}
         </div>`;
       });
     }
@@ -535,8 +537,8 @@
     if (q) { handleQuestion(q); inputEl.value = ''; }
   });
   inputEl.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      const q = inputEl.value.trim();
-      if (q) { handleQuestion(q); inputEl.value = ''; }    }
+    if (e.key === 'Enter') {      const q = inputEl.value.trim();
+      if (q) { handleQuestion(q); inputEl.value = ''; }
+    }
   });
 })();
