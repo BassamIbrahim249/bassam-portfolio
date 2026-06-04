@@ -1,97 +1,41 @@
-// =============== المساعد الهجين - BassamIbrahim (v12.5 - إصلاح نهائي للتهرب) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.2-FINAL - آمن عبر Vercel) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
   
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
+  const ANALYTICS_URL = '/api/log-analytics';   // ← التحليلات تمر عبر Vercel بأمان
 
-  // ========== قاعدة المعرفة الموسَّعة ==========
-  const knowledgeBase = [
-  {
-    keywords: ['سعرات','سعرات حراريه','سعرات حرارية','سعره','calories','كaloories','كربوهيدرات','كارب','بروتين','دهون','دايت','diet','تخسيس','وزن','انقاص وزن','زيادة وزن','تضخيم','تنشيف','كتله','كتلة عضلية','building muscle'],
-    answer: '🥗 <b>التغذية والعناصر الغذائية</b> — تجد في قسم <b>نمط الحياة والصحة ← التغذية العلمية</b> مقالات عن:<br>✅ حساب السعرات الحرارية<br>✅ توازن الكربوهيدرات والبروتين والدهون<br>✅ استراتيجيات التخسيس وزيادة الوزن<br>✅ بناء الكتلة العضلية والتنشيف<br><br>💡 ابحث بكلمة "تغذية" أو "سعرات" في شريط البحث داخل القسم.'
-  },
-  {
-    keywords: ['تمرين','تمارين','رياضه','رياضة','fitness','لياقه','لياقة','كارديو','حديد','جيم','gym','عضلات','تمارين منزليه','تمرين منزلي','مشي','جري','سباحه','سباحة'],
-    answer: '💪 <b>التمارين واللياقة البدنية</b> — تجد في قسم <b>نمط الحياة والصحة ← التميز البدني</b> مقالات عن:<br>✅ برامج تمارين منزلية<br>✅ تمارين الحديد والجيم<br>✅ الكارديو والمشي والجري<br>✅ بناء العضلات وتحسين اللياقة<br><br>💡 ابحث بكلمة "تمرين" أو "رياضة" في شريط البحث داخل القسم.'
-  },
-  {
-    keywords: ['نوم','sleep','ارق','أرق','insomnia','نوم عميق','نوم خفيف','استيقاظ','تعب','ارهاق','إرهاق','طاقه','طاقة'],
-    answer: '😴 <b>النوم والطاقة</b> — تجد في قسم <b>نمط الحياة والصحة ← الصحة الشاملة</b> مقالات عن:<br>✅ كيف يؤثر النوم على صحتك وتركيزك ووزنك؟<br>✅ أسباب الإرهاق رغم النوم الكافي<br>✅ العادات اليومية التي تضعف صحتك دون أن تشعر<br><br>💡 ابحث بكلمة "نوم" في شريط البحث داخل القسم.'
-  },
-  {
-    keywords: ['اسمنت','إسمنت','cement','خرسانه','خرسانة','concrete','حديد تسليح','reinforcement','تصميم انشائي','تصميم إنشائي','إنشاء','انشاء','مقاومة','شد','ضغط','slump','معالجه','معالجة','curing'],
-    answer: '🧱 <b>المواد الإنشائية والخرسانة</b> — تجد في قسم <b>المنصة الهندسية ← علوم المواد</b> مقالات عن:<br>✅ تأثير الإضافات على خواص الخرسانة<br>✅ طرق تحسين مقاومة الضغط والشد<br>✅ بروتوكولات الاختبارات المعملية<br>✅ حديد التسليح وتصميم الخلطات<br><br>💡 ابحث بكلمة "خرسانة" أو "إسمنت" في شريط البحث داخل القسم.'
-  },
-  {
-    keywords: ['مروي','مملكة مروي','كوش','نبتة','بجراوية','اهرامات','أهرامات','نوبي','نوبة','نوبيه','نوبية','حضارة نوبية','فراعنة','فرعون','تاريخ نوبة','لغة نوبية','عمارة نوبية'],
-    answer: '🏺 <b>الحضارة النوبية</b> — تجد في قسم <b>نوبيان</b> مقالات عن:<br>📜 مملكتا كوش ومروي<br>🏛️ الأهرامات النوبية والمعابد<br>🎭 اللغة النوبية والتراث والهوية<br><br>💡 اضغط على بطاقة <b>نوبيان</b> في الصفحة الرئيسية للاستكشاف.'
-  },
-  {
-    keywords: ['منحة','منح','grant','مشروع','مشاريع','project','المشاريع','القيادة والإدارة','management','قيادة','leadership','قيادي','تنمية','تطوير','training','تدريب','capacity building','منظمات','منظمة','ngo','مجتمع مدني','إدارة'],
-    answer: '📚 <b>المشاريع والقيادة والإدارة</b> — تجد في قسم <b>الأكاديمية</b> مقالات عن:<br>📝 أساسيات كتابة المقترحات وقوالب جاهزة<br>🌟 مهارات القيادة والإدارة الفعالة<br>🎓 برامج بناء القدرات والتطوير المهني<br><br>💡 اضغط على بطاقة <b>الأكاديمية</b> في الصفحة الرئيسية للاستكشاف.'
-  },
-  {
-    keywords: ['سياسة','سياسه','سياسي','سودان','sudan','تاريخ السودان','ثورة','انقلاب','حركة مسلحة','حرب','حرب السودان','اتفاقية','حكومة','حكومه','تحليل استراتيجي','استراتيجي','فكر','رؤى','رؤى فكرية'],
-    answer: '🏛️ <b>الشأن السوداني</b> — تجد في قسم <b>الأرشيف السياسي</b> مقالات عن:<br>📜 المراحل التاريخية والثورات والأحداث الكبرى<br>📊 قراءات في المشهد السياسي الراهن<br>💡 مقالات تحليلية ونقدية<br><br>💡 اضغط على بطاقة <b>الأرشيف السياسي</b> في الصفحة الرئيسية للاستكشاف.'
-  },
-  {
-    keywords: ['من اين ابدا','من أين أبدأ','كيف أبدأ','ابدأ','ما الذي تقترحه','بماذا تنصحني','ماذا تقترح','اقترح','اقترح لي','نصيحه','نصيحة','ما هي افضل','ما أفضل','أفضل المقالات','اهم المقالات','أهم المقالات'],
-    answer: '🌟 <b>أهلاً بك! دعني أرشدك إلى كنوز المنصة:</b><br><br>🏗️ <b>للمهتم بالهندسة:</b> ابدأ بمقال "علوم المواد" في المنصة الهندسية<br>🏛️ <b>للمهتم بالسياسة:</b> اقرأ "تاريخ السودان" في الأرشيف السياسي<br>🏺 <b>للمهتم بالحضارة:</b> استكشف "مملكة مروي" في نوبيان<br>📚 <b>للمهتم بالتطوير:</b> تعلم "المشاريع" و"القيادة والإدارة" في الأكاديمية<br>🌿 <b>للمهتم بالصحة:</b> اقرأ عن "التغذية العلمية" في نمط الحياة<br><br>💡 <b>أخبرني أي مجال يثير فضولك لأرشح لك أفضل المقالات فيه.</b>'
-  },
-  {
-      keywords: ['من أنت','من انت','مين انت','انت مين','من هو بسام','نبذة عنك','عنك','عن بسام','صاحب الموقع','مطور الموقع','بسام','bassam','من يكون','عرف بنفسك','تعريف','سيرتك','خلفيتك'],
-      answer: '👷‍♂️ <b>بسام إبراهيم أحمد</b> — مهندس مدني سوداني، باحث في الشأن السوداني، ناشط مجتمعي ومهتم بالابتكار الهندسي. مؤمن بأن التخصص الحقيقي لا يقيد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة هي نافذته الرقمية لنشر العلم والمعرفة في خمسة مجالات رئيسية.'
-    },
-    {
-      keywords: ['ما هذا الموقع','عن الموقع','موقع ايه','الموقع ده','تعريف بالموقع','ما هو الموقع','نبذة عن الموقع','عن المنصة','المنصة','هدف الموقع','هدف المنصة','غرض الموقع','فكرة الموقع'],
-      answer: '🌐 <b>منصة BassamIbrahim الرقمية</b> — منصة سودانية متخصصة تهدف إلى نشر العلم والمعرفة في خمسة مجالات رئيسية:<br><br>🏗️ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>🏛️ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي، رؤى فكرية<br>🏺 <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار، الهوية<br>📚 <b>الأكاديمية</b> — المشاريع، القيادة والإدارة، التدريب التنموي<br>🌿 <b>نمط الحياة</b> — الصحة الشاملة، التغذية، التميز البدني'
-    },
-    {
-      keywords: ['كيف أستخدم','طريقة الاستخدام','ازاي استخدم','شرح الموقع','كيفية التصفح','التنقل','كيف أبحث','البحث عن مقال','شرح','دليل الاستخدام','تعليمات','كيف'],
-      answer: '💡 <b>كيف تستخدم المنصة:</b><br><br>1️⃣ تصفح الأقسام الخمسة من القائمة العلوية أو الجانبية (☰)<br>2️⃣ داخل كل قسم، اختر الزر المناسب (مثل "علوم المواد" أو "تاريخ السودان")<br>3️⃣ استخدم خانة البحث داخل كل قسم للعثور على مقال معين<br>4️⃣ لتحميل الملفات، اضغط على زر 📚 المكتبة في أي قسم<br>5️⃣ استخدمني أنا (زر 💬) للبحث عن أي موضوع في كل المقالات والمكتبة دفعة واحدة'
-    },
-    {
-      keywords: ['هندسة','هندسي','engineering','علوم المواد','مواد','materials','ابتكار إنشائي','إنشاء','بناء','مختبر هندسي','مختبر','lab','خرسانة','إسمنت','حديد','تصميم إنشائي','مقاومة المواد'],
-      answer: '🏗️ <b>المنصة الهندسية</b> — تضم ثلاثة أقسام متخصصة:<br><br>🔬 <b>علوم المواد</b> — خصائص المواد الإنشائية، الخرسانة، حديد التسليح، المواد الحديثة<br>🏛️ <b>ابتكار إنشائي</b> — حلول هندسية مبتكرة، تقنيات البناء الحديثة<br>⚗️ <b>المختبر الهندسي</b> — اختبارات المواد، التحليل المعملي<br><br>💡 اضغط على بطاقة <b>المنصة الهندسية</b> في الصفحة الرئيسية للاستكشاف.'
-    },
-    {
-      keywords: ['خرسانة','إسمنت','خلطة','نسب','مقاومة','ضغط','شد','اختبار','عمر','معالجة','curing','slump','workability','كسر','عينة','مكعب'],
-      answer: '🧱 <b>مقالات الخرسانة والمواد الإنشائية</b><br><br>في قسم <b>المنصة الهندسية ← علوم المواد</b> تجد:<br>✅ تأثير الإضافات على خواص الخرسانة<br>✅ طرق تحسين مقاومة الضغط والشد<br>✅ بروتوكولات الاختبارات المعملية<br>✅ دراسات حالة من مشاريع حقيقية<br><br>💡 ابحث بكلمة "خرسانة" في شريط البحث داخل القسم.'
-    },
-    {
-      keywords: ['سياسة','سياسي','political','تاريخ السودان','سودان','sudan','تحليل استراتيجي','استراتيجي','رؤى فكرية','فكر','ثورة','انقلاب','حركة مسلحة','حرب السودان','اتفاقية','حكومة سودانية'],
-      answer: '🏛️ <b>الأرشيف السياسي</b> — توثيق وتحليل الشأن السوداني:<br><br>📜 <b>تاريخ السودان</b> — المراحل التاريخية، الثورات، الأحداث الكبرى<br>📊 <b>تحليل استراتيجي</b> — قراءات في المشهد السياسي الراهن<br>💡 <b>رؤى فكرية</b> — مقالات تحليلية ونقدية<br><br>💡 اضغط على بطاقة <b>الأرشيف السياسي</b> للاستكشاف.'
-    },
-    {
-      keywords: ['نوبة','نوبيان','nubian','نوبي','حضارة نوبية','حضارة','تاريخ نوبة','مروي','كوش','آثار','archaeology','هوية نوبية','هوية','لغة نوبية','عمارة نوبية','مملكة كوش','نبتة','فراعنة السودان','بجراوية'],
-      answer: '🏺 <b>نوبيان — الحضارة النوبية</b> — نافذة متخصصة على إرث إنساني عريق:<br><br>📜 <b>التاريخ</b> — مملكتا كوش ومروي، الفراعنة السود، امتداد الحضارة<br>🏛️ <b>الآثار</b> — الأهرامات النوبية، المعابد، الاكتشافات الأثرية<br>🎭 <b>الهوية</b> — اللغة النوبية، التراث، الحفاظ على الهوية الثقافية<br><br>💡 اضغط على بطاقة <b>نوبيان</b> للاستكشاف.'
-    },
-    {
-      keywords: ['أكاديمية','تطوير','منظمات','كتابة مشاريع','مشاريع','منح','grants','قيادة','leadership','تدريب','تنمية','مهارات','capacity building','project writing','ngo','مجتمع مدني','منظمة','القيادة والإدارة','management','إدارة','تدريب وتطوير'],
-      answer: '📚 <b>أكاديمية التدريب والتطوير</b> — بوابة التميز المؤسسي:<br><br>📝 <b>المشاريع والمنح</b> — أساسيات كتابة المقترحات، قوالب جاهزة<br>🌟 <b>القيادة والإدارة</b> — مهارات القيادة الفعالة وإدارة الفرق<br>🎓 <b>التدريب التنموي</b> — برامج بناء القدرات، التطوير المهني<br><br>💡 اضغط على بطاقة <b>الأكاديمية</b> للاستكشاف.'
-    },
-    {
-      keywords: ['صحة','health','تغذية','nutrition','رياضة','fitness','لياقة','نمط حياة','lifestyle','صحة شاملة','holistic','تميز بدني','physical','وزن','دايت','diet','بروتين','سعرات','تمرين','أكل صحي'],
-      answer: '🌿 <b>نمط الحياة والصحة</b> — بوابة العافية الكاملة:<br><br>❤️ <b>الصحة الشاملة</b> — مفهوم الصحة الكاملة جسداً وعقلاً وروحاً<br>🥗 <b>التغذية العلمية</b> — أسس التغذية الصحيحة، الوجبات المتوازنة<br>💪 <b>التميز البدني</b> — برامج التمرين، الأداء الرياضي، العادات اليومية<br><br>💡 اضغط على بطاقة <b>نمط الحياة والصحة</b> للاستكشاف.'
-    },
-    {
-      keywords: ['مكتبة','library','تحميل','download','ملفات','pdf','كتاب','كتب','books','ملف','موارد','مصادر','منهج','دليل','تقرير','بحث','دراسة'],
-      answer: '📚 <b>المكتبة الرقمية</b> — ملفات قابلة للتحميل في جميع الأقسام:<br><br>📕 كتب ودلائل تخصصية<br>📄 أبحاث ودراسات علمية<br>📊 عروض تقديمية<br>📝 نماذج وقوالب جاهزة<br><br>💡 للوصول: اضغط على أي بطاقة ← ثم اضغط <b>📚 المكتبة</b>.'
-    },
-    {
-      keywords: ['تواصل','contact','واتساب','whatsapp','رقم','email','اتصال','تواصل مع بسام','رأي','اقتراح','شكوى','مقترح'],
-      answer: '📲 <b>التواصل مع بسام إبراهيم:</b><br><br>يمكنك التواصل المباشر عبر واتساب:<br><a href="https://wa.me/249967238251" target="_blank" style="color:#25D366;font-weight:700;">💬 اضغط هنا للتواصل عبر واتساب</a><br><br>أو من خلال أزرار التواصل الاجتماعي في أسفل الصفحة.'
-    },
-    {
-      keywords: ['شكرا','شكراً','thanks','thank','مشكور','تسلم','يعطيك العافية','ممتاز','رائع','جميل','احسنت'],
-      answer: 'العفو! 🥰 أنا في خدمتك دائماً. إذا احتجت مساعدة في البحث فقط اسألني.'
-    },
-    {
-      keywords: ['مرحبا','اهلا','هلا','السلام','hello','hi','صباح','مساء','أهلاً','ازيك','كيف حالك'],
-      answer: 'أهلاً بك! 😊 أنا مساعد البحث في منصة BassamIbrahim.<br>اسألني عن أي موضوع وسأبحث في المقالات والمكتبة، أو اسألني عن أي قسم.'
+  // ========== أداة تعقيم بسيطة (بدون مكتبات خارجية) ==========
+  function sanitizeHTML(str) {
+    const temp = document.createElement('div');
+    temp.textContent = str;
+    let text = temp.innerHTML;
+    text = text.replace(/&lt;(\/?)(b|br|strong|em|a|ul|ol|li|p|div|span|small)&gt;/gi, '<$1$2>');
+    text = text.replace(/&lt;a\s+([^&]*?)&gt;/gi, (match, attrs) => {
+      const decodedAttrs = attrs.replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+      if (/href\s*=\s*["']https?:\/\//i.test(decodedAttrs)) {
+        return '<a ' + decodedAttrs + '>';
+      }
+      return '';
+    });
+    return text;
+  }
+
+  // ========== قاعدة المعرفة (تحميل من ملف خارجي) ==========
+  let knowledgeBase = [];
+
+  async function loadKnowledgeBase() {
+    try {
+      const response = await fetch(`data/knowledge-base.json?v=${APP_VERSION}`);
+      if (!response.ok) throw new Error('Failed to load');
+      knowledgeBase = await response.json();
+      console.log(`✅ KB: ${knowledgeBase.length} مدخلاً جاهزاً`);
+    } catch (error) {
+      console.warn('⚠️ فشل تحميل قاعدة المعرفة، الاعتماد على البحث المباشر');
+      knowledgeBase = [];
     }
-  ];
+  }
 
   // ========== دوال معالجة النصوص ==========
   function normalize(str) {
@@ -116,18 +60,46 @@
     return matched / words.length;
   }
 
-  // ========== تاريخ البحث ==========
-  const HISTORY_KEY = 'bassam_search_history';
-  function saveToHistory(question) {
-    try {
-      const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-      const updated = [question, ...history.filter(q => q !== question)].slice(0, 5);
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
-    } catch(e) {}
+  // ========== توليد معرف الجلسة ==========
+  function generateSessionId() {
+    let sessionId = localStorage.getItem('bassam_session_id');
+    if (!sessionId) {
+      sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('bassam_session_id', sessionId);
+    }
+    return sessionId;
   }
-  function getHistory() {
-    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
-    catch(e) { return []; }
+
+  // ========== إرسال التحليلات إلى Vercel (آمن) ==========
+  async function logToSupabase(payload) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+      
+      await fetch(ANALYTICS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+    } catch(e) {
+      if (e.name === 'AbortError') {
+        console.warn('⚠️ [Analytics] Timeout');
+      }
+    }
+  }
+
+  // دالة تصنيف النية
+  function classifyIntent(question) {
+    const q = normalize(question);
+    if (/خرسانة|إسمنت|حديد|إنشاء|تصميم|مقاومة|هندس/.test(q)) return 'engineering';
+    if (/سياسة|سودان|حرب|ثورة|انقلاب|حكومة/.test(q)) return 'political';
+    if (/نوبة|مروي|كوش|نوبي|آثار|بجراوية/.test(q)) return 'nubian';
+    if (/مشروع|منحة|قيادة|تدريب|تطوير|إدارة/.test(q)) return 'academy';
+    if (/صحة|تغذية|سعرات|رياضة|دايت|وزن/.test(q)) return 'health';
+    return 'general';
   }
 
   // ========== واجهة المستخدم ==========
@@ -157,6 +129,10 @@
     .suggestion-chip:hover{background:rgba(59,158,255,0.35);color:#fff;}
     .section-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-left:4px;background:rgba(59,158,255,0.2);color:#3B9EFF;border:1px solid rgba(59,158,255,0.3);}
     .history-hint{font-size:11px;color:#8899bb;padding:4px 0;border-top:1px solid rgba(255,255,255,0.06);margin-top:4px;}
+    .feedback-btns{display:flex;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);}
+    .feedback-btn{font-size:18px;cursor:pointer;padding:4px 10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);transition:all 0.2s;}
+    .feedback-btn:hover{background:rgba(59,158,255,0.2);border-color:#3B9EFF;}
+    .feedback-btn.active{background:rgba(59,158,255,0.3);border-color:#3B9EFF;}
   `;
   document.head.appendChild(style);
 
@@ -166,23 +142,23 @@
   btn.textContent = '💬';
   document.body.appendChild(btn);
 
-  const ALL_SUGGESTED_QUESTIONS = [
-    'ما هي علوم المواد؟','كيف أكتب مشروعاً ناجحاً؟','ما هي مملكة مروي؟',
-    'كيف أحسن تغذيتي؟','ما هي الحضارة النوبية؟','كيف أبحث في المنصة؟',
-    'ما هي المكتبة الرقمية؟','كيف أطور مهارات القيادة والإدارة؟',
-    'من هو بسام إبراهيم؟','ما هي أقسام الموقع؟','كيف أتواصل مع بسام؟',
-    'ما هو الابتكار الإنشائي؟','كيف أحقق التميز البدني؟',
-    'ما هي الآثار النوبية؟','كيف أكتب منحة دراسية؟','ما هي الصحة الشاملة؟',
-    'ما هو التحليل الاستراتيجي؟','ما هي فراعنة السودان؟',
-    'ما أقسام الأكاديمية؟','كيف أستخدم المنصة?'
-  ];
-
-  function getRandomSuggestions(count = 3) {
-    return [...ALL_SUGGESTED_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, count);
+  function getDynamicSuggestions(count = 4) {
+    const suggestions = [];
+    if (allArticles.length > 0) {
+      const titles = allArticles
+        .map(a => a.title_ar || a.title || '')
+        .filter(t => t.length > 5)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+      suggestions.push(...titles);
+    }
+    const kbQuestions = ['ما هي المكتبة الرقمية؟', 'كيف أتواصل مع بسام؟', 'ما هي أقسام الموقع؟', 'كيف أبحث في المنصة؟'];
+    suggestions.push(kbQuestions[Math.floor(Math.random() * kbQuestions.length)]);
+    return suggestions.slice(0, count);
   }
 
   function buildSuggestionChips() {
-    const qs = getRandomSuggestions();
+    const qs = getDynamicSuggestions();
     return `<div class="suggestion-chips">${qs.map(q => `<button class="suggestion-chip" data-question="${q}">${q}</button>`).join('')}</div>`;
   }
 
@@ -197,13 +173,7 @@
     const greeting = getGreeting();
     const history = getHistory();
     const historyHint = history.length > 0 ? `<div class="history-hint">🕐 آخر بحث: <b>${history[0]}</b></div>` : '';
-    return `
-      <div class="smart-msg-bot">
-        ${greeting} أنا مساعد البحث في منصة BassamIbrahim.<br>
-        اسألني عن أي موضوع، أو اختر من الاقتراحات:
-        ${historyHint}
-      </div>
-    `;
+    return `<div class="smart-msg-bot">${greeting} أنا مساعد البحث في منصة BassamIbrahim.<br>اسألني عن أي موضوع، أو اختر من الاقتراحات:${historyHint}</div>`;
   }
 
   function resetChat() {
@@ -289,7 +259,7 @@
     libraryLoaded = true;
   }
 
-  // ========== دالة البحث المحسَّنة ==========
+  // ========== دالة البحث المحسَّنة (v3.0) ==========
   function searchArticles(query) {
     const q = normalize(query);
     if (!q || q.length < 2) return [];
@@ -306,10 +276,27 @@
         if (titleAr.includes(q)) score += 100;
         if (titleEn.includes(q)) score += 90;
         tags.forEach(tag => {
-          if (tag === q || tag.includes(q) || q.includes(tag)) score += 80;
+          if (tag === q) score += 150;
+          else if (tag.includes(q) || q.includes(tag)) score += 80;
         });
         if (contentAr.includes(q)) score += 15;
         if (contentEn.includes(q)) score += 10;
+
+        if (q.split(/\s+/).length >= 2) {
+          if (titleAr.includes(q)) score += 200;
+          if (contentAr.includes(q)) score += 80;
+        }
+
+        if (fuzzyMatch(titleAr, q) > 0.8) score += 50;
+        if (fuzzyMatch(contentAr, q) > 0.8) score += 20;
+
+        const queryWords = q.split(/\s+/).filter(w => w.length > 2);
+        if (queryWords.length >= 2) {
+          const allWordsInTitle = queryWords.every(w => titleAr.includes(w));
+          const allWordsInContent = queryWords.every(w => contentAr.includes(w));
+          if (allWordsInTitle) score += 70;
+          if (allWordsInContent) score += 30;
+        }
 
         return { ...article, score };
       })
@@ -336,11 +323,22 @@
     return plain;
   }
 
+  const HISTORY_KEY = 'bassam_search_history';
+  function saveToHistory(question) {
+    try {
+      const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      const updated = [question, ...history.filter(q => q !== question)].slice(0, 5);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+    } catch(e) {}
+  }
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+    catch(e) { return []; }
+  }
+
   function getSearchSuggestions(query) {
     const allTitles = allArticles.map(a => a.title_ar || a.title_en || a.title || '').filter(Boolean);
-    const suggestions = allTitles
-      .filter(title => fuzzyMatch(title, query) > 0.3)
-      .slice(0, 3);
+    const suggestions = allTitles.filter(title => fuzzyMatch(title, query) > 0.3).slice(0, 3);
     return suggestions.length > 0 ? suggestions : ['الهندسة في السودان', 'تاريخ مملكة مروي', 'المشاريع'];
   }
 
@@ -354,10 +352,45 @@
     scientific_nutrition:'تغذية علمية', physical_excellence:'تميز بدني'
   };
 
-  function addMsg(html, isUser = false) {
+  function addMsg(html, isUser = false, showFeedback = false, question = '', resultCount = 0, answerStartTime = 0) {
     const div = document.createElement('div');
     div.className = isUser ? 'smart-msg-user' : 'smart-msg-bot';
     div.innerHTML = html;
+    
+    if (showFeedback) {
+      const answerTimestamp = Date.now();
+      const feedbackDiv = document.createElement('div');
+      feedbackDiv.className = 'feedback-btns';
+      feedbackDiv.innerHTML = `
+        <span style="font-size:10px;color:#8899bb;align-self:center;">هل كانت الإجابة مفيدة؟</span>
+        <button class="feedback-btn feedback-yes" title="نعم">👍</button>
+        <button class="feedback-btn feedback-no" title="لا">👎</button>
+      `;
+      div.appendChild(feedbackDiv);
+      
+      const sendFeedback = (wasHelpful) => {
+        logToSupabase({
+          session_id: generateSessionId(),
+          question: question,
+          intent: classifyIntent(question),
+          results_count: resultCount,
+          response_time_ms: answerStartTime ? Math.round(performance.now() - answerStartTime) : null,
+          was_helpful: wasHelpful
+        });
+      };
+      
+      feedbackDiv.querySelector('.feedback-yes').addEventListener('click', function() {
+        this.classList.add('active');
+        feedbackDiv.querySelector('.feedback-no').classList.remove('active');
+        sendFeedback(true);
+      });
+      feedbackDiv.querySelector('.feedback-no').addEventListener('click', function() {
+        this.classList.add('active');
+        feedbackDiv.querySelector('.feedback-yes').classList.remove('active');
+        sendFeedback(false);
+      });
+    }
+    
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
     return div;
@@ -373,12 +406,10 @@
 
   function getProfessionalFallback(question) {
     const q = question.trim();
-    
     const chatKeywords = ['كيف حالك', 'شلونك', 'ازيك', 'كيفك', 'هل يمكنني التحدث', 'اريد التحدث', 'اتحدث مع', 'من انت', 'ما اسمك', 'شو اسمك', 'تعرف على', 'صديق', 'احبك', 'تحبني'];
     if (chatKeywords.some(k => q.includes(k))) {
       return '🎯 <b>أنا هنا لخدمتك!</b><br><br>أنا مساعد متخصص في محتوى منصة بسام إبراهيم. يمكنني مساعدتك في استكشاف مقالات وأبحاث المنصة في المجالات التالية:<br><br>🏗️ الهندسة والابتكار الإنشائي<br>🏛️ التاريخ والتحليل السياسي<br>🏺 الحضارة النوبية<br>📚 التطوير والمشاريع والقيادة<br>🌿 الصحة ونمط الحياة<br><br>💡 <b>جرّب أن تسألني سؤالاً مثل:</b> "ما هي علوم المواد؟" أو "كيف أكتب مشروعاً ناجحاً؟"';
     }
-    
     return '🎯 <b>شكراً على سؤالك!</b><br><br>أنا متخصص فقط في محتوى منصة بسام إبراهيم. لم أجد مقالاً يطابق سؤالك الحالي في المنصة.<br><br>💡 <b>اقتراحات لتحصل على أفضل إجابة:</b><br>• استخدم كلمات مفتاحية محددة تتعلق بمجالات المنصة<br>• جرّب البحث في أحد الأقسام الخمسة من القائمة العلوية<br>• يمكنك سؤالي عن: الهندسة، السياسة السودانية، الحضارة النوبية، التطوير، أو الصحة<br><br>📚 <b>ما زلت بحاجة للمساعدة؟</b> يمكنك التواصل مع المهندس بسام مباشرة.';
   }
 
@@ -390,8 +421,6 @@
         const content = (a.content_ar || a.content_en || a.content || '').substring(0, 300);
         return `عنوان المقال: ${title}\nمحتوى: ${content}`;
       }).join('\n---\n');
-    } else {
-      context = '';
     }
 
     try {
@@ -402,12 +431,10 @@
       });
       const data = await response.json();
       
-      // ✅ الإصلاح: نعرض الرد مباشرة طالما أنه أطول من 50 حرفاً
       if (data.reply && data.reply.length > 50) {
-        return data.reply;
+        return sanitizeHTML(data.reply);
       }
-      
-      return data.reply || getProfessionalFallback(question);
+      return sanitizeHTML(data.reply || getProfessionalFallback(question));
     } catch (error) {
       return getProfessionalFallback(question);
     }
@@ -415,22 +442,53 @@
 
   // ========== المعالج الرئيسي ==========
   async function handleQuestion(question) {
+    const questionStartTime = performance.now();
     saveToHistory(question);
     addMsg(question, true);
-    const typing = addMsg('⏳ جاري البحث في المنصة...');
 
     const kbAns = searchKB(question);
     if (kbAns) {
-      typing.remove(); 
-      addMsg(kbAns); 
+      const elapsed = Math.round(performance.now() - questionStartTime);
+      logToSupabase({
+        session_id: generateSessionId(),
+        question: question,
+        intent: classifyIntent(question),
+        results_count: 1,
+        response_time_ms: elapsed,
+        response_type: 'kb',
+        articles_found: 0,
+        library_files_found: 0,
+        kb_match: true,
+        expert_used: false,
+        user_agent: navigator.userAgent,
+        platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+      });
+      addMsg(kbAns, false, true, question, 1, questionStartTime);
       return;
     }
 
+    const typing = addMsg('⏳ جاري البحث في المنصة...');
     await Promise.all([loadAllArticles(), loadLibrary()]);
     const articles = searchArticles(question).slice(0, 3);
     const files = searchLibrary(question).slice(0, 3);
-
     typing.remove();
+
+    const totalResults = articles.length + files.length;
+    const elapsed = Math.round(performance.now() - questionStartTime);
+    logToSupabase({
+      session_id: generateSessionId(),
+      question: question,
+      intent: classifyIntent(question),
+      results_count: totalResults,
+      response_time_ms: elapsed,
+      response_type: totalResults > 0 ? 'articles' : 'fallback',
+      articles_found: articles.length,
+      library_files_found: files.length,
+      kb_match: false,
+      expert_used: false,
+      user_agent: navigator.userAgent,
+      platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+    });
 
     if (!articles.length && !files.length) {
       const enc = encodeURIComponent(question);
@@ -442,12 +500,26 @@
           <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link" style="margin-top:0;">💬 تواصل مع بسام</a>
         </div>
         <div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات للبحث:</b> ${suggestions.map(s => `<button class="suggestion-chip" data-question="${s}" style="font-size:10px;">${s}</button>`).join(' ')}</div>
-      `);
+      `, false, true, question, 0, questionStartTime);
       
       noResultNode.querySelector('.ask-general-ai')?.addEventListener('click', async function() {
         this.disabled = true;
         this.textContent = '⏳ جاري تفكير الخبير...';
         const expertReply = await askHybridExpert(question, []);
+        logToSupabase({
+          session_id: generateSessionId(),
+          question: question,
+          intent: classifyIntent(question),
+          results_count: 0,
+          response_time_ms: Math.round(performance.now() - questionStartTime),
+          response_type: 'expert',
+          articles_found: 0,
+          library_files_found: 0,
+          kb_match: false,
+          expert_used: true,
+          user_agent: navigator.userAgent,
+          platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+        });
         addMsg(`<div class="smart-result expert-badge">🧠 <b>يقول الخبير العام:</b><br>${expertReply}</div>`);
         this.style.display = 'none';
       });
@@ -487,7 +559,7 @@
       <button class="suggestion-chip ask-expert-btn" style="border-color:#EAB308;color:#EAB308;">✨ اسأل الخبير لتلخيص هذه النتائج</button>
     </div>`;
     
-    const resultNode = addMsg(reply);
+    const resultNode = addMsg(reply, false, true, question, totalResults, questionStartTime);
 
     const expertBtn = resultNode.querySelector('.ask-expert-btn');
     if (expertBtn) {
@@ -495,6 +567,20 @@
         this.disabled = true;
         this.textContent = '⏳ جاري إعداد التلخيص الذكي...';
         const expertReply = await askHybridExpert(question, articles);
+        logToSupabase({
+          session_id: generateSessionId(),
+          question: question,
+          intent: classifyIntent(question),
+          results_count: totalResults,
+          response_time_ms: Math.round(performance.now() - questionStartTime),
+          response_type: 'expert',
+          articles_found: articles.length,
+          library_files_found: files.length,
+          kb_match: false,
+          expert_used: true,
+          user_agent: navigator.userAgent,
+          platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+        });
         const enhancedReply = `
           ${expertReply}
           <div style="margin-top:10px;padding:8px 12px;background:rgba(59,158,255,0.08);border-radius:8px;border-right:3px solid #3B9EFF;">
@@ -517,4 +603,7 @@
       if (q) { handleQuestion(q); inputEl.value = ''; }
     }
   });
+
+  // ========== بدء التشغيل ==========
+  loadKnowledgeBase();
 })();
