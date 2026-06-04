@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.11-PRO - إنتاجي) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.12 - اقتراحات مضمونة) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -23,7 +23,7 @@
   let allArticles = [];
   let allLibraryFiles = [];
   let dataLoaded = false;
-  let dataLoadingPromise = null; // 🚀 حماية من السباق المتزامن
+  let dataLoadingPromise = null;
 
   async function loadAllData() {
     if (dataLoaded) return Promise.resolve();
@@ -31,22 +31,16 @@
 
     dataLoadingPromise = (async () => {
       try {
-        // فصل تحميل المقالات لضمان الأمان
         const articlesPromise = Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
           fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => [])
         ));
-
-        // فصل تحميل قاعدة المعرفة
         const kbPromise = fetch(`data/knowledge-base.json?v=${APP_VERSION}`)
           .then(r => r.ok ? r.json() : [])
           .catch(() => []);
 
         const [articlesRes, kbData] = await Promise.all([articlesPromise, kbPromise]);
-
         knowledgeBase = Array.isArray(kbData) ? kbData : (kbData.items || []);
-        // تفليط دفاعي يحمي من أخطاء هياكل JSON
         allArticles = articlesRes.flatMap(res => res.articles || res || []);
-        
         dataLoaded = true;
       } catch(e) {
         console.error("Data loading failed:", e);
@@ -134,16 +128,51 @@
   const TAB_NAMES = { engineering:'المنصة الهندسية', political:'الأرشيف السياسي', nubian:'نوبيان', academy:'الأكاديمية', lifestyle:'نمط الحياة والصحة' };
   const BUTTON_NAMES = { materials_science:'علوم المواد', construction_innovation:'ابتكار إنشائي', engineering_lab:'مختبر هندسي', sudan_history:'تاريخ السودان', strategic_analysis:'تحليل استراتيجي', intellectual_visions:'رؤى فكرية', history:'تاريخ', archaeology:'آثار', identity:'هوية', project_writing:'المشاريع', leadership:'القيادة والإدارة', developmental_training:'تدريب تنموي', holistic_health:'صحة شاملة', scientific_nutrition:'تغذية علمية', physical_excellence:'تميز بدني' };
 
-  const STATIC_SUGGESTIONS = ['ما هي علوم المواد؟','كيف أكتب مشروعاً ناجحاً؟','ما هي مملكة مروي؟','كيف أحسن تغذيتي؟','ما هي الحضارة النوبية؟','كيف أبحث في المنصة؟','ما هي المكتبة الرقمية؟','كيف أطور مهارات القيادة والإدارة؟','من هو بسام إبراهيم؟','ما هي أقسام الموقع؟','كيف أتواصل مع بسام؟','ما هو الابتكار الإنشائي؟','كيف أحقق التميز البدني؟','ما هي الآثار النوبية؟','كيف أكتب منحة دراسية؟','ما هي الصحة الشاملة؟','ما هو التحليل الاستراتيجي؟','ما هي فراعنة السودان؟','ما أقسام الأكاديمية؟','كيف أستخدم المنصة؟'];
-
-  function getSuggestions() {
-    if (allArticles.length === 0) return STATIC_SUGGESTIONS.slice(0, 4);
-    const titles = allArticles.map(a => a.title_ar || '').filter(t => t.length > 5).sort(() => Math.random() - 0.5).slice(0, 3);
-    return [...new Set([...titles, STATIC_SUGGESTIONS[Math.floor(Math.random() * STATIC_SUGGESTIONS.length)] ])].slice(0, 4);
+  // ✅ اقتراحات مضمونة 100% (من المحتوى الفعلي فقط)
+  function getSuggestions(count = 4) {
+    const suggestions = [];
+    
+    // 1. من عناوين المقالات (مضمونة)
+    if (allArticles.length > 0) {
+      const titles = allArticles
+        .map(a => a.title_ar || '')
+        .filter(t => t.length > 5)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+      suggestions.push(...titles);
+    }
+    
+    // 2. من قاعدة المعرفة (مضمونة) - نختار أسئلة قصيرة موجودة فعلاً
+    if (knowledgeBase.length > 0) {
+      const kbQuestions = knowledgeBase
+        .map(item => item.keywords[0]) // نأخذ أول كلمة مفتاحية من كل مدخل
+        .filter(kw => kw.length > 3 && kw.length < 50) // أسئلة قصيرة
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 2);
+      suggestions.push(...kbQuestions);
+    }
+    
+    // 3. إذا لم نصل للعدد المطلوب، نكرر بعض العناوين
+    while (suggestions.length < count) {
+      if (allArticles.length > 0) {
+        const extraTitle = allArticles[Math.floor(Math.random() * allArticles.length)].title_ar;
+        if (extraTitle && !suggestions.includes(extraTitle)) {
+          suggestions.push(extraTitle);
+        } else {
+          break; // لا نريد تكرار لا نهائي
+        }
+      } else {
+        break;
+      }
+    }
+    
+    return suggestions.slice(0, count);
   }
 
   function buildChips() {
-    return '<div class="suggestion-chips">' + getSuggestions().map(q => `<button class="suggestion-chip" data-question="${q}">${q}</button>`).join('') + '</div>';
+    const qs = getSuggestions();
+    if (qs.length === 0) return ''; // لا تظهر أزرار إذا لم توجد اقتراحات
+    return '<div class="suggestion-chips">' + qs.map(q => `<button class="suggestion-chip" data-question="${q}">${q}</button>`).join('') + '</div>';
   }
 
   function getGreeting() {
@@ -193,17 +222,38 @@
   function searchArticles(query) {
     const q = normalize(query);
     if (!q || q.length < 2) return [];
+    
+    // ✅ تحسين: تقسيم السؤال الطويل إلى كلمات والبحث بكل كلمة
+    const words = q.split(' ').filter(w => w.length > 2);
+    
     return allArticles.map(a => {
       let score = 0;
       const t = normalize(a.title_ar || '');
       const c = normalize(a.content_ar || '');
       const tags = (a.tags || []).map(x => normalize(x));
+      
+      // البحث بالنص الكامل
       if (t.includes(q)) score += 100;
-      if (tags.some(tg => tg === q)) score += 150;
-      else if (tags.some(tg => tg.includes(q))) score += 80;
       if (c.includes(q)) score += 15;
-      if (q.split(/\s+/).length >= 2 && t.includes(q)) score += 200;
+      
+      // البحث بالكلمات المفتاحية
+      tags.forEach(tag => {
+        if (tag === q) score += 150;
+        else if (tag.includes(q) || q.includes(tag)) score += 80;
+      });
+      
+      // ✅ تحسين: لكل كلمة في السؤال، نزيد نقاط إذا وجدت في العنوان
+      words.forEach(word => {
+        if (t.includes(word)) score += 40;  // كل كلمة في العنوان تعطي 40 نقطة
+        if (c.includes(word)) score += 5;   // كل كلمة في المحتوى تعطي 5 نقاط
+      });
+      
+      // إذا كانت كل الكلمات موجودة في العنوان، مكافأة إضافية
+      if (words.length >= 2 && words.every(w => t.includes(w))) score += 100;
+      
+      // Fuzzy matching
       if (fuzzyMatch(t, q) > 0.8) score += 50;
+      
       return { ...a, score };
     }).filter(a => a.score > 0).sort((a, b) => b.score - a.score);
   }
@@ -228,17 +278,21 @@
   function searchKB(query) {
     const q = normalize(query);
     if (!q || q.length < 2 || knowledgeBase.length === 0) return null;
+    
+    // 1. تطابق تام
     for (const item of knowledgeBase) {
       for (const kw of item.keywords) {
         if (normalize(kw) === q) return item.answer;
       }
     }
+    // 2. تطابق احتوائي
     for (const item of knowledgeBase) {
       for (const kw of item.keywords) {
         const nk = normalize(kw);
         if (q.includes(nk) || nk.includes(q)) return item.answer;
       }
     }
+    // 3. بحث بالكلمات
     const queryWords = q.split(' ').filter(w => w.length > 2);
     if (queryWords.length >= 2) {
       for (const item of knowledgeBase) {
@@ -252,6 +306,7 @@
         if (matched >= Math.ceil(queryWords.length * 0.6)) return item.answer;
       }
     }
+    // 4. تطابق ضبابي
     let best = null, bestScore = 0;
     for (const item of knowledgeBase) {
       for (const kw of item.keywords) {
@@ -301,7 +356,6 @@
     return div;
   }
 
-  // 🚀 دالة جديدة لفحص الاعتراض تمنع التطابق الخاطئ (False Positives)
   function isIntentMatch(qNorm, keywords) {
     return keywords.some(kw => {
       const nKw = normalize(kw);
@@ -392,7 +446,8 @@
     }
     if (!articles.length && !files.length) {
       const enc = encodeURIComponent(question);
-      const suggs = STATIC_SUGGESTIONS.sort(() => Math.random() - 0.5).slice(0, 3);
+      // ✅ اقتراحات عند العجز: نعرض أيضاً اقتراحات مضمونة من المحتوى
+      const suggs = getSuggestions(3);
       reply = `🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;"><button class="suggestion-chip ask-general-ai" style="background:#EAB308;color:#000;">🧠 اسأل الخبير العام</button><a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link">💬 تواصل مع بسام</a></div><div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات:</b> ${suggs.map(s => `<button class="suggestion-chip" data-question="${s}">${s}</button>`).join(' ')}</div>`;
     }
 
