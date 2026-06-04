@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.11 - إصلاح تحميل المقالات) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.11-PRO - إنتاجي) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -18,64 +18,51 @@
     return text;
   }
 
-  // ========== تحميل البيانات (مضمون) ==========
+  // ========== تحميل البيانات ==========
   let knowledgeBase = [];
   let allArticles = [];
   let allLibraryFiles = [];
-  let dataLoading = false;
   let dataLoaded = false;
+  let dataLoadingPromise = null; // 🚀 حماية من السباق المتزامن
 
   async function loadAllData() {
-    // إذا تم التحميل مسبقاً، لا نعيد
-    if (dataLoaded) return;
-    // إذا كان التحميل جارياً، ننتظر اكتماله
-    if (dataLoading) {
-      await new Promise(resolve => {
-        const check = setInterval(() => { if (dataLoaded) { clearInterval(check); resolve(); } }, 100);
-      });
-      return;
-    }
-    dataLoading = true;
-    try {
-      // محاولة أولى
-      const [kbRes, articlesRes] = await Promise.all([
-        fetch(`data/knowledge-base.json?v=${APP_VERSION}`),
-        Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
-          fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => [])
-        ))
-      ]);
-      if (kbRes.ok) knowledgeBase = await kbRes.json();
-      allArticles = articlesRes.flat();
-      dataLoaded = true;
-    } catch (e) {
-      // محاولة ثانية بعد 1.5 ثانية
-      await new Promise(r => setTimeout(r, 1500));
+    if (dataLoaded) return Promise.resolve();
+    if (dataLoadingPromise) return dataLoadingPromise;
+
+    dataLoadingPromise = (async () => {
       try {
-        const [kbRes2, articlesRes2] = await Promise.all([
-          fetch(`data/knowledge-base.json?v=${APP_VERSION}`),
-          Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
-            fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => [])
-          ))
-        ]);
-        if (kbRes2.ok) knowledgeBase = await kbRes2.json();
-        allArticles = articlesRes2.flat();
+        // فصل تحميل المقالات لضمان الأمان
+        const articlesPromise = Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
+          fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => [])
+        ));
+
+        // فصل تحميل قاعدة المعرفة
+        const kbPromise = fetch(`data/knowledge-base.json?v=${APP_VERSION}`)
+          .then(r => r.ok ? r.json() : [])
+          .catch(() => []);
+
+        const [articlesRes, kbData] = await Promise.all([articlesPromise, kbPromise]);
+
+        knowledgeBase = Array.isArray(kbData) ? kbData : (kbData.items || []);
+        // تفليط دفاعي يحمي من أخطاء هياكل JSON
+        allArticles = articlesRes.flatMap(res => res.articles || res || []);
+        
         dataLoaded = true;
-      } catch (e2) {
-        // حتى لو فشل، نضع مصفوفات فارغة لكي لا يتعطل الكود
-        knowledgeBase = [];
-        allArticles = [];
-        dataLoaded = true; // نجبر الإكمال لتجنب الجمود
+      } catch(e) {
+        console.error("Data loading failed:", e);
+      } finally {
+        dataLoadingPromise = null;
       }
-    } finally {
-      dataLoading = false;
-    }
+    })();
+
+    return dataLoadingPromise;
   }
 
   function loadLibrary() {
     if (allLibraryFiles.length > 0) return;
     fetch(`library_index.json?v=${APP_VERSION}`)
       .then(r => r.json())
-      .then(d => { allLibraryFiles = d.files || []; })
+      .then(d => { allLibraryFiles = d.files || d || []; })
       .catch(() => {});
   }
 
@@ -314,15 +301,23 @@
     return div;
   }
 
-  // ✅ المعالج الرئيسي (تحميل مضمون، اعتراض آمن، بحث قوي)
+  // 🚀 دالة جديدة لفحص الاعتراض تمنع التطابق الخاطئ (False Positives)
+  function isIntentMatch(qNorm, keywords) {
+    return keywords.some(kw => {
+      const nKw = normalize(kw);
+      return qNorm === nKw || qNorm.startsWith(nKw + ' ') || qNorm.endsWith(' ' + nKw) || qNorm.includes(' ' + nKw + ' ');
+    });
+  }
+
+  // ✅ المعالج الرئيسي
   async function handleQuestion(question) {
     const start = performance.now();
     saveHistory(question);
     addMsg(question, true);
     loadLibrary();
 
-    // ✅ ضمان تحميل البيانات (ينتظر حتى النجاح أو الفشل الكامل)
-    await loadAllData();
+    const timeout = new Promise(r => setTimeout(r, 3000));
+    await Promise.race([loadAllData(), timeout]);
 
     // 1. قاعدة المعرفة
     const kbAns = searchKB(question);
@@ -332,35 +327,35 @@
       return;
     }
 
-    // 2. اعتراض الأسئلة العامة (بدون تداخل مع المقالات)
+    // 2. اعتراض الأسئلة العامة
     const qNorm = normalize(question);
     const greetingKeywords = ['مرحبا', 'اهلا', 'هلا', 'سلام', 'السلام عليكم', 'تحياتي', 'صباح الخير', 'مساء الخير', 'كيف حالك', 'شلونك', 'ازيك', 'كيفك'];
     const aboutBassam = ['من انت', 'من هو بسام', 'بسام ابراهيم', 'صاحب الموقع', 'مطور الموقع', 'نبذة عنك', 'عن بسام', 'من يكون', 'عرف بنفسك', 'تعريف', 'سيرتك', 'خلفيتك'];
     const aboutPlatform = ['ما هذا الموقع', 'عن الموقع', 'ما هي المنصه', 'تعريف بالمنصه', 'هدف الموقع', 'هدف المنصه', 'غرض الموقع', 'فكرة الموقع', 'اخبرني عن المنصه', 'ماهو الهدف من المنصه', 'من الذي اسس المنصه', 'لماذا اسس المنصه', 'ماذا استفيد', 'ماذا لديكم'];
     const howToUse = ['كيف استخدم', 'طريقه الاستخدام', 'كيف ابحث في', 'التنقل في', 'شرح الموقع', 'دليل الاستخدام', 'طريقة التصفح'];
 
-    if (greetingKeywords.some(kw => qNorm.includes(normalize(kw)))) {
+    if (isIntentMatch(qNorm, greetingKeywords)) {
       const greetingReply = `🎯 <b>أهلاً بك! أنا هنا لخدمتك.</b><br><br>أنا مساعد البحث الذكي المخصص لمنصة <b>BassamIbrahim</b>.<br>يمكنك سؤالي عن أي شيء يخص الأقسام المختلفة مثل: الهندسة الإنشائية، الأرشيف السياسي، الثقافة النوبية، التطوير والأكاديمية، أو الصحة ونمط الحياة.`;
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'greeting', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
       addMsg(greetingReply, false, true, question, 1, start);
       return;
     }
 
-    if (aboutBassam.some(kw => qNorm.includes(normalize(kw)))) {
+    if (isIntentMatch(qNorm, aboutBassam)) {
       const aboutReply = `👷‍♂️ <b>بسام إبراهيم أحمد</b> — مهندس مدني سوداني، باحث في الشأن السوداني، ناشط مجتمعي ومهتم بالابتكار الهندسي. مؤمن بأن التخصص الحقيقي لا يقيد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة هي نافذته الرقمية لنشر العلم والمعرفة في خمسة مجالات رئيسية.`;
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'about', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
       addMsg(aboutReply, false, true, question, 1, start);
       return;
     }
 
-    if (aboutPlatform.some(kw => qNorm.includes(normalize(kw)))) {
+    if (isIntentMatch(qNorm, aboutPlatform)) {
       const platformReply = `🌐 <b>منصة BassamIbrahim الرقمية</b> — منصة سودانية متخصصة تهدف إلى نشر العلم والمعرفة في خمسة مجالات رئيسية:<br><br>🏗️ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>🏛️ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي، رؤى فكرية<br>🏺 <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار، الهوية<br>📚 <b>الأكاديمية</b> — المشاريع، القيادة والإدارة، التدريب التنموي<br>🌿 <b>نمط الحياة</b> — الصحة الشاملة، التغذية، التميز البدني`;
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'about', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
       addMsg(platformReply, false, true, question, 1, start);
       return;
     }
 
-    if (howToUse.some(kw => qNorm.includes(normalize(kw)))) {
+    if (isIntentMatch(qNorm, howToUse)) {
       const howReply = `💡 <b>كيف تستخدم المنصة:</b><br><br>1️⃣ تصفح الأقسام الخمسة من القائمة العلوية أو الجانبية (☰)<br>2️⃣ داخل كل قسم، اختر الزر المناسب (مثل "علوم المواد" أو "تاريخ السودان")<br>3️⃣ استخدم خانة البحث داخل كل قسم للعثور على مقال معين<br>4️⃣ لتحميل الملفات، اضغط على زر 📚 المكتبة في أي قسم<br>5️⃣ استخدمني أنا (زر 💬) للبحث عن أي موضوع في كل المقالات والمكتبة دفعة واحدة`;
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'howto', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
       addMsg(howReply, false, true, question, 1, start);
