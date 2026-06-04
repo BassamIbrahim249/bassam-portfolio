@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.5 - مع تشخيص KB) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.6 - إصلاح KB جذري) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -19,53 +19,31 @@
     return text;
   }
 
-  // ========== تحميل البيانات (ضمان التحميل قبل الاستخدام) ==========
+  // ========== تحميل البيانات (طريقة جديدة تماماً) ==========
   let knowledgeBase = [];
   let allArticles = [];
   let allLibraryFiles = [];
-  let kbReady = false;
-  let articlesReady = false;
+  let dataLoaded = false;
 
-  async function ensureKB() {
-    if (kbReady) return;
+  async function loadAllData() {
+    if (dataLoaded) return;
     try {
-      const r = await fetch(`data/knowledge-base.json?v=${APP_VERSION}`);
-      if (r.ok) {
-        knowledgeBase = await r.json();
-        kbReady = true;
-        console.log('✅ KB loaded:', knowledgeBase.length, 'items');
-      }
+      const [kbRes, articlesRes] = await Promise.all([
+        fetch(`data/knowledge-base.json?v=${APP_VERSION}`),
+        Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
+          fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => [])
+        ))
+      ]);
+      if (kbRes.ok) knowledgeBase = await kbRes.json();
+      allArticles = articlesRes.flat();
+      dataLoaded = true;
+      console.log('✅ All data loaded: KB=' + knowledgeBase.length + ', Articles=' + allArticles.length);
     } catch(e) {
-      console.warn('⚠️ KB failed, retrying...');
-      setTimeout(async () => {
-        try {
-          const r2 = await fetch(`data/knowledge-base.json?v=${APP_VERSION}`);
-          if (r2.ok) {
-            knowledgeBase = await r2.json();
-            kbReady = true;
-            console.log('✅ KB loaded on retry:', knowledgeBase.length, 'items');
-          }
-        } catch(e2) {}
-      }, 1000);
+      console.warn('⚠️ Data load failed, retrying in 1s...');
+      await new Promise(r => setTimeout(r, 1000));
+      return loadAllData(); // إعادة المحاولة مرة واحدة
     }
   }
-
-  async function ensureArticles() {
-    if (articlesReady) return;
-    try {
-      const tabs = ['engineering','political','nubian','academy','lifestyle'];
-      const results = await Promise.all(
-        tabs.map(tab => fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => []))
-      );
-      allArticles = results.flat();
-      articlesReady = true;
-      console.log('✅ Articles loaded:', allArticles.length);
-    } catch(e) {}
-  }
-
-  // نبدأ التحميل فوراً
-  ensureKB();
-  ensureArticles();
 
   function loadLibrary() {
     if (allLibraryFiles.length > 0) return;
@@ -232,7 +210,6 @@
     return plain;
   }
 
-  // ✅ دالة البحث المطوَّرة (منطق ثلاثي المستويات)
   function searchKB(query) {
     const q = normalize(query);
     if (!q || q.length < 2 || knowledgeBase.length === 0) return null;
@@ -250,7 +227,7 @@
         if (q.includes(nk) || nk.includes(q)) return item.answer;
       }
     }
-    // 3. تطابق ضبابي (Fuzzy)
+    // 3. تطابق ضبابي
     let best = null, bestScore = 0;
     for (const item of knowledgeBase) {
       for (const kw of item.keywords) {
@@ -305,19 +282,13 @@
 
   // ========== المعالج الرئيسي ==========
   async function handleQuestion(question) {
-    // ✅ تشخيص مؤقت
-    if (question.trim() === 'debug_kb_count') {
-      return addMsg('🔢 عدد مدخلات KB: ' + knowledgeBase.length, false, false);
-    }
-
     const start = performance.now();
     saveHistory(question);
     addMsg(question, true);
     loadLibrary();
 
-    // ✅ انتظر تحميل قاعدة المعرفة قبل محاولة البحث فيها
-    await ensureKB();
-    await ensureArticles();
+    // ✅ تحميل البيانات مرة واحدة فقط، والانتظار حتى تنتهي
+    await loadAllData();
 
     const kbAns = searchKB(question);
     if (kbAns) {
