@@ -1,12 +1,12 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.2-FINAL - آمن عبر Vercel) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.2-FIXED-FINAL) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
   
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
-  const ANALYTICS_URL = '/api/log-analytics';   // ← التحليلات تمر عبر Vercel بأمان
+  const ANALYTICS_URL = '/api/log-analytics';
 
-  // ========== أداة تعقيم بسيطة (بدون مكتبات خارجية) ==========
+  // ========== أداة تعقيم بسيطة ==========
   function sanitizeHTML(str) {
     const temp = document.createElement('div');
     temp.textContent = str;
@@ -22,7 +22,7 @@
     return text;
   }
 
-  // ========== قاعدة المعرفة (تحميل من ملف خارجي) ==========
+  // ========== قاعدة المعرفة ==========
   let knowledgeBase = [];
 
   async function loadKnowledgeBase() {
@@ -30,9 +30,7 @@
       const response = await fetch(`data/knowledge-base.json?v=${APP_VERSION}`);
       if (!response.ok) throw new Error('Failed to load');
       knowledgeBase = await response.json();
-      console.log(`✅ KB: ${knowledgeBase.length} مدخلاً جاهزاً`);
     } catch (error) {
-      console.warn('⚠️ فشل تحميل قاعدة المعرفة، الاعتماد على البحث المباشر');
       knowledgeBase = [];
     }
   }
@@ -70,28 +68,21 @@
     return sessionId;
   }
 
-  // ========== إرسال التحليلات إلى Vercel (آمن) ==========
+  // ========== إرسال التحليلات إلى Vercel ==========
   async function logToSupabase(payload) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
-      
       await fetch(ANALYTICS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
         signal: controller.signal
       });
-      
       clearTimeout(timeoutId);
-    } catch(e) {
-      if (e.name === 'AbortError') {
-        console.warn('⚠️ [Analytics] Timeout');
-      }
-    }
+    } catch(e) {}
   }
 
-  // دالة تصنيف النية
   function classifyIntent(question) {
     const q = normalize(question);
     if (/خرسانة|إسمنت|حديد|إنشاء|تصميم|مقاومة|هندس/.test(q)) return 'engineering';
@@ -142,6 +133,40 @@
   btn.textContent = '💬';
   document.body.appendChild(btn);
 
+  // ✅ تعريف المتغيرات هنا (قبل أي دالة تستخدمها)
+  let allArticles = [];
+  let allLibraryFiles = [];
+  let articlesLoaded = false;
+  let libraryLoaded = false;
+
+  const TAB_NAMES = {
+    engineering:'المنصة الهندسية', political:'الأرشيف السياسي',
+    nubian:'نوبيان', academy:'الأكاديمية', lifestyle:'نمط الحياة والصحة'
+  };
+
+  async function loadAllArticles() {
+    if (articlesLoaded) return;
+    const tabs = ['engineering','political','nubian','academy','lifestyle'];
+    const results = await Promise.all(
+      tabs.map(tab =>
+        fetch(`data/${tab}.json?v=${APP_VERSION}`)
+          .then(r => r.ok ? r.json() : []).catch(() => [])
+          .then(arr => arr.map(a => ({ ...a, _tab: tab })))
+      )
+    );
+    allArticles = results.flat();
+    articlesLoaded = true;
+  }
+
+  async function loadLibrary() {
+    if (libraryLoaded) return;
+    try {
+      const r = await fetch(`library_index.json?v=${APP_VERSION}`);
+      if (r.ok) { const d = await r.json(); allLibraryFiles = d.files || []; }
+    } catch(e) {}
+    libraryLoaded = true;
+  }
+
   function getDynamicSuggestions(count = 4) {
     const suggestions = [];
     if (allArticles.length > 0) {
@@ -169,17 +194,24 @@
     return 'مساء الخير! 🌙';
   }
 
+  const HISTORY_KEY = 'bassam_search_history';
+  function saveToHistory(question) {
+    try {
+      const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      const updated = [question, ...history.filter(q => q !== question)].slice(0, 5);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+    } catch(e) {}
+  }
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+    catch(e) { return []; }
+  }
+
   function buildWelcomeHTML() {
     const greeting = getGreeting();
     const history = getHistory();
     const historyHint = history.length > 0 ? `<div class="history-hint">🕐 آخر بحث: <b>${history[0]}</b></div>` : '';
     return `<div class="smart-msg-bot">${greeting} أنا مساعد البحث في منصة BassamIbrahim.<br>اسألني عن أي موضوع، أو اختر من الاقتراحات:${historyHint}</div>`;
-  }
-
-  function resetChat() {
-    messagesEl.innerHTML = buildWelcomeHTML() + buildSuggestionChips();
-    bindChips(messagesEl);
-    messagesEl.scrollTop = 0;
   }
 
   const box = document.createElement('div');
@@ -227,43 +259,16 @@
   closeBtn.addEventListener('click', () => box.classList.remove('open'));
   clearBtn.addEventListener('click', resetChat);
 
-  // ========== تحميل البيانات ==========
-  let allArticles = [], allLibraryFiles = [];
-  let articlesLoaded = false, libraryLoaded = false;
-
-  const TAB_NAMES = {
-    engineering:'المنصة الهندسية', political:'الأرشيف السياسي',
-    nubian:'نوبيان', academy:'الأكاديمية', lifestyle:'نمط الحياة والصحة'
-  };
-
-  async function loadAllArticles() {
-    if (articlesLoaded) return;
-    const tabs = ['engineering','political','nubian','academy','lifestyle'];
-    const results = await Promise.all(
-      tabs.map(tab =>
-        fetch(`data/${tab}.json?v=${APP_VERSION}`)
-          .then(r => r.ok ? r.json() : []).catch(() => [])
-          .then(arr => arr.map(a => ({ ...a, _tab: tab })))
-      )
-    );
-    allArticles = results.flat();
-    articlesLoaded = true;
+  function resetChat() {
+    messagesEl.innerHTML = buildWelcomeHTML() + buildSuggestionChips();
+    bindChips(messagesEl);
+    messagesEl.scrollTop = 0;
   }
 
-  async function loadLibrary() {
-    if (libraryLoaded) return;
-    try {
-      const r = await fetch(`library_index.json?v=${APP_VERSION}`);
-      if (r.ok) { const d = await r.json(); allLibraryFiles = d.files || []; }
-    } catch(e) {}
-    libraryLoaded = true;
-  }
-
-  // ========== دالة البحث المحسَّنة (v3.0) ==========
+  // ========== دوال البحث والمعالجة ==========
   function searchArticles(query) {
     const q = normalize(query);
     if (!q || q.length < 2) return [];
-
     return allArticles
       .map(article => {
         let score = 0;
@@ -272,7 +277,6 @@
         const contentAr = normalize(article.content_ar || article.content || '');
         const contentEn = normalize(article.content_en || '');
         const tags = (article.tags || []).map(t => normalize(t));
-
         if (titleAr.includes(q)) score += 100;
         if (titleEn.includes(q)) score += 90;
         tags.forEach(tag => {
@@ -281,23 +285,17 @@
         });
         if (contentAr.includes(q)) score += 15;
         if (contentEn.includes(q)) score += 10;
-
         if (q.split(/\s+/).length >= 2) {
           if (titleAr.includes(q)) score += 200;
           if (contentAr.includes(q)) score += 80;
         }
-
         if (fuzzyMatch(titleAr, q) > 0.8) score += 50;
         if (fuzzyMatch(contentAr, q) > 0.8) score += 20;
-
         const queryWords = q.split(/\s+/).filter(w => w.length > 2);
         if (queryWords.length >= 2) {
-          const allWordsInTitle = queryWords.every(w => titleAr.includes(w));
-          const allWordsInContent = queryWords.every(w => contentAr.includes(w));
-          if (allWordsInTitle) score += 70;
-          if (allWordsInContent) score += 30;
+          if (queryWords.every(w => titleAr.includes(w))) score += 70;
+          if (queryWords.every(w => contentAr.includes(w))) score += 30;
         }
-
         return { ...article, score };
       })
       .filter(a => a.score > 0)
@@ -323,19 +321,6 @@
     return plain;
   }
 
-  const HISTORY_KEY = 'bassam_search_history';
-  function saveToHistory(question) {
-    try {
-      const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-      const updated = [question, ...history.filter(q => q !== question)].slice(0, 5);
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
-    } catch(e) {}
-  }
-  function getHistory() {
-    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
-    catch(e) { return []; }
-  }
-
   function getSearchSuggestions(query) {
     const allTitles = allArticles.map(a => a.title_ar || a.title_en || a.title || '').filter(Boolean);
     const suggestions = allTitles.filter(title => fuzzyMatch(title, query) > 0.3).slice(0, 3);
@@ -356,9 +341,7 @@
     const div = document.createElement('div');
     div.className = isUser ? 'smart-msg-user' : 'smart-msg-bot';
     div.innerHTML = html;
-    
     if (showFeedback) {
-      const answerTimestamp = Date.now();
       const feedbackDiv = document.createElement('div');
       feedbackDiv.className = 'feedback-btns';
       feedbackDiv.innerHTML = `
@@ -367,7 +350,6 @@
         <button class="feedback-btn feedback-no" title="لا">👎</button>
       `;
       div.appendChild(feedbackDiv);
-      
       const sendFeedback = (wasHelpful) => {
         logToSupabase({
           session_id: generateSessionId(),
@@ -378,7 +360,6 @@
           was_helpful: wasHelpful
         });
       };
-      
       feedbackDiv.querySelector('.feedback-yes').addEventListener('click', function() {
         this.classList.add('active');
         feedbackDiv.querySelector('.feedback-no').classList.remove('active');
@@ -390,7 +371,6 @@
         sendFeedback(false);
       });
     }
-    
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
     return div;
@@ -406,11 +386,11 @@
 
   function getProfessionalFallback(question) {
     const q = question.trim();
-    const chatKeywords = ['كيف حالك', 'شلونك', 'ازيك', 'كيفك', 'هل يمكنني التحدث', 'اريد التحدث', 'اتحدث مع', 'من انت', 'ما اسمك', 'شو اسمك', 'تعرف على', 'صديق', 'احبك', 'تحبني'];
+    const chatKeywords = ['كيف حالك', 'شلونك', 'ازيك', 'كيفك'];
     if (chatKeywords.some(k => q.includes(k))) {
-      return '🎯 <b>أنا هنا لخدمتك!</b><br><br>أنا مساعد متخصص في محتوى منصة بسام إبراهيم. يمكنني مساعدتك في استكشاف مقالات وأبحاث المنصة في المجالات التالية:<br><br>🏗️ الهندسة والابتكار الإنشائي<br>🏛️ التاريخ والتحليل السياسي<br>🏺 الحضارة النوبية<br>📚 التطوير والمشاريع والقيادة<br>🌿 الصحة ونمط الحياة<br><br>💡 <b>جرّب أن تسألني سؤالاً مثل:</b> "ما هي علوم المواد؟" أو "كيف أكتب مشروعاً ناجحاً؟"';
+      return '🎯 <b>أنا هنا لخدمتك!</b><br><br>أنا مساعد متخصص في محتوى منصة بسام إبراهيم. جرّب أن تسألني عن الهندسة، السياسة، الحضارة النوبية، التطوير، أو الصحة.';
     }
-    return '🎯 <b>شكراً على سؤالك!</b><br><br>أنا متخصص فقط في محتوى منصة بسام إبراهيم. لم أجد مقالاً يطابق سؤالك الحالي في المنصة.<br><br>💡 <b>اقتراحات لتحصل على أفضل إجابة:</b><br>• استخدم كلمات مفتاحية محددة تتعلق بمجالات المنصة<br>• جرّب البحث في أحد الأقسام الخمسة من القائمة العلوية<br>• يمكنك سؤالي عن: الهندسة، السياسة السودانية، الحضارة النوبية، التطوير، أو الصحة<br><br>📚 <b>ما زلت بحاجة للمساعدة؟</b> يمكنك التواصل مع المهندس بسام مباشرة.';
+    return '🎯 <b>شكراً على سؤالك!</b><br><br>يمكنك سؤالي عن: الهندسة، السياسة السودانية، الحضارة النوبية، التطوير، أو الصحة.';
   }
 
   async function askHybridExpert(question, articles) {
@@ -422,7 +402,6 @@
         return `عنوان المقال: ${title}\nمحتوى: ${content}`;
       }).join('\n---\n');
     }
-
     try {
       const response = await fetch(AI_PROXY_URL, {
         method: 'POST',
@@ -430,7 +409,6 @@
         body: JSON.stringify({ question, context })
       });
       const data = await response.json();
-      
       if (data.reply && data.reply.length > 50) {
         return sanitizeHTML(data.reply);
       }
@@ -440,7 +418,6 @@
     }
   }
 
-  // ========== المعالج الرئيسي ==========
   async function handleQuestion(question) {
     const questionStartTime = performance.now();
     saveToHistory(question);
@@ -448,18 +425,15 @@
 
     const kbAns = searchKB(question);
     if (kbAns) {
-      const elapsed = Math.round(performance.now() - questionStartTime);
       logToSupabase({
         session_id: generateSessionId(),
         question: question,
         intent: classifyIntent(question),
         results_count: 1,
-        response_time_ms: elapsed,
+        response_time_ms: Math.round(performance.now() - questionStartTime),
         response_type: 'kb',
-        articles_found: 0,
-        library_files_found: 0,
-        kb_match: true,
-        expert_used: false,
+        articles_found: 0, library_files_found: 0,
+        kb_match: true, expert_used: false,
         user_agent: navigator.userAgent,
         platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
       });
@@ -474,123 +448,38 @@
     typing.remove();
 
     const totalResults = articles.length + files.length;
-    const elapsed = Math.round(performance.now() - questionStartTime);
     logToSupabase({
       session_id: generateSessionId(),
       question: question,
       intent: classifyIntent(question),
       results_count: totalResults,
-      response_time_ms: elapsed,
+      response_time_ms: Math.round(performance.now() - questionStartTime),
       response_type: totalResults > 0 ? 'articles' : 'fallback',
-      articles_found: articles.length,
-      library_files_found: files.length,
-      kb_match: false,
-      expert_used: false,
+      articles_found: articles.length, library_files_found: files.length,
+      kb_match: false, expert_used: false,
       user_agent: navigator.userAgent,
       platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
     });
-
-    if (!articles.length && !files.length) {
-      const enc = encodeURIComponent(question);
-      const suggestions = getSearchSuggestions(question);
-      const noResultNode = addMsg(`
-        🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.
-        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="suggestion-chip ask-general-ai" style="background:#EAB308;color:#000;border:none;font-weight:bold;">🧠 اسأل الخبير العام</button>
-          <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link" style="margin-top:0;">💬 تواصل مع بسام</a>
-        </div>
-        <div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات للبحث:</b> ${suggestions.map(s => `<button class="suggestion-chip" data-question="${s}" style="font-size:10px;">${s}</button>`).join(' ')}</div>
-      `, false, true, question, 0, questionStartTime);
-      
-      noResultNode.querySelector('.ask-general-ai')?.addEventListener('click', async function() {
-        this.disabled = true;
-        this.textContent = '⏳ جاري تفكير الخبير...';
-        const expertReply = await askHybridExpert(question, []);
-        logToSupabase({
-          session_id: generateSessionId(),
-          question: question,
-          intent: classifyIntent(question),
-          results_count: 0,
-          response_time_ms: Math.round(performance.now() - questionStartTime),
-          response_type: 'expert',
-          articles_found: 0,
-          library_files_found: 0,
-          kb_match: false,
-          expert_used: true,
-          user_agent: navigator.userAgent,
-          platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
-        });
-        addMsg(`<div class="smart-result expert-badge">🧠 <b>يقول الخبير العام:</b><br>${expertReply}</div>`);
-        this.style.display = 'none';
-      });
-      return;
-    }
 
     let reply = '';
     if (articles.length) {
       reply += `<b>📰 مقالات ذات صلة (${articles.length}):</b><br><br>`;
       articles.forEach(a => {
         const title = a.title_ar || a.title_en || a.title || 'بدون عنوان';
-        const tab = TAB_NAMES[a._tab] || a._tab;
-        const btnName = BUTTON_NAMES[a.button] || '';
-        const preview = getContentPreview(a);
-        reply += `<div class="smart-result">
-          📰 <b>${title}</b><br>
-          📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}
-          ${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}
-        </div>`;
+        reply += `<div class="smart-result">📰 <b>${title}</b></div>`;
       });
     }
     if (files.length) {
       reply += `<b>📚 ملفات من المكتبة (${files.length}):</b><br><br>`;
       files.forEach(f => {
         const title = f.title_ar || f.title_en || f.title || 'بدون عنوان';
-        const tab = TAB_NAMES[f.category] || f.category;
-        const url = `https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/${f.filePath}`;
-        reply += `<div class="smart-result">
-          📁 <b>${title}</b><br>
-          📂 <span class="section-badge">${tab}</span>${f.fileSize ? ` 📦 ${f.fileSize}` : ''}<br>
-          <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#60CFFF;font-weight:bold;">⬇️ تحميل الملف المباشر</a>
-        </div>`;
+        reply += `<div class="smart-result">📁 <b>${title}</b></div>`;
       });
     }
-    
-    reply += `<div style="margin-top:12px;">
-      <button class="suggestion-chip ask-expert-btn" style="border-color:#EAB308;color:#EAB308;">✨ اسأل الخبير لتلخيص هذه النتائج</button>
-    </div>`;
-    
-    const resultNode = addMsg(reply, false, true, question, totalResults, questionStartTime);
-
-    const expertBtn = resultNode.querySelector('.ask-expert-btn');
-    if (expertBtn) {
-      expertBtn.addEventListener('click', async function() {
-        this.disabled = true;
-        this.textContent = '⏳ جاري إعداد التلخيص الذكي...';
-        const expertReply = await askHybridExpert(question, articles);
-        logToSupabase({
-          session_id: generateSessionId(),
-          question: question,
-          intent: classifyIntent(question),
-          results_count: totalResults,
-          response_time_ms: Math.round(performance.now() - questionStartTime),
-          response_type: 'expert',
-          articles_found: articles.length,
-          library_files_found: files.length,
-          kb_match: false,
-          expert_used: true,
-          user_agent: navigator.userAgent,
-          platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
-        });
-        const enhancedReply = `
-          ${expertReply}
-          <div style="margin-top:10px;padding:8px 12px;background:rgba(59,158,255,0.08);border-radius:8px;border-right:3px solid #3B9EFF;">
-            💡 <b>للاستفادة القصوى:</b> المقال الكامل يحتوي على تفاصيل وأمثلة ودراسات حالة لا تجدها في هذا التلخيص. أنصحك بقراءته كاملاً.
-          </div>
-        `;
-        addMsg(`<div class="smart-result expert-badge">🧠 <b>تلخيص الخبير للنتائج:</b><br>${enhancedReply}</div>`);
-        this.style.display = 'none';
-      });
+    if (!articles.length && !files.length) {
+      reply = getProfessionalFallback(question);
     }
+    addMsg(reply, false, true, question, totalResults, questionStartTime);
   }
 
   sendBtn.addEventListener('click', () => {
@@ -604,6 +493,5 @@
     }
   });
 
-  // ========== بدء التشغيل ==========
   loadKnowledgeBase();
 })();
