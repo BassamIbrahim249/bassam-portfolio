@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
+  <script>
+  if('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(regs) {
+      regs.forEach(reg => reg.unregister());
+    });
+    caches.keys().then(function(names) {
+      names.forEach(name => caches.delete(name));
+    }).then(function() {
+      // إعادة تحميل الصفحة تلقائياً مرة واحدة بعد التنظيف
+      if (!sessionStorage.getItem('cache_cleared')) {
+        sessionStorage.setItem('cache_cleared', '1');
+        window.location.reload(true);
+      }
+    });
+  }
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني</title>
