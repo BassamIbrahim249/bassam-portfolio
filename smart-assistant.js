@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.10 - إصلاح الاعتراض الخاطئ) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.10-FIXED - إنتاجي) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -282,7 +282,7 @@
     return div;
   }
 
-  // ✅ المعالج الرئيسي مع اعتراض الترحيب (مُحسَّن)
+  // ✅ المعالج الرئيسي (آمن تماماً)
   async function handleQuestion(question) {
     const start = performance.now();
     saveHistory(question);
@@ -292,7 +292,7 @@
     const timeout = new Promise(r => setTimeout(r, 3000));
     await Promise.race([loadAllData(), timeout]);
 
-    // 1. محاولة البحث في قاعدة المعرفة المحلية
+    // 1. قاعدة المعرفة
     const kbAns = searchKB(question);
     if (kbAns) {
       logToSupabase({ session_id: generateSessionId(), question, intent: classifyIntent(question), results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type:'kb', articles_found:0, library_files_found:0, kb_match:true, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
@@ -300,12 +300,11 @@
       return;
     }
 
-    // 2. اعتراض الأسئلة الترحيبية والتعريفية (آمن - بدون اعتراض خاطئ)
+    // 2. اعتراض الأسئلة العامة (بدون تداخل مع المقالات)
     const qNorm = normalize(question);
     const greetingKeywords = ['مرحبا', 'اهلا', 'هلا', 'سلام', 'السلام عليكم', 'تحياتي', 'صباح الخير', 'مساء الخير', 'كيف حالك', 'شلونك', 'ازيك', 'كيفك'];
     const aboutBassam = ['من انت', 'من هو بسام', 'بسام ابراهيم', 'صاحب الموقع', 'مطور الموقع', 'نبذة عنك', 'عن بسام', 'من يكون', 'عرف بنفسك', 'تعريف', 'سيرتك', 'خلفيتك'];
-    const aboutPlatform = ['ما هذا الموقع', 'عن الموقع', 'المنصه', 'الموقع ده', 'تعريف بالموقع', 'هدف الموقع', 'هدف المنصه', 'غرض الموقع', 'فكرة الموقع', 'اخبرني عن المنصه', 'ماهو الهدف من المنصه', 'من الذي اسس المنصه', 'لماذا اسس المنصه', 'ماذا استفيد', 'ماذا لديكم'];
-    // ✅ تم حذف 'كيف' المنفردة وتخصيص الكلمات
+    const aboutPlatform = ['ما هذا الموقع', 'عن الموقع', 'ما هي المنصه', 'تعريف بالمنصه', 'هدف الموقع', 'هدف المنصه', 'غرض الموقع', 'فكرة الموقع', 'اخبرني عن المنصه', 'ماهو الهدف من المنصه', 'من الذي اسس المنصه', 'لماذا اسس المنصه', 'ماذا استفيد', 'ماذا لديكم'];
     const howToUse = ['كيف استخدم', 'طريقه الاستخدام', 'كيف ابحث في', 'التنقل في', 'شرح الموقع', 'دليل الاستخدام', 'طريقة التصفح'];
 
     if (greetingKeywords.some(kw => qNorm.includes(normalize(kw)))) {
