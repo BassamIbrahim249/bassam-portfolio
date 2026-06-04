@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.2-FINAL-FIXED) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.3 - كل الميزات) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -167,8 +167,21 @@
     libraryLoaded = true;
   }
 
+  // ✅ اقتراحات ديناميكية (مأخوذة من المقالات الفعلية + ثابتة)
+  const STATIC_SUGGESTIONS = [
+    'ما هي علوم المواد؟','كيف أكتب مشروعاً ناجحاً؟','ما هي مملكة مروي؟',
+    'كيف أحسن تغذيتي؟','ما هي الحضارة النوبية؟','كيف أبحث في المنصة؟',
+    'ما هي المكتبة الرقمية؟','كيف أطور مهارات القيادة والإدارة؟',
+    'من هو بسام إبراهيم؟','ما هي أقسام الموقع؟','كيف أتواصل مع بسام؟',
+    'ما هو الابتكار الإنشائي؟','كيف أحقق التميز البدني؟',
+    'ما هي الآثار النوبية؟','كيف أكتب منحة دراسية؟','ما هي الصحة الشاملة؟',
+    'ما هو التحليل الاستراتيجي؟','ما هي فراعنة السودان؟',
+    'ما أقسام الأكاديمية؟','كيف أستخدم المنصة؟'
+  ];
+
   function getDynamicSuggestions(count = 4) {
     const suggestions = [];
+    // إضافة من المقالات إن وجدت
     if (allArticles.length > 0) {
       const titles = allArticles
         .map(a => a.title_ar || a.title || '')
@@ -177,8 +190,12 @@
         .slice(0, 3);
       suggestions.push(...titles);
     }
-    const kbQuestions = ['ما هي المكتبة الرقمية؟', 'كيف أتواصل مع بسام؟', 'ما هي أقسام الموقع؟', 'كيف أبحث في المنصة؟'];
-    suggestions.push(kbQuestions[Math.floor(Math.random() * kbQuestions.length)]);
+    // إذا لم نصل للعدد المطلوب، أضف من الاقتراحات الثابتة
+    if (suggestions.length < count) {
+      const remaining = count - suggestions.length;
+      const shuffled = [...STATIC_SUGGESTIONS].sort(() => Math.random() - 0.5);
+      suggestions.push(...shuffled.slice(0, remaining));
+    }
     return suggestions.slice(0, count);
   }
 
@@ -324,7 +341,7 @@
   function getSearchSuggestions(query) {
     const allTitles = allArticles.map(a => a.title_ar || a.title_en || a.title || '').filter(Boolean);
     const suggestions = allTitles.filter(title => fuzzyMatch(title, query) > 0.3).slice(0, 3);
-    return suggestions.length > 0 ? suggestions : ['الهندسة في السودان', 'تاريخ مملكة مروي', 'المشاريع'];
+    return suggestions.length > 0 ? suggestions : STATIC_SUGGESTIONS.slice(0, 3);
   }
 
   const BUTTON_NAMES = {
@@ -418,7 +435,7 @@
     }
   }
 
-  // ✅ المعالج الرئيسي - تحميل البيانات قبل البحث
+  // ✅ المعالج الرئيسي - مكتمل بالميزات
   async function handleQuestion(question) {
     const questionStartTime = performance.now();
     saveToHistory(question);
@@ -428,6 +445,7 @@
     await loadKnowledgeBase();
     await Promise.all([loadAllArticles(), loadLibrary()]);
 
+    // 1. جرب قاعدة المعرفة أولاً
     const kbAns = searchKB(question);
     if (kbAns) {
       logToSupabase({
@@ -446,10 +464,11 @@
       return;
     }
 
+    // 2. ابحث في المقالات والمكتبة
     const articles = searchArticles(question).slice(0, 3);
     const files = searchLibrary(question).slice(0, 3);
-
     const totalResults = articles.length + files.length;
+
     logToSupabase({
       session_id: generateSessionId(),
       question: question,
@@ -468,20 +487,96 @@
       reply += `<b>📰 مقالات ذات صلة (${articles.length}):</b><br><br>`;
       articles.forEach(a => {
         const title = a.title_ar || a.title_en || a.title || 'بدون عنوان';
-        reply += `<div class="smart-result">📰 <b>${title}</b></div>`;
+        const tab = TAB_NAMES[a._tab] || a._tab;
+        const btnName = BUTTON_NAMES[a.button] || '';
+        const preview = getContentPreview(a);
+        reply += `<div class="smart-result">
+          📰 <b>${title}</b><br>
+          📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}
+          ${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}
+        </div>`;
       });
+      reply += `<div style="margin-top:12px;">
+        <button class="suggestion-chip ask-expert-btn" style="border-color:#EAB308;color:#EAB308;">✨ اسأل الخبير لتلخيص هذه النتائج</button>
+      </div>`;
     }
     if (files.length) {
       reply += `<b>📚 ملفات من المكتبة (${files.length}):</b><br><br>`;
       files.forEach(f => {
         const title = f.title_ar || f.title_en || f.title || 'بدون عنوان';
-        reply += `<div class="smart-result">📁 <b>${title}</b></div>`;
+        const tab = TAB_NAMES[f.category] || f.category;
+        const url = `https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/${f.filePath}`;
+        reply += `<div class="smart-result">
+          📁 <b>${title}</b><br>
+          📂 <span class="section-badge">${tab}</span>${f.fileSize ? ` 📦 ${f.fileSize}` : ''}<br>
+          <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#60CFFF;font-weight:bold;">⬇️ تحميل الملف المباشر</a>
+        </div>`;
       });
     }
     if (!articles.length && !files.length) {
-      reply = getProfessionalFallback(question);
+      // لا نتائج -> اقتراحات + زر الخبير العام + واتساب
+      const enc = encodeURIComponent(question);
+      const suggestions = getSearchSuggestions(question);
+      reply = `
+        🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="suggestion-chip ask-general-ai" style="background:#EAB308;color:#000;border:none;font-weight:bold;">🧠 اسأل الخبير العام</button>
+          <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link" style="margin-top:0;">💬 تواصل مع بسام</a>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات للبحث:</b> ${suggestions.map(s => `<button class="suggestion-chip" data-question="${s}" style="font-size:10px;">${s}</button>`).join(' ')}</div>
+      `;
     }
-    addMsg(reply, false, true, question, totalResults, questionStartTime);
+
+    const msgNode = addMsg(reply, false, true, question, totalResults, questionStartTime);
+
+    // ربط زر الخبير العام
+    const generalAI = msgNode.querySelector('.ask-general-ai');
+    if (generalAI) {
+      generalAI.addEventListener('click', async function() {
+        this.disabled = true;
+        this.textContent = '⏳ جاري تفكير الخبير...';
+        const expertReply = await askHybridExpert(question, []);
+        logToSupabase({
+          session_id: generateSessionId(),
+          question: question,
+          intent: classifyIntent(question),
+          results_count: 0,
+          response_time_ms: Math.round(performance.now() - questionStartTime),
+          response_type: 'expert',
+          articles_found: 0, library_files_found: 0,
+          kb_match: false, expert_used: true,
+          user_agent: navigator.userAgent,
+          platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+        });
+        addMsg(`<div class="smart-result expert-badge">🧠 <b>يقول الخبير العام:</b><br>${expertReply}</div>`);
+        this.style.display = 'none';
+      });
+    }
+
+    // ربط زر تلخيص النتائج
+    const expertBtn = msgNode.querySelector('.ask-expert-btn');
+    if (expertBtn) {
+      expertBtn.addEventListener('click', async function() {
+        this.disabled = true;
+        this.textContent = '⏳ جاري إعداد التلخيص الذكي...';
+        const expertReply = await askHybridExpert(question, articles);
+        logToSupabase({
+          session_id: generateSessionId(),
+          question: question,
+          intent: classifyIntent(question),
+          results_count: totalResults,
+          response_time_ms: Math.round(performance.now() - questionStartTime),
+          response_type: 'expert',
+          articles_found: articles.length, library_files_found: files.length,
+          kb_match: false, expert_used: true,
+          user_agent: navigator.userAgent,
+          platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+        });
+        const enhancedReply = `${expertReply}<br><small>💡 المقال الكامل يحتوي على تفاصيل أكثر.</small>`;
+        addMsg(`<div class="smart-result expert-badge">🧠 <b>تلخيص الخبير:</b><br>${enhancedReply}</div>`);
+        this.style.display = 'none';
+      });
+    }
   }
 
   sendBtn.addEventListener('click', () => {
