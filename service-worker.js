@@ -1,11 +1,12 @@
 // service-worker.js — BassamIbrahim Portfolio
-const CACHE_NAME = 'bassam-portfolio-v2';
+const CACHE_NAME = 'bassam-portfolio-v3';
 
 const ASSETS_TO_CACHE = [
   '/bassam-portfolio/',
   '/bassam-portfolio/index.html',
   '/bassam-portfolio/manifest.json',
-  '/bassam-portfolio/icon.jpg',
+  '/bassam-portfolio/icon_192.png',
+  '/bassam-portfolio/icon_512.png',
   '/bassam-portfolio/preview.jpg',
   'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js',
   'https://cdn.tailwindcss.com',

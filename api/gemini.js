@@ -1,4 +1,4 @@
-// api/gemini.js (v3.8 - نسخة نظيفة بدون تكرار)
+// api/gemini.js (v3.7 - إصدار متطابق تمامًا مع الجدول الجديد)
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     if (!question) return res.status(400).json({ reply: 'حقل السؤال (question) مطلوب.' });
     if (!process.env.GEMINI_API_KEY) return res.status(500).json({ reply: 'مفتاح Gemini API غير مضبوط في الخادم.' });
 
-    // [1] فحص الذاكرة المخبأة
+    // [1] فحص الذاكرة المخبأة - اسم العمود question (حساس لحالة الأحرف)
     const { data: cachedData } = await supabase
       .from('bot_cache')
       .select('reply')
@@ -30,12 +30,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ reply: cachedData.reply });
     }
 
-    // ✅ إذا لم يكن هناك سياق، أرجع NOT_FOUND (بدون فحص إضافي)
-    if (!context || context.trim() === '') {
-      return res.status(200).json({ reply: 'NOT_FOUND' });
-    }
-
-    // [2] إنشاء إجابة جديدة من Gemini (فقط إذا كان هناك سياق)
+    // [2] سؤال Gemini
     const systemPrompt = `أنت مساعد ذكي ومفيد في منصة "بسام إبراهيم". مهمتك هي تلخيص المقالات المقدمة لك والإجابة عن أسئلة الزوار بناءً عليها. قاعدة ذهبية: إذا كان هناك أي سياق متاح، يجب عليك تقديم أفضل تلخيص ممكن بناءً عليه. لا تعتذر أبداً. لا تقل "لا أملك معلومات كافية". قدم دائماً ما هو موجود. أجب بالعربية الفصحى السلسة.`;
 
     const fullPrompt = context 
@@ -57,7 +52,7 @@ export default async function handler(req, res) {
     const data = await aiResponse.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أستطع الإجابة حالياً.';
 
-    // [3] حفظ الإجابة الجديدة
+    // [3] حفظ الإجابة الجديدة - اسم العمود question و reply (حساس لحالة الأحرف)
     if (reply && reply !== 'عذراً، لم أستطع الإجابة حالياً.') {
       const { error: insertError } = await supabase
         .from('bot_cache')

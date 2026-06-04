@@ -47,7 +47,8 @@
       keywords: ['ما هذا الموقع','عن الموقع','موقع ايه','الموقع ده','تعريف بالموقع','ما هو الموقع','نبذة عن الموقع','عن المنصة','المنصة','هدف الموقع','هدف المنصة','غرض الموقع','فكرة الموقع'],
       answer: '🌐 <b>منصة BassamIbrahim الرقمية</b> — منصة سودانية متخصصة تهدف إلى نشر العلم والمعرفة في خمسة مجالات رئيسية:<br><br>🏗️ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>🏛️ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي، رؤى فكرية<br>🏺 <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار، الهوية<br>📚 <b>الأكاديمية</b> — المشاريع، القيادة والإدارة، التدريب التنموي<br>🌿 <b>نمط الحياة</b> — الصحة الشاملة، التغذية، التميز البدني'
     },
-    {      keywords: ['كيف أستخدم','طريقة الاستخدام','ازاي استخدم','شرح الموقع','كيفية التصفح','التنقل','كيف أبحث','البحث عن مقال','شرح','دليل الاستخدام','تعليمات','كيف'],
+    {
+      keywords: ['كيف أستخدم','طريقة الاستخدام','ازاي استخدم','شرح الموقع','كيفية التصفح','التنقل','كيف أبحث','البحث عن مقال','شرح','دليل الاستخدام','تعليمات','كيف'],
       answer: '💡 <b>كيف تستخدم المنصة:</b><br><br>1️⃣ تصفح الأقسام الخمسة من القائمة العلوية أو الجانبية (☰)<br>2️⃣ داخل كل قسم، اختر الزر المناسب (مثل "علوم المواد" أو "تاريخ السودان")<br>3️⃣ استخدم خانة البحث داخل كل قسم للعثور على مقال معين<br>4️⃣ لتحميل الملفات، اضغط على زر 📚 المكتبة في أي قسم<br>5️⃣ استخدمني أنا (زر 💬) للبحث عن أي موضوع في كل المقالات والمكتبة دفعة واحدة'
     },
     {
@@ -96,7 +97,8 @@
   function normalize(str) {
     return (str || '').toLowerCase()
       .replace(/[\u064B-\u065F\u0670]/g, '')
-      .replace(/[أإآٱ]/g, 'ا')      .replace(/ة/g, 'ه')
+      .replace(/[أإآٱ]/g, 'ا')
+      .replace(/ة/g, 'ه')
       .replace(/ى/g, 'ي')
       .replace(/\s+/g, ' ')
       .trim();
@@ -145,7 +147,8 @@
     #smart-chat-send{padding:8px 16px;border-radius:20px;background:#3B9EFF;color:white;border:none;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:background 0.2s;}
     #smart-chat-send:hover{background:#2280dd;}
     .smart-msg-bot{align-self:flex-start;background:rgba(59,158,255,0.12);border:1px solid rgba(59,158,255,0.2);padding:10px 14px;border-radius:12px;max-width:88%;line-height:1.7;}
-    .smart-msg-user{align-self:flex-end;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);padding:10px 14px;border-radius:12px;max-width:88%;}    .smart-result{background:rgba(255,255,255,0.04);border:1px solid rgba(59,158,255,0.25);border-radius:10px;padding:10px 12px;margin-bottom:8px;line-height:1.7;}
+    .smart-msg-user{align-self:flex-end;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);padding:10px 14px;border-radius:12px;max-width:88%;}
+    .smart-result{background:rgba(255,255,255,0.04);border:1px solid rgba(59,158,255,0.25);border-radius:10px;padding:10px 12px;margin-bottom:8px;line-height:1.7;}
     .smart-result b{color:#fff;}
     .whatsapp-link{color:#25D366!important;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;padding:6px 14px;background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.4);border-radius:20px;}
     .expert-badge{border-left:4px solid #EAB308!important;background:rgba(234,179,8,0.08)!important;}
@@ -194,7 +197,8 @@
     const greeting = getGreeting();
     const history = getHistory();
     const historyHint = history.length > 0 ? `<div class="history-hint">🕐 آخر بحث: <b>${history[0]}</b></div>` : '';
-    return `      <div class="smart-msg-bot">
+    return `
+      <div class="smart-msg-bot">
         ${greeting} أنا مساعد البحث في منصة BassamIbrahim.<br>
         اسألني عن أي موضوع، أو اختر من الاقتراحات:
         ${historyHint}
@@ -243,7 +247,8 @@
         });
       }
     });
-  }  bindChips(messagesEl);
+  }
+  bindChips(messagesEl);
 
   btn.addEventListener('click', () => {
     box.classList.toggle('open');
@@ -292,7 +297,8 @@
     return allArticles
       .map(article => {
         let score = 0;
-        const titleAr = normalize(article.title_ar || article.title || '');        const titleEn = normalize(article.title_en || '');
+        const titleAr = normalize(article.title_ar || article.title || '');
+        const titleEn = normalize(article.title_en || '');
         const contentAr = normalize(article.content_ar || article.content || '');
         const contentEn = normalize(article.content_en || '');
         const tags = (article.tags || []).map(t => normalize(t));
@@ -341,7 +347,8 @@
   const BUTTON_NAMES = {
     materials_science:'علوم المواد', construction_innovation:'ابتكار إنشائي',
     engineering_lab:'مختبر هندسي', sudan_history:'تاريخ السودان',
-    strategic_analysis:'تحليل استراتيجي', intellectual_visions:'رؤى فكرية',    history:'تاريخ', archaeology:'آثار', identity:'هوية',
+    strategic_analysis:'تحليل استراتيجي', intellectual_visions:'رؤى فكرية',
+    history:'تاريخ', archaeology:'آثار', identity:'هوية',
     project_writing:'المشاريع', leadership:'القيادة والإدارة',
     developmental_training:'تدريب تنموي', holistic_health:'صحة شاملة',
     scientific_nutrition:'تغذية علمية', physical_excellence:'تميز بدني'
@@ -390,14 +397,10 @@
     try {
       const response = await fetch(AI_PROXY_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },        body: JSON.stringify({ question, context })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, context })
       });
       const data = await response.json();
-      
-      // ✅ الإصلاح: إذا كان الرد هو NOT_FOUND، استخدم الرد الاحترافي
-      if (data.reply === 'NOT_FOUND') {
-        return getProfessionalFallback(question);
-      }
       
       // ✅ الإصلاح: نعرض الرد مباشرة طالما أنه أطول من 50 حرفاً
       if (data.reply && data.reply.length > 50) {
@@ -410,38 +413,11 @@
     }
   }
 
-  // ✅ دالة جديدة: فحص السحابة أولاً
-  async function checkCloudCache(question) {
-    try {
-      const response = await fetch(AI_PROXY_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: question, context: '' })
-      });
-      const data = await response.json();
-      
-      // ✅ إصلاح: إذا كان الرد NOT_FOUND، نعتبر أنه لا توجد إجابة في السحابة
-      if (data.reply && data.reply !== 'NOT_FOUND' && data.reply.length > 10) {
-        return data.reply;
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
   // ========== المعالج الرئيسي ==========
   async function handleQuestion(question) {
     saveToHistory(question);
     addMsg(question, true);
     const typing = addMsg('⏳ جاري البحث في المنصة...');
-
-    // ✅ فحص السحابة أولاً
-    const cloudAnswer = await checkCloudCache(question);
-    if (cloudAnswer) {
-      typing.remove();      addMsg(`<div class="smart-result expert-badge">🧠 <b>من الذاكرة الذكية:</b><br>${cloudAnswer}</div>`);
-      return;
-    }
 
     const kbAns = searchKB(question);
     if (kbAns) {
@@ -468,8 +444,6 @@
         <div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات للبحث:</b> ${suggestions.map(s => `<button class="suggestion-chip" data-question="${s}" style="font-size:10px;">${s}</button>`).join(' ')}</div>
       `);
       
-      bindChips(noResultNode);
-
       noResultNode.querySelector('.ask-general-ai')?.addEventListener('click', async function() {
         this.disabled = true;
         this.textContent = '⏳ جاري تفكير الخبير...';
@@ -488,7 +462,8 @@
         const tab = TAB_NAMES[a._tab] || a._tab;
         const btnName = BUTTON_NAMES[a.button] || '';
         const preview = getContentPreview(a);
-        reply += `<div class="smart-result">          📰 <b>${title}</b><br>
+        reply += `<div class="smart-result">
+          📰 <b>${title}</b><br>
           📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}
           ${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}
         </div>`;
@@ -537,7 +512,8 @@
     if (q) { handleQuestion(q); inputEl.value = ''; }
   });
   inputEl.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {      const q = inputEl.value.trim();
+    if (e.key === 'Enter') {
+      const q = inputEl.value.trim();
       if (q) { handleQuestion(q); inputEl.value = ''; }
     }
   });
