@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.5-FINAL - إصلاح KB القاطع) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.5 - مع تشخيص KB) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -37,7 +37,6 @@
       }
     } catch(e) {
       console.warn('⚠️ KB failed, retrying...');
-      // إعادة المحاولة مرة واحدة
       setTimeout(async () => {
         try {
           const r2 = await fetch(`data/knowledge-base.json?v=${APP_VERSION}`);
@@ -306,6 +305,11 @@
 
   // ========== المعالج الرئيسي ==========
   async function handleQuestion(question) {
+    // ✅ تشخيص مؤقت
+    if (question.trim() === 'debug_kb_count') {
+      return addMsg('🔢 عدد مدخلات KB: ' + knowledgeBase.length, false, false);
+    }
+
     const start = performance.now();
     saveHistory(question);
     addMsg(question, true);
