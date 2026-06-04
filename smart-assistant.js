@@ -1,11 +1,10 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.8 - إصلاح آمن) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.9 - إصلاح شامل) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
   const ANALYTICS_URL = '/api/log-analytics';
 
-  // ========== أداة تعقيم ==========
   function sanitizeHTML(str) {
     const temp = document.createElement('div');
     temp.textContent = str;
@@ -37,9 +36,7 @@
       if (kbRes.ok) knowledgeBase = await kbRes.json();
       allArticles = articlesRes.flat();
       dataLoaded = true;
-    } catch(e) {
-      // إذا فشل، لا شيء. المساعد سيبحث في مقالات فارغة.
-    }
+    } catch(e) {}
   }
 
   function loadLibrary() {
@@ -50,14 +47,14 @@
       .catch(() => {});
   }
 
-  // ✅ normalize آمنة (بدون \b)
+  // ========== دوال معالجة النصوص ==========
   function normalize(str) {
     return (str || '').toLowerCase()
       .replace(/[\u064B-\u065F\u0670]/g, '')
       .replace(/[أإآٱ]/g, 'ا')
       .replace(/ة/g, 'ه')
       .replace(/ى/g, 'ي')
-      .replace(/(^|\s)ال/g, '$1')   // حذف "ال" التعريف بأمان
+      .replace(/(^|\s)ال/g, '$1')
       .replace(/[؟?!.,،؛:]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
@@ -209,25 +206,20 @@
     return plain;
   }
 
-  // ✅ searchKB مع بحث بالكلمات
   function searchKB(query) {
     const q = normalize(query);
     if (!q || q.length < 2 || knowledgeBase.length === 0) return null;
-
-    // 1. تطابق تام
     for (const item of knowledgeBase) {
       for (const kw of item.keywords) {
         if (normalize(kw) === q) return item.answer;
       }
     }
-    // 2. تطابق احتوائي
     for (const item of knowledgeBase) {
       for (const kw of item.keywords) {
         const nk = normalize(kw);
         if (q.includes(nk) || nk.includes(q)) return item.answer;
       }
     }
-    // 3. بحث بالكلمات
     const queryWords = q.split(' ').filter(w => w.length > 2);
     if (queryWords.length >= 2) {
       for (const item of knowledgeBase) {
@@ -241,15 +233,11 @@
         if (matched >= Math.ceil(queryWords.length * 0.6)) return item.answer;
       }
     }
-    // 4. تطابق ضبابي
     let best = null, bestScore = 0;
     for (const item of knowledgeBase) {
       for (const kw of item.keywords) {
         const score = fuzzyMatch(normalize(kw), q);
-        if (score > 0.4 && score > bestScore) {
-          bestScore = score;
-          best = item;
-        }
+        if (score > 0.4 && score > bestScore) { bestScore = score; best = item; }
       }
     }
     return best ? best.answer : null;
@@ -294,16 +282,17 @@
     return div;
   }
 
+  // ✅ المعالج الرئيسي مع اعتراض الترحيب
   async function handleQuestion(question) {
     const start = performance.now();
     saveHistory(question);
     addMsg(question, true);
     loadLibrary();
 
-    // تحميل البيانات (لن ينتظر أكثر من 3 ثوان)
     const timeout = new Promise(r => setTimeout(r, 3000));
     await Promise.race([loadAllData(), timeout]);
 
+    // 1. محاولة البحث في قاعدة المعرفة المحلية
     const kbAns = searchKB(question);
     if (kbAns) {
       logToSupabase({ session_id: generateSessionId(), question, intent: classifyIntent(question), results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type:'kb', articles_found:0, library_files_found:0, kb_match:true, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
@@ -311,6 +300,42 @@
       return;
     }
 
+    // 2. اعتراض الأسئلة الترحيبية والتعريفية (حل الصديق)
+    const qNorm = normalize(question);
+    const greetingKeywords = ['مرحبا', 'اهلا', 'هلا', 'سلام', 'السلام عليكم', 'تحياتي', 'صباح الخير', 'مساء الخير', 'كيف حالك', 'شلونك', 'ازيك', 'كيفك'];
+    const aboutBassam = ['من انت', 'من هو بسام', 'بسام ابراهيم', 'صاحب الموقع', 'مطور الموقع', 'نبذة عنك', 'عن بسام', 'من يكون', 'عرف بنفسك', 'تعريف', 'سيرتك', 'خلفيتك'];
+    const aboutPlatform = ['ما هذا الموقع', 'عن الموقع', 'المنصه', 'الموقع ده', 'تعريف بالموقع', 'هدف الموقع', 'هدف المنصه', 'غرض الموقع', 'فكرة الموقع', 'اخبرني عن المنصه', 'ماهو الهدف من المنصه', 'من الذي اسس المنصه', 'لماذا اسس المنصه', 'ماذا استفيد', 'ماذا لديكم'];
+    const howToUse = ['كيف استخدم', 'طريقه الاستخدام', 'كيف ابحث', 'التنقل', 'شرح الموقع', 'دليل الاستخدام', 'كيف'];
+
+    if (greetingKeywords.some(kw => qNorm.includes(normalize(kw)))) {
+      const greetingReply = `🎯 <b>أهلاً بك! أنا هنا لخدمتك.</b><br><br>أنا مساعد البحث الذكي المخصص لمنصة <b>BassamIbrahim</b>.<br>يمكنك سؤالي عن أي شيء يخص الأقسام المختلفة مثل: الهندسة الإنشائية، الأرشيف السياسي، الثقافة النوبية، التطوير والأكاديمية، أو الصحة ونمط الحياة.`;
+      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'greeting', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
+      addMsg(greetingReply, false, true, question, 1, start);
+      return;
+    }
+
+    if (aboutBassam.some(kw => qNorm.includes(normalize(kw)))) {
+      const aboutReply = `👷‍♂️ <b>بسام إبراهيم أحمد</b> — مهندس مدني سوداني، باحث في الشأن السوداني، ناشط مجتمعي ومهتم بالابتكار الهندسي. مؤمن بأن التخصص الحقيقي لا يقيد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة هي نافذته الرقمية لنشر العلم والمعرفة في خمسة مجالات رئيسية.`;
+      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'about', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
+      addMsg(aboutReply, false, true, question, 1, start);
+      return;
+    }
+
+    if (aboutPlatform.some(kw => qNorm.includes(normalize(kw)))) {
+      const platformReply = `🌐 <b>منصة BassamIbrahim الرقمية</b> — منصة سودانية متخصصة تهدف إلى نشر العلم والمعرفة في خمسة مجالات رئيسية:<br><br>🏗️ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>🏛️ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي، رؤى فكرية<br>🏺 <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار، الهوية<br>📚 <b>الأكاديمية</b> — المشاريع، القيادة والإدارة، التدريب التنموي<br>🌿 <b>نمط الحياة</b> — الصحة الشاملة، التغذية، التميز البدني`;
+      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'about', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
+      addMsg(platformReply, false, true, question, 1, start);
+      return;
+    }
+
+    if (howToUse.some(kw => qNorm.includes(normalize(kw)))) {
+      const howReply = `💡 <b>كيف تستخدم المنصة:</b><br><br>1️⃣ تصفح الأقسام الخمسة من القائمة العلوية أو الجانبية (☰)<br>2️⃣ داخل كل قسم، اختر الزر المناسب (مثل "علوم المواد" أو "تاريخ السودان")<br>3️⃣ استخدم خانة البحث داخل كل قسم للعثور على مقال معين<br>4️⃣ لتحميل الملفات، اضغط على زر 📚 المكتبة في أي قسم<br>5️⃣ استخدمني أنا (زر 💬) للبحث عن أي موضوع في كل المقالات والمكتبة دفعة واحدة`;
+      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'howto', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
+      addMsg(howReply, false, true, question, 1, start);
+      return;
+    }
+
+    // 3. البحث في المقالات والمكتبة
     const articles = searchArticles(question).slice(0, 3);
     const files = searchLibrary(question).slice(0, 3);
     const total = articles.length + files.length;
