@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.4-FIXED) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.5-FINAL - إصلاح KB القاطع) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -19,22 +19,54 @@
     return text;
   }
 
-  // ========== تحميل البيانات (يبدأ فوراً) ==========
+  // ========== تحميل البيانات (ضمان التحميل قبل الاستخدام) ==========
   let knowledgeBase = [];
   let allArticles = [];
   let allLibraryFiles = [];
+  let kbReady = false;
+  let articlesReady = false;
 
-  Promise.all([
-    fetch(`data/knowledge-base.json?v=${APP_VERSION}`).then(r => r.json()).catch(() => []),
-    Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
-      fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.json()).catch(() => [])
-    )).then(res => res.flat())
-  ]).then(([kb, articles]) => {
-    knowledgeBase = kb;
-    allArticles = articles;
-    console.log('✅ تم تحميل قاعدة المعرفة والمقالات');
-    if (messagesEl) updateSuggestions();
-  });
+  async function ensureKB() {
+    if (kbReady) return;
+    try {
+      const r = await fetch(`data/knowledge-base.json?v=${APP_VERSION}`);
+      if (r.ok) {
+        knowledgeBase = await r.json();
+        kbReady = true;
+        console.log('✅ KB loaded:', knowledgeBase.length, 'items');
+      }
+    } catch(e) {
+      console.warn('⚠️ KB failed, retrying...');
+      // إعادة المحاولة مرة واحدة
+      setTimeout(async () => {
+        try {
+          const r2 = await fetch(`data/knowledge-base.json?v=${APP_VERSION}`);
+          if (r2.ok) {
+            knowledgeBase = await r2.json();
+            kbReady = true;
+            console.log('✅ KB loaded on retry:', knowledgeBase.length, 'items');
+          }
+        } catch(e2) {}
+      }, 1000);
+    }
+  }
+
+  async function ensureArticles() {
+    if (articlesReady) return;
+    try {
+      const tabs = ['engineering','political','nubian','academy','lifestyle'];
+      const results = await Promise.all(
+        tabs.map(tab => fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => []))
+      );
+      allArticles = results.flat();
+      articlesReady = true;
+      console.log('✅ Articles loaded:', allArticles.length);
+    } catch(e) {}
+  }
+
+  // نبدأ التحميل فوراً
+  ensureKB();
+  ensureArticles();
 
   function loadLibrary() {
     if (allLibraryFiles.length > 0) return;
@@ -161,14 +193,6 @@
   }
   bindChips(messagesEl);
 
-  function updateSuggestions() {
-    if (!messagesEl) return;
-    const existing = messagesEl.querySelector('.suggestion-chips');
-    if (existing) existing.remove();
-    messagesEl.insertAdjacentHTML('beforeend', buildChips());
-    bindChips(messagesEl);
-  }
-
   btn.addEventListener('click', () => { box.classList.toggle('open'); if (box.classList.contains('open')) inputEl?.focus(); });
   closeBtn.addEventListener('click', () => box.classList.remove('open'));
   clearBtn.addEventListener('click', () => { messagesEl.innerHTML = buildWelcome() + buildChips(); bindChips(messagesEl); messagesEl.scrollTop = 0; });
@@ -209,12 +233,36 @@
     return plain;
   }
 
+  // ✅ دالة البحث المطوَّرة (منطق ثلاثي المستويات)
   function searchKB(query) {
     const q = normalize(query);
+    if (!q || q.length < 2 || knowledgeBase.length === 0) return null;
+
+    // 1. تطابق تام
     for (const item of knowledgeBase) {
-      if (item.keywords.some(k => normalize(k).includes(q) || q.includes(normalize(k)))) return item.answer;
+      for (const kw of item.keywords) {
+        if (normalize(kw) === q) return item.answer;
+      }
     }
-    return null;
+    // 2. تطابق احتوائي
+    for (const item of knowledgeBase) {
+      for (const kw of item.keywords) {
+        const nk = normalize(kw);
+        if (q.includes(nk) || nk.includes(q)) return item.answer;
+      }
+    }
+    // 3. تطابق ضبابي (Fuzzy)
+    let best = null, bestScore = 0;
+    for (const item of knowledgeBase) {
+      for (const kw of item.keywords) {
+        const score = fuzzyMatch(normalize(kw), q);
+        if (score > 0.4 && score > bestScore) {
+          bestScore = score;
+          best = item;
+        }
+      }
+    }
+    return best ? best.answer : null;
   }
 
   function getFallback(question) {
@@ -241,9 +289,7 @@
     const div = document.createElement('div');
     div.className = isUser ? 'smart-msg-user' : 'smart-msg-bot';
     div.innerHTML = html;
-    // ✅ تفعيل الأزرار داخل أي رسالة جديدة
     bindChips(div);
-    
     if (showFeedback) {
       const fb = document.createElement('div');
       fb.className = 'feedback-btns';
@@ -265,7 +311,9 @@
     addMsg(question, true);
     loadLibrary();
 
-    if (knowledgeBase.length === 0) await new Promise(r => setTimeout(r, 200));
+    // ✅ انتظر تحميل قاعدة المعرفة قبل محاولة البحث فيها
+    await ensureKB();
+    await ensureArticles();
 
     const kbAns = searchKB(question);
     if (kbAns) {
