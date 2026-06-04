@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.10-FIXED - إنتاجي) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.11 - إصلاح تحميل المقالات) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -18,15 +18,26 @@
     return text;
   }
 
-  // ========== تحميل البيانات ==========
+  // ========== تحميل البيانات (مضمون) ==========
   let knowledgeBase = [];
   let allArticles = [];
   let allLibraryFiles = [];
+  let dataLoading = false;
   let dataLoaded = false;
 
   async function loadAllData() {
+    // إذا تم التحميل مسبقاً، لا نعيد
     if (dataLoaded) return;
+    // إذا كان التحميل جارياً، ننتظر اكتماله
+    if (dataLoading) {
+      await new Promise(resolve => {
+        const check = setInterval(() => { if (dataLoaded) { clearInterval(check); resolve(); } }, 100);
+      });
+      return;
+    }
+    dataLoading = true;
     try {
+      // محاولة أولى
       const [kbRes, articlesRes] = await Promise.all([
         fetch(`data/knowledge-base.json?v=${APP_VERSION}`),
         Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
@@ -36,7 +47,28 @@
       if (kbRes.ok) knowledgeBase = await kbRes.json();
       allArticles = articlesRes.flat();
       dataLoaded = true;
-    } catch(e) {}
+    } catch (e) {
+      // محاولة ثانية بعد 1.5 ثانية
+      await new Promise(r => setTimeout(r, 1500));
+      try {
+        const [kbRes2, articlesRes2] = await Promise.all([
+          fetch(`data/knowledge-base.json?v=${APP_VERSION}`),
+          Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
+            fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => [])
+          ))
+        ]);
+        if (kbRes2.ok) knowledgeBase = await kbRes2.json();
+        allArticles = articlesRes2.flat();
+        dataLoaded = true;
+      } catch (e2) {
+        // حتى لو فشل، نضع مصفوفات فارغة لكي لا يتعطل الكود
+        knowledgeBase = [];
+        allArticles = [];
+        dataLoaded = true; // نجبر الإكمال لتجنب الجمود
+      }
+    } finally {
+      dataLoading = false;
+    }
   }
 
   function loadLibrary() {
@@ -282,15 +314,15 @@
     return div;
   }
 
-  // ✅ المعالج الرئيسي (آمن تماماً)
+  // ✅ المعالج الرئيسي (تحميل مضمون، اعتراض آمن، بحث قوي)
   async function handleQuestion(question) {
     const start = performance.now();
     saveHistory(question);
     addMsg(question, true);
     loadLibrary();
 
-    const timeout = new Promise(r => setTimeout(r, 3000));
-    await Promise.race([loadAllData(), timeout]);
+    // ✅ ضمان تحميل البيانات (ينتظر حتى النجاح أو الفشل الكامل)
+    await loadAllData();
 
     // 1. قاعدة المعرفة
     const kbAns = searchKB(question);
