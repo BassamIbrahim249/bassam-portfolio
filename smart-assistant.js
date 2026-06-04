@@ -1,10 +1,11 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.7 - إصلاح KB نهائي) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.8 - إصلاح آمن) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
   const ANALYTICS_URL = '/api/log-analytics';
 
+  // ========== أداة تعقيم ==========
   function sanitizeHTML(str) {
     const temp = document.createElement('div');
     temp.textContent = str;
@@ -18,6 +19,7 @@
     return text;
   }
 
+  // ========== تحميل البيانات ==========
   let knowledgeBase = [];
   let allArticles = [];
   let allLibraryFiles = [];
@@ -35,11 +37,8 @@
       if (kbRes.ok) knowledgeBase = await kbRes.json();
       allArticles = articlesRes.flat();
       dataLoaded = true;
-      console.log('✅ All data loaded: KB=' + knowledgeBase.length + ', Articles=' + allArticles.length);
     } catch(e) {
-      console.warn('⚠️ Data load failed, retrying...');
-      await new Promise(r => setTimeout(r, 1000));
-      return loadAllData();
+      // إذا فشل، لا شيء. المساعد سيبحث في مقالات فارغة.
     }
   }
 
@@ -51,15 +50,15 @@
       .catch(() => {});
   }
 
-  // ✅ دالة normalize المحسَّنة (حذف "ال" التعريف وعلامات الترقيم)
+  // ✅ normalize آمنة (بدون \b)
   function normalize(str) {
     return (str || '').toLowerCase()
       .replace(/[\u064B-\u065F\u0670]/g, '')
       .replace(/[أإآٱ]/g, 'ا')
       .replace(/ة/g, 'ه')
       .replace(/ى/g, 'ي')
-      .replace(/\bال/g, '')                         // حذف "ال" التعريف
-      .replace(/[؟?!.,،؛:]/g, '')                   // حذف علامات الترقيم
+      .replace(/(^|\s)ال/g, '$1')   // حذف "ال" التعريف بأمان
+      .replace(/[؟?!.,،؛:]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
   }
@@ -76,6 +75,7 @@
     return matched / words.length;
   }
 
+  // ========== دوال مساعدة ==========
   function generateSessionId() {
     let id = localStorage.getItem('bassam_session_id');
     if (!id) {
@@ -104,6 +104,7 @@
     return 'general';
   }
 
+  // ========== واجهة المستخدم ==========
   const style = document.createElement('style');
   style.textContent = `#smart-assistant-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#3B9EFF,#60CFFF);border:none;color:white;font-size:24px;cursor:pointer;z-index:1000;box-shadow:0 4px 15px rgba(59,158,255,0.5);transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;}#smart-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 25px rgba(59,158,255,0.8);}@media(max-width:480px){#smart-assistant-btn{bottom:80px}}#smart-chat-box{position:fixed;bottom:90px;right:24px;width:360px;max-width:90vw;height:500px;max-height:70vh;background:#080c12;border:1px solid rgba(59,158,255,0.3);border-radius:16px;z-index:1000;display:none;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.7)}@media(max-width:480px){#smart-chat-box{bottom:146px;right:12px;width:calc(100vw - 24px)}}#smart-chat-box.open{display:flex}#smart-chat-header{padding:12px 16px;background:linear-gradient(135deg,#3B9EFF,#60CFFF);color:white;font-weight:700;font-size:14px;font-family:'Cairo',sans-serif;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}#smart-chat-messages{flex:1;padding:12px;overflow-y:auto;font-family:'Cairo',sans-serif;font-size:13px;color:#ccc;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}#smart-chat-input-area{display:flex;border-top:1px solid rgba(255,255,255,0.1);padding:8px;gap:8px;flex-shrink:0}#smart-chat-input{flex:1;padding:10px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:white;font-family:'Cairo',sans-serif;font-size:12px;outline:none}#smart-chat-input:focus{border-color:rgba(59,158,255,0.5)}#smart-chat-send{padding:8px 16px;border-radius:20px;background:#3B9EFF;color:white;border:none;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:background 0.2s}#smart-chat-send:hover{background:#2280dd}.smart-msg-bot{align-self:flex-start;background:rgba(59,158,255,0.12);border:1px solid rgba(59,158,255,0.2);padding:10px 14px;border-radius:12px;max-width:88%;line-height:1.7}.smart-msg-user{align-self:flex-end;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);padding:10px 14px;border-radius:12px;max-width:88%}.smart-result{background:rgba(255,255,255,0.04);border:1px solid rgba(59,158,255,0.25);border-radius:10px;padding:10px 12px;margin-bottom:8px;line-height:1.7}.smart-result b{color:#fff}.whatsapp-link{color:#25D366!important;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;padding:6px 14px;background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.4);border-radius:20px}.expert-badge{border-left:4px solid #EAB308!important;background:rgba(234,179,8,0.08)!important}.suggestion-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 8px}.suggestion-chip{font-size:11px;padding:6px 12px;border-radius:16px;background:rgba(59,158,255,0.15);color:#3B9EFF;border:1px solid rgba(59,158,255,0.35);cursor:pointer;font-family:'Cairo',sans-serif;transition:all 0.2s}.suggestion-chip:hover{background:rgba(59,158,255,0.35);color:#fff}.section-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-left:4px;background:rgba(59,158,255,0.2);color:#3B9EFF;border:1px solid rgba(59,158,255,0.3)}.history-hint{font-size:11px;color:#8899bb;padding:4px 0;border-top:1px solid rgba(255,255,255,0.06);margin-top:4px}.feedback-btns{display:flex;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1)}.feedback-btn{font-size:18px;cursor:pointer;padding:4px 10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);transition:all 0.2s}.feedback-btn:hover{background:rgba(59,158,255,0.2);border-color:#3B9EFF}.feedback-btn.active{background:rgba(59,158,255,0.3);border-color:#3B9EFF}`;
   document.head.appendChild(style);
@@ -172,6 +173,7 @@
   closeBtn.addEventListener('click', () => box.classList.remove('open'));
   clearBtn.addEventListener('click', () => { messagesEl.innerHTML = buildWelcome() + buildChips(); bindChips(messagesEl); messagesEl.scrollTop = 0; });
 
+  // ========== دوال البحث ==========
   function searchArticles(query) {
     const q = normalize(query);
     if (!q || q.length < 2) return [];
@@ -207,7 +209,7 @@
     return plain;
   }
 
-  // ✅ دالة searchKB المحسَّنة (بحث بالكلمات)
+  // ✅ searchKB مع بحث بالكلمات
   function searchKB(query) {
     const q = normalize(query);
     if (!q || q.length < 2 || knowledgeBase.length === 0) return null;
@@ -229,17 +231,14 @@
     const queryWords = q.split(' ').filter(w => w.length > 2);
     if (queryWords.length >= 2) {
       for (const item of knowledgeBase) {
-        let matchedWords = 0;
+        let matched = 0;
         for (const kw of item.keywords) {
           const nk = normalize(kw);
           for (const word of queryWords) {
-            if (nk.includes(word) || word.includes(nk)) {
-              matchedWords++;
-              break;
-            }
+            if (nk.includes(word) || word.includes(nk)) { matched++; break; }
           }
         }
-        if (matchedWords >= Math.ceil(queryWords.length * 0.6)) return item.answer;
+        if (matched >= Math.ceil(queryWords.length * 0.6)) return item.answer;
       }
     }
     // 4. تطابق ضبابي
@@ -301,7 +300,9 @@
     addMsg(question, true);
     loadLibrary();
 
-    await loadAllData();
+    // تحميل البيانات (لن ينتظر أكثر من 3 ثوان)
+    const timeout = new Promise(r => setTimeout(r, 3000));
+    await Promise.race([loadAllData(), timeout]);
 
     const kbAns = searchKB(question);
     if (kbAns) {
