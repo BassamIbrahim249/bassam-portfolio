@@ -1,4 +1,4 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.2-FIXED-FINAL) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.2-FINAL-FIXED) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
@@ -133,7 +133,7 @@
   btn.textContent = '💬';
   document.body.appendChild(btn);
 
-  // ✅ تعريف المتغيرات هنا (قبل أي دالة تستخدمها)
+  // ✅ تعريف المتغيرات قبل أي استخدام
   let allArticles = [];
   let allLibraryFiles = [];
   let articlesLoaded = false;
@@ -418,10 +418,15 @@
     }
   }
 
+  // ✅ المعالج الرئيسي - تحميل البيانات قبل البحث
   async function handleQuestion(question) {
     const questionStartTime = performance.now();
     saveToHistory(question);
     addMsg(question, true);
+
+    // انتظر تحميل قاعدة المعرفة والمقالات والمكتبة
+    await loadKnowledgeBase();
+    await Promise.all([loadAllArticles(), loadLibrary()]);
 
     const kbAns = searchKB(question);
     if (kbAns) {
@@ -441,11 +446,8 @@
       return;
     }
 
-    const typing = addMsg('⏳ جاري البحث في المنصة...');
-    await Promise.all([loadAllArticles(), loadLibrary()]);
     const articles = searchArticles(question).slice(0, 3);
     const files = searchLibrary(question).slice(0, 3);
-    typing.remove();
 
     const totalResults = articles.length + files.length;
     logToSupabase({
