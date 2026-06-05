@@ -1,13 +1,9 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.13 - مع اختبار Supabase مباشر) ===============
+// =============== المساعد الهجين - BassamIbrahim (v13.13 - احترافي) ===============
 (function() {
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
   const ANALYTICS_URL = '/api/log-analytics';
-
-  // ✅ اختبار مؤقت: مفاتيح Supabase مباشرة (للتشخيص فقط)
-  const SUPABASE_URL = 'https://fmmeugjyugnibstofcra.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_rk3h5bHTfsVBiR1AuD3vdw_9sSJghwx';
 
   function sanitizeHTML(str) {
     const temp = document.createElement('div');
@@ -99,38 +95,11 @@
     return id;
   }
 
-  // ✅ دالة logToSupabase المعدلة (ترسل مباشرة + عبر Vercel معاً)
   async function logToSupabase(payload) {
-    // 1️⃣ إرسال مباشر إلى Supabase (اختبار مؤقت)
     try {
       const ctrl = new AbortController();
       const timer = setTimeout(() => ctrl.abort(), 3000);
-      await fetch(`${SUPABASE_URL}/rest/v1/analytics`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-        },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal
-      });
-      clearTimeout(timer);
-      console.log('✅ تم الإرسال المباشر إلى Supabase');
-    } catch(e) {
-      console.warn('⚠️ فشل الإرسال المباشر:', e.message);
-    }
-
-    // 2️⃣ إرسال عبر Vercel (الطريقة الأصلية)
-    try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 3000);
-      await fetch(ANALYTICS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal
-      });
+      await fetch(ANALYTICS_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload), signal:ctrl.signal });
       clearTimeout(timer);
     } catch(e) {}
   }
@@ -365,7 +334,7 @@
     });
   }
 
-  // ✅ المعالج الرئيسي
+  // ✅ المعالج الرئيسي (مع اللمسات الاحترافية)
   async function handleQuestion(question) {
     const start = performance.now();
     saveHistory(question);
@@ -383,26 +352,23 @@
       return;
     }
 
-    // 2. اعتراض الأسئلة العامة
+    // 2. اعتراض الأسئلة العامة (موسّع باللمسات الجديدة)
     const qNorm = normalize(question);
     const qRaw = question.trim();
-    const greetingKeywords = ['مرحبا', 'اهلا', 'هلا', 'سلام', 'السلام عليكم', 'تحياتي', 'صباح الخير', 'مساء الخير', 'كيف حالك', 'شلونك', 'ازيك', 'كيفك'];
-    const aboutBassam = ['من انت', 'من هو بسام', 'بسام ابراهيم', 'صاحب الموقع', 'مطور الموقع', 'نبذة عنك', 'عن بسام', 'من يكون', 'عرف بنفسك', 'تعريف', 'سيرتك', 'خلفيتك'];
-    const aboutPlatform = ['ما هذا الموقع', 'عن الموقع', 'ما هي المنصه', 'تعريف بالمنصه', 'هدف الموقع', 'هدف المنصه', 'غرض الموقع', 'فكرة الموقع', 'اخبرني عن المنصه', 'ماهو الهدف من المنصه', 'من الذي اسس المنصه', 'لماذا اسس المنصه', 'ماذا استفيد', 'ماذا لديكم'];
-    const howToUse = ['كيف استخدم', 'طريقه الاستخدام', 'كيف ابحث في', 'التنقل في', 'شرح الموقع', 'دليل الاستخدام', 'طريقة التصفح'];
-    const helpKeywords = ['ممكن تساعدني', 'بتقدر تساعدني', 'كيف يمكنك مساعدتي', 'هل يمكنك مساعدتي', 'احتاج مساعدتك'];
-    const gratitudeKeywords = ['شكرا', 'شاكر لك', 'اشكرك', 'انت رائع', 'انت ممتاز', 'يعطيك العافيه', 'تسلم'];
-    const sectionsKeywords = ['اقسام الموقع', 'ماهي اقسام الموقع', 'عرفني علي اقسام الموقع'];
+
+    // 🆕 الكلمات المفتاحية الجديدة
+    const helpKeywords = ['ممكن تساعدني', 'بتقدر تساعدني', 'كيف يمكنك مساعدتي', 'هل يمكنك مساعدتي', 'احتاج مساعدتك', 'احتاج الي مساعدتك', 'كيف تقدر تساعدني', 'ممكن مساعده'];
+    const gratitudeKeywords = ['شكرا', 'شاكر لك', 'اشكرك', 'شكرا علي المساعده', 'شكرا ع المساعده', 'انت رائع', 'انت ممتاز', 'يعطيك العافيه', 'تسلم'];
+    const sectionsKeywords = ['اقسام الموقع', 'ماهي اقسام الموقع', 'عرفني علي اقسام الموقع', 'هل يمكنك ان تعرفني علي اقسام الموقع'];
     const startHereKeywords = ['كيف ابدا', 'من اين ابدا', 'كيف يمكنني البدء', 'من وين ابدا'];
-
-    // إيموجي
-    const emojiLove = ['🥰','🫶','😍','❤️','💕'];
-    const emojiLaugh = ['😅','😂','🤣','😆'];
-    const emojiThumbsUp = ['👍','👏','👌'];
+    const emojiLove = ['🥰', '🫶', '😍', '❤️', '💕'];
+    const emojiLaugh = ['😅', '😂', '🤣', '😆'];
+    const emojiThumbsUp = ['👍', '👏', '👌'];
     const emojiThumbsDown = ['👎'];
-    const emojiThink = ['🤔','🧐'];
-    const emojiShake = ['🤝','🤜🤛'];
+    const emojiThink = ['🤔', '🧐'];
+    const emojiShake = ['🤝', '🤜🤛'];
 
+    // 🆕 معالجة الإيموجيات (إذا كان السؤال عبارة عن إيموجي فقط أو يحتوي عليه)
     if (emojiLove.some(e => qRaw.includes(e))) {
       const reply = '🥰🫶 <b>حبيبي! تسلم لي!</b><br>أنا في خدمتك دايمًا. اسألني عن أي موضوع في المنصة.';
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'emoji', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
@@ -440,6 +406,12 @@
       return;
     }
 
+    // الاعتراضات الأصلية
+    const greetingKeywords = ['مرحبا', 'اهلا', 'هلا', 'سلام', 'السلام عليكم', 'تحياتي', 'صباح الخير', 'مساء الخير', 'كيف حالك', 'شلونك', 'ازيك', 'كيفك'];
+    const aboutBassam = ['من انت', 'من هو بسام', 'بسام ابراهيم', 'صاحب الموقع', 'مطور الموقع', 'نبذة عنك', 'عن بسام', 'من يكون', 'عرف بنفسك', 'تعريف', 'سيرتك', 'خلفيتك'];
+    const aboutPlatform = ['ما هذا الموقع', 'عن الموقع', 'ما هي المنصه', 'تعريف بالمنصه', 'هدف الموقع', 'هدف المنصه', 'غرض الموقع', 'فكرة الموقع', 'اخبرني عن المنصه', 'ماهو الهدف من المنصه', 'من الذي اسس المنصه', 'لماذا اسس المنصه', 'ماذا استفيد', 'ماذا لديكم'];
+    const howToUse = ['كيف استخدم', 'طريقه الاستخدام', 'كيف ابحث في', 'التنقل في', 'شرح الموقع', 'دليل الاستخدام', 'طريقة التصفح'];
+
     if (isIntentMatch(qNorm, greetingKeywords)) {
       const reply = `🎯 <b>أهلاً بك! أنا هنا لخدمتك 🥰</b><br><br>أنا مساعد البحث الذكي المخصص لمنصة <b>BassamIbrahim</b>.<br>يمكنك سؤالي عن أي شيء يخص الأقسام المختلفة مثل: الهندسة الإنشائية، الأرشيف السياسي، الثقافة النوبية، التطوير والأكاديمية، أو الصحة ونمط الحياة.`;
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'greeting', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
@@ -468,6 +440,7 @@
       return;
     }
 
+    // 🆕 اعتراض طلب المساعدة
     if (helpKeywords.some(kw => qNorm.includes(normalize(kw)))) {
       const reply = `🤝 <b>طبعًا! أنا هنا عشان أساعدك 🥰</b><br><br>أنا مساعد البحث في منصة <b>BassamIbrahim</b>. أقدر:<br>✅ أبحث لك في <b>50 مقالة</b> عبر 5 أقسام<br>✅ أجيب على أسئلتك من قاعدة المعرفة<br>✅ ألخص المقالات باستخدام الذكاء الاصطناعي<br>✅ أوصلك بـ <b>بسام</b> مباشرة عبر واتساب<br><br>💡 <b>اكتب لي سؤالك أو موضوعك، وأنا أتصرف فورًا!</b>`;
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'help', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
@@ -475,6 +448,7 @@
       return;
     }
 
+    // 🆕 اعتراض الشكر والامتنان
     if (gratitudeKeywords.some(kw => qNorm.includes(normalize(kw)))) {
       const replies = [
         '🥰 <b>العفو! تسلم لي!</b><br>أنا في خدمتك دايمًا. إذا احتجت أي مساعدة، لا تتردد.',
@@ -488,6 +462,7 @@
       return;
     }
 
+    // 🆕 اعتراض أقسام الموقع
     if (sectionsKeywords.some(kw => qNorm.includes(normalize(kw)))) {
       const reply = `📂 <b>أقسام المنصة الخمسة 🏗️</b><br><br>1️⃣ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>2️⃣ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي، رؤى فكرية<br>3️⃣ <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار، الهوية<br>4️⃣ <b>أكاديمية التدريب والتطوير</b> — المشاريع، القيادة والإدارة، التدريب التنموي<br>5️⃣ <b>نمط الحياة والصحة</b> — الصحة الشاملة، التغذية، التميز البدني<br><br>💡 <b>أي قسم يثير فضولك؟</b> اكتب اسمه وأنا أبحث لك عن مقالاته!`;
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'sections', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
@@ -495,6 +470,7 @@
       return;
     }
 
+    // 🆕 اعتراض من أين أبدأ
     if (startHereKeywords.some(kw => qNorm.includes(normalize(kw)))) {
       const reply = `🌟 <b>أهلاً بك! خليني أرشدك 🥰</b><br><br>🏗️ <b>مهتم بالهندسة؟</b> ابدأ بـ "علوم المواد" أو "الابتكار الإنشائي"<br>🏛️ <b>مهتم بالسياسة؟</b> اقرأ "تاريخ السودان" أو "التحليل الاستراتيجي"<br>🏺 <b>مهتم بالحضارة؟</b> استكشف "مملكة مروي" أو "الآثار النوبية"<br>📚 <b>مهتم بالتطوير؟</b> تعلم "المشاريع" و"القيادة والإدارة"<br>🌿 <b>مهتم بالصحة؟</b> اقرأ عن "التغذية العلمية" أو "التميز البدني"<br><br>💡 <b>أخبرني أي مجال يثير فضولك لأرشح لك أفضل المقالات!</b>`;
       logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'starthere', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
