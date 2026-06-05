@@ -1,88 +1,91 @@
-// =============== المساعد الهجين - BassamIbrahim (v13.13 - احترافي) ===============
-(function() {
+// =============== المساعد الهجين - BassamIbrahim (v14.1 - إنتاجي نهائي) ===============
+(function () {
+  'use strict';
   const WHATSAPP_NUMBER = '249967238251';
   const APP_VERSION = '1.0.100';
   const AI_PROXY_URL = 'https://bassam-portfolio-eight.vercel.app/api/gemini';
-  const ANALYTICS_URL = '/api/log-analytics';
+  const ANALYTICS_URL = 'https://bassam-portfolio-eight.vercel.app/api/log-analytics';
 
+  // ========== تعقيم HTML ==========
   function sanitizeHTML(str) {
-    const temp = document.createElement('div');
-    temp.textContent = str;
-    let text = temp.innerHTML;
-    text = text.replace(/&lt;(\/?)(b|br|strong|em|a|ul|ol|li|p|div|span|small)&gt;/gi, '<$1$2>');
-    text = text.replace(/&lt;a\s+([^&]*?)&gt;/gi, (match, attrs) => {
-      const decodedAttrs = attrs.replace(/&amp;/g, '&').replace(/&quot;/g, '"');
-      if (/href\s*=\s*["']https?:\/\//i.test(decodedAttrs)) return '<a ' + decodedAttrs + '>';
-      return '';
+    const tmp = document.createElement('div');
+    tmp.textContent = str;
+    let t = tmp.innerHTML;
+    t = t.replace(/&lt;(\/?)(b|br|strong|em|a|ul|ol|li|p|div|span|small)&gt;/gi, '<$1$2>');
+    t = t.replace(/&lt;a\s+([^&]*?)&gt;/gi, (_, attrs) => {
+      const da = attrs.replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+      return /href\s*=\s*["']https?:\/\//i.test(da) ? '<a ' + da + '>' : '';
     });
-    return text;
+    return t;
   }
 
   // ========== تحميل البيانات ==========
   let knowledgeBase = [];
   let allArticles = [];
   let allLibraryFiles = [];
-  let dataLoaded = false;
-  let dataLoadingPromise = null;
+  let kbLoaded = false;
+  let articlesLoaded = false;
+  let libraryLoaded = false;
+
+  async function loadKB() {
+    if (kbLoaded) return;
+    try {
+      const r = await fetch(`data/knowledge-base.json?v=${APP_VERSION}`);
+      if (r.ok) {
+        const d = await r.json();
+        knowledgeBase = Array.isArray(d) ? d : (d.items || []);
+      }
+    } catch(e) {} finally { kbLoaded = true; }
+  }
+
+  async function loadArticles() {
+    if (articlesLoaded) return;
+    try {
+      const tabs = ['engineering','political','nubian','academy','lifestyle'];
+      const res = await Promise.all(
+        tabs.map(tab => fetch(`data/${tab}.json?v=${APP_VERSION}`)
+          .then(r => r.ok ? r.json() : []).catch(() => [])
+          .then(arr => (Array.isArray(arr) ? arr : (arr.articles || []))
+            .map(a => ({ ...a, _tab: tab })))
+        )
+      );
+      allArticles = res.flat();
+    } catch(e) { allArticles = []; } finally { articlesLoaded = true; }
+  }
+
+  async function loadLibrary() {
+    if (libraryLoaded) return;
+    try {
+      const r = await fetch(`library_index.json?v=${APP_VERSION}`);
+      if (r.ok) { const d = await r.json(); allLibraryFiles = d.files || d || []; }
+    } catch(e) {} finally { libraryLoaded = true; }
+  }
 
   async function loadAllData() {
-    if (dataLoaded) return Promise.resolve();
-    if (dataLoadingPromise) return dataLoadingPromise;
-
-    dataLoadingPromise = (async () => {
-      try {
-        const articlesPromise = Promise.all(['engineering','political','nubian','academy','lifestyle'].map(tab =>
-          fetch(`data/${tab}.json?v=${APP_VERSION}`).then(r => r.ok ? r.json() : []).catch(() => [])
-        ));
-        const kbPromise = fetch(`data/knowledge-base.json?v=${APP_VERSION}`)
-          .then(r => r.ok ? r.json() : [])
-          .catch(() => []);
-
-        const [articlesRes, kbData] = await Promise.all([articlesPromise, kbPromise]);
-        knowledgeBase = Array.isArray(kbData) ? kbData : (kbData.items || []);
-        allArticles = articlesRes.flatMap(res => res.articles || res || []);
-        dataLoaded = true;
-      } catch(e) {
-        console.error("Data loading failed:", e);
-      } finally {
-        dataLoadingPromise = null;
-      }
-    })();
-
-    return dataLoadingPromise;
+    await Promise.all([loadKB(), loadArticles(), loadLibrary()]);
   }
 
-  function loadLibrary() {
-    if (allLibraryFiles.length > 0) return;
-    fetch(`library_index.json?v=${APP_VERSION}`)
-      .then(r => r.json())
-      .then(d => { allLibraryFiles = d.files || d || []; })
-      .catch(() => {});
-  }
-
-  // ========== دوال معالجة النصوص ==========
+  // ========== معالجة النصوص ==========
   function normalize(str) {
     return (str || '').toLowerCase()
       .replace(/[\u064B-\u065F\u0670]/g, '')
       .replace(/[أإآٱ]/g, 'ا')
       .replace(/ة/g, 'ه')
       .replace(/ى/g, 'ي')
-      .replace(/(^|\s)ال/g, '$1')
       .replace(/[؟?!.,،؛:]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
   }
 
   function fuzzyMatch(text, query) {
-    const t = normalize(text);
-    const q = normalize(query);
+    const t = normalize(text), q = normalize(query);
     if (!t || !q) return 0;
     if (t.includes(q)) return 1;
     const words = q.split(' ').filter(w => w.length > 2);
     if (!words.length) return 0;
-    let matched = 0;
-    words.forEach(w => { if (t.includes(w)) matched++; });
-    return matched / words.length;
+    let m = 0;
+    words.forEach(w => { if (t.includes(w)) m++; });
+    return m / words.length;
   }
 
   // ========== دوال مساعدة ==========
@@ -98,25 +101,51 @@
   async function logToSupabase(payload) {
     try {
       const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 3000);
-      await fetch(ANALYTICS_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload), signal:ctrl.signal });
-      clearTimeout(timer);
+      const t = setTimeout(() => ctrl.abort(), 3000);
+      await fetch(ANALYTICS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: ctrl.signal
+      });
+      clearTimeout(t);
     } catch(e) {}
   }
 
   function classifyIntent(q) {
     const t = normalize(q);
-    if (/خرسانة|إسمنت|حديد|إنشاء|تصميم|مقاومة|هندس/.test(t)) return 'engineering';
-    if (/سياسة|سودان|حرب|ثورة|انقلاب|حكومة/.test(t)) return 'political';
-    if (/نوبة|مروي|كوش|نوبي|آثار|بجراوية/.test(t)) return 'nubian';
-    if (/مشروع|منحة|قيادة|تدريب|تطوير|إدارة/.test(t)) return 'academy';
-    if (/صحة|تغذية|سعرات|رياضة|دايت|وزن/.test(t)) return 'health';
+    if (/خرسانه|اسمنت|حديد|انشاء|تصميم|مقاومه|هندس/.test(t)) return 'engineering';
+    if (/سياسه|سودان|حرب|ثوره|انقلاب|حكومه/.test(t)) return 'political';
+    if (/نوبه|مروي|كوش|نوبي|اثار|بجراويه/.test(t)) return 'nubian';
+    if (/مشروع|منحه|قياده|تدريب|تطوير|اداره|اكاديميه/.test(t)) return 'academy';
+    if (/صحه|تغذيه|سعرات|رياضه|دايت|وزن/.test(t)) return 'health';
     return 'general';
+  }
+
+  // ========== DARDAG — محرك المزاج المبسط ==========
+  function detectMood(raw) {
+    const q = raw.toLowerCase();
+    if (/مستعجل|بسرعه|عاجل|الحين|الان|فوري/.test(q)) return 'urgent';
+    if (/زهقت|ملل|مو لاقي|ما لقيت|تعبت|ما في/.test(q)) return 'frustrated';
+    if (/رائع|ممتاز|جميل|اعجبني|حلو|تحفه/.test(q)) return 'excited';
+    if (/ضاقت|محتاجك|علشان خاطري|ساعدني/.test(q)) return 'needy';
+    return 'neutral';
+  }
+
+  function moodPrefix(mood) {
+    const prefixes = {
+      urgent: '⚡ <b>سريع عشانك!</b><br>',
+      frustrated: '💙 <b>أفهمك، خليني أساعدك.</b><br>',
+      excited: '🎉 <b>يلا! دعنا نبحث معاً.</b><br>',
+      needy: '🫶 <b>أنا معك، تكرم عيونك.</b><br>',
+      neutral: ''
+    };
+    return prefixes[mood] || '';
   }
 
   // ========== واجهة المستخدم ==========
   const style = document.createElement('style');
-  style.textContent = `#smart-assistant-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#3B9EFF,#60CFFF);border:none;color:white;font-size:24px;cursor:pointer;z-index:1000;box-shadow:0 4px 15px rgba(59,158,255,0.5);transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;}#smart-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 25px rgba(59,158,255,0.8);}@media(max-width:480px){#smart-assistant-btn{bottom:80px}}#smart-chat-box{position:fixed;bottom:90px;right:24px;width:360px;max-width:90vw;height:500px;max-height:70vh;background:#080c12;border:1px solid rgba(59,158,255,0.3);border-radius:16px;z-index:1000;display:none;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.7)}@media(max-width:480px){#smart-chat-box{bottom:146px;right:12px;width:calc(100vw - 24px)}}#smart-chat-box.open{display:flex}#smart-chat-header{padding:12px 16px;background:linear-gradient(135deg,#3B9EFF,#60CFFF);color:white;font-weight:700;font-size:14px;font-family:'Cairo',sans-serif;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}#smart-chat-messages{flex:1;padding:12px;overflow-y:auto;font-family:'Cairo',sans-serif;font-size:13px;color:#ccc;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}#smart-chat-input-area{display:flex;border-top:1px solid rgba(255,255,255,0.1);padding:8px;gap:8px;flex-shrink:0}#smart-chat-input{flex:1;padding:10px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:white;font-family:'Cairo',sans-serif;font-size:12px;outline:none}#smart-chat-input:focus{border-color:rgba(59,158,255,0.5)}#smart-chat-send{padding:8px 16px;border-radius:20px;background:#3B9EFF;color:white;border:none;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:background 0.2s}#smart-chat-send:hover{background:#2280dd}.smart-msg-bot{align-self:flex-start;background:rgba(59,158,255,0.12);border:1px solid rgba(59,158,255,0.2);padding:10px 14px;border-radius:12px;max-width:88%;line-height:1.7}.smart-msg-user{align-self:flex-end;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);padding:10px 14px;border-radius:12px;max-width:88%}.smart-result{background:rgba(255,255,255,0.04);border:1px solid rgba(59,158,255,0.25);border-radius:10px;padding:10px 12px;margin-bottom:8px;line-height:1.7}.smart-result b{color:#fff}.whatsapp-link{color:#25D366!important;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;padding:6px 14px;background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.4);border-radius:20px}.expert-badge{border-left:4px solid #EAB308!important;background:rgba(234,179,8,0.08)!important}.suggestion-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 8px}.suggestion-chip{font-size:11px;padding:6px 12px;border-radius:16px;background:rgba(59,158,255,0.15);color:#3B9EFF;border:1px solid rgba(59,158,255,0.35);cursor:pointer;font-family:'Cairo',sans-serif;transition:all 0.2s}.suggestion-chip:hover{background:rgba(59,158,255,0.35);color:#fff}.section-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-left:4px;background:rgba(59,158,255,0.2);color:#3B9EFF;border:1px solid rgba(59,158,255,0.3)}.history-hint{font-size:11px;color:#8899bb;padding:4px 0;border-top:1px solid rgba(255,255,255,0.06);margin-top:4px}.feedback-btns{display:flex;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1)}.feedback-btn{font-size:18px;cursor:pointer;padding:4px 10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);transition:all 0.2s}.feedback-btn:hover{background:rgba(59,158,255,0.2);border-color:#3B9EFF}.feedback-btn.active{background:rgba(59,158,255,0.3);border-color:#3B9EFF}`;
+  style.textContent = `#smart-assistant-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#3B9EFF,#60CFFF);border:none;color:white;font-size:24px;cursor:pointer;z-index:1000;box-shadow:0 4px 15px rgba(59,158,255,0.5);transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;}#smart-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 25px rgba(59,158,255,0.8);}@media(max-width:480px){#smart-assistant-btn{bottom:80px}}#smart-chat-box{position:fixed;bottom:90px;right:24px;width:360px;max-width:90vw;height:500px;max-height:70vh;background:#080c12;border:1px solid rgba(59,158,255,0.3);border-radius:16px;z-index:1000;display:none;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.7)}@media(max-width:480px){#smart-chat-box{bottom:146px;right:12px;width:calc(100vw - 24px)}}#smart-chat-box.open{display:flex}#smart-chat-header{padding:12px 16px;background:linear-gradient(135deg,#3B9EFF,#60CFFF);color:white;font-weight:700;font-size:14px;font-family:'Cairo',sans-serif;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}#smart-chat-messages{flex:1;padding:12px;overflow-y:auto;font-family:'Cairo',sans-serif;font-size:13px;color:#ccc;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}#smart-chat-input-area{display:flex;border-top:1px solid rgba(255,255,255,0.1);padding:8px;gap:8px;flex-shrink:0}#smart-chat-input{flex:1;padding:10px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:white;font-family:'Cairo',sans-serif;font-size:12px;outline:none}#smart-chat-input:focus{border-color:rgba(59,158,255,0.5)}#smart-chat-send{padding:8px 16px;border-radius:20px;background:#3B9EFF;color:white;border:none;font-family:'Cairo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:background 0.2s}#smart-chat-send:hover{background:#2280dd}.smart-msg-bot{align-self:flex-start;background:rgba(59,158,255,0.12);border:1px solid rgba(59,158,255,0.2);padding:10px 14px;border-radius:12px;max-width:88%;line-height:1.7}.smart-msg-user{align-self:flex-end;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);padding:10px 14px;border-radius:12px;max-width:88%}.smart-result{background:rgba(255,255,255,0.04);border:1px solid rgba(59,158,255,0.25);border-radius:10px;padding:10px 12px;margin-bottom:8px;line-height:1.7}.smart-result b{color:#fff}.whatsapp-link{color:#25D366!important;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;padding:6px 14px;background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.4);border-radius:20px}.expert-badge{border-left:4px solid #EAB308!important;background:rgba(234,179,8,0.08)!important}.suggestion-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 8px}.suggestion-chip{font-size:11px;padding:6px 12px;border-radius:16px;background:rgba(59,158,255,0.15);color:#3B9EFF;border:1px solid rgba(59,158,255,0.35);cursor:pointer;font-family:'Cairo',sans-serif;transition:all 0.2s}.suggestion-chip:hover{background:rgba(59,158,255,0.35);color:#fff}.section-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-left:4px;background:rgba(59,158,255,0.2);color:#3B9EFF;border:1px solid rgba(59,158,255,0.3)}.history-hint{font-size:11px;color:#8899bb;padding:4px 0;border-top:1px solid rgba(255,255,255,0.06);margin-top:4px}.feedback-btns{display:flex;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1)}.feedback-btn{font-size:18px;cursor:pointer;padding:4px 10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);transition:all 0.2s}.feedback-btn:hover{background:rgba(59,158,255,0.2);border-color:#3B9EFF}.feedback-btn.active{background:rgba(59,158,255,0.3);border-color:#3B9EFF}.wa-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1));border:1px solid rgba(37,211,102,0.5);color:#25D366;font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;text-decoration:none;margin-top:10px;transition:all 0.2s}.wa-btn:hover{background:linear-gradient(135deg,rgba(37,211,102,0.35),rgba(37,211,102,0.2));box-shadow:0 4px 15px rgba(37,211,102,0.3)}`;
   document.head.appendChild(style);
 
   const btn = document.createElement('button');
@@ -125,45 +154,32 @@
   btn.textContent = '💬';
   document.body.appendChild(btn);
 
-  const TAB_NAMES = { engineering:'المنصة الهندسية', political:'الأرشيف السياسي', nubian:'نوبيان', academy:'الأكاديمية', lifestyle:'نمط الحياة والصحة' };
+  const TAB_NAMES = { engineering: 'المنصة الهندسية', political: 'الأرشيف السياسي', nubian: 'نوبيان', academy: 'الأكاديمية', lifestyle: 'نمط الحياة والصحة' };
   const BUTTON_NAMES = { materials_science:'علوم المواد', construction_innovation:'ابتكار إنشائي', engineering_lab:'مختبر هندسي', sudan_history:'تاريخ السودان', strategic_analysis:'تحليل استراتيجي', intellectual_visions:'رؤى فكرية', history:'تاريخ', archaeology:'آثار', identity:'هوية', project_writing:'المشاريع', leadership:'القيادة والإدارة', developmental_training:'تدريب تنموي', holistic_health:'صحة شاملة', scientific_nutrition:'تغذية علمية', physical_excellence:'تميز بدني' };
 
+  // اقتراحات من المحتوى الفعلي فقط
   function getSuggestions(count = 4) {
-    const suggestions = [];
+    const pool = [];
     if (allArticles.length > 0) {
-      const titles = allArticles
+      allArticles
         .map(a => a.title_ar || '')
-        .filter(t => t.length > 5)
+        .filter(t => t.length > 3)
         .sort(() => Math.random() - 0.5)
-        .slice(0, 3);
-      suggestions.push(...titles);
+        .slice(0, count + 2)
+        .forEach(t => pool.push(t.length > 35 ? t.substring(0, 33) + '...' : t));
     }
-    if (knowledgeBase.length > 0) {
-      const kbQuestions = knowledgeBase
-        .map(item => item.keywords[0])
-        .filter(kw => kw.length > 3 && kw.length < 50)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 2);
-      suggestions.push(...kbQuestions);
-    }
-    while (suggestions.length < count) {
-      if (allArticles.length > 0) {
-        const extraTitle = allArticles[Math.floor(Math.random() * allArticles.length)].title_ar;
-        if (extraTitle && !suggestions.includes(extraTitle)) {
-          suggestions.push(extraTitle);
-        } else {
-          break;
-        }
-      } else {
-        break;
-      }
-    }
-    return suggestions.slice(0, count);
+    knowledgeBase
+      .map(item => item.keywords?.[0] || '')
+      .filter(kw => kw.length > 3 && kw.length < 40)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 2)
+      .forEach(kw => pool.push(kw));
+    return [...new Set(pool)].slice(0, count);
   }
 
-  function buildChips() {
-    const qs = getSuggestions();
-    if (qs.length === 0) return '';
+  function buildChips(count = 4) {
+    const qs = getSuggestions(count);
+    if (!qs.length) return '';
     return '<div class="suggestion-chips">' + qs.map(q => `<button class="suggestion-chip" data-question="${q}">${q}</button>`).join('') + '</div>';
   }
 
@@ -175,14 +191,13 @@
   }
 
   const HISTORY_KEY = 'bassam_search_history';
-  function saveHistory(q) { try { const h = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); const u = [q, ...h.filter(x => x !== q)].slice(0, 5); localStorage.setItem(HISTORY_KEY, JSON.stringify(u)); } catch(e) {} }
+  function saveHistory(q) { try { const h = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); localStorage.setItem(HISTORY_KEY, JSON.stringify([q, ...h.filter(x => x !== q)].slice(0, 5))); } catch(e) {} }
   function getHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e) { return []; } }
 
   function buildWelcome() {
-    const g = getGreeting();
     const hist = getHistory();
     const hint = hist.length > 0 ? `<div class="history-hint">🕐 آخر بحث: <b>${hist[0]}</b></div>` : '';
-    return `<div class="smart-msg-bot">${g} أنا مساعد البحث في منصة BassamIbrahim.<br>اسألني عن أي موضوع، أو اختر من الاقتراحات:${hint}</div>`;
+    return `<div class="smart-msg-bot">${getGreeting()} أنا مساعد البحث في منصة BassamIbrahim.<br>اسألني عن أي موضوع، أو اختر من الاقتراحات:${hint}</div>`;
   }
 
   const box = document.createElement('div');
@@ -197,11 +212,11 @@
   const messagesEl = document.getElementById('smart-chat-messages');
 
   function bindChips(container) {
+    container.querySelectorAll('.suggestion-chip').forEach(chip => chip.replaceWith(chip.cloneNode(true)));
     container.querySelectorAll('.suggestion-chip').forEach(chip => {
-      chip.replaceWith(chip.cloneNode(true));
-    });
-    container.querySelectorAll('.suggestion-chip').forEach(chip => {
-      if(chip.dataset.question) chip.addEventListener('click', function() { handleQuestion(this.dataset.question); });
+      if (chip.dataset.question) {
+        chip.addEventListener('click', function() { handleQuestion(this.dataset.question); });
+      }
     });
   }
   bindChips(messagesEl);
@@ -210,26 +225,42 @@
   closeBtn.addEventListener('click', () => box.classList.remove('open'));
   clearBtn.addEventListener('click', () => { messagesEl.innerHTML = buildWelcome() + buildChips(); bindChips(messagesEl); messagesEl.scrollTop = 0; });
 
+  let lastSentTime = 0;
+  function submitQuestion() {
+    if (Date.now() - lastSentTime < 800) return;
+    lastSentTime = Date.now();
+    const q = inputEl.value.trim();
+    if (q) { handleQuestion(q); inputEl.value = ''; }
+  }
+  sendBtn.addEventListener('click', submitQuestion);
+  inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') submitQuestion(); });
+
   // ========== دوال البحث ==========
   function searchArticles(query) {
     const q = normalize(query);
     if (!q || q.length < 2) return [];
     const words = q.split(' ').filter(w => w.length > 2);
+    const academyBoostWords = ['تدريب','قياده','اداره','مشروع','منحه','تطوير','اكاديميه','تنموي','قدرات','مهاري'];
     return allArticles.map(a => {
       let score = 0;
-      const t = normalize(a.title_ar || '');
-      const c = normalize(a.content_ar || '');
-      const tags = (a.tags || []).map(x => normalize(x));
-      if (t.includes(q)) score += 100;
-      if (tags.some(tg => tg === q)) score += 150;
-      else if (tags.some(tg => tg.includes(q))) score += 80;
-      if (c.includes(q)) score += 15;
-      words.forEach(word => {
-        if (t.includes(word)) score += 40;
-        if (c.includes(word)) score += 5;
-      });
-      if (words.length >= 2 && words.every(w => t.includes(w))) score += 100;
-      if (fuzzyMatch(t, q) > 0.8) score += 50;
+      const tAr = normalize(a.title_ar || a.title || '');
+      const tEn = normalize(a.title_en || '');
+      const cAr = normalize(a.content_ar || a.content || '');
+      const tags = (a.tags || []).map(t => normalize(t));
+      if (tAr.includes(q)) score += 100;
+      if (tEn.includes(q)) score += 80;
+      tags.forEach(tag => { if (tag === q) score += 150; else if (tag.includes(q)||q.includes(tag)) score += 80; });
+      if (cAr.includes(q)) score += 15;
+      if (words.length >= 2) {
+        if (tAr.includes(q)) score += 200;
+        if (cAr.includes(q)) score += 60;
+        if (words.every(w => tAr.includes(w))) score += 70;
+        if (words.every(w => cAr.includes(w))) score += 25;
+      }
+      words.forEach(w => { if (tAr.includes(w)) score += 30; if (cAr.includes(w)) score += 5; tags.forEach(tag => { if (tag.includes(w)) score += 20; }); });
+      const fm = fuzzyMatch(tAr, q);
+      if (fm > 0.8) score += 50; else if (fm > 0.6) score += 25;
+      if (a._tab === 'academy' && academyBoostWords.some(w => q.includes(w))) score += 60;
       return { ...a, score };
     }).filter(a => a.score > 0).sort((a, b) => b.score - a.score);
   }
@@ -237,279 +268,235 @@
   function searchLibrary(query) {
     return allLibraryFiles.map(f => {
       let s = 0;
-      s += fuzzyMatch(f.title_ar || '', query) * 10;
+      s += fuzzyMatch(f.title_ar || f.title || '', query) * 10;
+      s += fuzzyMatch(f.title_en || '', query) * 8;
       (f.tags || []).forEach(t => { s += fuzzyMatch(t, query) * 6; });
+      s += fuzzyMatch(f.description_ar || '', query) * 3;
       return { ...f, score: s };
     }).filter(f => f.score > 0).sort((a, b) => b.score - a.score);
   }
 
-  function getContentPreview(article, max = 200) {
-    const c = article.content_ar || '';
+  function getContentPreview(article, max = 180) {
+    const c = article.content_ar || article.content || '';
     if (!c) return '';
     let plain = c.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-    if (plain.length > max) plain = plain.substring(0, max) + '...';
-    return plain;
+    return plain.length > max ? plain.substring(0, max) + '...' : plain;
   }
 
   function searchKB(query) {
+    if (!query || knowledgeBase.length === 0) return null;
     const q = normalize(query);
-    if (!q || q.length < 2 || knowledgeBase.length === 0) return null;
-    for (const item of knowledgeBase) {
-      for (const kw of item.keywords) {
-        if (normalize(kw) === q) return item.answer;
-      }
-    }
-    for (const item of knowledgeBase) {
-      for (const kw of item.keywords) {
-        const nk = normalize(kw);
-        if (q.includes(nk) || nk.includes(q)) return item.answer;
-      }
-    }
-    const queryWords = q.split(' ').filter(w => w.length > 2);
-    if (queryWords.length >= 2) {
-      for (const item of knowledgeBase) {
-        let matched = 0;
-        for (const kw of item.keywords) {
-          const nk = normalize(kw);
-          for (const word of queryWords) {
-            if (nk.includes(word) || word.includes(nk)) { matched++; break; }
-          }
-        }
-        if (matched >= Math.ceil(queryWords.length * 0.6)) return item.answer;
-      }
-    }
+    if (!q || q.length < 2) return null;
+    for (const item of knowledgeBase) { for (const kw of item.keywords) { if (normalize(kw) === q) return item.answer; } }
+    for (const item of knowledgeBase) { for (const kw of item.keywords) { const nk = normalize(kw); if (nk.length >= 4 && (q.includes(nk) || nk.includes(q))) return item.answer; } }
     let best = null, bestScore = 0;
-    for (const item of knowledgeBase) {
-      for (const kw of item.keywords) {
-        const score = fuzzyMatch(normalize(kw), q);
-        if (score > 0.4 && score > bestScore) { bestScore = score; best = item; }
-      }
-    }
+    for (const item of knowledgeBase) { for (const kw of item.keywords) { const sc = fuzzyMatch(normalize(kw), q); if (sc >= 0.8 && sc > bestScore) { bestScore = sc; best = item; } } }
     return best ? best.answer : null;
   }
 
-  function getFallback(question) {
-    const q = question.trim();
-    const chats = ['كيف حالك','شلونك','ازيك','كيفك','هل يمكنني التحدث','اريد التحدث','اتحدث مع','من انت','ما اسمك','شو اسمك','تعرف على','صديق','احبك','تحبني'];
-    if (chats.some(k => q.includes(k))) return '🎯 <b>أنا هنا لخدمتك!</b><br><br>أنا مساعد متخصص في محتوى منصة بسام إبراهيم. جرّب أن تسألني عن الهندسة، السياسة، الحضارة النوبية، التطوير، أو الصحة.';
-    return '🎯 <b>شكراً على سؤالك!</b><br><br>يمكنك سؤالي عن: الهندسة، السياسة السودانية، الحضارة النوبية، التطوير، أو الصحة.';
+  // ========== ردود الإيموجي ==========
+  const EMOJI_REPLIES = [
+    { emojis:['🥰','🫶','😍','❤️','💕','💖','😘','🌹'], reply:'🥰🫶 <b>تسلم!</b><br>أنا في خدمتك دايمًا. اسألني عن أي موضوع في المنصة.' },
+    { emojis:['😂','🤣','😆','😅'], reply:'😂 <b>منور!</b><br>أتمنى تضحك دايمًا. إذا احتجت مساعدة في البحث، أنا جاهز!' },
+    { emojis:['👍','👏','👌'], reply:'👍 <b>تسلم! من ذوقك!</b><br>أي سؤال تاني؟' },
+    { emojis:['👎'], reply:'👎 <b>آسف إذا قصرت.</b><br>تواصل مع بسام مباشرة وهو يساعدك أكثر.' },
+    { emojis:['🤔','🧐'], reply:'🤔 <b>بتفكر؟</b><br>اكتب سؤالك وأنا أبحث لك.' },
+    { emojis:['🤝','🤜','🤛'], reply:'🤝 <b>يد بيد!</b><br>كيف أقدر أساعدك اليوم؟' },
+    { emojis:['😢','😭','💔','🥲'], reply:'💙 <b>أنا معك.</b><br>إذا تحتاج أي مساعدة في المنصة، أنا هنا دايمًا.' },
+    { emojis:['🎉','🎊','🥳'], reply:'🎉 <b>مبروك!</b><br>إذا تحتاج معلومات في المنصة، اسألني.' },
+    { emojis:['😔','😞','😟'], reply:'💙 <b>إن شاء الله تكون بخير.</b><br>أنا هنا إذا احتجت أي شيء من المنصة.' },
+  ];
+
+  function checkEmojiOnly(rawText) {
+    const textOnly = rawText.replace(/[\u{1F000}-\u{1FFFF}]/gu, '').trim();
+    if (textOnly.length > 3) return null;
+    for (const item of EMOJI_REPLIES) { if (item.emojis.some(e => rawText.includes(e))) return item.reply; }
+    return null;
   }
 
-  async function askExpert(question, articles) {
-    let context = '';
-    if (articles && articles.length > 0) {
-      context = articles.slice(0, 3).map(a => `عنوان: ${a.title_ar}\nمحتوى: ${(a.content_ar || '').substring(0, 300)}`).join('\n---\n');
+  // ========== الردود الثابتة ==========
+  function isIntentMatch(qNorm, keywords) { return keywords.some(kw => qNorm.includes(normalize(kw))); }
+
+  const CONTACT_BASSAM_KEYWORDS = ['كيف اتواصل مع بسام','ممكن تكلمني ببسام','احتاج احكي مع المؤسس','هل يمكنني التواصل مع المهندس','تواصل مع بسام','كيف ابلغ بسام','رقم بسام','واتساب بسام','ايميل بسام','كيف ابلغ المهندس','ابغا اتواصل','كيف اراسل'];
+
+  const STATIC_REPLIES = {
+    greeting: {
+      keywords: ['مرحبا','اهلا','هلا','سلام','السلام عليكم','تحياتي','صباح الخير','مساء الخير','كيف حالك','شلونك','ازيك','كيفك','هاي','hi','hello','تمام','ماشي','يلا','حبيبي','يا صديقي','باشمهندس'],
+      answer: '😊 <b>أهلاً بك!</b><br><br>أنا مساعد البحث في منصة <b>BassamIbrahim</b>.<br>يمكنني مساعدتك في: الهندسة، السياسة السودانية، الحضارة النوبية، التطوير، والصحة.<br><br>💡 اكتب موضوعك وأنا أبحث لك!'
+    },
+    about_bassam: {
+      keywords: ['من انت','من هو بسام','بسام ابراهيم','صاحب الموقع','مطور الموقع','نبذه عنك','عن بسام','من يكون','عرف بنفسك'],
+      answer: '👷‍♂️ <b>بسام إبراهيم أحمد</b> — مهندس مدني سوداني، باحث في الشأن السوداني، ناشط مجتمعي ومهتم بالابتكار الهندسي.<br><br>مؤمن بأن التخصص الحقيقي يمنح صاحبه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة هي نافذته الرقمية لنشر العلم في خمسة مجالات.'
+    },
+    about_platform: {
+      keywords: ['ما هذا الموقع','عن الموقع','ما هي المنصه','هدف الموقع','هدف المنصه','غرض الموقع','فكره الموقع','اخبرني عن المنصه','الزبده','الزيت'],
+      answer: '🌐 <b>منصة BassamIbrahim الرقمية</b> — منصة سودانية متخصصة في خمسة مجالات:<br><br>🏗️ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>🏛️ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي<br>🏺 <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار<br>📚 <b>الأكاديمية</b> — المشاريع، القيادة، التدريب التنموي<br>🌿 <b>نمط الحياة</b> — الصحة، التغذية، التميز البدني'
+    },
+    how_to_use: {
+      keywords: ['كيف استخدم الموقع','كيف ابحث في الموقع','كيف ابحث في المنصه','طريقه استخدام الموقع','دليل الاستخدام','كيف اتصفح الموقع'],
+      answer: '💡 <b>كيف تستخدم المنصة:</b><br><br>1️⃣ تصفح الأقسام من القائمة العلوية أو اضغط ☰<br>2️⃣ اختر القسم واضغط على الزر المناسب<br>3️⃣ استخدم خانة البحث داخل القسم<br>4️⃣ اضغط 📚 للوصول للمكتبة الرقمية<br>5️⃣ اسألني أنا (💬) للبحث في كل المحتوى دفعة واحدة'
+    },
+    help_request: {
+      keywords: ['ممكن تساعدني','بتقدر تساعدني','كيف يمكنك مساعدتي','هل يمكنك مساعدتي','احتاج مساعدتك','كيف تقدر تساعدني','ضاقت بيا','محتاجك','علشان خاطري'],
+      answer: '🤝 <b>طبعًا! أنا هنا عشانك.</b><br><br>أقدر:<br>✅ أبحث في <b>50+ مقالة</b> عبر 5 أقسام<br>✅ أجيب على أسئلتك من قاعدة المعرفة<br>✅ ألخص المقالات بالذكاء الاصطناعي<br>✅ أوصلك بـ <b>بسام</b> مباشرة<br><br>💡 <b>اكتب سؤالك وأنا أتصرف فورًا!</b>'
+    },
+    gratitude: {
+      keywords: ['شكرا','شاكر لك','اشكرك','انت رائع','انت ممتاز','يعطيك العافيه','تسلم','مشكور','يسلمو'],
+      answer: null
+    },
+    sections: {
+      keywords: ['اقسام الموقع','ما هي اقسام','ماهي اقسام الموقع','عرفني علي اقسام'],
+      answer: '📂 <b>أقسام منصة BassamIbrahim:</b><br><br>1️⃣ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>2️⃣ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي، رؤى فكرية<br>3️⃣ <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار، الهوية<br>4️⃣ <b>الأكاديمية</b> — المشاريع، القيادة والإدارة، التدريب التنموي<br>5️⃣ <b>نمط الحياة والصحة</b> — صحة شاملة، تغذية علمية، تميز بدني<br><br>💡 أي قسم يثير فضولك؟ اكتب اسمه وأبحث لك!'
+    },
+    start_here: {
+      keywords: ['كيف ابدا','من اين ابدا','كيف يمكنني البدء','من وين ابدا','من اين اقرا'],
+      answer: '🌟 <b>خليني أرشدك:</b><br><br>🏗️ <b>مهتم بالهندسة؟</b> ابدأ بـ "علوم المواد"<br>🏛️ <b>مهتم بالسياسة؟</b> اقرأ "تاريخ السودان"<br>🏺 <b>مهتم بالحضارة؟</b> استكشف "مملكة مروي"<br>📚 <b>مهتم بالتطوير؟</b> تعلم "القيادة والإدارة"<br>🌿 <b>مهتم بالصحة؟</b> اقرأ "التغذية العلمية"<br><br>💡 أخبرني أي مجال وأرشح لك أفضل المقالات!'
+    },
+    sudanese_social: {
+      keywords: ['عامل ايه','شو اخبارك','كيفك','شو عندك','وين كنت','زمان ما شفتك','مشتاق','صاحبي','يا زول'],
+      answer: '😄 <b>كلو تمام والحمدلله!</b><br><br>أنا دايمًا هنا في الخدمة. اسألني عن أي موضوع في المنصة وأنا جاهز! 🤝'
+    },
+    encouragement: {
+      keywords: ['ما فهمت','صعب','معقد','مو واضح','محتاج شرح','ابسط ليا','اشرح لي'],
+      answer: '💡 <b>لا بأس، خليني أبسط لك!</b><br><br>يمكنك سؤالي بأي طريقة، وأنا أبحث لك في المنصة وأجيب بأبسط شكل ممكن.<br>جرّب واكتب موضوعك! 🙂'
     }
-    try {
-      const r = await fetch(AI_PROXY_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ question, context }) });
-      const d = await r.json();
-      if (d.reply && d.reply.length > 50) return sanitizeHTML(d.reply);
-      return sanitizeHTML(d.reply || getFallback(question));
-    } catch(e) { return getFallback(question); }
+  };
+
+  const GRATITUDE_REPLIES = [
+    '🥰 <b>العفو! تسلم لي!</b><br>أنا في خدمتك دايمًا.',
+    '🫶 <b>من ذوقك! الشكر لله.</b><br>أي سؤال تاني؟ أنا جاهز.',
+    '🤝 <b>تسلم يا غالي!</b><br>أنا سعيد إني قدرت أساعدك.',
+    '👏 <b>شكراً على كلامك الجميل!</b><br>دايمًا في الخدمة.'
+  ];
+
+  function checkStaticReply(qNorm) {
+    for (const [key, data] of Object.entries(STATIC_REPLIES)) {
+      if (isIntentMatch(qNorm, data.keywords)) {
+        if (key === 'gratitude') return GRATITUDE_REPLIES[Math.floor(Math.random() * GRATITUDE_REPLIES.length)];
+        return data.answer;
+      }
+    }
+    return null;
   }
 
-  function addMsg(html, isUser, showFeedback, question, results, startTime) {
+  function buildContactBassam() {
+    return `📲 <b>للتواصل المباشر مع المهندس بسام إبراهيم:</b><br><br><a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" rel="noopener noreferrer" class="wa-btn"><svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg> راسل بسام على واتساب</a><br><small style="color:#8899bb;font-size:11px;">عادةً ما يرد خلال ساعات قليلة.</small>`;
+  }
+
+  // ========== إضافة رسالة ==========
+  function addMsg(html, isUser = false, showFeedback = false, question = '', results = 0, startTime = 0) {
     const div = document.createElement('div');
     div.className = isUser ? 'smart-msg-user' : 'smart-msg-bot';
     div.innerHTML = html;
     bindChips(div);
-    if (showFeedback) {
+    if (showFeedback && !isUser) {
       const fb = document.createElement('div');
       fb.className = 'feedback-btns';
-      fb.innerHTML = '<span style="font-size:10px;color:#8899bb;">هل كانت الإجابة مفيدة؟</span><button class="feedback-btn feedback-yes">👍</button><button class="feedback-btn feedback-no">👎</button>';
+      fb.innerHTML = '<span style="font-size:10px;color:#8899bb;align-self:center;">هل كانت الإجابة مفيدة؟</span><button class="feedback-btn feedback-yes">👍</button><button class="feedback-btn feedback-no">👎</button>';
       div.appendChild(fb);
-      const send = (val) => logToSupabase({ session_id: generateSessionId(), question, intent: classifyIntent(question), results_count: results, response_time_ms: startTime ? Math.round(performance.now() - startTime) : null, was_helpful: val });
-      fb.querySelector('.feedback-yes').addEventListener('click', function() { this.classList.add('active'); fb.querySelector('.feedback-no').classList.remove('active'); send(true); });
-      fb.querySelector('.feedback-no').addEventListener('click', function() { this.classList.add('active'); fb.querySelector('.feedback-yes').classList.remove('active'); send(false); });
+      const sendFB = (val) => logToSupabase({ session_id: generateSessionId(), question, intent: classifyIntent(question), results_count: results, response_time_ms: startTime ? Math.round(performance.now() - startTime) : null, was_helpful: val });
+      fb.querySelector('.feedback-yes').addEventListener('click', function() { this.classList.add('active'); fb.querySelector('.feedback-no').classList.remove('active'); sendFB(true); });
+      fb.querySelector('.feedback-no').addEventListener('click', function() { this.classList.add('active'); fb.querySelector('.feedback-yes').classList.remove('active'); sendFB(false); });
     }
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
     return div;
   }
 
-  function isIntentMatch(qNorm, keywords) {
-    return keywords.some(kw => {
-      const nKw = normalize(kw);
-      return qNorm === nKw || qNorm.startsWith(nKw + ' ') || qNorm.endsWith(' ' + nKw) || qNorm.includes(' ' + nKw + ' ');
-    });
+  // ========== الخبير الذكي ==========
+  async function askExpert(question, articles) {
+    let context = '';
+    if (articles && articles.length > 0) {
+      context = articles.slice(0, 3).map(a => `عنوان: ${a.title_ar || ''}\nمحتوى: ${(a.content_ar || a.content || '').substring(0, 300)}`).join('\n---\n');
+    }
+    try {
+      const r = await fetch(AI_PROXY_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question, context }) });
+      const d = await r.json();
+      if (d.reply && d.reply.length > 50) return sanitizeHTML(d.reply);
+      return sanitizeHTML(d.reply || '');
+    } catch(e) { return '⚠️ تعذر الوصول للخبير حالياً. حاول مرة أخرى.'; }
   }
 
-  // ✅ المعالج الرئيسي (مع اللمسات الاحترافية)
+  // ========== المعالج الرئيسي ==========
   async function handleQuestion(question) {
     const start = performance.now();
     saveHistory(question);
     addMsg(question, true);
-    loadLibrary();
 
-    const timeout = new Promise(r => setTimeout(r, 3000));
-    await Promise.race([loadAllData(), timeout]);
+    const typing = addMsg('⏳ جاري البحث...', false, false);
+    await Promise.race([loadAllData(), new Promise(r => setTimeout(r, 5000))]);
+    typing.remove();
 
-    // 1. قاعدة المعرفة
+    const mood = detectMood(question);
+    const moodPfx = moodPrefix(mood);
+
+    const logBase = { session_id: generateSessionId(), question, intent: classifyIntent(question), user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' };
+
+    // 1. إيموجي فقط
+    const emojiReply = checkEmojiOnly(question);
+    if (emojiReply) {
+      logToSupabase({ ...logBase, results_count:1, response_time_ms:Math.round(performance.now()-start), response_type:'emoji', articles_found:0, library_files_found:0, kb_match:false, expert_used:false });
+      addMsg(emojiReply, false, true, question, 1, start);
+      return;
+    }
+
+    const qNorm = normalize(question);
+
+    // 2. التواصل مع بسام
+    if (CONTACT_BASSAM_KEYWORDS.some(kw => qNorm.includes(normalize(kw)))) {
+      logToSupabase({ ...logBase, results_count:1, response_time_ms:Math.round(performance.now()-start), response_type:'contact', articles_found:0, library_files_found:0, kb_match:false, expert_used:false });
+      addMsg(buildContactBassam(), false, false, question, 1, start);
+      return;
+    }
+
+    // 3. قاعدة المعرفة
     const kbAns = searchKB(question);
     if (kbAns) {
-      logToSupabase({ session_id: generateSessionId(), question, intent: classifyIntent(question), results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type:'kb', articles_found:0, library_files_found:0, kb_match:true, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(kbAns, false, true, question, 1, start);
+      logToSupabase({ ...logBase, results_count:1, response_time_ms:Math.round(performance.now()-start), response_type:'kb', articles_found:0, library_files_found:0, kb_match:true, expert_used:false });
+      addMsg(moodPfx + kbAns, false, true, question, 1, start);
       return;
     }
 
-    // 2. اعتراض الأسئلة العامة (موسّع باللمسات الجديدة)
-    const qNorm = normalize(question);
-    const qRaw = question.trim();
-
-    // 🆕 الكلمات المفتاحية الجديدة
-    const helpKeywords = ['ممكن تساعدني', 'بتقدر تساعدني', 'كيف يمكنك مساعدتي', 'هل يمكنك مساعدتي', 'احتاج مساعدتك', 'احتاج الي مساعدتك', 'كيف تقدر تساعدني', 'ممكن مساعده'];
-    const gratitudeKeywords = ['شكرا', 'شاكر لك', 'اشكرك', 'شكرا علي المساعده', 'شكرا ع المساعده', 'انت رائع', 'انت ممتاز', 'يعطيك العافيه', 'تسلم'];
-    const sectionsKeywords = ['اقسام الموقع', 'ماهي اقسام الموقع', 'عرفني علي اقسام الموقع', 'هل يمكنك ان تعرفني علي اقسام الموقع'];
-    const startHereKeywords = ['كيف ابدا', 'من اين ابدا', 'كيف يمكنني البدء', 'من وين ابدا'];
-    const emojiLove = ['🥰', '🫶', '😍', '❤️', '💕'];
-    const emojiLaugh = ['😅', '😂', '🤣', '😆'];
-    const emojiThumbsUp = ['👍', '👏', '👌'];
-    const emojiThumbsDown = ['👎'];
-    const emojiThink = ['🤔', '🧐'];
-    const emojiShake = ['🤝', '🤜🤛'];
-
-    // 🆕 معالجة الإيموجيات (إذا كان السؤال عبارة عن إيموجي فقط أو يحتوي عليه)
-    if (emojiLove.some(e => qRaw.includes(e))) {
-      const reply = '🥰🫶 <b>حبيبي! تسلم لي!</b><br>أنا في خدمتك دايمًا. اسألني عن أي موضوع في المنصة.';
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'emoji', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-    if (emojiLaugh.some(e => qRaw.includes(e))) {
-      const reply = '😂🤣 <b>ههههه! منور!</b><br>أتمنى إنك تضحك من قلبك. إذا تحتاج مساعدة في البحث، أنا جاهز!';
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'emoji', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-    if (emojiThumbsUp.some(e => qRaw.includes(e))) {
-      const reply = '👍👏 <b>تسلم! من ذوقك!</b><br>أنا سعيد إني قدرت أساعدك. أي سؤال تاني؟';
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'emoji', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-    if (emojiThumbsDown.some(e => qRaw.includes(e))) {
-      const reply = '👎 <b>أفهم إنك مو راضي.</b><br>أنا آسف إذا قصرت. ممكن تتواصل مع بسام مباشرة عبر واتساب لو حاب.';
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'emoji', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-    if (emojiThink.some(e => qRaw.includes(e))) {
-      const reply = '🤔 <b>بتفكر؟</b><br>إذا عندك سؤال، اكتبه لي وأنا أبحث لك في المنصة.';
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'emoji', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-    if (emojiShake.some(e => qRaw.includes(e))) {
-      const reply = '🤝 <b>يد بيد!</b><br>أنا معك. كيف أقدر أساعدك اليوم؟';
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'emoji', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
+    // 4. الردود الثابتة
+    const staticAns = checkStaticReply(qNorm);
+    if (staticAns) {
+      logToSupabase({ ...logBase, results_count:1, response_time_ms:Math.round(performance.now()-start), response_type:'static', articles_found:0, library_files_found:0, kb_match:false, expert_used:false });
+      addMsg(moodPfx + staticAns, false, true, question, 1, start);
       return;
     }
 
-    // الاعتراضات الأصلية
-    const greetingKeywords = ['مرحبا', 'اهلا', 'هلا', 'سلام', 'السلام عليكم', 'تحياتي', 'صباح الخير', 'مساء الخير', 'كيف حالك', 'شلونك', 'ازيك', 'كيفك'];
-    const aboutBassam = ['من انت', 'من هو بسام', 'بسام ابراهيم', 'صاحب الموقع', 'مطور الموقع', 'نبذة عنك', 'عن بسام', 'من يكون', 'عرف بنفسك', 'تعريف', 'سيرتك', 'خلفيتك'];
-    const aboutPlatform = ['ما هذا الموقع', 'عن الموقع', 'ما هي المنصه', 'تعريف بالمنصه', 'هدف الموقع', 'هدف المنصه', 'غرض الموقع', 'فكرة الموقع', 'اخبرني عن المنصه', 'ماهو الهدف من المنصه', 'من الذي اسس المنصه', 'لماذا اسس المنصه', 'ماذا استفيد', 'ماذا لديكم'];
-    const howToUse = ['كيف استخدم', 'طريقه الاستخدام', 'كيف ابحث في', 'التنقل في', 'شرح الموقع', 'دليل الاستخدام', 'طريقة التصفح'];
-
-    if (isIntentMatch(qNorm, greetingKeywords)) {
-      const reply = `🎯 <b>أهلاً بك! أنا هنا لخدمتك 🥰</b><br><br>أنا مساعد البحث الذكي المخصص لمنصة <b>BassamIbrahim</b>.<br>يمكنك سؤالي عن أي شيء يخص الأقسام المختلفة مثل: الهندسة الإنشائية، الأرشيف السياسي، الثقافة النوبية، التطوير والأكاديمية، أو الصحة ونمط الحياة.`;
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'greeting', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-
-    if (isIntentMatch(qNorm, aboutBassam)) {
-      const reply = `👷‍♂️ <b>بسام إبراهيم أحمد</b> — مهندس مدني سوداني، باحث في الشأن السوداني، ناشط مجتمعي ومهتم بالابتكار الهندسي 🫶<br>مؤمن بأن التخصص الحقيقي لا يقيد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة. هذه المنصة هي نافذته الرقمية لنشر العلم والمعرفة في خمسة مجالات رئيسية.`;
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'about', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-
-    if (isIntentMatch(qNorm, aboutPlatform)) {
-      const reply = `🌐 <b>منصة BassamIbrahim الرقمية</b> — منصة سودانية متخصصة تهدف إلى نشر العلم والمعرفة في خمسة مجالات رئيسية:<br><br>🏗️ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>🏛️ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي، رؤى فكرية<br>🏺 <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار، الهوية<br>📚 <b>الأكاديمية</b> — المشاريع، القيادة والإدارة، التدريب التنموي<br>🌿 <b>نمط الحياة</b> — الصحة الشاملة، التغذية، التميز البدني`;
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'about', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-
-    if (isIntentMatch(qNorm, howToUse)) {
-      const reply = `💡 <b>كيف تستخدم المنصة:</b><br><br>1️⃣ تصفح الأقسام الخمسة من القائمة العلوية أو الجانبية (☰)<br>2️⃣ داخل كل قسم، اختر الزر المناسب (مثل "علوم المواد" أو "تاريخ السودان")<br>3️⃣ استخدم خانة البحث داخل كل قسم للعثور على مقال معين<br>4️⃣ لتحميل الملفات، اضغط على زر 📚 المكتبة في أي قسم<br>5️⃣ استخدمني أنا (زر 💬) للبحث عن أي موضوع في كل المقالات والمكتبة دفعة واحدة 🤝`;
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'howto', articles_found: 0, library_files_found: 0, kb_match: false, expert_used: false, user_agent: navigator.userAgent, platform: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-
-    // 🆕 اعتراض طلب المساعدة
-    if (helpKeywords.some(kw => qNorm.includes(normalize(kw)))) {
-      const reply = `🤝 <b>طبعًا! أنا هنا عشان أساعدك 🥰</b><br><br>أنا مساعد البحث في منصة <b>BassamIbrahim</b>. أقدر:<br>✅ أبحث لك في <b>50 مقالة</b> عبر 5 أقسام<br>✅ أجيب على أسئلتك من قاعدة المعرفة<br>✅ ألخص المقالات باستخدام الذكاء الاصطناعي<br>✅ أوصلك بـ <b>بسام</b> مباشرة عبر واتساب<br><br>💡 <b>اكتب لي سؤالك أو موضوعك، وأنا أتصرف فورًا!</b>`;
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'help', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-
-    // 🆕 اعتراض الشكر والامتنان
-    if (gratitudeKeywords.some(kw => qNorm.includes(normalize(kw)))) {
-      const replies = [
-        '🥰 <b>العفو! تسلم لي!</b><br>أنا في خدمتك دايمًا. إذا احتجت أي مساعدة، لا تتردد.',
-        '🫶 <b>من ذوقك! الشكر لله.</b><br>أي سؤال تاني؟ أنا جاهز.',
-        '🤝 <b>تسلم يا غالي!</b><br>أنا سعيد إني قدرت أساعدك. إذا في شيء تاني، أنا هنا.',
-        '👏 <b>شكراً لك على كلامك الجميل!</b><br>دايمًا في الخدمة. اسألني عن أي موضوع في المنصة.'
-      ];
-      const randomReply = replies[Math.floor(Math.random() * replies.length)];
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'gratitude', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(randomReply, false, true, question, 1, start);
-      return;
-    }
-
-    // 🆕 اعتراض أقسام الموقع
-    if (sectionsKeywords.some(kw => qNorm.includes(normalize(kw)))) {
-      const reply = `📂 <b>أقسام المنصة الخمسة 🏗️</b><br><br>1️⃣ <b>المنصة الهندسية</b> — علوم المواد، ابتكار إنشائي، مختبر هندسي<br>2️⃣ <b>الأرشيف السياسي</b> — تاريخ السودان، تحليل استراتيجي، رؤى فكرية<br>3️⃣ <b>نوبيان</b> — الحضارة النوبية، التاريخ، الآثار، الهوية<br>4️⃣ <b>أكاديمية التدريب والتطوير</b> — المشاريع، القيادة والإدارة، التدريب التنموي<br>5️⃣ <b>نمط الحياة والصحة</b> — الصحة الشاملة، التغذية، التميز البدني<br><br>💡 <b>أي قسم يثير فضولك؟</b> اكتب اسمه وأنا أبحث لك عن مقالاته!`;
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'sections', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-
-    // 🆕 اعتراض من أين أبدأ
-    if (startHereKeywords.some(kw => qNorm.includes(normalize(kw)))) {
-      const reply = `🌟 <b>أهلاً بك! خليني أرشدك 🥰</b><br><br>🏗️ <b>مهتم بالهندسة؟</b> ابدأ بـ "علوم المواد" أو "الابتكار الإنشائي"<br>🏛️ <b>مهتم بالسياسة؟</b> اقرأ "تاريخ السودان" أو "التحليل الاستراتيجي"<br>🏺 <b>مهتم بالحضارة؟</b> استكشف "مملكة مروي" أو "الآثار النوبية"<br>📚 <b>مهتم بالتطوير؟</b> تعلم "المشاريع" و"القيادة والإدارة"<br>🌿 <b>مهتم بالصحة؟</b> اقرأ عن "التغذية العلمية" أو "التميز البدني"<br><br>💡 <b>أخبرني أي مجال يثير فضولك لأرشح لك أفضل المقالات!</b>`;
-      logToSupabase({ session_id: generateSessionId(), question, intent: 'general', results_count: 1, response_time_ms: Math.round(performance.now() - start), response_type: 'starthere', articles_found:0, library_files_found:0, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-      addMsg(reply, false, true, question, 1, start);
-      return;
-    }
-
-    // 3. البحث في المقالات والمكتبة
+    // 5. البحث في المقالات والمكتبة
     const articles = searchArticles(question).slice(0, 3);
     const files = searchLibrary(question).slice(0, 3);
     const total = articles.length + files.length;
 
-    logToSupabase({ session_id: generateSessionId(), question, intent: classifyIntent(question), results_count: total, response_time_ms: Math.round(performance.now() - start), response_type: total > 0 ? 'articles' : 'fallback', articles_found: articles.length, library_files_found: files.length, kb_match:false, expert_used:false, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
+    logToSupabase({ ...logBase, results_count:total, response_time_ms:Math.round(performance.now()-start), response_type:total>0?'articles':'fallback', articles_found:articles.length, library_files_found:files.length, kb_match:false, expert_used:false });
 
-    let reply = '';
+    let reply = moodPfx;
     if (articles.length) {
       reply += `<b>📰 مقالات ذات صلة (${articles.length}):</b><br><br>`;
       articles.forEach(a => {
-        const title = a.title_ar || 'بدون عنوان';
-        const tab = TAB_NAMES[a._tab] || '';
-        const btn = BUTTON_NAMES[a.button] || '';
+        const title = a.title_ar || a.title || 'بدون عنوان';
+        const tab = TAB_NAMES[a._tab] || a._tab || '';
+        const btnName = BUTTON_NAMES[a.button] || '';
         const preview = getContentPreview(a);
-        reply += `<div class="smart-result">📰 <b>${title}</b><br>📂 <span class="section-badge">${tab}</span>${btn ? ` ← <b>${btn}</b>` : ''}${preview ? `<br><small style="color:#aaa;">${preview}</small>` : ''}</div>`;
+        reply += `<div class="smart-result">📰 <b>${title}</b><br>📂 <span class="section-badge">${tab}</span>${btnName ? ` ← <b>${btnName}</b>` : ''}${preview ? `<br><small style="color:#aaa;font-size:11px;">${preview}</small>` : ''}</div>`;
       });
-      reply += '<div style="margin-top:12px;"><button class="suggestion-chip ask-expert-btn" style="border-color:#EAB308;color:#EAB308;">✨ اسأل الخبير لتلخيص هذه النتائج</button></div>';
+      reply += `<div style="margin-top:12px;"><button class="suggestion-chip ask-expert-btn" style="border-color:#EAB308;color:#EAB308;">✨ اسأل الخبير لتلخيص هذه النتائج</button></div>`;
     }
     if (files.length) {
       reply += `<b>📚 ملفات من المكتبة (${files.length}):</b><br><br>`;
       files.forEach(f => {
-        const title = f.title_ar || 'بدون عنوان';
+        const title = f.title_ar || f.title || 'بدون عنوان';
         const tab = TAB_NAMES[f.category] || '';
         const url = `https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/${f.filePath}`;
-        reply += `<div class="smart-result">📁 <b>${title}</b><br>📂 <span class="section-badge">${tab}</span>${f.fileSize ? ` 📦 ${f.fileSize}` : ''}<br><a href="${url}" target="_blank" style="color:#60CFFF;">⬇️ تحميل الملف المباشر</a></div>`;
+        reply += `<div class="smart-result">📁 <b>${title}</b><br>📂 <span class="section-badge">${tab}</span>${f.fileSize ? ` 📦 ${f.fileSize}` : ''}<br><a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#60CFFF;font-weight:bold;">⬇️ تحميل الملف المباشر</a></div>`;
       });
     }
     if (!articles.length && !files.length) {
       const enc = encodeURIComponent(question);
       const suggs = getSuggestions(3);
-      reply = `🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;"><button class="suggestion-chip ask-general-ai" style="background:#EAB308;color:#000;">🧠 اسأل الخبير العام</button><a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link">💬 تواصل مع بسام</a></div><div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات:</b> ${suggs.map(s => `<button class="suggestion-chip" data-question="${s}">${s}</button>`).join(' ')}</div>`;
+      reply = `${moodPfx}🤔 لم أجد نتيجة عن "<b>${question}</b>" في المقالات أو المكتبة.<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;"><button class="suggestion-chip ask-general-ai" style="background:#EAB308;color:#000;border:none;font-weight:bold;">🧠 اسأل الخبير العام</button><a href="https://wa.me/${WHATSAPP_NUMBER}?text=${enc}" target="_blank" class="whatsapp-link">💬 تواصل مع بسام</a></div>${suggs.length ? `<div style="margin-top:8px;font-size:11px;color:#8899bb;">💡 <b>اقتراحات:</b> ${suggs.map(s => `<button class="suggestion-chip" data-question="${s}">${s}</button>`).join(' ')}</div>` : ''}`;
     }
 
     const node = addMsg(reply, false, true, question, total, start);
@@ -520,8 +507,8 @@
         this.disabled = true;
         this.textContent = '⏳ جاري التلخيص...';
         const ans = await askExpert(question, articles);
-        logToSupabase({ session_id: generateSessionId(), question, intent: classifyIntent(question), results_count: total, response_time_ms: Math.round(performance.now() - start), response_type:'expert', articles_found:articles.length, library_files_found:files.length, kb_match:false, expert_used:true, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
-        addMsg(`<div class="smart-result expert-badge">🧠 <b>تلخيص الخبير:</b><br>${ans}<br><small>💡 المقال الكامل يحتوي على تفاصيل أكثر.</small></div>`);
+        logToSupabase({ ...logBase, results_count:total, response_time_ms:Math.round(performance.now()-start), response_type:'expert', articles_found:articles.length, library_files_found:files.length, kb_match:false, expert_used:true });
+        addMsg(`<div class="smart-result expert-badge">🧠 <b>تلخيص الخبير:</b><br>${ans}<br><small style="color:#8899bb;font-size:11px;">💡 المقال الكامل يحتوي على تفاصيل أكثر.</small></div>`);
         this.style.display = 'none';
       });
     }
@@ -532,13 +519,12 @@
         this.disabled = true;
         this.textContent = '⏳ جاري تفكير الخبير...';
         const ans = await askExpert(question, []);
-        logToSupabase({ session_id: generateSessionId(), question, intent: classifyIntent(question), results_count:0, response_time_ms: Math.round(performance.now() - start), response_type:'expert', articles_found:0, library_files_found:0, kb_match:false, expert_used:true, user_agent:navigator.userAgent, platform:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop' });
+        logToSupabase({ ...logBase, results_count:0, response_time_ms:Math.round(performance.now()-start), response_type:'expert', articles_found:0, library_files_found:0, kb_match:false, expert_used:true });
         addMsg(`<div class="smart-result expert-badge">🧠 <b>يقول الخبير العام:</b><br>${ans}</div>`);
         this.style.display = 'none';
       });
     }
   }
 
-  sendBtn.addEventListener('click', () => { const q = inputEl.value.trim(); if (q) { handleQuestion(q); inputEl.value = ''; } });
-  inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') { const q = inputEl.value.trim(); if (q) { handleQuestion(q); inputEl.value = ''; } } });
+  loadAllData();
 })();
