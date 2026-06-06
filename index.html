@@ -1023,7 +1023,7 @@ var LOG_URL = 'https://bassam-portfolio-eight.vercel.app/api/log-page-event';
     function sendEvent(name, extra) {
       var p = {event_name:name, session_id:SESSION_ID, page_url:location.href, referrer:document.referrer||'', screen_width:screen.width, language:document.documentElement.lang||'ar', timestamp:new Date().toISOString()};
       for (var k in extra) if (extra.hasOwnProperty(k)) p[k] = extra[k];
-      try { if (navigator.sendBeacon) navigator.sendBeacon(API_URL, new Blob([JSON.stringify(p)], {type:'application/json'})); else fetch(API_URL, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p), keepalive:true}); } catch(e) {}
+      try { if (navigator.sendBeacon) navigator.sendBeacon(LOG_URL, new Blob([JSON.stringify(p)], {type:'application/json'})); else fetch(API_URL, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p), keepalive:true}); } catch(e) {}
     }
 
     addEventListener('load', function(){ sendEvent('page_view'); });
