@@ -2,11 +2,10 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY   // نفس المفتاح القوي الذي يعمل مع الجداول الأخرى
+  process.env.SUPABASE_ANON_KEY   // ✅ تم التغيير هنا فقط
 );
 
 export default async function handler(req, res) {
-  // السماح بالاتصال من أي مصدر
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -21,16 +20,14 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'event_name is required' });
     }
 
-    // تجهيز البيانات الإضافية في حقل JSONB
     const event_data = {
       ...extra,
       country: req.headers['x-vercel-ip-country'] || null,
       user_agent: req.headers['user-agent'] || null,
     };
 
-    // الإدخال في جدول site_events الجديد
     const { error } = await supabase
-      .from('site_events')          // ✅ الجدول الصحيح
+      .from('site_events')
       .insert({
         event_name,
         session_id,
