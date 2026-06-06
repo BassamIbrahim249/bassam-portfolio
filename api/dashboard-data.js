@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'page_view').gte('created_at', today),
       supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'article_open').gte('created_at', today),
       supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'book_download').gte('created_at', today),
-      supabase.from('site_events').select('*', { count: 'exact', head: true }).in('event_name', ['share_whatsapp', 'share_facebook', 'share_twitter', 'share_telegram', 'share_copy', 'share_native']).gte('created_at', today),
+      supabase.from('site_events').select('*', { count: 'exact', head: true }).in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy','share_native']).gte('created_at', today),
       supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'chat_start').gte('created_at', today)
     ]);
 
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       const title = r.event_data?.article_title || '';
       if (title) articleCounts[title] = (articleCounts[title] || 0) + 1;
     });
-    const topArticles = Object.entries(articleCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([name, count]) => ({ name, count }));
+    const topArticles = Object.entries(articleCounts).sort((a,b) => b[1]-a[1]).slice(0,10).map(([name,count]) => ({name,count}));
 
     // أفضل الكتب
     const { data: books } = await supabase.from('site_events').select('event_data').eq('event_name', 'book_download');
@@ -43,23 +43,23 @@ export default async function handler(req, res) {
       const title = r.event_data?.book_title || '';
       if (title) bookCounts[title] = (bookCounts[title] || 0) + 1;
     });
-    const topBooks = Object.entries(bookCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([name, count]) => ({ name, count }));
+    const topBooks = Object.entries(bookCounts).sort((a,b) => b[1]-a[1]).slice(0,10).map(([name,count]) => ({name,count}));
 
     // الزوار اليومي
     const { data: daily } = await supabase.from('site_events').select('created_at').eq('event_name', 'page_view').gte('created_at', weekAgo);
     const dailyMap = {};
     (daily || []).forEach(r => {
-      const day = r.created_at.slice(0, 10);
+      const day = r.created_at.slice(0,10);
       dailyMap[day] = (dailyMap[day] || 0) + 1;
     });
     const dailyArray = [];
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(now.getTime() - i * 86400000);
-      const key = d.toISOString().slice(0, 10);
-      dailyArray.push({ date: key, count: dailyMap[key] || 0 });
+    for (let i=6; i>=0; i--) {
+      const d = new Date(now.getTime() - i*86400000);
+      const key = d.toISOString().slice(0,10);
+      dailyArray.push({date:key, count:dailyMap[key]||0});
     }
 
-    // تحليل التبويبات من المقالات
+    // تحليل التبويبات (من المقالات المفتوحة)
     const tabMap = {
       'تاريخ السودان':'سياسة','تحليل استراتيجي':'سياسة','رؤى فكرية':'سياسة',
       'علوم المواد':'هندسة','ابتكار إنشائي':'هندسة','مختبر هندسي':'هندسة',
@@ -73,10 +73,41 @@ export default async function handler(req, res) {
       for (const k in tabMap) { if (a.name.includes(k)) { tab = tabMap[k]; break; } }
       tabCounts[tab] = (tabCounts[tab] || 0) + a.count;
     });
-    const tabsArray = Object.entries(tabCounts).map(([name, count]) => ({ name, count }));
+    const tabsArray = Object.entries(tabCounts).map(([name,count]) => ({name,count}));
+
+    // المقالات الأكثر مشاركة (آخر 30 يوم)
+    const { data: shareEvents } = await supabase.from('site_events').select('event_data').in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy','share_native']);
+    const shareCounts = {};
+    (shareEvents || []).forEach(r => {
+      const title = r.event_data?.article_title || r.event_data?.page_url || '';
+      if (title) shareCounts[title] = (shareCounts[title] || 0) + 1;
+    });
+    const topShared = Object.entries(shareCounts).sort((a,b) => b[1]-a[1]).slice(0,10).map(([name,count]) => ({name,count}));
+
+    // توزيع منصات المشاركة (آخر 30 يوم)
+    const { data: platformEvents } = await supabase.from('site_events').select('event_name').in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy','share_native']);
+    const platformCounts = {};
+    (platformEvents || []).forEach(r => {
+      const p = r.event_name?.replace('share_','') || 'أخرى';
+      platformCounts[p] = (platformCounts[p] || 0) + 1;
+    });
+    const platformsArray = Object.entries(platformCounts).map(([name,count]) => ({name,count}));
+
+    // PWA (تثبيت + فتح)
+    const { count: pwaInstalls } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','pwa_install');
+    const { count: pwaOpens } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','pwa_open');
+
+    // اللغة
+    const { data: langEvents } = await supabase.from('site_events').select('language').not('language','is',null);
+    const langCounts = {};
+    (langEvents || []).forEach(r => {
+      const l = r.language || 'ar';
+      langCounts[l] = (langCounts[l] || 0) + 1;
+    });
+    const langsArray = Object.entries(langCounts).map(([name,count]) => ({name,count}));
 
     // ملخص المساعد الذكي
-    const { count: chatCount } = await supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'chat_start').gte('created_at', weekAgo);
+    const { count: chatCount } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','chat_start').gte('created_at', weekAgo);
 
     res.status(200).json({
       kpis: {
@@ -90,10 +121,11 @@ export default async function handler(req, res) {
       topBooks,
       dailyVisitors: dailyArray,
       tabs: tabsArray,
-      chatSummary: {
-        total: chatCount || 0,
-        dailyAverage: Math.round((chatCount || 0) / 7)
-      }
+      topShared,
+      platforms: platformsArray,
+      pwa: { installs: pwaInstalls || 0, opens: pwaOpens || 0 },
+      languages: langsArray,
+      chatSummary: { total: chatCount || 0, dailyAverage: Math.round((chatCount || 0) / 7) }
     });
 
   } catch (err) {
