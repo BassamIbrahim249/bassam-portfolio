@@ -1,63 +1,101 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>اختبار التحميل</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body { background:#05080f; color:white; font-family:monospace; padding:20px; }
-    .box { background:rgba(255,255,255,0.05); border-radius:12px; padding:16px; margin:10px 0; }
-    .ok { color:#34D399; }
-    .err { color:#EF4444; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم BassamIbrahim</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05080f;--text:#fff;--muted:#8899bb;--glass:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--blue:#3B9EFF;--gold:#EAB308}
+*{box-sizing:border-box}
+body{background:var(--bg);font-family:'Cairo',sans-serif;color:var(--text);margin:0;padding:16px}
+.wrap{max-width:1200px;margin:auto}
+.hdr{text-align:center;padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:20px}
+.hdr h1{font-size:1.6rem;color:var(--gold);margin:0 0 6px}
+.hdr p{color:var(--muted);font-size:.85rem;margin:0}
+.btn{background:var(--blue);color:#fff;border:0;padding:10px 18px;border-radius:10px;font-family:inherit;font-weight:700;cursor:pointer;margin-top:10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0}
+.kpi{background:var(--glass);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;backdrop-filter:blur(10px)}
+.kpi .ic{font-size:1.8rem}
+.kpi .v{font-size:2rem;font-weight:900;color:var(--blue);margin:6px 0}
+.kpi .l{font-size:.78rem;color:var(--muted)}
+.card{background:var(--glass);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:18px;backdrop-filter:blur(10px)}
+.card h2{color:var(--gold);margin:0 0 12px;font-size:1.15rem;border-bottom:1px solid var(--border);padding-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:768px){.g2{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;font-size:.85rem}
+th{color:var(--blue);font-weight:700}
+.empty{text-align:center;color:var(--muted);padding:20px;font-size:.9rem}
+canvas{max-height:280px}
+</style>
 </head>
 <body>
-  <div class="box" id="t1">⏳ انتظار...</div>
-  <div class="box" id="t2">⏳ انتظار...</div>
-  <div class="box" id="t3">⏳ انتظار...</div>
+<div class="wrap">
 
-  <script>
-    // اختبار 1: هل تم تحميل Supabase؟
-    try {
-      if (typeof window.supabase !== 'undefined') {
-        document.getElementById('t1').innerHTML = '<span class="ok">✅ Supabase تم تحميله</span>';
-      } else {
-        document.getElementById('t1').innerHTML = '<span class="err">❌ Supabase غير موجود</span>';
-      }
-    } catch(e) {
-      document.getElementById('t1').innerHTML = '<span class="err">❌ خطأ: ' + e.message + '</span>';
-    }
+<div class="hdr">
+  <h1>📊 لوحة تحكم BassamIbrahim</h1>
+  <p>آخر تحديث: <span id="upd">—</span></p>
+  <button class="btn" onclick="load()">🔄 تحديث الآن</button>
+</div>
 
-    // اختبار 2: هل يمكن إنشاء عميل Supabase؟
-    try {
-      const sb = window.supabase.createClient(
-        'https://lgyyqdelljbrbbwckqol.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxneXlxZGVsbGpicmJid2NrcW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MjYwNDMsImV4cCI6MjA2NDQwMjA0M30._C8IqFVBluKxgkbYLG3PKNke5rvNtTgMo23V4yd-kCc'
-      );
-      document.getElementById('t2').innerHTML = '<span class="ok">✅ تم إنشاء العميل</span>';
-    } catch(e) {
-      document.getElementById('t2').innerHTML = '<span class="err">❌ خطأ: ' + e.message + '</span>';
-    }
+<div class="kpis" id="kpis"><div class="empty">⏳ جاري التحميل...</div></div>
 
-    // اختبار 3: هل يمكن الاتصال بقاعدة البيانات؟
-    try {
-      const sb = window.supabase.createClient(
-        'https://lgyyqdelljbrbbwckqol.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxneXlxZGVsbGpicmJid2NrcW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MjYwNDMsImV4cCI6MjA2NDQwMjA0M30._C8IqFVBluKxgkbYLG3PKNke5rvNtTgMo23V4yd-kCc'
-      );
-      sb.from('site_events').select('id', { count: 'exact', head: true }).then(function(result) {
-        if (result.error) {
-          document.getElementById('t3').innerHTML = '<span class="err">❌ فشل: ' + result.error.message + '</span>';
-        } else {
-          document.getElementById('t3').innerHTML = '<span class="ok">✅ نجح! الأحداث: ' + (result.count || 0) + '</span>';
-        }
-      }).catch(function(e) {
-        document.getElementById('t3').innerHTML = '<span class="err">❌ خطأ: ' + e.message + '</span>';
-      });
-    } catch(e) {
-      document.getElementById('t3').innerHTML = '<span class="err">❌ خطأ: ' + e.message + '</span>';
-    }
-  </script>
+<div class="g2">
+  <div class="card"><h2>📰 أفضل 10 مقالات</h2><div id="artBox"></div></div>
+  <div class="card"><h2>📚 أفضل 10 كتب</h2><div id="bookBox"></div></div>
+</div>
+
+<div class="card"><h2>📈 الزوار آخر 7 أيام</h2><canvas id="dayC"></canvas></div>
+
+</div>
+
+<script>
+const API = 'https://bassam-portfolio-eight.vercel.app/api/dashboard-data';
+
+async function load() {
+  document.getElementById('kpis').innerHTML = '<div class="empty">⏳ جاري التحميل...</div>';
+  try {
+    const res = await fetch(API);
+    const data = await res.json();
+
+    // KPIs
+    document.getElementById('kpis').innerHTML = [
+      {i:'👥',v:data.kpis.pageViews,l:'زوار اليوم'},
+      {i:'📰',v:data.kpis.articleOpens,l:'مقالات مفتوحة'},
+      {i:'📚',v:data.kpis.bookDownloads,l:'تحميلات كتب'},
+      {i:'📤',v:data.kpis.shares,l:'مشاركات'},
+      {i:'🤖',v:data.kpis.chatStarts,l:'محادثات المساعد'}
+    ].map(k=>`<div class="kpi"><div class="ic">${k.i}</div><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
+
+    // مقالات
+    const art = data.topArticles || [];
+    document.getElementById('artBox').innerHTML = art.length === 0
+      ? '<div class="empty">لا توجد بيانات</div>'
+      : '<table><tr><th>المقال</th><th>قراءات</th></tr>'+art.map(r=>`<tr><td>${r.name.slice(0,50)}</td><td><b>${r.count}</b></td></tr>`).join('')+'</table>';
+
+    // كتب
+    const books = data.topBooks || [];
+    document.getElementById('bookBox').innerHTML = books.length === 0
+      ? '<div class="empty">لا توجد بيانات</div>'
+      : '<table><tr><th>الكتاب</th><th>تحميلات</th></tr>'+books.map(r=>`<tr><td>${r.name.slice(0,50)}</td><td><b>${r.count}</b></td></tr>`).join('')+'</table>';
+
+    // رسم الزوار
+    const days = data.dailyVisitors || [];
+    new Chart(document.getElementById('dayC'), {
+      type:'line',
+      data:{labels:days.map(d=>d.date.slice(5)),datasets:[{label:'زوار',data:days.map(d=>d.count),borderColor:'#3B9EFF',backgroundColor:'rgba(59,158,255,.15)',fill:true,tension:.4}]},
+      options:{responsive:true,plugins:{legend:{labels:{color:'#8899bb'}}},scales:{y:{ticks:{color:'#8899bb'},grid:{color:'rgba(255,255,255,.05)'}},x:{ticks:{color:'#8899bb'},grid:{display:false}}}}
+    });
+
+    document.getElementById('upd').textContent = new Date().toLocaleTimeString('ar-SD');
+  } catch(e) {
+    document.getElementById('kpis').innerHTML = '<div class="empty" style="color:#EF4444">❌ فشل التحميل</div>';
+  }
+}
+
+load();
+</script>
 </body>
 </html>
