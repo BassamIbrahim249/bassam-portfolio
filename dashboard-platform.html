@@ -3,18 +3,195 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>اختبار اللوحة</title>
+  <title>لوحة التحكم – BassamIbrahim</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
-    body { background:#05080f; color:white; font-family:monospace; padding:20px; }
-    .box { background:rgba(255,255,255,0.05); border-radius:12px; padding:16px; margin:10px 0; }
+    :root {
+      --bg-primary:#05080f; --bg-secondary:#0a0f1a;
+      --text-primary:#ffffff; --text-secondary:#8899bb;
+      --border-color:rgba(255,255,255,0.06);
+      --glass-bg:rgba(255,255,255,0.03);
+      --glass-border:rgba(255,255,255,0.06);
+      --accent-blue:#3B9EFF; --accent-gold:#EAB308;
+    }
+    body {
+      background:var(--bg-primary);
+      font-family:'Cairo',sans-serif;
+      color:var(--text-primary);
+      margin:0; padding:20px;
+    }
+    .container { max-width:1200px; margin:auto; }
+    .header {
+      text-align:center; padding:30px 0;
+      border-bottom:1px solid var(--glass-border); margin-bottom:30px;
+    }
+    .header h1 { font-size:2rem; font-weight:900; color:var(--accent-gold); }
+    .kpi-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap:16px; margin-bottom:30px;
+    }
+    .kpi-card {
+      background:var(--glass-bg);
+      border:1px solid var(--glass-border);
+      border-radius:16px; padding:20px;
+      text-align:center;
+      backdrop-filter:blur(12px);
+    }
+    .kpi-value { font-size:2.5rem; font-weight:900; color:var(--accent-blue); }
+    .kpi-label { font-size:0.85rem; color:var(--text-secondary); margin-top:4px; }
+    .section {
+      background:var(--glass-bg);
+      border:1px solid var(--glass-border);
+      border-radius:20px; padding:24px;
+      margin-bottom:24px;
+      backdrop-filter:blur(12px);
+    }
+    .section h2 {
+      font-size:1.3rem; font-weight:700;
+      color:var(--accent-gold); margin-top:0;
+      border-bottom:1px solid var(--glass-border);
+      padding-bottom:12px; margin-bottom:16px;
+    }
+    table { width:100%; border-collapse:collapse; }
+    th, td {
+      padding:10px 12px; border-bottom:1px solid var(--border-color);
+      text-align:right; font-size:0.9rem;
+    }
+    th { color:var(--accent-blue); font-weight:700; }
+    .grid-2col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media(max-width:768px) { .grid-2col { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
-  <h2>🔧 اختبار لوحة التحكم</h2>
-  <div class="box" id="status">⏳ انتظار...</div>
+<div class="container">
+  <div class="header">
+    <h1>📊 لوحة تحكم BassamIbrahim</h1>
+    <p style="color:var(--text-secondary)">آخر تحديث: <span id="lastUpdated">الآن</span></p>
+  </div>
 
-  <script>
-    document.getElementById('status').innerHTML = '✅ السكريبت يعمل!';
-  </script>
+  <div class="kpi-grid" id="kpiContainer">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-secondary)">
+      ⏳ جاري تحميل البيانات...
+    </div>
+  </div>
+
+  <div class="grid-2col">
+    <div class="section">
+      <h2>📰 أفضل 10 مقالات</h2>
+      <table id="topArticlesTable"></table>
+    </div>
+    <div class="section">
+      <h2>📚 أفضل 10 كتب</h2>
+      <table id="topBooksTable"></table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🗂️ أداء التبويبات الخمسة</h2>
+    <canvas id="tabsChart"></canvas>
+  </div>
+
+  <div class="section">
+    <h2>📈 الزوار آخر 7 أيام</h2>
+    <canvas id="dailyChart"></canvas>
+  </div>
+
+  <div class="section">
+    <h2>🤖 ملخص المساعد الذكي</h2>
+    <table id="assistantSummary"></table>
+  </div>
+</div>
+
+<script>
+  console.log('🚀 Dashboard script starting...');
+
+  const SUPABASE_URL = 'https://lgyyqdelljbrbbwckqol.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxneXlxZGVsbGpicmJid2NrcW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MjYwNDMsImV4cCI6MjA2NDQwMjA0M30._C8IqFVBluKxgkbYLG3PKNke5rvNtTgMo23V4yd-kCc';
+  
+  console.log('🔌 Connecting to Supabase...');
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  console.log('✅ Supabase connected');
+
+  function showError(msg) {
+    console.error('❌', msg);
+    document.getElementById('kpiContainer').innerHTML = `
+      <div style="grid-column:1/-1;background:#7f1d1d;padding:20px;border-radius:12px;text-align:center">
+        ❌ ${msg}
+      </div>`;
+  }
+
+  async function loadDashboard() {
+    console.log('📊 Loading dashboard...');
+    
+    try {
+      const now = new Date();
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const weekAgo = new Date(now.getTime() - 7*24*60*60*1000);
+
+      console.log('📡 Fetching KPIs...');
+      const [pageViews, articleOpens, bookDownloads, shares, chatStarts] = await Promise.all([
+        supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).eq('event_name','page_view'),
+        supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).eq('event_name','article_open'),
+        supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).eq('event_name','book_download'),
+        supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy']),
+        supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).eq('event_name','chat_start')
+      ]);
+      console.log('✅ KPIs fetched:', { pageViews: pageViews.count, articleOpens: articleOpens.count, bookDownloads: bookDownloads.count, shares: shares.count, chatStarts: chatStarts.count });
+
+      const kpis = [
+        { label:'زوار اليوم', value:pageViews.count||0, icon:'👥' },
+        { label:'مقالات مفتوحة', value:articleOpens.count||0, icon:'📰' },
+        { label:'تحميلات كتب', value:bookDownloads.count||0, icon:'📚' },
+        { label:'مشاركات', value:shares.count||0, icon:'📤' },
+        { label:'استفسارات المساعد', value:chatStarts.count||0, icon:'🤖' }
+      ];
+      
+      document.getElementById('kpiContainer').innerHTML = kpis.map(k => `
+        <div class="kpi-card">
+          <div style="font-size:2rem">${k.icon}</div>
+          <div class="kpi-value">${k.value}</div>
+          <div class="kpi-label">${k.label}</div>
+        </div>
+      `).join('');
+      console.log('✅ KPIs rendered');
+
+      console.log('📡 Fetching articles...');
+      const { data:articles, error:artErr } = await supabase.rpc('get_top_articles', { days:30 });
+      console.log('📰 Articles:', articles, artErr);
+      const topArticles = articles || [];
+      document.getElementById('topArticlesTable').innerHTML = `
+        <tr><th>المقال</th><th>القراءات</th></tr>
+        ${topArticles.length === 0 
+          ? '<tr><td colspan="2" style="text-align:center;color:var(--text-secondary)">لا توجد بيانات بعد</td></tr>'
+          : topArticles.map(a => `<tr><td>${a.article_title||'غير معروف'}</td><td><b>${a.count}</b></td></tr>`).join('')}
+      `;
+
+      console.log('📡 Fetching books...');
+      const { data:books, error:bookErr } = await supabase.rpc('get_top_books', { days:30 });
+      console.log('📚 Books:', books, bookErr);
+      const topBooks = books || [];
+      document.getElementById('topBooksTable').innerHTML = `
+        <tr><th>الكتاب</th><th>التحميلات</th></tr>
+        ${topBooks.length === 0 
+          ? '<tr><td colspan="2" style="text-align:center;color:var(--text-secondary)">لا توجد بيانات بعد</td></tr>'
+          : topBooks.map(b => `<tr><td>${b.book_title||'غير معروف'}</td><td><b>${b.count}</b></td></tr>`).join('')}
+      `;
+
+      document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('ar-SD');
+      console.log('✅ Dashboard loaded successfully');
+
+    } catch(err) {
+      console.error('💥 Dashboard error:', err);
+      showError('فشل تحميل البيانات: ' + err.message);
+    }
+  }
+
+  console.log('🚀 Calling loadDashboard...');
+  loadDashboard();
+  setInterval(loadDashboard, 5*60*1000);
+</script>
 </body>
 </html>
