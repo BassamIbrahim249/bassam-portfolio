@@ -87,25 +87,12 @@ async function load() {
       ? '<div class="empty">لا توجد بيانات</div>'
       : '<table><tr><th>الكتاب</th><th>تحميلات</th></tr>'+books.map(r=>`<tr><td>${r.name.slice(0,50)}</td><td><b>${r.count}</b></td></tr>`).join('')+'</table>';
 
-    // رسم التبويبات (من المقالات)
-    const tabMap = {
-      'تاريخ السودان':'سياسة','تحليل استراتيجي':'سياسة','رؤى فكرية':'سياسة',
-      'علوم المواد':'هندسة','ابتكار إنشائي':'هندسة','مختبر هندسي':'هندسة',
-      'تاريخ':'نوبيان','آثار':'نوبيان','هوية':'نوبيان','الحضارة النوبية':'نوبيان','مملكة مروي':'نوبيان',
-      'المشاريع':'أكاديمية','القيادة والإدارة':'أكاديمية','تدريب تنموي':'أكاديمية','منحة':'أكاديمية',
-      'صحة شاملة':'نمط الحياة','تغذية علمية':'نمط الحياة','تميز بدني':'نمط الحياة'
-    };
-    const tbs = {};
-    art.forEach(r => {
-      const title = r.name || '';
-      let tab = 'أخرى';
-      for (const k in tabMap) { if (title.includes(k)) { tab = tabMap[k]; break; } }
-      tbs[tab] = (tbs[tab] || 0) + 1;
-    });
-    if (art.length > 0) {
+    // رسم التبويبات
+    const tabs = data.tabs || [];
+    if (tabs.length > 0) {
       new Chart(document.getElementById('tabC'), {
         type:'doughnut',
-        data:{labels:Object.keys(tbs),datasets:[{data:Object.values(tbs),backgroundColor:['#3B9EFF','#EAB308','#A78BFA','#34D399','#60CFFF','#F59E0B']}]},
+        data:{labels:tabs.map(t=>t.name),datasets:[{data:tabs.map(t=>t.count),backgroundColor:['#3B9EFF','#EAB308','#A78BFA','#34D399','#60CFFF','#F59E0B']}]},
         options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#8899bb'}}}}
       });
     }
@@ -119,10 +106,10 @@ async function load() {
     });
 
     // المساعد الذكي
-    const ai = data.kpis.chatStarts || 0;
+    const chat = data.chatSummary || {};
     document.getElementById('aiBox').innerHTML = `<table>
-      <tr><th>إجمالي المحادثات (7 أيام)</th><td><b>${ai}</b></td></tr>
-      <tr><th>متوسط يومي</th><td><b>${Math.round(ai/7)}</b></td></tr>
+      <tr><th>إجمالي المحادثات</th><td><b>${chat.total||0}</b></td></tr>
+      <tr><th>متوسط يومي</th><td><b>${chat.dailyAverage||0}</b></td></tr>
     </table>`;
 
     document.getElementById('upd').textContent = new Date().toLocaleTimeString('ar-SD');
