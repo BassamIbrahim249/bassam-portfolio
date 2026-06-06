@@ -59,6 +59,25 @@ export default async function handler(req, res) {
       dailyArray.push({ date: key, count: dailyMap[key] || 0 });
     }
 
+    // تحليل التبويبات من المقالات
+    const tabMap = {
+      'تاريخ السودان':'سياسة','تحليل استراتيجي':'سياسة','رؤى فكرية':'سياسة',
+      'علوم المواد':'هندسة','ابتكار إنشائي':'هندسة','مختبر هندسي':'هندسة',
+      'تاريخ':'نوبيان','آثار':'نوبيان','هوية':'نوبيان','الحضارة النوبية':'نوبيان','مملكة مروي':'نوبيان',
+      'المشاريع':'أكاديمية','القيادة والإدارة':'أكاديمية','تدريب تنموي':'أكاديمية','منحة':'أكاديمية',
+      'صحة شاملة':'نمط الحياة','تغذية علمية':'نمط الحياة','تميز بدني':'نمط الحياة'
+    };
+    const tabCounts = {};
+    topArticles.forEach(a => {
+      let tab = 'أخرى';
+      for (const k in tabMap) { if (a.name.includes(k)) { tab = tabMap[k]; break; } }
+      tabCounts[tab] = (tabCounts[tab] || 0) + a.count;
+    });
+    const tabsArray = Object.entries(tabCounts).map(([name, count]) => ({ name, count }));
+
+    // ملخص المساعد الذكي
+    const { count: chatCount } = await supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'chat_start').gte('created_at', weekAgo);
+
     res.status(200).json({
       kpis: {
         pageViews: pageViews.count || 0,
@@ -69,7 +88,12 @@ export default async function handler(req, res) {
       },
       topArticles,
       topBooks,
-      dailyVisitors: dailyArray
+      dailyVisitors: dailyArray,
+      tabs: tabsArray,
+      chatSummary: {
+        total: chatCount || 0,
+        dailyAverage: Math.round((chatCount || 0) / 7)
+      }
     });
 
   } catch (err) {
