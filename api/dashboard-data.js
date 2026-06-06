@@ -18,7 +18,6 @@ export default async function handler(req, res) {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-    // KPIs
     const [pageViews, articleOpens, bookDownloads, shares, chatStarts] = await Promise.all([
       supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'page_view').gte('created_at', today),
       supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'article_open').gte('created_at', today),
@@ -27,25 +26,22 @@ export default async function handler(req, res) {
       supabase.from('site_events').select('*', { count: 'exact', head: true }).eq('event_name', 'chat_start').gte('created_at', today)
     ]);
 
-    // أفضل المقالات
     const { data: articles } = await supabase.from('site_events').select('event_data').eq('event_name', 'article_open');
     const articleCounts = {};
     (articles || []).forEach(r => {
-      const title = r.event_data?.article_title || '';
-      if (title) articleCounts[title] = (articleCounts[title] || 0) + 1;
+      const t = r.event_data?.article_title || '';
+      if (t) articleCounts[t] = (articleCounts[t] || 0) + 1;
     });
     const topArticles = Object.entries(articleCounts).sort((a,b) => b[1]-a[1]).slice(0,10).map(([name,count]) => ({name,count}));
 
-    // أفضل الكتب
     const { data: books } = await supabase.from('site_events').select('event_data').eq('event_name', 'book_download');
     const bookCounts = {};
     (books || []).forEach(r => {
-      const title = r.event_data?.book_title || '';
-      if (title) bookCounts[title] = (bookCounts[title] || 0) + 1;
+      const t = r.event_data?.book_title || '';
+      if (t) bookCounts[t] = (bookCounts[t] || 0) + 1;
     });
     const topBooks = Object.entries(bookCounts).sort((a,b) => b[1]-a[1]).slice(0,10).map(([name,count]) => ({name,count}));
 
-    // الزوار اليومي
     const { data: daily } = await supabase.from('site_events').select('created_at').eq('event_name', 'page_view').gte('created_at', weekAgo);
     const dailyMap = {};
     (daily || []).forEach(r => {
@@ -59,26 +55,19 @@ export default async function handler(req, res) {
       dailyArray.push({date:key, count:dailyMap[key]||0});
     }
 
-    // تحليل التبويبات (قائمة موسّعة)
+    // قائمة تصنيف ذكية وموسّعة لتشمل نوبيان وسياسة
     const tabMap = {
-      // سياسة
-      'تاريخ السودان':'سياسة','تحليل استراتيجي':'سياسة','رؤى فكرية':'سياسة',
-      'السودان':'سياسة','كوش':'سياسة','مملكة':'سياسة','سياس':'سياسة',
-      // هندسة
-      'علوم المواد':'هندسة','ابتكار إنشائي':'هندسة','مختبر هندسي':'هندسة',
-      'الخرسانة':'هندسة','المباني':'هندسة','المواد':'هندسة','هندس':'هندسة',
-      'البناء':'هندسة','الإنشاء':'هندسة',
-      // نوبيان
-      'تاريخ':'نوبيان','آثار':'نوبيان','هوية':'نوبيان',
-      'الحضارة النوبية':'نوبيان','مروي':'نوبيان','نوبي':'نوبيان',
-      // أكاديمية
-      'المشاريع':'أكاديمية','القيادة والإدارة':'أكاديمية','تدريب تنموي':'أكاديمية',
-      'منحة':'أكاديمية','تطوير':'أكاديمية','التربية':'أكاديمية',
-      'الشباب':'أكاديمية','الفشل':'أكاديمية','أفكار':'أكاديمية',
-      'يتغير الناس':'أكاديمية','شخصية':'أكاديمية',
-      // نمط الحياة
-      'صحة شاملة':'نمط الحياة','تغذية علمية':'نمط الحياة','تميز بدني':'نمط الحياة',
-      'العادات':'نمط الحياة','حيات':'نمط الحياة','صحة':'نمط الحياة'
+      'سياس': 'سياسة', 'السودان': 'سياسة', 'كوش': 'سياسة', 'مملكة': 'سياسة',
+      'تاريخ السودان': 'سياسة', 'تحليل': 'سياسة', 'رؤى فكرية': 'سياسة',
+      'هندس': 'هندسة', 'الخرسانة': 'هندسة', 'المواد': 'هندسة', 'البناء': 'هندسة',
+      'علوم المواد': 'هندسة', 'ابتكار إنشائي': 'هندسة', 'مختبر': 'هندسة',
+      'نوبي': 'نوبيان', 'مروي': 'نوبيان', 'آثار': 'نوبيان', 'هوية': 'نوبيان',
+      'تاريخ': 'نوبيان', 'كوش': 'نوبيان', 'حضارة': 'نوبيان',
+      'أكاديمية': 'أكاديمية', 'المشاريع': 'أكاديمية', 'القيادة': 'أكاديمية',
+      'تدريب': 'أكاديمية', 'تطوير': 'أكاديمية', 'التربية': 'أكاديمية',
+      'الشباب': 'أكاديمية', 'الفشل': 'أكاديمية', 'شخصية': 'أكاديمية',
+      'صحة': 'نمط الحياة', 'تغذية': 'نمط الحياة', 'بدني': 'نمط الحياة',
+      'العادات': 'نمط الحياة', 'حيات': 'نمط الحياة'
     };
     const tabCounts = {};
     topArticles.forEach(a => {
@@ -88,16 +77,14 @@ export default async function handler(req, res) {
     });
     const tabsArray = Object.entries(tabCounts).map(([name,count]) => ({name,count}));
 
-    // المقالات الأكثر مشاركة
     const { data: shareEvents } = await supabase.from('site_events').select('event_data').in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy','share_native']);
     const shareCounts = {};
     (shareEvents || []).forEach(r => {
-      const title = r.event_data?.article_title || r.event_data?.page_url || '';
-      if (title) shareCounts[title] = (shareCounts[title] || 0) + 1;
+      const t = r.event_data?.article_title || '';
+      if (t) shareCounts[t] = (shareCounts[t] || 0) + 1;
     });
     const topShared = Object.entries(shareCounts).sort((a,b) => b[1]-a[1]).slice(0,10).map(([name,count]) => ({name,count}));
 
-    // توزيع منصات المشاركة
     const { data: platformEvents } = await supabase.from('site_events').select('event_name').in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy','share_native']);
     const platformCounts = {};
     (platformEvents || []).forEach(r => {
@@ -106,20 +93,14 @@ export default async function handler(req, res) {
     });
     const platformsArray = Object.entries(platformCounts).map(([name,count]) => ({name,count}));
 
-    // PWA
     const { count: pwaInstalls } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','pwa_install');
     const { count: pwaOpens } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','pwa_open');
 
-    // اللغة
     const { data: langEvents } = await supabase.from('site_events').select('language').not('language','is',null);
     const langCounts = {};
-    (langEvents || []).forEach(r => {
-      const l = r.language || 'ar';
-      langCounts[l] = (langCounts[l] || 0) + 1;
-    });
+    (langEvents || []).forEach(r => { const l = r.language || 'ar'; langCounts[l] = (langCounts[l] || 0) + 1; });
     const langsArray = Object.entries(langCounts).map(([name,count]) => ({name,count}));
 
-    // المساعد الذكي
     const { count: chatCount } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','chat_start').gte('created_at', weekAgo);
 
     res.status(200).json({
@@ -130,8 +111,7 @@ export default async function handler(req, res) {
         shares: shares.count || 0,
         chatStarts: chatStarts.count || 0
       },
-      topArticles,
-      topBooks,
+      topArticles, topBooks,
       dailyVisitors: dailyArray,
       tabs: tabsArray,
       topShared,
