@@ -153,7 +153,8 @@
       `).join('');
 
       // أفضل المقالات
-      const { data:articles } = await supabase.rpc('get_top_articles', { days:30 });
+      const { data:articles, error:artErr } = await supabase.rpc('get_top_articles', { days:30 });
+      if (artErr) console.warn('Articles error:', artErr);
       const topArticles = articles || [];
       document.getElementById('topArticlesTable').innerHTML = `
         <tr><th>المقال</th><th>القراءات</th></tr>
@@ -163,7 +164,8 @@
       `;
 
       // أفضل الكتب
-      const { data:books } = await supabase.rpc('get_top_books', { days:30 });
+      const { data:books, error:bookErr } = await supabase.rpc('get_top_books', { days:30 });
+      if (bookErr) console.warn('Books error:', bookErr);
       const topBooks = books || [];
       document.getElementById('topBooksTable').innerHTML = `
         <tr><th>الكتاب</th><th>التحميلات</th></tr>
