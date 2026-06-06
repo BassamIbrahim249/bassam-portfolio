@@ -27,22 +27,24 @@ export default async function handler(req, res) {
     };
 
     const { error } = await supabase
-      .from('analytics')
+      .from('site_events')
       .insert({
         event_name,
         session_id,
         page_url: (extraData.page_url || '').slice(0, 500),
         referrer: (extraData.referrer || '').slice(0, 500),
+        screen_width: extraData.screen_width || null,
+        language: (extraData.language || 'ar').slice(0, 10),
         event_data: eventData,
         created_at: new Date().toISOString(),
       });
 
     if (error) {
-      console.error('Error:', error);
+      console.error('Supabase error:', error);
       return res.status(500).json({ error: error.message });
     }
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, event: event_name });
   } catch (err) {
     console.error('Exception:', err);
     return res.status(500).json({ error: 'Server error' });
