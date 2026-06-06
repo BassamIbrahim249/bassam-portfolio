@@ -1,19 +1,11 @@
-// analytics-tracker.js — 21 حدثاً استراتيجياً - نسخة محسّنة للمشاركة
+// analytics-tracker.js — 21 حدثاً استراتيجياً - نسخة محسّنة 2.0
 (function() {
   'use strict';
   var LOG_URL = 'https://bassam-portfolio-eight.vercel.app/api/log-page-event';
   var SESSION_ID = 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-
-  // دالة مساعدة لجلب عنوان المقال الحالي
-  function getCurrentArticleTitle() {
-    var openArticle = document.querySelector('.accordion-item [aria-expanded="true"]');
-    if (openArticle) {
-      var item = openArticle.closest('.accordion-item');
-      var h3 = item ? item.querySelector('h3') : null;
-      return h3 ? h3.textContent.trim().slice(0, 80) : '';
-    }
-    return '';
-  }
+  
+  // تخزين آخر عنوان مقال تم فتحه
+  window.lastArticleTitle = '';
 
   function sendEvent(name, extra) {
     extra = extra || {};
@@ -57,6 +49,7 @@
   }, { passive: true });
 
   function attachHandlers() {
+    // فتح المقال ← تحديث lastArticleTitle
     document.querySelectorAll('.accordion-item').forEach(function(item) {
       if (item.dataset.t1) return;
       item.dataset.t1 = '1';
@@ -64,10 +57,12 @@
       if (!c) return;
       c.addEventListener('click', function() {
         var t = (item.querySelector('h3') || {}).textContent || '';
-        sendEvent('article_open', { article_title: t.slice(0, 80) });
+        window.lastArticleTitle = t.slice(0, 80);
+        sendEvent('article_open', { article_title: window.lastArticleTitle });
       });
     });
 
+    // تحميل/معاينة الكتب
     document.querySelectorAll('.glass-card a[href*="raw.githubusercontent"]').forEach(function(a) {
       if (a.dataset.t2) return;
       a.dataset.t2 = '1';
@@ -79,7 +74,7 @@
       });
     });
 
-    // --- أزرار المشاركة (تم التحديث هنا) ---
+    // أزرار المشاركة (الآن تستخدم lastArticleTitle)
     document.querySelectorAll('button').forEach(function(b) {
       if (b.dataset.t3) return;
       var x = b.textContent.trim(), p = null;
@@ -93,16 +88,16 @@
       if (p) {
         b.dataset.t3 = '1';
         b.addEventListener('click', function() {
-          var articleTitle = getCurrentArticleTitle();
           var extraData = { share_platform: p };
-          if (articleTitle) {
-            extraData.article_title = articleTitle;
+          if (window.lastArticleTitle) {
+            extraData.article_title = window.lastArticleTitle;
           }
           sendEvent('share_' + p, extraData);
         });
       }
     });
 
+    // باقي الأحداث (المساعد، التواصل، البحث، الروابط الخارجية)
     document.querySelectorAll('#smart-assistant-btn').forEach(function(b) {
       if (b.dataset.t4) return; b.dataset.t4 = '1';
       b.addEventListener('click', function() { sendEvent('chat_start'); });
