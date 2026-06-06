@@ -73,7 +73,7 @@
   </div>
 
   <div class="kpi-grid" id="kpiContainer">
-    <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-secondary)">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-secondary)" id="statusMsg">
       ⏳ جاري تحميل البيانات...
     </div>
   </div>
@@ -106,32 +106,23 @@
 </div>
 
 <script>
-  console.log('🚀 Dashboard script starting...');
-
   const SUPABASE_URL = 'https://lgyyqdelljbrbbwckqol.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxneXlxZGVsbGpicmJid2NrcW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MjYwNDMsImV4cCI6MjA2NDQwMjA0M30._C8IqFVBluKxgkbYLG3PKNke5rvNtTgMo23V4yd-kCc';
-  
-  console.log('🔌 Connecting to Supabase...');
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  console.log('✅ Supabase connected');
 
-  function showError(msg) {
-    console.error('❌', msg);
-    document.getElementById('kpiContainer').innerHTML = `
-      <div style="grid-column:1/-1;background:#7f1d1d;padding:20px;border-radius:12px;text-align:center">
-        ❌ ${msg}
-      </div>`;
+  function updateStatus(text) {
+    document.getElementById('statusMsg').innerText = text;
   }
 
   async function loadDashboard() {
-    console.log('📊 Loading dashboard...');
+    updateStatus('🚀 بدأ تحميل البيانات...');
     
     try {
       const now = new Date();
       const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const weekAgo = new Date(now.getTime() - 7*24*60*60*1000);
 
-      console.log('📡 Fetching KPIs...');
+      updateStatus('📡 جلب KPIs...');
       const [pageViews, articleOpens, bookDownloads, shares, chatStarts] = await Promise.all([
         supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).eq('event_name','page_view'),
         supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).eq('event_name','article_open'),
@@ -139,7 +130,8 @@
         supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy']),
         supabase.from('site_events').select('*', { count:'exact', head:true }).gte('created_at', todayStart.toISOString()).eq('event_name','chat_start')
       ]);
-      console.log('✅ KPIs fetched:', { pageViews: pageViews.count, articleOpens: articleOpens.count, bookDownloads: bookDownloads.count, shares: shares.count, chatStarts: chatStarts.count });
+
+      updateStatus('✅ KPIs تم جلبها');
 
       const kpis = [
         { label:'زوار اليوم', value:pageViews.count||0, icon:'👥' },
@@ -156,40 +148,14 @@
           <div class="kpi-label">${k.label}</div>
         </div>
       `).join('');
-      console.log('✅ KPIs rendered');
-
-      console.log('📡 Fetching articles...');
-      const { data:articles, error:artErr } = await supabase.rpc('get_top_articles', { days:30 });
-      console.log('📰 Articles:', articles, artErr);
-      const topArticles = articles || [];
-      document.getElementById('topArticlesTable').innerHTML = `
-        <tr><th>المقال</th><th>القراءات</th></tr>
-        ${topArticles.length === 0 
-          ? '<tr><td colspan="2" style="text-align:center;color:var(--text-secondary)">لا توجد بيانات بعد</td></tr>'
-          : topArticles.map(a => `<tr><td>${a.article_title||'غير معروف'}</td><td><b>${a.count}</b></td></tr>`).join('')}
-      `;
-
-      console.log('📡 Fetching books...');
-      const { data:books, error:bookErr } = await supabase.rpc('get_top_books', { days:30 });
-      console.log('📚 Books:', books, bookErr);
-      const topBooks = books || [];
-      document.getElementById('topBooksTable').innerHTML = `
-        <tr><th>الكتاب</th><th>التحميلات</th></tr>
-        ${topBooks.length === 0 
-          ? '<tr><td colspan="2" style="text-align:center;color:var(--text-secondary)">لا توجد بيانات بعد</td></tr>'
-          : topBooks.map(b => `<tr><td>${b.book_title||'غير معروف'}</td><td><b>${b.count}</b></td></tr>`).join('')}
-      `;
 
       document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('ar-SD');
-      console.log('✅ Dashboard loaded successfully');
 
     } catch(err) {
-      console.error('💥 Dashboard error:', err);
-      showError('فشل تحميل البيانات: ' + err.message);
+      updateStatus('❌ فشل: ' + err.message);
     }
   }
 
-  console.log('🚀 Calling loadDashboard...');
   loadDashboard();
   setInterval(loadDashboard, 5*60*1000);
 </script>
