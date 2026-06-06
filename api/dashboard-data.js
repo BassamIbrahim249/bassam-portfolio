@@ -59,13 +59,26 @@ export default async function handler(req, res) {
       dailyArray.push({date:key, count:dailyMap[key]||0});
     }
 
-    // تحليل التبويبات (من المقالات المفتوحة)
+    // تحليل التبويبات (قائمة موسّعة)
     const tabMap = {
+      // سياسة
       'تاريخ السودان':'سياسة','تحليل استراتيجي':'سياسة','رؤى فكرية':'سياسة',
+      'السودان':'سياسة','كوش':'سياسة','مملكة':'سياسة','سياس':'سياسة',
+      // هندسة
       'علوم المواد':'هندسة','ابتكار إنشائي':'هندسة','مختبر هندسي':'هندسة',
-      'تاريخ':'نوبيان','آثار':'نوبيان','هوية':'نوبيان','الحضارة النوبية':'نوبيان','مملكة مروي':'نوبيان',
-      'المشاريع':'أكاديمية','القيادة والإدارة':'أكاديمية','تدريب تنموي':'أكاديمية','منحة':'أكاديمية',
-      'صحة شاملة':'نمط الحياة','تغذية علمية':'نمط الحياة','تميز بدني':'نمط الحياة'
+      'الخرسانة':'هندسة','المباني':'هندسة','المواد':'هندسة','هندس':'هندسة',
+      'البناء':'هندسة','الإنشاء':'هندسة',
+      // نوبيان
+      'تاريخ':'نوبيان','آثار':'نوبيان','هوية':'نوبيان',
+      'الحضارة النوبية':'نوبيان','مروي':'نوبيان','نوبي':'نوبيان',
+      // أكاديمية
+      'المشاريع':'أكاديمية','القيادة والإدارة':'أكاديمية','تدريب تنموي':'أكاديمية',
+      'منحة':'أكاديمية','تطوير':'أكاديمية','التربية':'أكاديمية',
+      'الشباب':'أكاديمية','الفشل':'أكاديمية','أفكار':'أكاديمية',
+      'يتغير الناس':'أكاديمية','شخصية':'أكاديمية',
+      // نمط الحياة
+      'صحة شاملة':'نمط الحياة','تغذية علمية':'نمط الحياة','تميز بدني':'نمط الحياة',
+      'العادات':'نمط الحياة','حيات':'نمط الحياة','صحة':'نمط الحياة'
     };
     const tabCounts = {};
     topArticles.forEach(a => {
@@ -75,7 +88,7 @@ export default async function handler(req, res) {
     });
     const tabsArray = Object.entries(tabCounts).map(([name,count]) => ({name,count}));
 
-    // المقالات الأكثر مشاركة (آخر 30 يوم)
+    // المقالات الأكثر مشاركة
     const { data: shareEvents } = await supabase.from('site_events').select('event_data').in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy','share_native']);
     const shareCounts = {};
     (shareEvents || []).forEach(r => {
@@ -84,7 +97,7 @@ export default async function handler(req, res) {
     });
     const topShared = Object.entries(shareCounts).sort((a,b) => b[1]-a[1]).slice(0,10).map(([name,count]) => ({name,count}));
 
-    // توزيع منصات المشاركة (آخر 30 يوم)
+    // توزيع منصات المشاركة
     const { data: platformEvents } = await supabase.from('site_events').select('event_name').in('event_name', ['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy','share_native']);
     const platformCounts = {};
     (platformEvents || []).forEach(r => {
@@ -93,7 +106,7 @@ export default async function handler(req, res) {
     });
     const platformsArray = Object.entries(platformCounts).map(([name,count]) => ({name,count}));
 
-    // PWA (تثبيت + فتح)
+    // PWA
     const { count: pwaInstalls } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','pwa_install');
     const { count: pwaOpens } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','pwa_open');
 
@@ -106,7 +119,7 @@ export default async function handler(req, res) {
     });
     const langsArray = Object.entries(langCounts).map(([name,count]) => ({name,count}));
 
-    // ملخص المساعد الذكي
+    // المساعد الذكي
     const { count: chatCount } = await supabase.from('site_events').select('*', { count:'exact', head:true }).eq('event_name','chat_start').gte('created_at', weekAgo);
 
     res.status(200).json({
