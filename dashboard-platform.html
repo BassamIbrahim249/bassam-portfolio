@@ -1,212 +1,63 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة تحكم BassamIbrahim</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#05080f;--text:#fff;--muted:#8899bb;--glass:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--blue:#3B9EFF;--gold:#EAB308}
-*{box-sizing:border-box}
-body{background:var(--bg);font-family:'Cairo',sans-serif;color:var(--text);margin:0;padding:16px}
-.wrap{max-width:1200px;margin:auto}
-.hdr{text-align:center;padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:20px}
-.hdr h1{font-size:1.6rem;color:var(--gold);margin:0 0 6px}
-.hdr p{color:var(--muted);font-size:.85rem;margin:0}
-.btn{background:var(--blue);color:#fff;border:0;padding:10px 18px;border-radius:10px;font-family:inherit;font-weight:700;cursor:pointer;margin-top:10px}
-.btn:active{opacity:.8}
-.diag{background:#0a0f1a;border:1px solid var(--border);border-radius:12px;padding:12px;margin:14px 0;font-family:monospace;font-size:12px;color:#60CFFF;max-height:220px;overflow-y:auto;white-space:pre-wrap;line-height:1.6}
-.diag .ok{color:#34D399}
-.diag .err{color:#EF4444;font-weight:700}
-.diag .info{color:#FCD34D}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0}
-.kpi{background:var(--glass);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;backdrop-filter:blur(10px)}
-.kpi .ic{font-size:1.8rem}
-.kpi .v{font-size:2rem;font-weight:900;color:var(--blue);margin:6px 0}
-.kpi .l{font-size:.78rem;color:var(--muted)}
-.card{background:var(--glass);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:18px;backdrop-filter:blur(10px)}
-.card h2{color:var(--gold);margin:0 0 12px;font-size:1.15rem;border-bottom:1px solid var(--border);padding-bottom:10px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:768px){.g2{grid-template-columns:1fr}}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;font-size:.85rem}
-th{color:var(--blue);font-weight:700}
-.empty{text-align:center;color:var(--muted);padding:20px;font-size:.9rem}
-canvas{max-height:280px}
-</style>
+  <meta charset="UTF-8">
+  <title>اختبار التحميل</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body { background:#05080f; color:white; font-family:monospace; padding:20px; }
+    .box { background:rgba(255,255,255,0.05); border-radius:12px; padding:16px; margin:10px 0; }
+    .ok { color:#34D399; }
+    .err { color:#EF4444; }
+  </style>
 </head>
 <body>
-<div class="wrap">
+  <div class="box" id="t1">⏳ انتظار...</div>
+  <div class="box" id="t2">⏳ انتظار...</div>
+  <div class="box" id="t3">⏳ انتظار...</div>
 
-<div class="hdr">
-  <h1>📊 لوحة تحكم BassamIbrahim</h1>
-  <p>آخر تحديث: <span id="upd">—</span></p>
-  <button class="btn" onclick="run()">🔄 تحديث الآن</button>
-</div>
-
-<div class="diag" id="log">⏳ جاري البدء...</div>
-
-<div class="kpis" id="kpis"></div>
-
-<div class="g2">
-  <div class="card"><h2>📰 أفضل 10 مقالات</h2><div id="artBox"></div></div>
-  <div class="card"><h2>📚 أفضل 10 كتب</h2><div id="bookBox"></div></div>
-</div>
-
-<div class="card"><h2>🗂️ أداء التبويبات (آخر 7 أيام)</h2><canvas id="tabC"></canvas></div>
-<div class="card"><h2>📈 الزوار آخر 7 أيام</h2><canvas id="dayC"></canvas></div>
-<div class="card"><h2>🤖 المساعد الذكي (7 أيام)</h2><div id="aiBox"></div></div>
-
-</div>
-
-<script>
-const URL='https://lgyyqdelljbrbbwckqol.supabase.co';
-const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxneXlxZGVsbGpicmJid2NrcW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MjYwNDMsImV4cCI6MjA2NDQwMjA0M30._C8IqFVBluKxgkbYLG3PKNke5rvNtTgMo23V4yd-kCc';
-const sb=window.supabase.createClient(URL,KEY);
-
-const L=document.getElementById('log');
-function lg(m,t){
-  const c=t==='ok'?'ok':t==='err'?'err':t==='info'?'info':'';
-  const time=new Date().toLocaleTimeString('ar-SD');
-  L.innerHTML+=`\n<span class="${c}">[${time}] ${m}</span>`;
-  L.scrollTop=L.scrollHeight;
-}
-
-// دالة تجميع من البيانات الخام (بدون RPC)
-function topN(rows,key,n=10){
-  const m={};
-  rows.forEach(r=>{
-    const v=(r.event_data||{})[key];
-    if(!v||v==='') return;
-    m[v]=(m[v]||0)+1;
-  });
-  return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,n);
-}
-
-async function run(){
-  L.innerHTML='';
-  lg('🚀 بدء التحميل...','info');
-  document.getElementById('kpis').innerHTML='<div class="empty">⏳...</div>';
-
-  try{
-    // 1) اختبار الاتصال - أهم خطوة
-    const test=await sb.from('site_events').select('id',{count:'exact',head:true});
-    if(test.error){
-      lg('❌ فشل الاتصال: '+test.error.message+' (code: '+test.error.code+')','err');
-      lg('💡 الحل: نفذ SQL في الأعلى وتأكد من policy public_read_dashboard','info');
-      document.getElementById('kpis').innerHTML='<div class="empty" style="color:#EF4444">❌ '+test.error.message+'</div>';
-      return;
-    }
-    const total=test.count||0;
-    lg('✅ الاتصال ناجح - إجمالي الأحداث: '+total,'ok');
-    if(total===0){
-      lg('⚠️ الجدول فارغ - زر الموقع الرئيسي وافتح مقالات','info');
+  <script>
+    // اختبار 1: هل تم تحميل Supabase؟
+    try {
+      if (typeof window.supabase !== 'undefined') {
+        document.getElementById('t1').innerHTML = '<span class="ok">✅ Supabase تم تحميله</span>';
+      } else {
+        document.getElementById('t1').innerHTML = '<span class="err">❌ Supabase غير موجود</span>';
+      }
+    } catch(e) {
+      document.getElementById('t1').innerHTML = '<span class="err">❌ خطأ: ' + e.message + '</span>';
     }
 
-    // 2) جلب كل البيانات التي نحتاجها في استعلامات قليلة
-    const now=new Date();
-    const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).toISOString();
-    const w7=new Date(now.getTime()-7*24*3600*1000).toISOString();
+    // اختبار 2: هل يمكن إنشاء عميل Supabase؟
+    try {
+      const sb = window.supabase.createClient(
+        'https://lgyyqdelljbrbbwckqol.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxneXlxZGVsbGpicmJid2NrcW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MjYwNDMsImV4cCI6MjA2NDQwMjA0M30._C8IqFVBluKxgkbYLG3PKNke5rvNtTgMo23V4yd-kCc'
+      );
+      document.getElementById('t2').innerHTML = '<span class="ok">✅ تم إنشاء العميل</span>';
+    } catch(e) {
+      document.getElementById('t2').innerHTML = '<span class="err">❌ خطأ: ' + e.message + '</span>';
+    }
 
-    lg('📥 جلب بيانات اليوم...','info');
-    const [d1,d2,d3,d4,d5]=await Promise.all([
-      sb.from('site_events').select('event_name',{count:'exact',head:true}).eq('event_name','page_view').gte('created_at',today),
-      sb.from('site_events').select('event_name',{count:'exact',head:true}).eq('event_name','article_open').gte('created_at',today),
-      sb.from('site_events').select('event_name',{count:'exact',head:true}).eq('event_name','book_download').gte('created_at',today),
-      sb.from('site_events').select('event_name',{count:'exact',head:true}).in('event_name',['share_whatsapp','share_facebook','share_twitter','share_telegram','share_copy','share_native']).gte('created_at',today),
-      sb.from('site_events').select('event_name',{count:'exact',head:true}).eq('event_name','chat_start').gte('created_at',today)
-    ]);
-    lg('✅ KPIs جاهزة','ok');
-
-    document.getElementById('kpis').innerHTML=[
-      {i:'👥',v:d1.count||0,l:'زوار اليوم'},
-      {i:'📰',v:d2.count||0,l:'مقالات مفتوحة'},
-      {i:'📚',v:d3.count||0,l:'تحميلات كتب'},
-      {i:'📤',v:d4.count||0,l:'مشاركات'},
-      {i:'🤖',v:d5.count||0,l:'محادثات المساعد'}
-    ].map(k=>`<div class="kpi"><div class="ic">${k.i}</div><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
-
-    // 3) أفضل المقالات (كل البيانات، نجمع في JS)
-    lg('📰 جلب المقالات...','info');
-    const artQ=await sb.from('site_events').select('event_data').eq('event_name','article_open');
-    if(artQ.error){lg('⚠️ خطأ مقالات: '+artQ.error.message,'err')}
-    const topArt=topN(artQ.data||[],'article_title',10);
-    document.getElementById('artBox').innerHTML=topArt.length===0
-      ?'<div class="empty">لا توجد قراءات بعد</div>'
-      :'<table><tr><th>المقال</th><th>قراءات</th></tr>'+topArt.map(r=>`<tr><td>${r[0].length>50?r[0].slice(0,50)+'...':r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')+'</table>';
-    lg('✅ مقالات: '+topArt.length,'ok');
-
-    // 4) أفضل الكتب
-    lg('📚 جلب الكتب...','info');
-    const bookQ=await sb.from('site_events').select('event_data').eq('event_name','book_download');
-    const topBook=topN(bookQ.data||[],'book_title',10);
-    document.getElementById('bookBox').innerHTML=topBook.length===0
-      ?'<div class="empty">لا توجد تحميلات بعد</div>'
-      :'<table><tr><th>الكتاب</th><th>تحميلات</th></tr>'+topBook.map(r=>`<tr><td>${r[0].length>50?r[0].slice(0,50)+'...':r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')+'</table>';
-    lg('✅ كتب: '+topBook.length,'ok');
-
-    // 5) التبويبات
-    lg('🗂️ تحليل التبويبات...','info');
-    const map={'تاريخ السودان':'سياسة','تحليل استراتيجي':'سياسة','رؤى فكرية':'سياسة',
-      'علوم المواد':'هندسة','ابتكار إنشائي':'هندسة','مختبر هندسي':'هندسة',
-      'تاريخ':'نوبيان','آثار':'نوبيان','هوية':'نوبيان','الحضارة النوبية':'نوبيان','مملكة مروي':'نوبيان',
-      'المشاريع':'أكاديمية','القيادة والإدارة':'أكاديمية','تدريب تنموي':'أكاديمية','منحة':'أكاديمية',
-      'صحة شاملة':'نمط الحياة','تغذية علمية':'نمط الحياة','تميز بدني':'نمط الحياة'};
-    const tbs={};
-    (artQ.data||[]).forEach(r=>{
-      const t=r.event_data?.article_title||'';
-      let tab='أخرى';
-      for(const k in map){if(t.includes(k)){tab=map[k];break}}
-      tbs[tab]=(tbs[tab]||0)+1;
-    });
-    if(artQ.data?.length){
-      new Chart(document.getElementById('tabC'),{
-        type:'doughnut',
-        data:{labels:Object.keys(tbs),datasets:[{data:Object.values(tbs),backgroundColor:['#3B9EFF','#EAB308','#A78BFA','#34D399','#60CFFF','#F59E0B']}]},
-        options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#8899bb'}}}}
+    // اختبار 3: هل يمكن الاتصال بقاعدة البيانات؟
+    try {
+      const sb = window.supabase.createClient(
+        'https://lgyyqdelljbrbbwckqol.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxneXlxZGVsbGpicmJid2NrcW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MjYwNDMsImV4cCI6MjA2NDQwMjA0M30._C8IqFVBluKxgkbYLG3PKNke5rvNtTgMo23V4yd-kCc'
+      );
+      sb.from('site_events').select('id', { count: 'exact', head: true }).then(function(result) {
+        if (result.error) {
+          document.getElementById('t3').innerHTML = '<span class="err">❌ فشل: ' + result.error.message + '</span>';
+        } else {
+          document.getElementById('t3').innerHTML = '<span class="ok">✅ نجح! الأحداث: ' + (result.count || 0) + '</span>';
+        }
+      }).catch(function(e) {
+        document.getElementById('t3').innerHTML = '<span class="err">❌ خطأ: ' + e.message + '</span>';
       });
+    } catch(e) {
+      document.getElementById('t3').innerHTML = '<span class="err">❌ خطأ: ' + e.message + '</span>';
     }
-    lg('✅ تبويبات: '+Object.keys(tbs).length,'ok');
-
-    // 6) الزوار 7 أيام
-    lg('📈 الزوار اليومي...','info');
-    const dQ=await sb.from('site_events').select('created_at').eq('event_name','page_view').gte('created_at',w7);
-    const dm={};
-    (dQ.data||[]).forEach(r=>{const d=r.created_at.slice(0,10);dm[d]=(dm[d]||0)+1});
-    const days=[];
-    for(let i=6;i>=0;i--){
-      const d=new Date(now.getTime()-i*86400000);
-      const k=d.toISOString().slice(0,10);
-      days.push({d:k.toLocaleDateString('ar-SD',{weekday:'short',day:'numeric'}),c:dm[k]||0});
-    }
-    new Chart(document.getElementById('dayC'),{
-      type:'line',
-      data:{labels:days.map(d=>d.d),datasets:[{label:'زوار',data:days.map(d=>d.c),borderColor:'#3B9EFF',backgroundColor:'rgba(59,158,255,.15)',fill:true,tension:.4}]},
-      options:{responsive:true,plugins:{legend:{labels:{color:'#8899bb'}}},scales:{y:{ticks:{color:'#8899bb'},grid:{color:'rgba(255,255,255,.05)'}},x:{ticks:{color:'#8899bb'},grid:{display:false}}}}
-    });
-    lg('✅ رسم يومي','ok');
-
-    // 7) المساعد
-    const aiQ=await sb.from('site_events').select('event_name',{count:'exact',head:true}).eq('event_name','chat_start').gte('created_at',w7);
-    const ai=aiQ.count||0;
-    document.getElementById('aiBox').innerHTML=`<table>
-      <tr><th>إجمالي المحادثات</th><td><b>${ai}</b></td></tr>
-      <tr><th>متوسط يومي</th><td><b>${Math.round(ai/7)}</b></td></tr>
-    </table>`;
-    lg('✅ مساعد ذكي','ok');
-
-    document.getElementById('upd').textContent=new Date().toLocaleTimeString('ar-SD');
-    lg('🎉 اكتمل بنجاح!','ok');
-
-  }catch(e){
-    lg('❌ خطأ غير متوقع: '+e.message,'err');
-    document.getElementById('kpis').innerHTML='<div class="empty" style="color:#EF4444">❌ '+e.message+'</div>';
-  }
-}
-
-run();
-</script>
+  </script>
 </body>
 </html>
