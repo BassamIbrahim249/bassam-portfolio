@@ -49,8 +49,18 @@ canvas{max-height:280px}
 </div>
 
 <div class="g2">
+  <div class="card"><h2>📤 المقالات الأكثر مشاركة</h2><div id="sharedBox"></div></div>
+  <div class="card"><h2>🔗 منصات المشاركة</h2><canvas id="platformC"></canvas></div>
+</div>
+
+<div class="g2">
   <div class="card"><h2>🗂️ أداء التبويبات</h2><canvas id="tabC"></canvas></div>
   <div class="card"><h2>📈 الزوار آخر 7 أيام</h2><canvas id="dayC"></canvas></div>
+</div>
+
+<div class="g2">
+  <div class="card"><h2>📱 التطبيق (PWA)</h2><div id="pwaBox"></div></div>
+  <div class="card"><h2>🌐 اللغة</h2><div id="langBox"></div></div>
 </div>
 
 <div class="card"><h2>🤖 المساعد الذكي (7 أيام)</h2><div id="aiBox"></div></div>
@@ -59,6 +69,7 @@ canvas{max-height:280px}
 
 <script>
 const API = 'https://bassam-portfolio-eight.vercel.app/api/dashboard-data';
+let tabChart = null, dayChart = null, platformChart = null;
 
 async function load() {
   document.getElementById('kpis').innerHTML = '<div class="empty">⏳ جاري التحميل...</div>';
@@ -77,35 +88,63 @@ async function load() {
 
     // مقالات
     const art = data.topArticles || [];
-    document.getElementById('artBox').innerHTML = art.length === 0
-      ? '<div class="empty">لا توجد بيانات</div>'
+    document.getElementById('artBox').innerHTML = art.length === 0 ? '<div class="empty">لا توجد بيانات</div>'
       : '<table><tr><th>المقال</th><th>قراءات</th></tr>'+art.map(r=>`<tr><td>${r.name.slice(0,50)}</td><td><b>${r.count}</b></td></tr>`).join('')+'</table>';
 
     // كتب
     const books = data.topBooks || [];
-    document.getElementById('bookBox').innerHTML = books.length === 0
-      ? '<div class="empty">لا توجد بيانات</div>'
+    document.getElementById('bookBox').innerHTML = books.length === 0 ? '<div class="empty">لا توجد بيانات</div>'
       : '<table><tr><th>الكتاب</th><th>تحميلات</th></tr>'+books.map(r=>`<tr><td>${r.name.slice(0,50)}</td><td><b>${r.count}</b></td></tr>`).join('')+'</table>';
 
-    // رسم التبويبات
-    const tabs = data.tabs || [];
-    if (tabs.length > 0) {
-      new Chart(document.getElementById('tabC'), {
+    // المقالات الأكثر مشاركة
+    const shared = data.topShared || [];
+    document.getElementById('sharedBox').innerHTML = shared.length === 0 ? '<div class="empty">لا توجد مشاركات بعد</div>'
+      : '<table><tr><th>المقال</th><th>مشاركات</th></tr>'+shared.map(r=>`<tr><td>${r.name.slice(0,50)}</td><td><b>${r.count}</b></td></tr>`).join('')+'</table>';
+
+    // منصات المشاركة
+    const plat = data.platforms || [];
+    if (platformChart) { platformChart.destroy(); platformChart = null; }
+    if (plat.length > 0) {
+      platformChart = new Chart(document.getElementById('platformC'), {
         type:'doughnut',
-        data:{labels:tabs.map(t=>t.name),datasets:[{data:tabs.map(t=>t.count),backgroundColor:['#3B9EFF','#EAB308','#A78BFA','#34D399','#60CFFF','#F59E0B']}]},
+        data:{labels:plat.map(p=>p.name),datasets:[{data:plat.map(p=>p.count),backgroundColor:['#25D366','#1877F2','#1DA1F2','#0088CC','#6B7280','#3B9EFF']}]},
         options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#8899bb'}}}}
       });
     }
 
-    // رسم الزوار
+    // تبويبات
+    const tabs = data.tabs || [];
+    if (tabChart) { tabChart.destroy(); tabChart = null; }
+    if (tabs.length > 0) {
+      tabChart = new Chart(document.getElementById('tabC'), {
+        type:'doughnut',
+        data:{labels:tabs.map(t=>t.name),datasets:[{data:tabs.map(t=>t.count),backgroundColor:['#3B9EFF','#EAB308','#A78BFA','#34D399','#60CFFF']}]},
+        options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#8899bb'}}}}
+      });
+    }
+
+    // زوار
     const days = data.dailyVisitors || [];
-    new Chart(document.getElementById('dayC'), {
+    if (dayChart) { dayChart.destroy(); dayChart = null; }
+    dayChart = new Chart(document.getElementById('dayC'), {
       type:'line',
       data:{labels:days.map(d=>d.date.slice(5)),datasets:[{label:'زوار',data:days.map(d=>d.count),borderColor:'#3B9EFF',backgroundColor:'rgba(59,158,255,.15)',fill:true,tension:.4}]},
       options:{responsive:true,plugins:{legend:{labels:{color:'#8899bb'}}},scales:{y:{ticks:{color:'#8899bb'},grid:{color:'rgba(255,255,255,.05)'}},x:{ticks:{color:'#8899bb'},grid:{display:false}}}}
     });
 
-    // المساعد الذكي
+    // PWA
+    const pwa = data.pwa || {};
+    document.getElementById('pwaBox').innerHTML = `<table>
+      <tr><th>تثبيتات التطبيق</th><td><b>${pwa.installs||0}</b></td></tr>
+      <tr><th>فتحات التطبيق</th><td><b>${pwa.opens||0}</b></td></tr>
+    </table>`;
+
+    // لغة
+    const langs = data.languages || [];
+    document.getElementById('langBox').innerHTML = langs.length === 0 ? '<div class="empty">لا توجد بيانات</div>'
+      : '<table><tr><th>اللغة</th><th>النسبة</th></tr>'+langs.map(l=>`<tr><td>${l.name==='ar'?'العربية':'English'}</td><td><b>${l.count}</b></td></tr>`).join('')+'</table>';
+
+    // مساعد
     const chat = data.chatSummary || {};
     document.getElementById('aiBox').innerHTML = `<table>
       <tr><th>إجمالي المحادثات</th><td><b>${chat.total||0}</b></td></tr>
