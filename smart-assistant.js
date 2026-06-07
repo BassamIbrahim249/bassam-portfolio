@@ -119,7 +119,17 @@
     return id;
   }
 
+  // ========== إرسال التحليلات (بحد أقصى 10 أسئلة لكل زائر) ==========
+  const MAX_QUESTIONS      = 10;
+  const QUESTION_COUNT_KEY = 'bassam_q_count';
+
   async function logToSupabase(payload) {
+    // ✅ حد أقصى 10 أسئلة لكل زائر — حماية الخطة المجانية
+    let count = parseInt(localStorage.getItem(QUESTION_COUNT_KEY) || '0');
+    if (count >= MAX_QUESTIONS) return;
+    count++;
+    localStorage.setItem(QUESTION_COUNT_KEY, count.toString());
+
     try {
       const ctrl = new AbortController();
       const t    = setTimeout(() => ctrl.abort(), 3000);
