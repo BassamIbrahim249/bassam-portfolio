@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 توليد صفحات HTML ثابتة لكل مقالة في منصة BassamIbrahim
-يشغّل من Pydroid 3 على هاتف أندرويد
+يشغّل من Pydroid 3 أو GitHub Actions
 """
 
 import json
@@ -380,7 +380,7 @@ def main():
     
     if errors:
         print(f"\n⚠️  أخطاء ({len(errors)}):")
-        for error in errors[:5]:
+        for error in errors[:5]:  # عرض أول 5 أخطاء فقط
             print(f"  - {error}")
         if len(errors) > 5:
             print(f"  ... و {len(errors) - 5} أخطاء أخرى")
