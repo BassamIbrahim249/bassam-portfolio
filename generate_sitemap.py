@@ -9,7 +9,6 @@ TODAY = str(date.today())
 
 urls = []
 
-# ── الصفحة الرئيسية ──────────────────────────────────────
 urls.append({
     "loc": f"{BASE_URL}/",
     "lastmod": TODAY,
@@ -17,7 +16,6 @@ urls.append({
     "priority": "1.0"
 })
 
-# ── الأقسام الخمسة ───────────────────────────────────────
 for tab in TABS:
     urls.append({
         "loc": f"{BASE_URL}/?tab={tab}",
@@ -26,7 +24,6 @@ for tab in TABS:
         "priority": "0.9"
     })
 
-# ── المقالات من ملفات JSON ───────────────────────────────
 total_articles = 0
 for tab in TABS:
     path = f"data/{tab}.json"
@@ -44,7 +41,7 @@ for tab in TABS:
             if not article_id:
                 continue
             urls.append({
-                "loc": f"{BASE_URL}/?article={article_id}",
+                "loc": f"{BASE_URL}/articles/{article_id}.html",
                 "lastmod": article_date,
                 "changefreq": "monthly",
                 "priority": "0.8"
@@ -53,7 +50,6 @@ for tab in TABS:
     except Exception as e:
         print(f"❌ خطأ في {path}: {e}")
 
-# ── بناء XML ─────────────────────────────────────────────
 lines = ['<?xml version="1.0" encoding="UTF-8"?>']
 lines.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 for u in urls:
@@ -66,7 +62,6 @@ for u in urls:
 lines.append("</urlset>")
 xml = "\n".join(lines)
 
-# ── حفظ الملف ────────────────────────────────────────────
 with open("sitemap.xml", "w", encoding="utf-8") as f:
     f.write(xml)
 
@@ -75,7 +70,3 @@ print(f"📊 إجمالي URLs: {len(urls)}")
 print(f"   ├── صفحة رئيسية: 1")
 print(f"   ├── أقسام: {len(TABS)}")
 print(f"   └── مقالات: {total_articles}")
-print(f"\n📌 الخطوة التالية:")
-print(f"   1. ارفع sitemap.xml الجديد على GitHub")
-print(f"   2. افتح Search Console → Sitemaps")
-print(f"   3. اضغط Resubmit على الـ sitemap")
