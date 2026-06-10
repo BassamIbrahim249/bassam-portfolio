@@ -9,7 +9,6 @@
     caches.keys().then(function(names) {
       names.forEach(name => caches.delete(name));
     }).then(function() {
-      // إعادة تحميل الصفحة تلقائياً مرة واحدة بعد التنظيف
       if (!sessionStorage.getItem('cache_cleared')) {
         sessionStorage.setItem('cache_cleared', '1');
         window.location.reload(true);
@@ -678,6 +677,24 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       const debouncedQuery=useDebounce(searchQuery,300);const t=k=>I18N[lang]?.[k]||k;
       const dataFile=getDataFile(category);
       const cacheKey=dataFile?`bassam_articles_cache_${dataFile.replace('data/','').replace('.json','')}`:null;
+
+      // ✨ فتح المقال تلقائياً عند وجود ?article=ID
+      useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('article');
+        if (articleId && articles.length > 0) {
+          const idx = articles.findIndex(a => a.id === articleId);
+          if (idx !== -1) {
+            setOpenIndex(idx);
+            setLastOpenedIndex(idx);
+            setTimeout(() => {
+              window.history.replaceState({}, '', window.location.pathname);
+              document.getElementById(`article-${articleId}`)?.scrollIntoView({behavior:'smooth',block:'start'});
+            }, 300);
+          }
+        }
+      }, [articles]);
+
       useEffect(()=>{
         setLoading(true);setError(null);setVisibleCount(ITEMS_PER_PAGE);
         if(!dataFile){setArticles([]);setLoading(false);return;}
@@ -822,6 +839,34 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       const[scrolled,setScrolled]=useState(false);
       const[mobileMenuOpen,setMobileMenuOpen]=useState(false);
       const t=k=>I18N[lang]?.[k]||k;
+
+      // ✨ فتح المقالة مباشرة عند وجود ?article=ID في الرابط
+      useEffect(()=>{
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('article');
+        if (articleId) {
+          const findArticle = async () => {
+            const tabs = ['engineering','political','nubian','academy','lifestyle'];
+            for (const tab of tabs) {
+              try {
+                const response = await fetch(`data/${tab}.json?v=${APP_VERSION}`);
+                if (!response.ok) continue;
+                const articles = await response.json();
+                const found = articles.find(a => a.id === articleId);
+                if (found) {
+                  setOriginTabId(tab);
+                  const slug = BUTTON_SLUGS[found.button] || found.category || tab;
+                  setActiveCategory(slug);
+                  setActiveTagKey(null);
+                  setActiveSection('articles');
+                  return;
+                }
+              } catch(e) {}
+            }
+          };
+          findArticle();
+        }
+      }, []);
 
       useEffect(()=>{
         document.body.className=theme;localStorage.setItem('theme',theme);
