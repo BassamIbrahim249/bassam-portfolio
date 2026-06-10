@@ -1,4 +1,4 @@
-name: Publish & Update All
+name: Publish & Update Sitemap
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - 'sitemap.xml'
 
 jobs:
-  update-files:
+  update-sitemap:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -21,19 +21,13 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: 🧹 حذف صفحات HTML القديمة من الجذر
-        run: find . -maxdepth 1 -name "*.html" ! -name "index.html" -delete
-
       - name: 🗺️ توليد sitemap.xml
         run: python generate_sitemap.py
 
-      - name: 📄 توليد صفحات HTML للمقالات
-        run: python generate_articles.py
-
-      - name: 📤 رفع جميع التحديثات
+      - name: 📤 رفع sitemap.xml الجديد
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml articles/
-          git diff --staged --quiet || git commit -m "🔄 تحديث تلقائي لـ sitemap وصفحات المقالات"
+          git add sitemap.xml
+          git diff --staged --quiet || git commit -m "🔄 تحديث تلقائي لـ sitemap.xml"
           git push
