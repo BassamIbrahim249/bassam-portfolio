@@ -21,6 +21,9 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: 🧹 حذف صفحات HTML القديمة من الجذر
+        run: find . -maxdepth 1 -name "*.html" ! -name "index.html" -delete
+
       - name: 🗺️ توليد sitemap.xml
         run: python generate_sitemap.py
 
