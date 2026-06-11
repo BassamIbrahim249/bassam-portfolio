@@ -621,9 +621,9 @@ This platform is not the end of a journey — but its beginning. A journey of aw
 
     function ShareButtons({article,lang}){
       const[copied,setCopied]=useState(false);const t=k=>I18N[lang]?.[k]||k;
-      const url=encodeURIComponent(window.location.href);const title=encodeURIComponent(getLocalized(article,'title',lang));
-      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article,'title',lang),url:window.location.href});}catch(e){}}else window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');};
-      const handleCopy=async()=>{try{await navigator.clipboard.writeText(window.location.href);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch(e){const i=document.createElement('input');i.value=window.location.href;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}};
+      const articleUrl=article?.id?`https://bassamibrahim249.github.io/bassam-portfolio/articles/${article.id}.html`:window.location.href;const url=encodeURIComponent(articleUrl);const title=encodeURIComponent(getLocalized(article,'title',lang));
+      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article,'title',lang),url:articleUrl});}catch(e){}}else window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');};
+      const handleCopy=async()=>{try{await navigator.clipboard.writeText(articleUrl);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch(e){const i=document.createElement('input');i.value=articleUrl;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}};
       const open=p=>window.open({whatsapp:`https://wa.me/?text=${title}%0A${url}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,twitter:`https://twitter.com/intent/tweet?text=${title}&url=${url}`,telegram:`https://t.me/share/url?url=${url}&text=${title}`}[p],'_blank');
       const btn=(lk,c,a,fn)=>(<button onClick={fn} style={{padding:'8px 14px',borderRadius:8,background:`rgba(${c},${a})`,border:`1px solid rgba(${c},0.4)`,color:`rgb(${c})`,cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600,transition:'all 0.2s'}}>{t(lk)}</button>);
       return(
