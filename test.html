@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الموقع</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        .test-box {
+            background: #111;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        .success { color: #0f0; }
+        .error { color: #f00; }
+        .loading { color: #ff0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 اختبار تشخيص الموقع</h1>
+    
+    <div class="test-box">
+        <h3>1️⃣ اختبار JavaScript</h3>
+        <p id="js-test" class="loading">جاري الاختبار...</p>
+    </div>
+    
+    <div class="test-box">
+        <h3>2️⃣ اختبار localStorage</h3>
+        <p id="storage-test" class="loading">جاري الاختبار...</p>
+    </div>
+    
+    <div class="test-box">
+        <h3>3️⃣ اختبار Service Worker</h3>
+        <p id="sw-test" class="loading">جاري الاختبار...</p>
+        <button id="clear-sw" style="margin-top:10px;padding:8px 16px;background:#f00;color:#fff;border:none;border-radius:4px;">حذف Service Workers</button>
+    </div>
+    
+    <div class="test-box">
+        <h3>4️⃣ اختبار جلب library_index.json</h3>
+        <p id="fetch-test" class="loading">جاري الاختبار...</p>
+    </div>
+        <div class="test-box">
+        <h3>🔧 أدوات الإصلاح</h3>
+        <button id="clear-all" style="padding:10px 20px;background:#0af;color:#fff;border:none;border-radius:4px;margin:5px;">حذف كل البيانات المحفوظة</button>
+        <button id="reload" style="padding:10px 20px;background:#0a0;color:#fff;border:none;border-radius:4px;margin:5px;">إعادة تحميل الصفحة</button>
+    </div>
+
+    <script>
+        // اختبار JavaScript
+        document.getElementById('js-test').innerHTML = '✅ JavaScript يعمل بشكل صحيح';
+        document.getElementById('js-test').className = 'success';
+        
+        // اختبار localStorage
+        try {
+            localStorage.setItem('test', 'ok');
+            localStorage.getItem('test');
+            localStorage.removeItem('test');
+            document.getElementById('storage-test').innerHTML = '✅ localStorage يعمل';
+            document.getElementById('storage-test').className = 'success';
+        } catch(e) {
+            document.getElementById('storage-test').innerHTML = '❌ خطأ: ' + e.message;
+            document.getElementById('storage-test').className = 'error';
+        }
+        
+        // اختبار Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+                if (regs.length === 0) {
+                    document.getElementById('sw-test').innerHTML = '✅ لا يوجد Service Workers';
+                    document.getElementById('sw-test').className = 'success';
+                } else {
+                    document.getElementById('sw-test').innerHTML = '⚠️ يوجد ' + regs.length + ' Service Workers (قد تسبب مشاكل)';
+                    document.getElementById('sw-test').className = 'error';
+                }
+            });
+        } else {
+            document.getElementById('sw-test').innerHTML = '✅ Service Workers غير مدعوم';
+            document.getElementById('sw-test').className = 'success';
+        }
+        
+        // حذف Service Workers
+        document.getElementById('clear-sw').onclick = function() {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+                regs.forEach(function(reg) {
+                    reg.unregister();
+                });
+                alert('تم حذف جميع Service Workers. أعد تحميل الصفحة.');
+                location.reload();
+            });
+        };
+                // اختبار جلب الملف
+        fetch('https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/library_index.json')
+            .then(function(r) { 
+                if (r.ok) return r.json();
+                throw new Error('فشل التحميل: ' + r.status);
+            })
+            .then(function(data) {
+                var count = data.files ? data.files.length : 0;
+                document.getElementById('fetch-test').innerHTML = '✅ تم جلب ' + count + ' ملف';
+                document.getElementById('fetch-test').className = 'success';
+            })
+            .catch(function(e) {
+                document.getElementById('fetch-test').innerHTML = '❌ خطأ: ' + e.message;
+                document.getElementById('fetch-test').className = 'error';
+            });
+        
+        // حذف كل البيانات
+        document.getElementById('clear-all').onclick = function() {
+            localStorage.clear();
+            sessionStorage.clear();
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    names.forEach(function(name) {
+                        caches.delete(name);
+                    });
+                });
+            }
+            alert('تم حذف كل البيانات. أعد تحميل الصفحة.');
+            location.reload();
+        };
+        
+        // إعادة تحميل
+        document.getElementById('reload').onclick = function() {
+            location.reload(true);
+        };
+    </script>
+</body>
+</html>
