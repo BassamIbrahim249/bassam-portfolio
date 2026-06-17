@@ -660,8 +660,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
                 <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f,'description',lang)}</p>
                 <div style={{fontSize:11,color:'var(--text-secondary)',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
                 <div style={{display:'flex',gap:8}}>
-                  <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('download_btn')}</a>
-                  {f.fileType==='pdf'&&<a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(167,139,250,0.2)',color:'#A78BFA',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('preview_btn')}</a>}
+                  <a href={`https://docs.google.com/viewer?url=${encodeURIComponent(f.downloadUrl)}&embedded=true`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(167,139,250,0.2)',color:'#A78BFA',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('preview_btn')}</a>
+                  <a href={f.downloadUrl} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('download_btn')}</a>
                 </div>
               </div>
             ))}
