@@ -136,6 +136,7 @@
     .article-body code{background:rgba(59,158,255,0.1);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--accent-blue)}
     .article-body strong{color:var(--text-primary)}
 
+    /* ✨ NEW — أنماط صفحة عن المنصة */
     .about-body{color:var(--text-secondary);line-height:2;font-size:15px}
     .about-body h1{font-size:clamp(1.4rem,4vw,2rem);font-weight:900;color:var(--text-primary);margin:0 0 20px}
     .about-body h2{font-size:clamp(1rem,3vw,1.25rem);font-weight:700;color:var(--accent-gold);margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid rgba(234,179,8,0.2)}
@@ -252,51 +253,29 @@
     const TAGKEY_TO_SLUG={'tag_materials':'materials_science','tag_construction':'construction_innovation','tag_lab':'engineering_lab','tag_sudan_history':'sudan_history','tag_strategic':'strategic_analysis','tag_intellectual':'intellectual_visions','tag_history':'history','tag_archaeology':'archaeology','tag_identity':'identity','tag_project':'project_writing','tag_leadership':'leadership','tag_training':'developmental_training','tag_holistic':'holistic_health','tag_nutrition':'scientific_nutrition','tag_physical':'physical_excellence'};
     const SLUG_TO_TAGKEY=Object.fromEntries(Object.entries(TAGKEY_TO_SLUG).map(([k,v])=>[v,k]));
 
-    const I18N = {
-      ar: {
-        back: 'العودة للتبويب', library: '📚 المكتبة', read: '📖 اقرأ', close: '✕ إغلاق',
-        search: '🔍 بحث في المقالات...', noArticles: 'لا توجد مقالات بعد.',
-        loadMore: '📄 عرض المزيد', remaining: 'مقال متبقي', minRead: 'دقائق قراءة',
-        related: '📌 مقالات ذات صلة', contact: 'تواصل معي',
-        visionTitle: 'الرؤية والرسالة',
-        visionText: 'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.',
-        identity: 'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي',
-        heroDesc: 'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
-        mainTitle: 'خمسة مجالات. رؤية واحدة.', about: 'تعرّف عليّ',
-        exploreContent: 'استكشف المحتوى', lab: 'المختبر المرئي', explore: 'اكتشف المزيد',
-        browse: '📂 تصفح المحتوى', retry: 'إعادة المحاولة', footerCopy: 'جميع الحقوق محفوظة',
-        tab_eng: 'المنصة الهندسية', tab_eng_sub: 'علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل',
-        tab_eng_desc: 'بوابة إلى عالم المواد الإنشائية المتقدمة.',
-        tab_pol: 'الأرشيف السياسي', tab_pol_sub: 'قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية',
-        tab_pol_desc: 'بوابة إلى الذاكرة السياسية السودانية.',
-        tab_nub: 'نوبيان (الحضارة النوبية)', tab_nub_sub: 'توثيق الإرث، التاريخ، والعمارة النوبية العريقة',
-        tab_nub_desc: 'نافذة متخصصة في الحضارة النوبية.',
-        tab_aca: 'أكاديمية التدريب والتطوير', tab_aca_sub: 'المشاريع والمنح، القيادة والإدارة، والتدريب التنموي',
-        tab_aca_desc: 'بوابة إلى التميّز المؤسسي.',
-        tab_life: 'نمط الحياة والصحة', tab_life_sub: 'الصحة الشاملة، التغذية، والتميز البدني والذهني',
-        tab_life_desc: 'بوابة إلى العافية الكاملة.',
-        stat1: 'خبرة عملية', stat1_sub: 'متجددة باستمرار', stat2: 'بحوث ودراسات', stat2_sub: 'منشورة ومحكّمة',
-        stat3: 'تحليل استراتيجي', stat3_sub: 'مستمر ومتواصل',
-        nav_contact: '📞 معي', hero_btn1: 'تعرّف عليّ', hero_btn2: 'استكشف المحتوى',
-        share: '📤 مشاركة', facebook: '📘 فيسبوك', whatsapp: '📲 واتساب', twitter: '𝕏 تويتر',
-        telegram: '💬 تيليجرام', copyLink: '📋 نسخ الرابط', copied: '✅ تم النسخ!',
-        tag_materials: 'علوم المواد', tag_construction: 'ابتكار إنشائي', tag_lab: 'مختبر هندسي',
-        tag_sudan_history: 'تاريخ السودان', tag_strategic: 'تحليل استراتيجي', tag_intellectual: 'رؤى فكرية',
-        tag_history: 'تاريخ', tag_archaeology: 'آثار', tag_identity: 'هوية',
-        tag_project: 'المشاريع', tag_leadership: 'القيادة والإدارة', tag_training: 'تدريب تنموي',
-        tag_holistic: 'صحة شاملة', tag_nutrition: 'تغذية علمية', tag_physical: 'تميز بدني',
-        lib_engineering: 'الهندسة', lib_political: 'السياسة', lib_nubian: 'نوبيان', lib_academy: 'الأكاديمية', lib_lifestyle: 'نمط الحياة',
-        download_btn: '📥 تحميل', preview_btn: '👁️ معاينة',
-        nav_engineering: 'هندسة', nav_political: 'سياسة', nav_nubian: 'نوبيان', nav_academy: 'أكاديمية', nav_lifestyle: 'نمط الحياة',
-        pwa_title: 'مرحباً بك في منصتي الرقمية', pwa_desc: 'هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.',
-        pwa_install: '📲 ثبّت التطبيق للوصول السريع', pwa_dismiss: 'استمر بالتصفح',
-        meta_description: 'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
-        author_name: 'بسام إبراهيم أحمد',
-        audio_listen: '🎧 استمع', audio_pause: '⏸ إيقاف مؤقت', audio_resume: '▶ استئناف',
-        audio_stop: '⏹ إيقاف', audio_not_supported: 'القارئ الصوتي غير مدعوم في هذا المتصفح',
-        nav_about: 'عن المنصة',
-        library_note: '💡 يمكنك قراءة الملف وتصفحه بالكامل على تيليجرام قبل التحميل.',
-        about_content: `## من أنا؟
+    const I18N={
+      ar:{        back:'العودة للتبويب',library:'📚 المكتبة',read:'📖 اقرأ',close:'✕ إغلاق',search:'🔍 بحث في المقالات...',noArticles:'لا توجد مقالات بعد.',loadMore:'📄 عرض المزيد',remaining:'مقال متبقي',minRead:'دقائق قراءة',related:'📌 مقالات ذات صلة',contact:'تواصل معي',visionTitle:'الرؤية والرسالة',visionText:'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.',identity:'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي',heroDesc:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',mainTitle:'خمسة مجالات. رؤية واحدة.',about:'تعرّف عليّ',exploreContent:'استكشف المحتوى',lab:'المختبر المرئي',explore:'اكتشف المزيد',browse:'📂 تصفح المحتوى',retry:'إعادة المحاولة',footerCopy:'جميع الحقوق محفوظة',
+        tab_eng:'المنصة الهندسية',tab_eng_sub:'علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل',tab_eng_desc:'بوابة إلى عالم المواد الإنشائية المتقدمة.',
+        tab_pol:'الأرشيف السياسي',tab_pol_sub:'قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية',tab_pol_desc:'بوابة إلى الذاكرة السياسية السودانية.',
+        tab_nub:'نوبيان (الحضارة النوبية)',tab_nub_sub:'توثيق الإرث، التاريخ، والعمارة النوبية العريقة',tab_nub_desc:'نافذة متخصصة في الحضارة النوبية.',
+        tab_aca:'أكاديمية التدريب والتطوير',tab_aca_sub:'المشاريع والمنح، القيادة والإدارة، والتدريب التنموي',tab_aca_desc:'بوابة إلى التميّز المؤسسي.',        tab_life:'نمط الحياة والصحة',tab_life_sub:'الصحة الشاملة، التغذية، والتميز البدني والذهني',tab_life_desc:'بوابة إلى العافية الكاملة.',
+        stat1:'خبرة عملية',stat1_sub:'متجددة باستمرار',stat2:'بحوث ودراسات',stat2_sub:'منشورة ومحكّمة',stat3:'تحليل استراتيجي',stat3_sub:'مستمر ومتواصل',
+        nav_contact:'📞 معي',hero_btn1:'تعرّف عليّ',hero_btn2:'استكشف المحتوى',
+        share:'📤 مشاركة',facebook:'📘 فيسبوك',whatsapp:'📲 واتساب',twitter:'𝕏 تويتر',telegram:'💬 تيليجرام',copyLink:'📋 نسخ الرابط',copied:'✅ تم النسخ!',
+        tag_materials:'علوم المواد',tag_construction:'ابتكار إنشائي',tag_lab:'مختبر هندسي',
+        tag_sudan_history:'تاريخ السودان',tag_strategic:'تحليل استراتيجي',tag_intellectual:'رؤى فكرية',
+        tag_history:'تاريخ',tag_archaeology:'آثار',tag_identity:'هوية',
+        tag_project:'المشاريع',tag_leadership:'القيادة والإدارة',tag_training:'تدريب تنموي',
+        tag_holistic:'صحة شاملة',tag_nutrition:'تغذية علمية',tag_physical:'تميز بدني',
+        lib_engineering:'الهندسة',lib_political:'السياسة',lib_nubian:'نوبيان',lib_academy:'الأكاديمية',lib_lifestyle:'نمط الحياة',
+        download_btn:'📥 تحميل',preview_btn:'👁️ معاينة',
+        nav_engineering:'هندسة',nav_political:'سياسة',nav_nubian:'نوبيان',nav_academy:'أكاديمية',nav_lifestyle:'نمط الحياة',
+        pwa_title:'مرحباً بك في منصتي الرقمية',pwa_desc:'هنا تجتمع الدقة الهندسية مع الرؤية التحليلية.',pwa_install:'📲 ثبّت التطبيق للوصول السريع',pwa_dismiss:'استمر بالتصفح',
+        meta_description:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
+        author_name:'بسام إبراهيم أحمد',
+        audio_listen:'🎧 استمع',audio_pause:'⏸ إيقاف مؤقت',audio_resume:'▶ استئناف',audio_stop:'⏹ إيقاف',audio_not_supported:'القارئ الصوتي غير مدعوم في هذا المتصفح',
+        nav_about:'عن المنصة',
+        about_content:`## من أنا؟
 
 **بسام إبراهيم أحمد محمد** — مهندس مدني، ناشط مجتمعي، مهتم بالتاريخ السوداني والحضارة النوبية والابتكار الهندسي وبناء السلام وتمكين الإنسان.
 
@@ -356,50 +335,28 @@
 
 هذه المنصة ليست نهاية رحلة — بل بدايتها. رحلة وعي نحو سودان يُبنى بالعلم، ويتحرك بالعمل، ويحيا بالأمل.`
       },
-      en: {
-        back: 'Back to Section', library: '📚 Library', read: '📖 Read', close: '✕ Close',
-        search: '🔍 Search articles...', noArticles: 'No articles yet.',
-        loadMore: '📄 Load More', remaining: 'remaining', minRead: 'min read',
-        related: '📌 Related Articles', contact: 'Contact Me',
-        visionTitle: 'Vision & Mission',
-        visionText: 'I believe true specialization gives you keys to understand the world in multiple ways.',
-        identity: 'Civil Engineer · Sudan Affairs · Community Activist',
-        heroDesc: 'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
-        mainTitle: 'Five Fields. One Vision.', about: 'About Me',
-        exploreContent: 'Explore Content', lab: 'Visual Lab', explore: 'Explore',
-        browse: '📂 Browse Content', retry: 'Retry', footerCopy: 'All rights reserved',
-        tab_eng: 'Engineering Platform', tab_eng_sub: 'Materials Science, Construction Innovation & Engineering Lab',
-        tab_eng_desc: 'Gateway to advanced structural materials.',
-        tab_pol: 'Political Archive', tab_pol_sub: 'Sudan History, Strategic Analysis & Intellectual Visions',
-        tab_pol_desc: 'Gateway to Sudanese political memory.',
-        tab_nub: 'Nubian Civilization', tab_nub_sub: 'Documenting Nubian Heritage, History & Architecture',
-        tab_nub_desc: 'A specialized window into Nubian civilization.',
-        tab_aca: 'Training & Development Academy', tab_aca_sub: 'Projects, Leadership & Management, Developmental Training',
-        tab_aca_desc: 'Gateway to institutional excellence.',
-        tab_life: 'Lifestyle & Health', tab_life_sub: 'Holistic Health, Scientific Nutrition & Physical Excellence',
-        tab_life_desc: 'Gateway to complete wellness.',
-        stat1: 'Practical Experience', stat1_sub: 'Continuously updated', stat2: 'Published Research', stat2_sub: 'Peer-reviewed studies',
-        stat3: 'Strategic Analysis', stat3_sub: 'Ongoing & continuous',
-        nav_contact: '📞 With Me', hero_btn1: 'About Me', hero_btn2: 'Explore Content',
-        share: '📤 Share', facebook: '📘 Facebook', whatsapp: '📲 WhatsApp', twitter: '𝕏 Twitter',
-        telegram: '💬 Telegram', copyLink: '📋 Copy Link', copied: '✅ Copied!',
-        tag_materials: 'Materials Science', tag_construction: 'Construction Innovation', tag_lab: 'Engineering Lab',
-        tag_sudan_history: 'Sudan History', tag_strategic: 'Strategic Analysis', tag_intellectual: 'Intellectual Visions',
-        tag_history: 'History', tag_archaeology: 'Archaeology', tag_identity: 'Identity',
-        tag_project: 'Projects', tag_leadership: 'Leadership & Management', tag_training: 'Developmental Training',
-        tag_holistic: 'Holistic Health', tag_nutrition: 'Scientific Nutrition', tag_physical: 'Physical Excellence',
-        lib_engineering: 'Engineering', lib_political: 'Politics', lib_nubian: 'Nubian', lib_academy: 'Academy', lib_lifestyle: 'Lifestyle',
-        download_btn: '📥 Download', preview_btn: '👁️ Preview',
-        nav_engineering: 'Engineering', nav_political: 'Politics', nav_nubian: 'Nubian', nav_academy: 'Academy', nav_lifestyle: 'Lifestyle',
-        pwa_title: 'Welcome to my digital platform', pwa_desc: 'Where engineering precision meets analytical vision.',
-        pwa_install: '📲 Install the app for quick access', pwa_dismiss: 'Continue browsing',
-        meta_description: 'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
-        author_name: 'Bassam Ibrahim Ahmed',
-        audio_listen: '🎧 Listen', audio_pause: '⏸ Pause', audio_resume: '▶ Resume',
-        audio_stop: '⏹ Stop', audio_not_supported: 'Text-to-speech not supported in this browser',
-        nav_about: 'About',
-        library_note: '💡 You can read and browse the file on Telegram before downloading.',
-        about_content: `## Who Am I?
+      en:{
+        back:'Back to Section',library:'📚 Library',read:'📖 Read',close:'✕ Close',search:'🔍 Search articles...',noArticles:'No articles yet.',loadMore:'📄 Load More',remaining:'remaining',minRead:'min read',related:'📌 Related Articles',contact:'Contact Me',visionTitle:'Vision & Mission',visionText:'I believe true specialization gives you keys to understand the world in multiple ways.',identity:'Civil Engineer · Sudan Affairs · Community Activist',heroDesc:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',mainTitle:'Five Fields. One Vision.',about:'About Me',exploreContent:'Explore Content',lab:'Visual Lab',explore:'Explore',browse:'📂 Browse Content',retry:'Retry',footerCopy:'All rights reserved',
+        tab_eng:'Engineering Platform',tab_eng_sub:'Materials Science, Construction Innovation & Engineering Lab',tab_eng_desc:'Gateway to advanced structural materials.',
+        tab_pol:'Political Archive',tab_pol_sub:'Sudan History, Strategic Analysis & Intellectual Visions',tab_pol_desc:'Gateway to Sudanese political memory.',
+        tab_nub:'Nubian Civilization',tab_nub_sub:'Documenting Nubian Heritage, History & Architecture',tab_nub_desc:'A specialized window into Nubian civilization.',
+        tab_aca:'Training & Development Academy',tab_aca_sub:'Projects, Leadership & Management, Developmental Training',tab_aca_desc:'Gateway to institutional excellence.',
+        tab_life:'Lifestyle & Health',tab_life_sub:'Holistic Health, Scientific Nutrition & Physical Excellence',tab_life_desc:'Gateway to complete wellness.',
+        stat1:'Practical Experience',stat1_sub:'Continuously updated',stat2:'Published Research',stat2_sub:'Peer-reviewed studies',stat3:'Strategic Analysis',stat3_sub:'Ongoing & continuous',
+        nav_contact:'📞 With Me',hero_btn1:'About Me',hero_btn2:'Explore Content',
+        share:'📤 Share',facebook:'📘 Facebook',whatsapp:'📲 WhatsApp',twitter:'𝕏 Twitter',telegram:'💬 Telegram',copyLink:'📋 Copy Link',copied:'✅ Copied!',
+        tag_materials:'Materials Science',tag_construction:'Construction Innovation',tag_lab:'Engineering Lab',
+        tag_sudan_history:'Sudan History',tag_strategic:'Strategic Analysis',tag_intellectual:'Intellectual Visions',
+        tag_history:'History',tag_archaeology:'Archaeology',tag_identity:'Identity',
+        tag_project:'Projects',tag_leadership:'Leadership & Management',tag_training:'Developmental Training',
+        tag_holistic:'Holistic Health',tag_nutrition:'Scientific Nutrition',tag_physical:'Physical Excellence',
+        lib_engineering:'Engineering',lib_political:'Politics',lib_nubian:'Nubian',lib_academy:'Academy',lib_lifestyle:'Lifestyle',        download_btn:'📥 Download',preview_btn:'👁️ Preview',
+        nav_engineering:'Engineering',nav_political:'Politics',nav_nubian:'Nubian',nav_academy:'Academy',nav_lifestyle:'Lifestyle',
+        pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing',
+        meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
+        author_name:'Bassam Ibrahim Ahmed',
+        audio_listen:'🎧 Listen',audio_pause:'⏸ Pause',audio_resume:'▶ Resume',audio_stop:'⏹ Stop',audio_not_supported:'Text-to-speech not supported in this browser',
+        nav_about:'About',        about_content:`## Who Am I?
 
 **Bassam Ibrahim Ahmed Mohamed** — Civil Engineer, Community Activist, passionate about Sudanese history, Nubian civilization, engineering innovation, peacebuilding, and human empowerment.
 
@@ -466,6 +423,7 @@ This platform is not the end of a journey — but its beginning. A journey of aw
     function parseMarkdownToHTML(md){
       if(!md||typeof md!=='string')return'';
       let h=md;
+      // ✅ الحماية من XSS - تحويل الرموز الخاصة إلى HTML entities
       h=h.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>');
       h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
       h=h.replace(/^#### (.*$)/gim,'<h4>$1</h4>').replace(/^### (.*$)/gim,'<h3>$1</h3>').replace(/^## (.*$)/gim,'<h2>$1</h2>').replace(/^# (.*$)/gim,'<h1>$1</h1>');
@@ -519,6 +477,11 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       );
     }
 
+    // ============================================================
+    // ✨ NEW — مكوِّن صفحة "عن المنصة"
+    // يستقبل: lang, onBack
+    // يعرض النص من I18N.about_content مع parseMarkdownToHTML
+    // ============================================================
     function AboutSection({lang, onBack}){
       const t=k=>I18N[lang]?.[k]||k;
       const rawContent = I18N[lang]?.about_content || '';
@@ -528,6 +491,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
 
       return(
         <div style={{padding:'100px 24px 80px',maxWidth:860,margin:'0 auto',fontFamily:'Cairo'}}>
+
+          {/* زر الرجوع */}
           <button onClick={onBack} className="glass-card"
             style={{marginBottom:40,padding:'12px 24px',borderRadius:14,background:'var(--glass-bg)',
               border:'1px solid var(--glass-border)',color:'var(--text-secondary)',cursor:'pointer',              fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8,
@@ -536,13 +501,20 @@ This platform is not the end of a journey — but its beginning. A journey of aw
             onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--glass-border)';e.currentTarget.style.color='var(--text-secondary)';}}>
             ← {lang==='ar'?'العودة':'Back'}
           </button>
+
+          {/* البطاقة الرئيسية */}
           <div className="glass-card" style={{borderRadius:24,padding:'48px 40px',position:'relative',overflow:'hidden'}}>
+            {/* خط ضوئي علوي */}
             <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',
               width:'70%',height:1,
               background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.4),transparent)',
               pointerEvents:'none'}}/>
+
+            {/* بطاقة الهوية الذكية - بروفايل + CV */}
             <div style={{display:'flex', alignItems:'center', gap:20, marginBottom:36,
               paddingBottom:24, borderBottom:'1px solid var(--border-color)', flexWrap:'wrap'}}>
+              
+              {/* الصورة الشخصية */}
               <div style={{flexShrink:0, position:'relative'}}>
                 <div style={{width:120, height:150, borderRadius:16, overflow:'hidden',
                   border:'3px solid rgba(59,158,255,0.5)',
@@ -571,7 +543,7 @@ This platform is not the end of a journey — but its beginning. A journey of aw
                       e.target.parentElement.innerHTML = '<div style="font-size:36px; display:flex; align-items:center; justify-content:center; height:100%;">👷‍♂️</div>';
                     }}
                   />
-                </div>
+                </div>                {/* حلقة الإبداع - خط دائري حول الصورة */}
                 <svg style={{position:'absolute', top:-8, left:-8, width:136, height:166, pointerEvents:'none'}}>
                   <circle cx="68" cy="83" r="64" fill="none" stroke="rgba(59,158,255,0.3)" strokeWidth="1.5"
                     strokeDasharray="8 6" strokeLinecap="round">
@@ -579,7 +551,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
                   </circle>
                 </svg>
               </div>
-              <div style={{flex:1, minWidth:200}}>
+
+              {/* النص التعريفي */}              <div style={{flex:1, minWidth:200}}>
                 <div style={{fontSize:15, color:'var(--accent-blue)', fontWeight:700,
                   letterSpacing:'0.15em', marginBottom:6}}>
                   BassamIbrahim Portfolio
@@ -595,12 +568,18 @@ This platform is not the end of a journey — but its beginning. A journey of aw
                 </div>
               </div>
             </div>
+
+            {/* محتوى النص */}
             <div className="about-body"
               dangerouslySetInnerHTML={{__html:htmlContent}}/>
+
           </div>
         </div>
       );
     }
+    // ============================================================
+    // ✨ END — AboutSection
+    // ============================================================
 
     const STARS=Array.from({length:45},(_,i)=>({id:i,size:Math.random()*2.5+0.8,left:Math.random()*100,top:Math.random()*100,duration:Math.random()*10+7,delay:Math.random()*6,opacity:Math.random()*0.45+0.1,color:['#3B9EFF','#60CFFF','#A78BFA','#EAB308','#34D399'][Math.floor(Math.random()*5)]}));
     function StarField({theme}){
@@ -663,126 +642,26 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       },[articleId]);      return <div style={{marginTop:20}}><div id={`comments-${articleId}`}></div></div>;
     }
 
-    function LibrarySection({category, onBack, lang}) {
-      const [files, setFiles] = useState([]);
-      const [loading, setLoading] = useState(true);
-      const slug = category?.replace('library_', '');
-      const t = k => I18N[lang]?.[k] || k;
-
-      useEffect(() => {
-        setLoading(true);
-        fetch(`https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/library_index.json?v=${APP_VERSION}`)
-          .then(r => r.json())
-          .then(d => setFiles(d.files?.filter(f => f.category === slug) || []))
-          .catch(() => setFiles([]))
-          .finally(() => setLoading(false));
-      }, [slug]);
-
-      const libName = t(`lib_${slug}`) || slug;
-
-      if (loading) return (
-        <div style={{padding: 60, textAlign: 'center'}}>
-          <div className="skeleton" style={{width: '50%', height: 24, margin: '0 auto 16px'}}></div>
-          <div className="skeleton" style={{height: 120}}></div>
-        </div>
-      );
-
-      if (!files.length) return (
-        <div style={{padding: 60, textAlign: 'center', color: 'var(--text-secondary)'}}>
-          <p style={{fontSize: 48, marginBottom: 16}}>📚</p>
-          <p>{t('noArticles')}</p>
-          <button onClick={onBack} className="glass-card" style={{marginTop: 20, padding: '10px 22px', borderRadius: 10, cursor: 'pointer', color: 'var(--accent-blue)', fontSize: 14, fontWeight: 700}}>
-            ← {t('back')}
-          </button>
-        </div>
-      );
-
-      return (
-        <div style={{padding: '100px 24px 60px', maxWidth: 900, margin: '0 auto', fontFamily: 'Cairo'}}>
-          <button onClick={onBack} className="glass-card" style={{marginBottom: 32, padding: '12px 24px', borderRadius: 14, cursor: 'pointer', color: 'var(--text-secondary)', fontSize: 14, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8}}>
-            ← {t('back')}
-          </button>
-          <h2 style={{fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 900, marginBottom: 30, textAlign: 'center', color: '#A78BFA'}}>
-            📚 {libName}
-          </h2>
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16}}>
-            {files.map(f => (
-              <div key={f.id} className="glass-card" style={{padding: 20, borderRadius: 14}}>
-                <div style={{fontSize: 28, marginBottom: 10}}>
-                  {f.fileType === 'pdf' ? '📕' : f.fileType === 'pptx' ? '📊' : f.fileType === 'docx' ? '📘' : '📄'}
-                </div>
-                <h4 style={{fontSize: 14, marginBottom: 8, color: 'var(--text-primary)'}}>
-                  {getLocalized(f, 'title', lang)}
-                </h4>
-                <p style={{fontSize: 12, color: 'var(--text-secondary)', marginBottom: 12, minHeight: 36}}>
-                  {getLocalized(f, 'description', lang)}
-                </p>
-                <div style={{fontSize: 11, color: 'var(--text-secondary)', marginBottom: 12}}>
-                  📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}
-                </div>
-                
-                <div style={{display: 'flex', gap: 8, marginBottom: 8}}>
-                  <a 
-                    href={f.downloadUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{
-                      flex: 1, 
-                      padding: '10px', 
-                      background: 'rgba(167,139,250,0.2)', 
-                      color: '#A78BFA', 
-                      borderRadius: 8, 
-                      textAlign: 'center', 
-                      textDecoration: 'none', 
-                      fontSize: 12, 
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 6,
-                      border: '1px solid rgba(167,139,250,0.3)',
-                      transition: 'all 0.2s'
-                    }}
-                    title={t('preview_btn')}
-                  >
-                    👁️ {t('preview_btn')}
-                  </a>
-                  
-                  <a 
-                    href={f.downloadUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{
-                      flex: 1, 
-                      padding: '10px', 
-                      background: 'rgba(59,158,255,0.2)', 
-                      color: 'var(--accent-blue)', 
-                      borderRadius: 8, 
-                      textAlign: 'center', 
-                      textDecoration: 'none', 
-                      fontSize: 12, 
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 6,
-                      border: '1px solid rgba(59,158,255,0.3)',
-                      transition: 'all 0.2s'
-                    }}
-                    title={t('download_btn')}
-                  >
-                    📥 {t('download_btn')}
-                  </a>
-                </div>
-                
-                <div style={{
-                  fontSize: 10, 
-                  color: 'var(--text-secondary)', 
-                  textAlign: 'center',
-                  opacity: 0.7,
-                  lineHeight: 1.5
-                }}>
-                  {t('library_note')}
+    function LibrarySection({category,onBack,lang}){
+      const[files,setFiles]=useState([]);const[loading,setLoading]=useState(true);
+      const slug=category?.replace('library_','');const t=k=>I18N[lang]?.[k]||k;
+      useEffect(()=>{setLoading(true);fetch(`https://raw.githubusercontent.com/bassamibrahim249/bassam-portfolio/main/library_index.json?v=${APP_VERSION}`).then(r=>r.json()).then(d=>setFiles(d.files?.filter(f=>f.category===slug)||[])).catch(()=>setFiles([])).finally(()=>setLoading(false));},[slug]);
+      const libName=t(`lib_${slug}`)||slug;
+      if(loading)return <div style={{padding:60,textAlign:'center'}}><div className="skeleton" style={{width:'50%',height:24,margin:'0 auto 16px'}}></div><div className="skeleton" style={{height:120}}></div></div>;
+      if(!files.length)return <div style={{padding:60,textAlign:'center',color:'var(--text-secondary)'}}><p style={{fontSize:48,marginBottom:16}}>📚</p><p>{t('noArticles')}</p><button onClick={onBack} className="glass-card" style={{marginTop:20,padding:'10px 22px',borderRadius:10,cursor:'pointer',color:'var(--accent-blue)',fontSize:14,fontWeight:700}}>← {t('back')}</button></div>;
+      return(
+        <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>          <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:'12px 24px',borderRadius:14,cursor:'pointer',color:'var(--text-secondary)',fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
+          <h2 style={{fontSize:'clamp(1.5rem,4vw,2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'#A78BFA'}}>📚 {libName}</h2>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))',gap:16}}>
+            {files.map(f=>(
+              <div key={f.id} className="glass-card" style={{padding:20,borderRadius:14}}>
+                <div style={{fontSize:28,marginBottom:10}}>{f.fileType==='pdf'?'📕':f.fileType==='pptx'?'📊':'📄'}</div>
+                <h4 style={{fontSize:14,marginBottom:8,color:'var(--text-primary)'}}>{getLocalized(f,'title',lang)}</h4>
+                <p style={{fontSize:12,color:'var(--text-secondary)',marginBottom:12}}>{getLocalized(f,'description',lang)}</p>
+                <div style={{fontSize:11,color:'var(--text-secondary)',marginBottom:12}}>📦 {f.fileSize} • 📅 {new Date(f.uploadDate).toLocaleDateString('ar-SD')}</div>
+                <div style={{display:'flex',gap:8}}>
+                  <a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(59,158,255,0.2)',color:'var(--accent-blue)',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('download_btn')}</a>
+                  {f.fileType==='pdf'&&<a href={`https://github.com/bassamibrahim249/bassam-portfolio/raw/main/${f.filePath}`} target="_blank" rel="noopener noreferrer" style={{flex:1,padding:'9px',background:'rgba(167,139,250,0.2)',color:'#A78BFA',borderRadius:8,textAlign:'center',textDecoration:'none',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center'}}>{t('preview_btn')}</a>}
                 </div>
               </div>
             ))}
@@ -799,6 +678,7 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       const dataFile=getDataFile(category);
       const cacheKey=dataFile?`bassam_articles_cache_${dataFile.replace('data/','').replace('.json','')}`:null;
 
+      // ✨ فتح المقال تلقائياً عند وجود ?article=ID
       useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const articleId = urlParams.get('article');
@@ -960,6 +840,7 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       const[mobileMenuOpen,setMobileMenuOpen]=useState(false);
       const t=k=>I18N[lang]?.[k]||k;
 
+      // ✨ فتح المقالة مباشرة عند وجود ?article=ID في الرابط
       useEffect(()=>{
         const urlParams = new URLSearchParams(window.location.search);
         const articleId = urlParams.get('article');
@@ -1017,6 +898,7 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       const handleTagClick=(slug,tabId,tagKey)=>{setOriginTabId(tabId);setActiveCategory(slug);setActiveTagKey(tagKey);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
       const handleLibraryClick=(slug,tabId)=>{setOriginTabId(tabId);setActiveCategory(`library_${slug}`);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
 
+      // ✨ NEW — عرض صفحة "عن المنصة"
       if(activeSection==='about'){
         return <AboutSection lang={lang} onBack={()=>{setActiveSection(null);window.scrollTo({top:0,behavior:'smooth'});}}/>;
       }
