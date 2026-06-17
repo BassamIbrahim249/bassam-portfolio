@@ -225,6 +225,18 @@
       });
     }
   </script>
+  <!-- ✅ كاشف الأخطاء -->
+  <script>
+    window.onerror = function(msg, url, line, col, error) {
+      document.getElementById('root').innerHTML = 
+        '<div style="color:red;padding:20px;font-family:sans-serif;direction:rtl;">' +
+        '<h2>❌ خطأ JavaScript:</h2>' +
+        '<p><b>الرسالة:</b> ' + msg + '</p>' +
+        '<p><b>الملف:</b> ' + url + '</p>' +
+        '<p><b>السطر:</b> ' + line + '</p>' +
+        '</div>';
+    };
+  </script>
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
