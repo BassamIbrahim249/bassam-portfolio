@@ -1,21 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
-  <script>
-  if('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(regs) {
-      regs.forEach(reg => reg.unregister());
-    });
-    caches.keys().then(function(names) {
-      names.forEach(name => caches.delete(name));
-    }).then(function() {
-      if (!sessionStorage.getItem('cache_cleared')) {
-        sessionStorage.setItem('cache_cleared', '1');
-        window.location.reload(true);
-      }
-    });
-  }
-  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني</title>
@@ -46,7 +31,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Bassam Ibrahim" />
-  <link rel="apple-touch-icon" href="icon_192.png" />
+  <link rel="apple-touch-icon" href="icon.jpg" />
   <meta property="og:title" content="BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني" />
   <meta property="og:description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <meta property="og:type" content="website" />
@@ -58,11 +43,13 @@
   <meta name="twitter:title" content="BassamIbrahim — مهندس مدني · مهتم بالشأن السوداني" />
   <meta name="twitter:description" content="مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي." />
   <meta name="twitter:image" content="https://bassamibrahim249.github.io/bassam-portfolio/preview.jpg" />
-  <link rel="icon" type="image/png" href="icon_192.png" />
+  <link rel="icon" type="image/jpeg" href="icon.jpg" />
   <link rel="canonical" id="dynamicCanonical" href="https://bassamibrahim249.github.io/bassam-portfolio/" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -110,8 +97,10 @@
     @keyframes visionAura{0%,100%{box-shadow:0 0 40px rgba(234,179,8,0.12),0 0 80px rgba(59,158,255,0.06)}50%{box-shadow:0 0 70px rgba(234,179,8,0.30),0 0 130px rgba(59,158,255,0.14)}}
     @keyframes borderSweep{0%{left:-100%}100%{left:200%}}
     @keyframes tagShimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-    @keyframes audioWave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.8)}}    @keyframes audioRipple{0%{box-shadow:0 0 0 0 rgba(59,158,255,0.4)}100%{box-shadow:0 0 0 12px rgba(59,158,255,0)}}
-    @media(prefers-reduced-motion:no-preference){      .anim-fade-up{animation:fadeUp 0.75s ease both}
+    @keyframes audioWave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.8)}}
+    @keyframes audioRipple{0%{box-shadow:0 0 0 0 rgba(59,158,255,0.4)}100%{box-shadow:0 0 0 12px rgba(59,158,255,0)}}
+    @media(prefers-reduced-motion:no-preference){
+      .anim-fade-up{animation:fadeUp 0.75s ease both}
       .pulse-dot{animation:pulseGlow 2.2s ease-in-out infinite}
       .accordion-item.last-opened{animation:goldenPulse 2s ease-in-out infinite}
       .skeleton{animation:skeletonShimmer 1.5s infinite linear;background:linear-gradient(90deg,rgba(128,128,128,0.05) 25%,rgba(128,128,128,0.15) 50%,rgba(128,128,128,0.05) 75%);background-size:200% 100%;border-radius:12px}
@@ -158,9 +147,11 @@
     .card-wrap:hover::before{animation:borderSweep 0.75s ease forwards}
     .card-engineering:hover{box-shadow:0 22px 55px rgba(59,158,255,0.28),0 0 90px rgba(59,158,255,0.07),inset 0 1px 0 rgba(59,158,255,0.18)}
     .card-political:hover{box-shadow:0 22px 55px rgba(96,207,255,0.28),0 0 90px rgba(96,207,255,0.07),inset 0 1px 0 rgba(96,207,255,0.18)}
-    .card-nubian:hover{box-shadow:0 22px 55px rgba(234,179,8,0.32),0 0 90px rgba(234,179,8,0.09),inset 0 1px 0 rgba(234,179,8,0.22)}    .card-academy:hover{box-shadow:0 22px 55px rgba(167,139,250,0.28),0 0 90px rgba(167,139,250,0.07),inset 0 1px 0 rgba(167,139,250,0.18)}
+    .card-nubian:hover{box-shadow:0 22px 55px rgba(234,179,8,0.32),0 0 90px rgba(234,179,8,0.09),inset 0 1px 0 rgba(234,179,8,0.22)}
+    .card-academy:hover{box-shadow:0 22px 55px rgba(167,139,250,0.28),0 0 90px rgba(167,139,250,0.07),inset 0 1px 0 rgba(167,139,250,0.18)}
     .card-lifestyle:hover{box-shadow:0 22px 55px rgba(52,211,153,0.28),0 0 90px rgba(52,211,153,0.07),inset 0 1px 0 rgba(52,211,153,0.18)}
-    .card-icon-wrap{transition:transform 0.4s ease,box-shadow 0.4s ease,background 0.4s ease,border-color 0.4s ease}    .card-wrap:hover .card-icon-wrap{transform:scale(1.12) rotate(3deg)}
+    .card-icon-wrap{transition:transform 0.4s ease,box-shadow 0.4s ease,background 0.4s ease,border-color 0.4s ease}
+    .card-wrap:hover .card-icon-wrap{transform:scale(1.12) rotate(3deg)}
     .card-engineering:hover .card-icon-wrap{box-shadow:0 0 25px rgba(59,158,255,0.5);background:rgba(59,158,255,0.12)!important;border-color:rgba(59,158,255,0.4)!important}
     .card-political:hover .card-icon-wrap{box-shadow:0 0 25px rgba(96,207,255,0.5);background:rgba(96,207,255,0.12)!important;border-color:rgba(96,207,255,0.4)!important}
     .card-nubian:hover .card-icon-wrap{box-shadow:0 0 25px rgba(234,179,8,0.5);background:rgba(234,179,8,0.12)!important;border-color:rgba(234,179,8,0.4)!important}
@@ -206,10 +197,12 @@
       .nav-tabs-desktop{display:none}
       .header-actions-desktop{display:none}
       .hamburger-btn{display:flex;align-items:center;justify-content:center}
-      .mobile-menu-overlay.show{display:block}      .header-bottom-row{display:flex}
+      .mobile-menu-overlay.show{display:block}
+      .header-bottom-row{display:flex}
     }
     @media(min-width:769px){
-      .hamburger-btn{display:none}      .mobile-menu-overlay{display:none}
+      .hamburger-btn{display:none}
+      .mobile-menu-overlay{display:none}
       .mobile-menu-panel{display:none}
       .header-bottom-row{display:none}
       .header-actions-desktop{display:flex}
@@ -254,11 +247,13 @@
     const SLUG_TO_TAGKEY=Object.fromEntries(Object.entries(TAGKEY_TO_SLUG).map(([k,v])=>[v,k]));
 
     const I18N={
-      ar:{        back:'العودة للتبويب',library:'📚 المكتبة',read:'📖 اقرأ',close:'✕ إغلاق',search:'🔍 بحث في المقالات...',noArticles:'لا توجد مقالات بعد.',loadMore:'📄 عرض المزيد',remaining:'مقال متبقي',minRead:'دقائق قراءة',related:'📌 مقالات ذات صلة',contact:'تواصل معي',visionTitle:'الرؤية والرسالة',visionText:'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.',identity:'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي',heroDesc:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',mainTitle:'خمسة مجالات. رؤية واحدة.',about:'تعرّف عليّ',exploreContent:'استكشف المحتوى',lab:'المختبر المرئي',explore:'اكتشف المزيد',browse:'📂 تصفح المحتوى',retry:'إعادة المحاولة',footerCopy:'جميع الحقوق محفوظة',
+      ar:{
+        back:'العودة للتبويب',library:'📚 المكتبة',read:'📖 اقرأ',close:'✕ إغلاق',search:'🔍 بحث في المقالات...',noArticles:'لا توجد مقالات بعد.',loadMore:'📄 عرض المزيد',remaining:'مقال متبقي',minRead:'دقائق قراءة',related:'📌 مقالات ذات صلة',contact:'تواصل معي',visionTitle:'الرؤية والرسالة',visionText:'أؤمن بأن التخصص الحقيقي لا يُقيّد صاحبه، بل يمنحه مفاتيح لفهم العالم بطرق متعددة.',identity:'مهندس مدني · مهتم بالشأن السوداني · ناشط مجتمعي',heroDesc:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',mainTitle:'خمسة مجالات. رؤية واحدة.',about:'تعرّف عليّ',exploreContent:'استكشف المحتوى',lab:'المختبر المرئي',explore:'اكتشف المزيد',browse:'📂 تصفح المحتوى',retry:'إعادة المحاولة',footerCopy:'جميع الحقوق محفوظة',
         tab_eng:'المنصة الهندسية',tab_eng_sub:'علوم المواد، ابتكارات الإنشاء، والمختبر الهندسي الشامل',tab_eng_desc:'بوابة إلى عالم المواد الإنشائية المتقدمة.',
         tab_pol:'الأرشيف السياسي',tab_pol_sub:'قراءات في تاريخ السودان، التحليل الاستراتيجي، ورؤى فكرية',tab_pol_desc:'بوابة إلى الذاكرة السياسية السودانية.',
         tab_nub:'نوبيان (الحضارة النوبية)',tab_nub_sub:'توثيق الإرث، التاريخ، والعمارة النوبية العريقة',tab_nub_desc:'نافذة متخصصة في الحضارة النوبية.',
-        tab_aca:'أكاديمية التدريب والتطوير',tab_aca_sub:'المشاريع والمنح، القيادة والإدارة، والتدريب التنموي',tab_aca_desc:'بوابة إلى التميّز المؤسسي.',        tab_life:'نمط الحياة والصحة',tab_life_sub:'الصحة الشاملة، التغذية، والتميز البدني والذهني',tab_life_desc:'بوابة إلى العافية الكاملة.',
+        tab_aca:'أكاديمية التدريب والتطوير',tab_aca_sub:'المشاريع والمنح، القيادة والإدارة، والتدريب التنموي',tab_aca_desc:'بوابة إلى التميّز المؤسسي.',
+        tab_life:'نمط الحياة والصحة',tab_life_sub:'الصحة الشاملة، التغذية، والتميز البدني والذهني',tab_life_desc:'بوابة إلى العافية الكاملة.',
         stat1:'خبرة عملية',stat1_sub:'متجددة باستمرار',stat2:'بحوث ودراسات',stat2_sub:'منشورة ومحكّمة',stat3:'تحليل استراتيجي',stat3_sub:'مستمر ومتواصل',
         nav_contact:'📞 معي',hero_btn1:'تعرّف عليّ',hero_btn2:'استكشف المحتوى',
         share:'📤 مشاركة',facebook:'📘 فيسبوك',whatsapp:'📲 واتساب',twitter:'𝕏 تويتر',telegram:'💬 تيليجرام',copyLink:'📋 نسخ الرابط',copied:'✅ تم النسخ!',
@@ -274,6 +269,7 @@
         meta_description:'مهندس مدني مهتم بالابتكار الهندسي، باحث في الشأن السوداني، ناشط مجتمعي.',
         author_name:'بسام إبراهيم أحمد',
         audio_listen:'🎧 استمع',audio_pause:'⏸ إيقاف مؤقت',audio_resume:'▶ استئناف',audio_stop:'⏹ إيقاف',audio_not_supported:'القارئ الصوتي غير مدعوم في هذا المتصفح',
+        // ✨ NEW — مفاتيح صفحة عن المنصة
         nav_about:'عن المنصة',
         about_content:`## من أنا؟
 
@@ -302,11 +298,13 @@
 📚 **أكاديمية التدريب والتطوير:** بناء قدرات الفرد وتعزيز ثقافة المبادرة والتطوير الذاتي، إيماناً بأن بناء المؤسسات يبدأ ببناء الفرد.
 
 🌿 **نمط الحياة والصحة:** نشر ثقافة التغذية السليمة والنشاط البدني والعادات الصحية لتأسيس أسلوب حياة متوازن قائم على العلم.
+
 ---
 
 ## رسالتنا
 
 تقديم معرفة رصينة ومتاحة، تسهم في صياغة الوعي وتبسيط العلوم وتوثيق التاريخ، لتمكين الأفراد من الفهم والتحليل واتخاذ القرار لبناء مجتمع أفضل.
+
 ---
 
 ## رؤيتنا
@@ -350,13 +348,16 @@
         tag_history:'History',tag_archaeology:'Archaeology',tag_identity:'Identity',
         tag_project:'Projects',tag_leadership:'Leadership & Management',tag_training:'Developmental Training',
         tag_holistic:'Holistic Health',tag_nutrition:'Scientific Nutrition',tag_physical:'Physical Excellence',
-        lib_engineering:'Engineering',lib_political:'Politics',lib_nubian:'Nubian',lib_academy:'Academy',lib_lifestyle:'Lifestyle',        download_btn:'📥 Download',preview_btn:'👁️ Preview',
+        lib_engineering:'Engineering',lib_political:'Politics',lib_nubian:'Nubian',lib_academy:'Academy',lib_lifestyle:'Lifestyle',
+        download_btn:'📥 Download',preview_btn:'👁️ Preview',
         nav_engineering:'Engineering',nav_political:'Politics',nav_nubian:'Nubian',nav_academy:'Academy',nav_lifestyle:'Lifestyle',
         pwa_title:'Welcome to my digital platform',pwa_desc:'Where engineering precision meets analytical vision.',pwa_install:'📲 Install the app for quick access',pwa_dismiss:'Continue browsing',
         meta_description:'A civil engineer passionate about innovation, a researcher in Sudanese affairs, and a community activist.',
         author_name:'Bassam Ibrahim Ahmed',
         audio_listen:'🎧 Listen',audio_pause:'⏸ Pause',audio_resume:'▶ Resume',audio_stop:'⏹ Stop',audio_not_supported:'Text-to-speech not supported in this browser',
-        nav_about:'About',        about_content:`## Who Am I?
+        // ✨ NEW — About page keys
+        nav_about:'About',
+        about_content:`## Who Am I?
 
 **Bassam Ibrahim Ahmed Mohamed** — Civil Engineer, Community Activist, passionate about Sudanese history, Nubian civilization, engineering innovation, peacebuilding, and human empowerment.
 
@@ -399,6 +400,7 @@ To become the trusted Sudanese knowledge reference in preserving national memory
 ---
 
 ## Our Values
+
 **Credibility:** Scientific integrity and verification in all our content.
 
 **Independence:** Our full allegiance to truth and abstract knowledge.
@@ -406,6 +408,7 @@ To become the trusted Sudanese knowledge reference in preserving national memory
 **Depth:** Analyzing roots, not describing surfaces.
 
 **Responsibility:** Our ethical commitment towards our society and its issues.
+
 **Hope:** Our firm belief in the ability to achieve positive change and build the future.
 
 ---
@@ -423,8 +426,7 @@ This platform is not the end of a journey — but its beginning. A journey of aw
     function parseMarkdownToHTML(md){
       if(!md||typeof md!=='string')return'';
       let h=md;
-      // ✅ الحماية من XSS - تحويل الرموز الخاصة إلى HTML entities
-      h=h.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>');
+      h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
       h=h.replace(/^#### (.*$)/gim,'<h4>$1</h4>').replace(/^### (.*$)/gim,'<h3>$1</h3>').replace(/^## (.*$)/gim,'<h2>$1</h2>').replace(/^# (.*$)/gim,'<h1>$1</h1>');
       h=h.replace(/\*\*\*(.*?)\*\*\*/g,'<strong><em>$1</em></strong>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
@@ -447,14 +449,16 @@ This platform is not the end of a journey — but its beginning. A journey of aw
     };
 
     function AudioReader({text,lang}){
-      const[status,setStatus]=useState('idle');      const utteranceRef=useRef(null);
+      const[status,setStatus]=useState('idle');
+      const utteranceRef=useRef(null);
       const t=k=>I18N[lang]?.[k]||k;
       useEffect(()=>{return()=>{if(window.speechSynthesis)window.speechSynthesis.cancel();};},[]);
       useEffect(()=>{if(window.speechSynthesis){window.speechSynthesis.cancel();setStatus('idle');}},[text]);
       if(!window.speechSynthesis){
         return(<div style={{fontSize:11,color:'var(--text-secondary)',padding:'6px 10px',background:'rgba(255,255,255,0.04)',borderRadius:8,marginTop:12,border:'1px solid var(--border-color)'}}>⚠️ {t('audio_not_supported')}</div>);
       }
-      function extractPlainText(html){const tmp=document.createElement('div');tmp.innerHTML=html;return tmp.textContent||tmp.innerText||'';}      function handlePlay(){
+      function extractPlainText(html){const tmp=document.createElement('div');tmp.innerHTML=html;return tmp.textContent||tmp.innerText||'';}
+      function handlePlay(){
         window.speechSynthesis.cancel();
         const plainText=extractPlainText(text);
         if(!plainText.trim())return;
@@ -495,7 +499,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
           {/* زر الرجوع */}
           <button onClick={onBack} className="glass-card"
             style={{marginBottom:40,padding:'12px 24px',borderRadius:14,background:'var(--glass-bg)',
-              border:'1px solid var(--glass-border)',color:'var(--text-secondary)',cursor:'pointer',              fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8,
+              border:'1px solid var(--glass-border)',color:'var(--text-secondary)',cursor:'pointer',
+              fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8,
               transition:'all 0.3s ease'}}
             onMouseEnter={e=>{e.currentTarget.style.borderColor='rgba(59,158,255,0.4)';e.currentTarget.style.color='var(--accent-blue)';}}
             onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--glass-border)';e.currentTarget.style.color='var(--text-secondary)';}}>
@@ -504,67 +509,30 @@ This platform is not the end of a journey — but its beginning. A journey of aw
 
           {/* البطاقة الرئيسية */}
           <div className="glass-card" style={{borderRadius:24,padding:'48px 40px',position:'relative',overflow:'hidden'}}>
+
             {/* خط ضوئي علوي */}
             <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',
               width:'70%',height:1,
               background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.4),transparent)',
               pointerEvents:'none'}}/>
 
-            {/* بطاقة الهوية الذكية - بروفايل + CV */}
-            <div style={{display:'flex', alignItems:'center', gap:20, marginBottom:36,
-              paddingBottom:24, borderBottom:'1px solid var(--border-color)', flexWrap:'wrap'}}>
-              
-              {/* الصورة الشخصية */}
-              <div style={{flexShrink:0, position:'relative'}}>
-                <div style={{width:120, height:150, borderRadius:16, overflow:'hidden',
-                  border:'3px solid rgba(59,158,255,0.5)',
-                  boxShadow:'0 0 30px rgba(59,158,255,0.3), 0 0 60px rgba(59,158,255,0.1)',
-                  background:'linear-gradient(135deg, rgba(59,158,255,0.2), rgba(96,207,255,0.1))',
-                  cursor:'pointer',
-                  transition:'all 0.2s ease'}}
-                  onMouseDown={e => {
-                    e.currentTarget.style.transform = 'scale(1.08)';
-                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(59,158,255,0.6), 0 0 60px rgba(59,158,255,0.3)';
-                  }}
-                  onMouseUp={e => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = '0 0 30px rgba(59,158,255,0.3), 0 0 60px rgba(59,158,255,0.1)';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = '0 0 30px rgba(59,158,255,0.3), 0 0 60px rgba(59,158,255,0.1)';
-                  }}>
-                  <img 
-                    src="profile.jpg" 
-                    alt="بسام إبراهيم"
-                    style={{width:'100%', height:'100%', objectFit:'cover'}}
-                    onError={e => {
-                      e.target.style.display = 'none';
-                      e.target.parentElement.innerHTML = '<div style="font-size:36px; display:flex; align-items:center; justify-content:center; height:100%;">👷‍♂️</div>';
-                    }}
-                  />
-                </div>                {/* حلقة الإبداع - خط دائري حول الصورة */}
-                <svg style={{position:'absolute', top:-8, left:-8, width:136, height:166, pointerEvents:'none'}}>
-                  <circle cx="68" cy="83" r="64" fill="none" stroke="rgba(59,158,255,0.3)" strokeWidth="1.5"
-                    strokeDasharray="8 6" strokeLinecap="round">
-                    <animateTransform attributeName="transform" type="rotate" from="0 68 83" to="360 68 83" dur="20s" repeatCount="indefinite"/>
-                  </circle>
-                </svg>
+            {/* أيقونة الهوية */}
+            <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:36,
+              paddingBottom:24,borderBottom:'1px solid var(--border-color)'}}>
+              <div style={{width:64,height:64,borderRadius:18,flexShrink:0,
+                background:'linear-gradient(135deg,rgba(59,158,255,0.15),rgba(96,207,255,0.08))',
+                border:'1px solid rgba(59,158,255,0.3)',
+                display:'flex',alignItems:'center',justifyContent:'center',
+                fontSize:28,boxShadow:'0 0 24px rgba(59,158,255,0.2)'}}>
+                👷‍♂️
               </div>
-
-              {/* النص التعريفي */}              <div style={{flex:1, minWidth:200}}>
-                <div style={{fontSize:15, color:'var(--accent-blue)', fontWeight:700,
-                  letterSpacing:'0.15em', marginBottom:6}}>
+              <div>
+                <div style={{fontSize:13,color:'var(--accent-blue)',fontWeight:700,
+                  letterSpacing:'0.15em',marginBottom:4}}>
                   BassamIbrahim Portfolio
                 </div>
-                <div style={{fontSize:13, color:'var(--text-secondary)', marginBottom:8}}>
+                <div style={{fontSize:12,color:'var(--text-secondary)'}}>
                   {lang==='ar'?'مشروع معرفي سوداني مستقل':'Independent Sudanese Knowledge Project'}
-                </div>
-                <div style={{fontSize:14, fontWeight:900, color:'var(--text-primary)', marginBottom:2}}>
-                  {lang==='ar'?'بسام إبراهيم أحمد محمد':'Bassam Ibrahim Ahmed Mohamed'}
-                </div>
-                <div style={{fontSize:12, color:'var(--text-secondary)'}}>
-                  {lang==='ar'?'مهندس مدني · ناشط مجتمعي':'Civil Engineer · Community Activist'}
                 </div>
               </div>
             </div>
@@ -591,7 +559,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
     }
 
     function TypeWriter({texts,color='#3B9EFF'}){
-      const[display,setDisplay]=useState('');const[idx,setIdx]=useState(0);const[phase,setPhase]=useState('typing');      useEffect(()=>{
+      const[display,setDisplay]=useState('');const[idx,setIdx]=useState(0);const[phase,setPhase]=useState('typing');
+      useEffect(()=>{
         const cur=texts[idx%texts.length];let t;
         if(phase==='typing'){if(display.length<cur.length)t=setTimeout(()=>setDisplay(cur.slice(0,display.length+1)),75);else t=setTimeout(()=>setPhase('deleting'),2200);}
         else{if(display.length>0)t=setTimeout(()=>setDisplay(d=>d.slice(0,-1)),38);else{setIdx(i=>i+1);setPhase('typing');}}
@@ -601,7 +570,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
     }
 
     function ProgressRing({theme}){
-      const[progress,setProgress]=useState(0);const[visible,setVisible]=useState(false);      useEffect(()=>{
+      const[progress,setProgress]=useState(0);const[visible,setVisible]=useState(false);
+      useEffect(()=>{
         const h=()=>{const total=document.documentElement.scrollHeight-window.innerHeight;const pct=total>0?(window.scrollY/total)*100:0;setProgress(pct);setVisible(window.scrollY>300);const bar=document.getElementById('readProgress');if(bar)bar.style.width=`${pct}%`;};
         window.addEventListener('scroll',h,{passive:true});return()=>window.removeEventListener('scroll',h);
       },[]);
@@ -621,9 +591,9 @@ This platform is not the end of a journey — but its beginning. A journey of aw
 
     function ShareButtons({article,lang}){
       const[copied,setCopied]=useState(false);const t=k=>I18N[lang]?.[k]||k;
-      const articleUrl=article?.id?`https://bassamibrahim249.github.io/bassam-portfolio/articles/${article.id}.html`:window.location.href;const url=encodeURIComponent(articleUrl);const title=encodeURIComponent(getLocalized(article,'title',lang));
-      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article,'title',lang),url:articleUrl});}catch(e){}}else window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');};
-      const handleCopy=async()=>{try{await navigator.clipboard.writeText(articleUrl);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch(e){const i=document.createElement('input');i.value=articleUrl;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}};
+      const url=encodeURIComponent(window.location.href);const title=encodeURIComponent(getLocalized(article,'title',lang));
+      const handleShare=async()=>{if(navigator.share){try{await navigator.share({title:getLocalized(article,'title',lang),url:window.location.href});}catch(e){}}else window.open(`https://wa.me/?text=${title}%0A${url}`,'_blank');};
+      const handleCopy=async()=>{try{await navigator.clipboard.writeText(window.location.href);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch(e){const i=document.createElement('input');i.value=window.location.href;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);setCopied(true);setTimeout(()=>setCopied(false),2000);}};
       const open=p=>window.open({whatsapp:`https://wa.me/?text=${title}%0A${url}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,twitter:`https://twitter.com/intent/tweet?text=${title}&url=${url}`,telegram:`https://t.me/share/url?url=${url}&text=${title}`}[p],'_blank');
       const btn=(lk,c,a,fn)=>(<button onClick={fn} style={{padding:'8px 14px',borderRadius:8,background:`rgba(${c},${a})`,border:`1px solid rgba(${c},0.4)`,color:`rgb(${c})`,cursor:'pointer',fontFamily:'Cairo',fontSize:11,fontWeight:600,transition:'all 0.2s'}}>{t(lk)}</button>);
       return(
@@ -639,7 +609,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
         const id=`comments-${articleId}`;const c=document.getElementById(id);
         if(c&&!c.hasChildNodes()){const s=document.createElement('script');s.src='https://utteranc.es/client.js';s.setAttribute('repo','bassamibrahim249/bassam-portfolio');s.setAttribute('issue-term',articleId||'pathname');s.setAttribute('theme','github-dark');s.setAttribute('crossorigin','anonymous');s.async=true;c.appendChild(s);}
         return()=>{if(c)c.innerHTML='';};
-      },[articleId]);      return <div style={{marginTop:20}}><div id={`comments-${articleId}`}></div></div>;
+      },[articleId]);
+      return <div style={{marginTop:20}}><div id={`comments-${articleId}`}></div></div>;
     }
 
     function LibrarySection({category,onBack,lang}){
@@ -650,7 +621,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       if(loading)return <div style={{padding:60,textAlign:'center'}}><div className="skeleton" style={{width:'50%',height:24,margin:'0 auto 16px'}}></div><div className="skeleton" style={{height:120}}></div></div>;
       if(!files.length)return <div style={{padding:60,textAlign:'center',color:'var(--text-secondary)'}}><p style={{fontSize:48,marginBottom:16}}>📚</p><p>{t('noArticles')}</p><button onClick={onBack} className="glass-card" style={{marginTop:20,padding:'10px 22px',borderRadius:10,cursor:'pointer',color:'var(--accent-blue)',fontSize:14,fontWeight:700}}>← {t('back')}</button></div>;
       return(
-        <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>          <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:'12px 24px',borderRadius:14,cursor:'pointer',color:'var(--text-secondary)',fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
+        <div style={{padding:'100px 24px 60px',maxWidth:900,margin:'0 auto',fontFamily:'Cairo'}}>
+          <button onClick={onBack} className="glass-card" style={{marginBottom:32,padding:'12px 24px',borderRadius:14,cursor:'pointer',color:'var(--text-secondary)',fontSize:14,fontWeight:700,display:'inline-flex',alignItems:'center',gap:8}}>← {t('back')}</button>
           <h2 style={{fontSize:'clamp(1.5rem,4vw,2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'#A78BFA'}}>📚 {libName}</h2>
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))',gap:16}}>
             {files.map(f=>(
@@ -677,24 +649,6 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       const debouncedQuery=useDebounce(searchQuery,300);const t=k=>I18N[lang]?.[k]||k;
       const dataFile=getDataFile(category);
       const cacheKey=dataFile?`bassam_articles_cache_${dataFile.replace('data/','').replace('.json','')}`:null;
-
-      // ✨ فتح المقال تلقائياً عند وجود ?article=ID
-      useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const articleId = urlParams.get('article');
-        if (articleId && articles.length > 0) {
-          const idx = articles.findIndex(a => a.id === articleId);
-          if (idx !== -1) {
-            setOpenIndex(idx);
-            setLastOpenedIndex(idx);
-            setTimeout(() => {
-              window.history.replaceState({}, '', window.location.pathname);
-              document.getElementById(`article-${articleId}`)?.scrollIntoView({behavior:'smooth',block:'start'});
-            }, 300);
-          }
-        }
-      }, [articles]);
-
       useEffect(()=>{
         setLoading(true);setError(null);setVisibleCount(ITEMS_PER_PAGE);
         if(!dataFile){setArticles([]);setLoading(false);return;}
@@ -705,7 +659,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
           .then(d=>{const a=Array.isArray(d)?d:[];try{localStorage.setItem(cacheKey,JSON.stringify({timestamp:Date.now(),data:a}));}catch(e){}setArticles(a);})
           .catch(()=>{const old=localStorage.getItem(cacheKey);if(old){try{setArticles(JSON.parse(old).data||[]);setError(null);}catch(e){setError('تعذر تحميل المقالات.');}}else if(!navigator.onLine){setError('أنت غير متصل بالإنترنت.');}else setArticles([]);})
           .finally(()=>setLoading(false));
-      },[category,cacheKey]);      const handleToggle=idx=>{if(openIndex===idx)setOpenIndex(null);else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>document.getElementById(`article-${articles[idx]?.id}`)?.scrollIntoView({behavior:'smooth',block:'start'}),150);}};
+      },[category,cacheKey]);
+      const handleToggle=idx=>{if(openIndex===idx)setOpenIndex(null);else{setOpenIndex(idx);setLastOpenedIndex(idx);setTimeout(()=>document.getElementById(`article-${articles[idx]?.id}`)?.scrollIntoView({behavior:'smooth',block:'start'}),150);}};
       const btnSlug=BUTTON_SLUGS[category]||category;
       const filtered=category?articles.filter(a=>a.button===btnSlug||a.category===category):articles;
       const sorted=[...filtered].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
@@ -717,7 +672,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
           <h2 style={{fontSize:'clamp(1.5rem,4vw,2rem)',fontWeight:900,marginBottom:30,textAlign:'center',color:'var(--accent-gold)'}}>{t(title)||title}</h2>
           <input type="text" className="search-input" placeholder={t('search')} value={searchQuery} onChange={e=>{setSearchQuery(e.target.value);setVisibleCount(ITEMS_PER_PAGE);}} style={{width:'100%',padding:'14px 20px',borderRadius:14,fontFamily:'Cairo',fontSize:14,marginBottom:24}}/>
           {loading?<div style={{display:'flex',flexDirection:'column',gap:14}}>{[1,2,3].map(i=><div key={i} className="skeleton" style={{height:90}}></div>)}</div>
-            :error?<div style={{textAlign:'center',color:'#ff6b6b',padding:40}}><p style={{fontSize:48,marginBottom:12}}>⚠️</p><p>{error}</p><button onClick={()=>window.location.reload()} className="glass-card" style={{marginTop:20,padding:'10px 24px',borderRadius:12,color:'#ff6b6b',cursor:'pointer',fontWeight:700}}>{t('retry')}</button></div>            :displayed.length===0?<div style={{textAlign:'center',color:'var(--text-secondary)',padding:60}}><p style={{fontSize:56,marginBottom:16}}>📝</p><p style={{fontSize:16}}>{t('noArticles')}</p></div>
+            :error?<div style={{textAlign:'center',color:'#ff6b6b',padding:40}}><p style={{fontSize:48,marginBottom:12}}>⚠️</p><p>{error}</p><button onClick={()=>window.location.reload()} className="glass-card" style={{marginTop:20,padding:'10px 24px',borderRadius:12,color:'#ff6b6b',cursor:'pointer',fontWeight:700}}>{t('retry')}</button></div>
+            :displayed.length===0?<div style={{textAlign:'center',color:'var(--text-secondary)',padding:60}}><p style={{fontSize:56,marginBottom:16}}>📝</p><p style={{fontSize:16}}>{t('noArticles')}</p></div>
             :(<div className="article-list">
                 {displayed.map((article,idx)=>{
                   const isOpen=openIndex===idx;
@@ -753,7 +709,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
                       )}
                     </div>
                   );
-                })}                {hasMore&&<div style={{textAlign:'center',marginTop:24}}><button onClick={()=>setVisibleCount(p=>p+ITEMS_PER_PAGE)} className="glass-card" style={{padding:'14px 36px',borderRadius:14,background:'rgba(59,158,255,0.1)',border:'1px solid rgba(59,158,255,0.3)',color:'var(--accent-blue)',fontWeight:700,fontSize:15,cursor:'pointer',fontFamily:'Cairo'}}>{t('loadMore')} ({searched.length-visibleCount} {t('remaining')})</button></div>}
+                })}
+                {hasMore&&<div style={{textAlign:'center',marginTop:24}}><button onClick={()=>setVisibleCount(p=>p+ITEMS_PER_PAGE)} className="glass-card" style={{padding:'14px 36px',borderRadius:14,background:'rgba(59,158,255,0.1)',border:'1px solid rgba(59,158,255,0.3)',color:'var(--accent-blue)',fontWeight:700,fontSize:15,cursor:'pointer',fontFamily:'Cairo'}}>{t('loadMore')} ({searched.length-visibleCount} {t('remaining')})</button></div>}
               </div>)
           }
         </div>
@@ -766,7 +723,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       const th=themes[card.id]||themes.engineering;
       const handleMouseMove=e=>{if(!cardRef.current)return;const rect=cardRef.current.getBoundingClientRect();cardRef.current.style.setProperty('--mouse-x',`${e.clientX-rect.left}px`);cardRef.current.style.setProperty('--mouse-y',`${e.clientY-rect.top}px`);};
       return(
-        <div ref={cardRef} id={card.id} className={`glass-card card-wrap spotlight-card card-${card.id}`}          onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} onMouseMove={handleMouseMove}
+        <div ref={cardRef} id={card.id} className={`glass-card card-wrap spotlight-card card-${card.id}`}
+          onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} onMouseMove={handleMouseMove}
           style={{padding:32,borderRadius:22,cursor:'pointer',background:hover?`linear-gradient(145deg,${th.glow},var(--glass-bg))`:'var(--glass-bg)',border:hover?`1px solid ${th.border}`:'1px solid var(--glass-border)',transform:hover?'translateY(-10px)':'translateY(0)',transition:'all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)'}}>
           <div className="card-icon-wrap" style={{width:58,height:58,borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',background:'var(--glass-bg)',marginBottom:24,border:'1px solid var(--glass-border)',fontSize:24,color:th.color,transition:'all 0.4s ease'}}>{card.icon}</div>
           <h3 style={{fontSize:19,fontWeight:700,marginBottom:8,color:'var(--text-primary)'}}>{card.title}</h3>
@@ -801,7 +759,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
           style={{display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderRadius:12,background:hover?'rgba(255,255,255,0.05)':'var(--glass-bg)',border:'1px solid',borderColor:hover?`${iconColor}66`:'var(--glass-border)',color:iconColor,textDecoration:'none',opacity:hover?1:0.85,boxShadow:hover?`0 6px 24px ${iconColor}33`:'none',transform:hover?'translateY(-4px)':'none'}}>
           {social.icon}<span style={{fontSize:11,fontWeight:700}}>{social.name}</span>
         </a>
-      );    }
+      );
+    }
 
     function WelcomeInstallPopup({lang}){
       const[show,setShow]=useState(false);const[deferredPrompt,setDeferredPrompt]=useState(null);const[isInstalled,setIsInstalled]=useState(false);
@@ -815,7 +774,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
         return()=>window.removeEventListener("beforeinstallprompt",handler);
       },[]);
       const handleInstall=async()=>{if(deferredPrompt){deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;setDeferredPrompt(null);setShow(false);if(outcome==="accepted"){localStorage.removeItem(DISMISS_KEY);setIsInstalled(true);}}else alert("للتثبيت:\n• أندرويد: ⁝ ← 'إضافة إلى الشاشة الرئيسية'\n• آيفون: ↑ ← 'إضافة إلى الشاشة الرئيسية'");};
-      const handleDismiss=()=>{setShow(false);const raw=localStorage.getItem(DISMISS_KEY);let data={count:0,timestamp:0};if(raw){try{data=JSON.parse(raw);}catch(e){}}data.count=(data.count||0)+1;if(data.count>=2)data.timestamp=Date.now();localStorage.setItem(DISMISS_KEY,JSON.stringify(data));};      if(!show||isInstalled)return null;
+      const handleDismiss=()=>{setShow(false);const raw=localStorage.getItem(DISMISS_KEY);let data={count:0,timestamp:0};if(raw){try{data=JSON.parse(raw);}catch(e){}}data.count=(data.count||0)+1;if(data.count>=2)data.timestamp=Date.now();localStorage.setItem(DISMISS_KEY,JSON.stringify(data));};
+      if(!show||isInstalled)return null;
       return(
         <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:999,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={handleDismiss}>
           <div style={{background:"rgba(8,12,18,0.98)",border:"1px solid rgba(59,158,255,0.25)",borderRadius:24,padding:"36px 28px 28px",textAlign:"center",maxWidth:400,width:"100%",boxShadow:"0 25px 60px rgba(0,0,0,0.7)"}} onClick={e=>e.stopPropagation()}>
@@ -840,34 +800,6 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       const[mobileMenuOpen,setMobileMenuOpen]=useState(false);
       const t=k=>I18N[lang]?.[k]||k;
 
-      // ✨ فتح المقالة مباشرة عند وجود ?article=ID في الرابط
-      useEffect(()=>{
-        const urlParams = new URLSearchParams(window.location.search);
-        const articleId = urlParams.get('article');
-        if (articleId) {
-          const findArticle = async () => {
-            const tabs = ['engineering','political','nubian','academy','lifestyle'];
-            for (const tab of tabs) {
-              try {
-                const response = await fetch(`data/${tab}.json?v=${APP_VERSION}`);
-                if (!response.ok) continue;
-                const articles = await response.json();
-                const found = articles.find(a => a.id === articleId);
-                if (found) {
-                  setOriginTabId(tab);
-                  const slug = BUTTON_SLUGS[found.button] || found.category || tab;
-                  setActiveCategory(slug);
-                  setActiveTagKey(null);
-                  setActiveSection('articles');
-                  return;
-                }
-              } catch(e) {}
-            }
-          };
-          findArticle();
-        }
-      }, []);
-
       useEffect(()=>{
         document.body.className=theme;localStorage.setItem('theme',theme);
         document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');
@@ -878,6 +810,7 @@ This platform is not the end of a journey — but its beginning. A journey of aw
         if(canonical)canonical.setAttribute('href',`https://bassamibrahim249.github.io/bassam-portfolio/?tab=${originTabId||''}`);
         setMobileMenuOpen(false);
       },[theme,lang,originTabId]);
+
       useEffect(()=>{const h=()=>setScrolled(window.scrollY>50);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
 
       useEffect(()=>{
@@ -892,7 +825,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       useEffect(()=>{
         const handleClickOutside=(e)=>{if(mobileMenuOpen&&!e.target.closest('.mobile-menu-panel')&&!e.target.closest('.hamburger-btn')){setMobileMenuOpen(false);}};
         document.addEventListener('mousedown',handleClickOutside);
-        return()=>document.removeEventListener('mousedown',handleClickOutside);      },[mobileMenuOpen]);
+        return()=>document.removeEventListener('mousedown',handleClickOutside);
+      },[mobileMenuOpen]);
 
       const scrollTo=id=>{setMobileMenuOpen(false);document.getElementById(id)?.scrollIntoView({behavior:'smooth'});};
       const handleTagClick=(slug,tabId,tagKey)=>{setOriginTabId(tabId);setActiveCategory(slug);setActiveTagKey(tagKey);setActiveSection('articles');window.scrollTo({top:0,behavior:'smooth'});};
@@ -925,6 +859,7 @@ This platform is not the end of a journey — but its beginning. A journey of aw
       ];
 
       const STATS=[{label:t('stat1'),sublabel:t('stat1_sub'),color:'#3B9EFF',icon:'⚙️'},{label:t('stat2'),sublabel:t('stat2_sub'),color:'#60CFFF',icon:'📚'},{label:t('stat3'),sublabel:t('stat3_sub'),color:'#A78BFA',icon:'📊'}];
+
       const SOCIALS=[
         {name:"LinkedIn",href:"https://www.linkedin.com/in/bassam-ibrahim-785a01406",color:"#0A66C2",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>},
         {name:"Facebook",href:"https://www.facebook.com/bassam.ibrahim.ahmed",color:"#1877F2",icon:<svg viewBox="0 0 24 24" fill="currentColor" style={{width:20,height:20}}><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>},
@@ -941,7 +876,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
         <div style={{position:'relative',minHeight:'100vh'}}>
           <StarField theme={theme}/>
           {theme==='dark'&&(
-            <>              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 7s ease-in-out infinite'}}/>
+            <>
+              <div style={{position:'fixed',top:'5%',right:'8%',width:420,height:420,borderRadius:'50%',background:'radial-gradient(circle,rgba(59,158,255,0.09) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 7s ease-in-out infinite'}}/>
               <div style={{position:'fixed',top:'30%',left:'5%',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 9s ease-in-out infinite',animationDelay:'2s'}}/>
               <div style={{position:'fixed',bottom:'10%',right:'15%',width:250,height:250,borderRadius:'50%',background:'radial-gradient(circle,rgba(234,179,8,0.06) 0%,transparent 70%)',pointerEvents:'none',zIndex:0,isolation:'isolate',animation:'heroOrb 11s ease-in-out infinite',animationDelay:'4s'}}/>
             </>
@@ -973,7 +909,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
                 {NAV_ITEMS.map(item=>(
                   <a key={item.id} href={`#${item.id}`} onClick={e=>{e.preventDefault();scrollTo(item.id);}} style={{fontSize:12,color:'var(--text-secondary)',textDecoration:'none',fontWeight:600,transition:'color 0.2s'}} onMouseEnter={e=>e.target.style.color='var(--accent-blue)'} onMouseLeave={e=>e.target.style.color='var(--text-secondary)'}>{t(item.key)}</a>
                 ))}
-              </nav>            </div>
+              </nav>
+            </div>
           </header>
 
           <div className={`mobile-menu-overlay ${mobileMenuOpen?'show':''}`} onClick={()=>setMobileMenuOpen(false)}></div>
@@ -990,7 +927,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
 
           <section style={{padding:'148px 24px 70px',textAlign:'center',maxWidth:960,margin:'0 auto',position:'relative',zIndex:1}}>
             <div className="anim-fade-up delay-1 section-title">{t('identity')}</div>
-            <div style={{position:'relative',display:'inline-block',marginBottom:18}}>              {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',isolation:'isolate',animation:'heroOrb 5s ease-in-out infinite'}}/>}
+            <div style={{position:'relative',display:'inline-block',marginBottom:18}}>
+              {theme==='dark'&&<div style={{position:'absolute',inset:'-40px -60px',background:'radial-gradient(ellipse,rgba(59,158,255,0.12) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none',isolation:'isolate',animation:'heroOrb 5s ease-in-out infinite'}}/>}
               <h1 className="anim-fade-up delay-2" style={{fontSize:'clamp(2.6rem,8vw,5rem)',fontWeight:900,lineHeight:1.1,color:'var(--text-primary)',position:'relative'}}>
                 Bassam<span style={{background:'linear-gradient(135deg,#3B9EFF,#60CFFF)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Ibrahim</span>
               </h1>
@@ -1021,7 +959,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
               <div style={{textAlign:'center',marginBottom:52}}>
                 <div className="section-title">{t('browse')}</div>
                 <h2 style={{fontSize:'clamp(1.5rem,4vw,2.2rem)',fontWeight:900,marginTop:8,color:'var(--text-primary)'}}>{t('mainTitle')}</h2>
-              </div>              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:22}}>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:22}}>
                 {CARDS.map(card=><Card key={card.id} card={card} onTagClick={handleTagClick} onLibraryClick={handleLibraryClick} lang={lang}/>)}
               </div>
             </div>
@@ -1039,7 +978,8 @@ This platform is not the end of a journey — but its beginning. A journey of aw
           <footer style={{padding:'40px 24px 32px',borderTop:'1px solid var(--glass-border)',position:'relative',zIndex:1}}>
             {theme==='dark'&&<div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'80%',height:1,background:'linear-gradient(90deg,transparent,rgba(59,158,255,0.3),transparent)',pointerEvents:'none'}}/>}
             <div style={{maxWidth:860,margin:'0 auto',textAlign:'center'}}>
-              <p style={{fontSize:12,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:22,fontWeight:700}}>{t('contact')}</p>              <div style={{display:'flex',justifyContent:'center',gap:14,flexWrap:'wrap',marginBottom:30}}>
+              <p style={{fontSize:12,letterSpacing:'0.3em',color:'var(--accent-blue)',marginBottom:22,fontWeight:700}}>{t('contact')}</p>
+              <div style={{display:'flex',justifyContent:'center',gap:14,flexWrap:'wrap',marginBottom:30}}>
                 {SOCIALS.map(s=><SocialIcon key={s.name} social={s} theme={theme}/>)}
               </div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:24,borderTop:'1px solid var(--glass-border)'}}>
@@ -1059,6 +999,5 @@ This platform is not the end of a journey — but its beginning. A journey of aw
   </script>
   <script data-goatcounter="https://bassam-portfolio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <script src="smart-assistant.js"></script>
-<script src="analytics-tracker.js"></script>
 </body>
 </html>
