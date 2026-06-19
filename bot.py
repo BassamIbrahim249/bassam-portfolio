@@ -1505,6 +1505,27 @@ def main():
 
     print("🤖 البوت v5.0.10 النهائي يعمل! (احترافي خالٍ من الأخطاء)")
     app.run_polling(drop_pending_updates=True, allowed_updates=Update.ALL_TYPES)
+# ========== خادم HTTP صغير لمنع نوم الخدمة ==========
+import os
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+    def log_message(self, format, *args):
+        pass  # تجاهل السجلات
+
+def start_health_server():
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+    print(f"🟢 خادم HTTP يعمل على المنفذ {port}")
+    server.serve_forever()
+
+# تشغيل الخادم في خيط منفصل
+import threading
+threading.Thread(target=start_health_server, daemon=True).start()
 
 if __name__ == "__main__":
     main()
