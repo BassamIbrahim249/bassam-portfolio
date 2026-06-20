@@ -1,31 +1,42 @@
 """
-بوت BassamIbrahim Portfolio — الإصدار 5.0.10 النهائي (النسخة المعتمدة)
+بوت BassamIbrahim Portfolio — الإصدار 5.2.0 (النسخة الاحترافية النهائية)
 """
 import os, json, time, base64, hashlib, logging, requests, re, asyncio, threading, uuid, html
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 from datetime import datetime
+from logging.handlers import RotatingFileHandler
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler, CallbackQueryHandler, JobQueue
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+# ========== نظام التسجيل ==========
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO,
+    handlers=[
+        RotatingFileHandler('bot.log', maxBytes=5*1024*1024, backupCount=3, encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
 logging.getLogger("telegram.ext").setLevel(logging.ERROR)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
-# ========== ثوابت التهيئة ==========
-import os
+# ========== ثوابت التهيئة (متغيرات البيئة فقط) ==========
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+GITHUB_PAT = os.getenv("GITHUB_PAT")
+CHANNEL_ID = os.getenv("CHANNEL_ID")
+ADMIN_USER_ID = os.getenv("ADMIN_USER_ID")
 
-# إزالة التوكنات الصلبة واستبدالها بمتغيرات البيئة
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
-GITHUB_PAT = os.environ.get("GITHUB_PAT")
+if not BOT_TOKEN or not GITHUB_PAT or not CHANNEL_ID or not ADMIN_USER_ID:
+    logger.critical("متغيرات البيئة مفقودة")
+    raise RuntimeError("يجب تعيين جميع متغيرات البيئة المطلوبة")
 
-if not BOT_TOKEN or not GITHUB_PAT:
-    raise RuntimeError("يجب تعيين متغيرات البيئة BOT_TOKEN و GITHUB_PAT قبل التشغيل")
-REPO = "bassamibrahim249/bassam-portfolio"
-CHANNEL_ID = "-1003901364346"
+ADMIN_USER_ID = int(ADMIN_USER_ID)
 CHANNEL_USERNAME = "BassamIbrahimPortfolio"
-ADMIN_USER_ID = 7496739015
+REPO = "bassamibrahim249/bassam-portfolio"
 
 SITE_IDENTITY = {
     "author_ar": "بسام إبراهيم أحمد",
@@ -33,11 +44,10 @@ SITE_IDENTITY = {
 }
 
 def escape_html(text):
-    if not text:
-        return ""
+    if not text: return ""
     return html.escape(str(text))
 
-# ========== التبويبات والأزرار ==========
+# ========== التبويبات والأزرار (بدون تغيير عن 5.0.10) ==========
 TABS = {
     "1": {"name": "المنصة الهندسية", "slug": "engineering"},
     "2": {"name": "الأرشيف السياسي", "slug": "political"},
@@ -97,10 +107,24 @@ application = None
 
 def log_operation(op, details):
     with logs_lock:
-        operation_logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] {op}: {details}")
+        entry = f"[{datetime.now().strftime('%H:%M:%S')}] {op}: {details}"
+        operation_logs.append(entry)
+        logger.info(entry)
         if len(operation_logs) > 50:
             operation_logs.pop(0)
 
+async def notify_admin(context, message, parse_mode="HTML"):
+    """إرسال إشعار للمسؤول"""
+    try:
+        await context.bot.send_message(
+            chat_id=ADMIN_USER_ID,
+            text=f"🔔 {message}",
+            parse_mode=parse_mode
+        )
+    except Exception as e:
+        logger.error(f"فشل إرسال إشعار: {e}")
+
+# ========== دوال الصور والغطاء (بدون تغيير) ==========
 def compress_image(img_bytes, max_kb=800):
     try:
         img = Image.open(BytesIO(img_bytes))
@@ -150,8 +174,6 @@ def generate_cover(title_ar, title_en="", tab_name=""):
     draw = ImageDraw.Draw(img)
     font_ar = font_en = None
     font_candidates = [
-        ("/data/data/com.termux/files/usr/share/fonts/truetype/cairo/Cairo-Bold.ttf", 60,
-         "/data/data/com.termux/files/usr/share/fonts/truetype/cairo/Cairo-Regular.ttf", 40),
         ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 60,
          "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 40),
         ("Cairo-Bold.ttf", 60, "Cairo-Regular.ttf", 40),
@@ -180,6 +202,7 @@ def generate_cover(title_ar, title_en="", tab_name=""):
     img.save(o, format='JPEG', quality=90)
     return o.getvalue()
 
+# ========== دوال GitHub (بدون تغيير) ==========
 async def async_get_data(tab=None):
     return await asyncio.to_thread(get_data, tab)
 
@@ -282,7 +305,7 @@ async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("❌ تم الإلغاء.")
     return ConversationHandler.END
 
-# ========== دوال القناة ==========
+# ========== دوال القناة (بدون تغيير) ==========
 async def upload_file_to_channel(context, file_bytes, file_name, title, description=""):
     caption = f"📚 <b>{escape_html(title)}</b>"
     if description:
@@ -355,6 +378,51 @@ async def cmd_pin(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await msg.pin()
     await update.message.reply_text("✅ تم تثبيت الرسالة.")
 
+async def cmd_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """إرسال رسالة ترحيبية مثبتة مع أزرار تفاعلية وزر ينقل للمستخدم للبوت"""
+    if update.effective_user.id != ADMIN_USER_ID:
+        await update.message.reply_text("⛔ غير مصرح لك.")
+        return
+    deep_link = f"https://t.me/{context.bot.username}?start=open_archive"
+    bot_username = context.bot.username
+    keyboard = [
+        [InlineKeyboardButton("🚀 تصفح الأرشيف", url=deep_link)],
+        [
+            InlineKeyboardButton("📰 المقالات", callback_data="browse_articles"),
+            InlineKeyboardButton("📚 المكتبة", callback_data="browse_library")
+        ],
+        [InlineKeyboardButton("ℹ️ عن المنصة", callback_data="about_platform")],
+        [InlineKeyboardButton("💬 استخدام البوت التفاعلي", url=f"https://t.me/{bot_username}")]
+    ]
+    welcome_text = (
+        "🌟 <b>مرحباً بك في قناة BassamIbrahim Portfolio</b>\n\n"
+        "الذراع الرقمية لمنصة معرفية سودانية مستقلة، تؤمن بأن المعرفة ليست رفاهية — بل ضرورة لبناء إنسان واعٍ ومجتمع قوي.\n\n"
+        "👤 <b>من نحن؟</b>\n"
+        "بسام إبراهيم أحمد — مهندس مدني، باحث في الشأن السوداني، ناشط مجتمعي.\n\n"
+        "📂 <b>محتوى القناة</b>\n"
+        "🏗️ المنصة الهندسية — علوم المواد · ابتكار إنشائي · مختبر هندسي\n"
+        "🏛️ الأرشيف السياسي — تاريخ السودان · تحليل استراتيجي · رؤى فكرية\n"
+        "🏺 نوبيان — الحضارة النوبية · التاريخ · الآثار · الهوية\n"
+        "📚 أكاديمية التدريب — المشاريع · القيادة والإدارة · تدريب تنموي\n"
+        "🌿 نمط الحياة والصحة — صحة شاملة · تغذية علمية · تميز بدني\n\n"
+        "🎯 <b>رسالتنا</b>\n"
+        "تقديم معرفة رصينة ومتاحة، تُسهم في صياغة الوعي وتوثيق التاريخ وتمكين الإنسان.\n\n"
+        "🤖 <b>المساعد الذكي</b>\n"
+        "تحدث مع البوت للبحث في كل المحتوى فوراً.\n"
+        f"👇 ابدأ هنا: @{bot_username}\n\n"
+        "🔗 <a href='https://bassamibrahim249.github.io/bassam-portfolio/'>زيارة المنصة الكاملة</a>\n\n"
+        "#BassamIbrahim #السودان #هندسة #نوبيان #معرفة"
+    )
+    msg = await context.bot.send_message(
+        chat_id=CHANNEL_ID,
+        text=welcome_text,
+        reply_markup=InlineKeyboardMarkup(keyboard),
+        parse_mode="HTML"
+    )
+    await msg.pin()
+    logger.info("تم إرسال الرسالة الترحيبية وتثبيتها.")
+    await update.message.reply_text("✅ تم إرسال الرسالة الترحيبية وتثبيتها.")
+
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.args and len(context.args) > 0 and context.args[0] == "open_archive":
         keyboard = [
@@ -371,7 +439,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     await update.message.reply_text("👋 أهلاً بك في منصة <b>BassamIbrahim</b>!", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
 
-# ========== معالج الأزرار الشامل ==========
+# ========== معالج الأزرار الشامل (بدون تغيير) ==========
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -501,7 +569,7 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         msg = "🌐 <b>BassamIbrahim Portfolio</b>\n\n🏗️ هندسة | 🏛️ سياسة | 🏺 نوبيان | 📚 تطوير | 🌿 صحة\n🔗 <a href='https://bassamibrahim249.github.io/bassam-portfolio/'>زيارة المنصة</a>"
         await query.edit_message_text(msg, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع", callback_data="main_menu")]]), parse_mode="HTML")
 
-# ========== محادثة /add_file ==========
+# ========== محادثة /add_file (بدون تغيير) ==========
 async def add_file_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         await update.message.reply_text("⛔ غير مصرح لك.")
@@ -625,12 +693,13 @@ async def add_lib_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cleanup_user_state(uid)
     return ConversationHandler.END
 
-# ========== النشر ==========
+# ========== النشر (مع إشعار للمسؤول) ==========
 async def publish_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         await update.message.reply_text("⛔ غير مصرح لك.")
         return ConversationHandler.END
     uid = update.effective_user.id
+    cleanup_user_state(uid)  # ✅ تنظيف تلقائي للحالة
     user_state[uid] = {"chat_id": update.effective_chat.id}
     msg = "👋 مرحباً!\nاختر التبويب:\n"
     for k,v in TABS.items():
@@ -875,6 +944,7 @@ async def publish_confirmation(update: Update, context: ContextTypes.DEFAULT_TYP
         cleanup_user_state(uid)
         await query.edit_message_text("❌ تم الإلغاء.")
         return ConversationHandler.END
+    return GET_CONFIRMATION  # ✅ حماية للحالات غير المتوقعة
 
 async def publish_final(update, uid, context):
     d = user_state[uid]
@@ -916,6 +986,8 @@ async def publish_final(update, uid, context):
             send_article_to_channel(context, article),
             return_exceptions=True
         )
+        # ✅ إشعار للمسؤول عند النشر
+        await notify_admin(context, f"✅ نُشر المقال: <b>{escape_html(d.get('title_ar','?'))}</b>\n📂 {tab}")
     else:
         if hasattr(update, 'edit_message_text'):
             await update.edit_message_text("❌ فشل النشر.")
@@ -923,7 +995,7 @@ async def publish_final(update, uid, context):
             await update.message.reply_text("❌ فشل النشر.")
     cleanup_user_state(uid)
 
-# ========== التعديل (مع حماية تأكيد الخروج) ==========
+# ========== التعديل (بدون تغيير) ==========
 async def cmd_edit(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         await update.message.reply_text("⛔ غير مصرح لك.")
@@ -985,7 +1057,6 @@ async def edit_field(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def edit_value(update: Update, context: ContextTypes.DEFAULT_TYPE):
     uid = update.effective_user.id
-    # تأكيد الخروج - يجب أن يكون نصاً
     if user_state[uid].get("confirm_exit"):
         if not update.message.text:
             await update.message.reply_text("الرجاء كتابة 'نعم' أو 'لا' للتأكيد.")
@@ -1072,7 +1143,7 @@ async def edit_image_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("✅ تم تحديث الصورة.")
     return await back_to_edit_menu(update, uid)
 
-# ========== الحذف ==========
+# ========== الحذف (بدون تغيير) ==========
 async def cmd_delete(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         await update.message.reply_text("⛔ غير مصرح لك.")
@@ -1143,7 +1214,7 @@ async def cmd_confirm_delete(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     cleanup_user_state(uid)
 
-# ========== الجدولة ==========
+# ========== الجدولة (بدون تغيير) ==========
 async def cmd_schedule(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         await update.message.reply_text("⛔ غير مصرح لك.")
@@ -1218,6 +1289,8 @@ async def publish_scheduled_job(context: ContextTypes.DEFAULT_TYPE):
             await asyncio.to_thread(requests.put, url, json=body, headers=headers, timeout=30)
             if context.application and context.application.bot:
                 await context.application.bot.send_message(chat_id=d.get("chat_id"), text=f"⏰ تم النشر المجدول!\n📰 {d.get('title_ar','?')}")
+            # ✅ إشعار للمسؤول عند النشر المجدول
+            await notify_admin(context, f"⏰ نُشر المقال المجدول: <b>{escape_html(d.get('title_ar','?'))}</b>\n📂 {tab}")
     except Exception as e:
         logger.error(f"فشل النشر المجدول: {e}")
     finally:
@@ -1256,7 +1329,7 @@ async def cmd_cancel_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("❌ لم يتم العثور على المهمة.")
 
-# ========== أوامر عامة ==========
+# ========== أوامر عامة (مع التحسينات الجديدة) ==========
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "🤖 <b>بوت BassamIbrahim</b>\n\n"
@@ -1267,7 +1340,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "❌ /cancel_job &lt;id&gt; – إلغاء مهمة\n"
         "✏️ /edit – تعديل مقال\n"
         "🗑️ /delete – حذف مقال\n"
-        "📊 /stats – إحصائيات\n"
+        "📊 /stats – إحصائيات تفصيلية\n"
+        "📈 /status – حالة البوت\n"
         "🔍 /search – بحث\n"
         "📦 /backup – نسخ احتياطي\n"
         "📄 /template &lt;نوع&gt; – قالب (research/news/analysis)\n"
@@ -1276,14 +1350,48 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🖼️ /images – إدارة الصور\n"
         "🔧 /fix_orders – ترتيب المقالات\n"
         "📊 /analyze – تحليل نص\n"
-        "📌 /pin – تثبيت رسالة التصفح",
+        "📌 /pin – تثبيت رسالة التصفح\n"
+        "📢 /welcome – رسالة ترحيبية للقناة",
         parse_mode="HTML"
     )
 
 async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """إحصائيات تفصيلية لكل تبويب"""
     if update.effective_user.id != ADMIN_USER_ID: return
     d = await async_get_data()
-    await update.message.reply_text(f"📊 إجمالي المقالات: {len(d)}")
+    counts = {tab: len([a for a in d if a.get("tab") == tab]) for tab in TABS_WORK}
+    last_article = max(d, key=lambda x: x.get("date", "")) if d else None
+    last_title = last_article.get("title_ar", "?")[:40] if last_article else "لا يوجد"
+    last_date = last_article.get("date", "?") if last_article else "?"
+
+    msg = (
+        f"📊 <b>إحصائيات المكتبة</b>\n\n"
+        f"📰 إجمالي المقالات: <b>{len(d)}</b>\n\n"
+        f"🏗️ الهندسة: <b>{counts['engineering']}</b>\n"
+        f"🏛️ السياسة: <b>{counts['political']}</b>\n"
+        f"🏺 نوبيان: <b>{counts['nubian']}</b>\n"
+        f"📚 الأكاديمية: <b>{counts['academy']}</b>\n"
+        f"🌿 الصحة: <b>{counts['lifestyle']}</b>\n\n"
+        f"🆕 آخر مقال: {last_title}\n"
+        f"📅 تاريخه: {last_date}"
+    )
+    await update.message.reply_text(msg, parse_mode="HTML")
+
+async def cmd_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """عرض حالة البوت وإحصائيات سريعة"""
+    if update.effective_user.id != ADMIN_USER_ID:
+        await update.message.reply_text("⛔ غير مصرح لك.")
+        return
+    d = await async_get_data()
+    jobs = context.job_queue.jobs() if context.job_queue else []
+    status_msg = (
+        f"📈 <b>حالة البوت</b>\n\n"
+        f"📰 المقالات: <b>{len(d)}</b>\n"
+        f"⏰ المهام المجدولة: <b>{len(jobs)}</b>\n"
+        f"🟢 الحالة: <b>يعمل</b>\n"
+        f"🖥️ الخادم: <b>Render</b>"
+    )
+    await update.message.reply_text(status_msg, parse_mode="HTML")
 
 async def cmd_logs(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
@@ -1419,19 +1527,32 @@ async def cmd_preview(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = f"📰 <b>معاينة</b>\nالعنوان: {escape_html(d.get('title_ar','?'))}\nالتبويب: {d.get('tab','?')}\nالزر: {d.get('button','?')}\nالمحتوى:\n{escape_html(d.get('content_ar','')[:400])}..."
     await update.message.reply_text(msg, parse_mode="HTML")
 
+# ========== Health Server ==========
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+    def log_message(self, format, *args):
+        pass
+
+def run_health_server():
+    port = int(os.getenv("PORT", "8000"))
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+    logger.info(f"🟢 Health Server يعمل على المنفذ {port}")
+    server.serve_forever()
+
 # ========== التشغيل الرئيسي ==========
 def main():
     global application
     app = Application.builder().token(BOT_TOKEN).build()
     application = app
 
-    # ✅ معالج الأزرار العام مع pattern صحيح
     app.add_handler(CallbackQueryHandler(
         button_callback,
         pattern=r'^(browse_articles|main_menu|tab_|btn_|back_to_tab_|read_|browse_library|lib_|about_platform)'
     ))
 
-    # محادثة النشر
     pub_conv = ConversationHandler(
         entry_points=[CommandHandler("publish", publish_start)],
         states={
@@ -1452,7 +1573,6 @@ def main():
     )
     app.add_handler(pub_conv)
 
-    # محادثة التعديل
     edit_conv = ConversationHandler(
         entry_points=[CommandHandler("edit", cmd_edit)],
         states={
@@ -1465,7 +1585,6 @@ def main():
     )
     app.add_handler(edit_conv)
 
-    # محادثة الجدولة
     sched_conv = ConversationHandler(
         entry_points=[CommandHandler("schedule", cmd_schedule)],
         states={
@@ -1475,7 +1594,6 @@ def main():
     )
     app.add_handler(sched_conv)
 
-    # محادثة المكتبة
     lib_conv = ConversationHandler(
         entry_points=[CommandHandler("add_file", add_file_start)],
         states={
@@ -1490,10 +1608,9 @@ def main():
     )
     app.add_handler(lib_conv)
 
-    # الأوامر العامة
     commands = [
-        ("start", start_command), ("pin", cmd_pin), ("help", cmd_help),
-        ("stats", cmd_stats), ("search", cmd_search), ("backup", cmd_backup),
+        ("start", start_command), ("pin", cmd_pin), ("welcome", cmd_welcome), ("help", cmd_help),
+        ("stats", cmd_stats), ("status", cmd_status), ("search", cmd_search), ("backup", cmd_backup),
         ("delete", cmd_delete), ("confirm_delete", cmd_confirm_delete),
         ("list_jobs", cmd_list_jobs), ("cancel_job", cmd_cancel_job),
         ("template", cmd_template), ("preview", cmd_preview),
@@ -1503,29 +1620,10 @@ def main():
     for cmd, fn in commands:
         app.add_handler(CommandHandler(cmd, fn))
 
-    print("🤖 البوت v5.0.10 النهائي يعمل! (احترافي خالٍ من الأخطاء)")
+    threading.Thread(target=run_health_server, daemon=True).start()
+
+    logger.info("🤖 البوت v5.2.0 الاحترافي يعمل!")
     app.run_polling(drop_pending_updates=True, allowed_updates=Update.ALL_TYPES)
-# ========== خادم HTTP صغير لمنع نوم الخدمة ==========
-import os
-from http.server import HTTPServer, BaseHTTPRequestHandler
-
-class HealthHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"OK")
-    def log_message(self, format, *args):
-        pass  # تجاهل السجلات
-
-def start_health_server():
-    port = int(os.environ.get("PORT", 10000))
-    server = HTTPServer(("0.0.0.0", port), HealthHandler)
-    print(f"🟢 خادم HTTP يعمل على المنفذ {port}")
-    server.serve_forever()
-
-# تشغيل الخادم في خيط منفصل
-import threading
-threading.Thread(target=start_health_server, daemon=True).start()
 
 if __name__ == "__main__":
     main()
