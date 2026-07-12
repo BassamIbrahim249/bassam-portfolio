@@ -4,7 +4,10 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": "assets/images/cover_1779115926_95f00675.jpg",
-    "tags": ["tag_project", "tag_leadership"],
+    "tags": [
+      "tag_project",
+      "tag_leadership"
+    ],
     "button": "project_writing",
     "tab": "academy",
     "order": 1,
@@ -18,7 +21,10 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": null,
-    "tags": ["tag_project", "tag_leadership"],
+    "tags": [
+      "tag_project",
+      "tag_leadership"
+    ],
     "button": "project_writing",
     "tab": "academy",
     "order": 2,
@@ -32,7 +38,10 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": null,
-    "tags": ["tag_project", "tag_leadership"],
+    "tags": [
+      "tag_project",
+      "tag_leadership"
+    ],
     "button": "project_writing",
     "tab": "academy",
     "order": 3,
@@ -46,7 +55,9 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": "assets/images/cover_1779116392_67199fa1.jpg",
-    "tags": ["tag_leadership"],
+    "tags": [
+      "tag_leadership"
+    ],
     "button": "leadership",
     "tab": "academy",
     "order": 1,
@@ -60,7 +71,9 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": null,
-    "tags": ["tag_leadership"],
+    "tags": [
+      "tag_leadership"
+    ],
     "button": "leadership",
     "tab": "academy",
     "order": 2,
@@ -74,7 +87,9 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": null,
-    "tags": ["tag_leadership"],
+    "tags": [
+      "tag_leadership"
+    ],
     "button": "leadership",
     "tab": "academy",
     "order": 3,
@@ -88,7 +103,9 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": "assets/images/cover_1779120735_2b7a100e.jpg",
-    "tags": ["tag_training"],
+    "tags": [
+      "tag_training"
+    ],
     "button": "developmental_training",
     "tab": "academy",
     "order": 1,
@@ -102,7 +119,9 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": null,
-    "tags": ["tag_training"],
+    "tags": [
+      "tag_training"
+    ],
     "button": "developmental_training",
     "tab": "academy",
     "order": 2,
@@ -116,7 +135,9 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": null,
-    "tags": ["tag_training"],
+    "tags": [
+      "tag_training"
+    ],
     "button": "developmental_training",
     "tab": "academy",
     "order": 3,
@@ -130,7 +151,9 @@
     "date": "2026-05-18",
     "author": "بسام إبراهيم أحمد",
     "image": null,
-    "tags": ["tag_training"],
+    "tags": [
+      "tag_training"
+    ],
     "button": "developmental_training",
     "tab": "academy",
     "order": 4,
